@@ -120,6 +120,25 @@ select {
   text-transform: none;
 }
 
+.button-styled {
+    background-color: rgba(255, 255, 255, 0.05); /* Fondo translúcido */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Borde claro */
+    border-radius: 9999px; /* Bordes redondeados */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem 1rem; /* Tamaño del botón */
+    font-size: 0.875rem; /* Tamaño de texto */
+    color: rgba(255, 255, 255, 0.7); /* Texto oscuro */
+    text-decoration: none; /* Sin subrayado */
+    transition: all 0.3s ease; /* Transición suave */
+}
+
+.button-styled:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo más claro al hover */
+    transform: scale(1.1); /* Aumenta ligeramente el tamaño */
+}
+
 button,
 [type="button"],
 [type="reset"],
@@ -1208,10 +1227,6 @@ footer {
 
   .md\:w-3\/4 {
     width: 75%;
-  }
-
-  .md\:flex-row {
-    flex-direction: row;
   }
 
   .md\:items-center {
