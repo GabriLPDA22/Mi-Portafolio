@@ -1,0 +1,181 @@
+/* src/assets/styles/main.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Importación de fuentes */
+@font-face {
+  font-family: 'Onest';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('/fonts/Onest-VariableFont_wght.wght') format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz.wght') format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('/fonts/Roboto-VariableFont_wdth,wght') format('woff2-variations');
+}
+
+/* Estilos globales */
+:root {
+  color-scheme: light dark;
+}
+
+html {
+  font-family: 'Onest', 'Roboto', 'Inter', system-ui, -apple-system, sans-serif;
+  scroll-behavior: smooth;
+}
+
+body {
+  color: rgba(17, 17, 17, 0.9);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overscroll-behavior: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+/* Estilos para botones */
+.button-styled {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.button-styled:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+}
+
+/* Animaciones globales */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+.slide-in-up {
+  animation: slideInUp 0.6s ease-in-out;
+}
+
+/* Estilos para enlaces activos en el header */
+.link-active {
+  background-color: rgba(255, 255, 255, 0.4);
+  font-weight: 600;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --tw-shadow-color: rgba(255, 255, 255, 0.2);
+  --tw-backdrop-blur: blur(40px);
+  backdrop-filter: var(--tw-backdrop-blur);
+}
+
+@media (prefers-color-scheme: dark) {
+  .link-active {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+}
+
+/* Estilos para la sección de CV */
+.cv-section {
+  background-color: #0a0a0a;
+  color: #f7fafc;
+  padding: 3rem 1.5rem;
+}
+
+.cv-download-btn {
+  background-color: #2563eb;
+  color: white;
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.cv-download-btn:hover {
+  background-color: #1d4ed8;
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+@media (prefers-color-scheme: dark) {
+  ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+}
