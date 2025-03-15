@@ -145,7 +145,8 @@ export default {
                 { name: 'Proyectos', path: '/#proyectos' },
                 { name: 'Experiencia', path: '/#experiencia' },
                 { name: 'Sobre mí', path: '/#sobre-mi' },
-                { name: 'Hackathones', path: '/#hackathones' }
+                { name: 'Hackathones', path: '/#hackathones' },
+                {name: 'Reconoimientos', path: '/#reconocimientos'}
             ]
         }
     }
