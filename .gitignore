@@ -45,3 +45,4 @@ coverage
 
 # Archivos de configuración local
 vite.config.local.js
+.vite
