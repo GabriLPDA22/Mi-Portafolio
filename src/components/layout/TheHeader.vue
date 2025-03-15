@@ -5,7 +5,8 @@
             <nav class="flex items-center justify-between">
                 <!-- Logo -->
                 <div class="flex items-center">
-                    <router-link to="/" class="flex items-center group">
+                    <a @click.prevent="scrollToSection('inicio')" href="#inicio"
+                        class="flex items-center group cursor-pointer">
                         <div
                             class="w-10 h-10 rounded-xl flex items-center justify-center bg-gradient-to-br from-indigo-600 to-violet-600 shadow-lg shadow-indigo-500/20">
                             <span class="text-xl font-bold text-white">GS</span>
@@ -16,7 +17,7 @@
                             <span
                                 class="absolute inset-0 transition-transform duration-300 translate-y-full group-hover:translate-y-0 text-indigo-400">Saiz</span>
                         </span>
-                    </router-link>
+                    </a>
                 </div>
 
                 <!-- Links de navegación - Versión escritorio -->
@@ -29,12 +30,13 @@
                         }"></div>
 
                         <nav class="relative z-10 flex space-x-1">
-                            <router-link v-for="item in navigationItems" :key="item.label" :to="item.path"
-                                class="px-4 py-2 text-sm font-medium text-zinc-400 rounded-full transition-all duration-200 hover:text-white"
-                                :class="{ 'text-white': activeSection === item.section }" @mouseover="updateActiveTab"
-                                ref="navLinks">
+                            <a v-for="item in navigationItems" :key="item.label" :href="'#' + item.section"
+                                @click.prevent="scrollToSection(item.section)"
+                                class="px-4 py-2 text-sm font-medium text-zinc-400 rounded-full transition-all duration-200 hover:text-white cursor-pointer"
+                                :class="{ 'text-white': activeSection === item.section }"
+                                @mouseover="updateActiveTab(item.section)" ref="navLinks">
                                 {{ item.label }}
-                            </router-link>
+                            </a>
                         </nav>
                     </div>
                 </div>
@@ -83,11 +85,11 @@
                 </div>
 
                 <div class="flex flex-col space-y-4 px-4 pb-32 mt-4 overflow-y-auto h-full">
-                    <router-link v-for="item in navigationItems" :key="item.label" :to="item.path"
-                        @click="closeMobileMenu"
-                        class="text-center py-4 text-lg font-medium text-white border-b border-white/10 hover:bg-white/5 transition-colors">
+                    <a v-for="item in navigationItems" :key="item.label" :href="'#' + item.section"
+                        @click.prevent="scrollToSection(item.section); closeMobileMenu()"
+                        class="text-center py-4 text-lg font-medium text-white border-b border-white/10 hover:bg-white/5 transition-colors cursor-pointer">
                         {{ item.label }}
-                    </router-link>
+                    </a>
 
                     <a href="mailto:gsaiz.bajo@gmail.com"
                         class="mt-4 text-center py-4 text-lg font-medium text-indigo-400 border border-indigo-500/30 rounded-xl bg-indigo-500/10">
@@ -109,27 +111,33 @@ export default {
             activeSection: '',
             activeTabLeft: 0,
             activeTabWidth: 0,
+            lastScrollPosition: 0,
             navigationItems: [
-                { label: 'Inicio', path: '/#inicio', section: 'inicio' },
-                { label: 'Proyectos', path: '/#proyectos', section: 'proyectos' },
-                { label: 'Experiencia', path: '/#experiencia', section: 'experiencia' },
-                { label: 'Sobre mí', path: '/#sobre-mi', section: 'sobre-mi' }
+                { label: 'Inicio', section: 'inicio' },
+                { label: 'Proyectos', section: 'proyectos' },
+                { label: 'Experiencia', section: 'experiencia' },
+                { label: 'Sobre mí', section: 'sobre-mi' }
             ]
         }
     },
     watch: {
         isMobileMenuOpen(isOpen) {
-            // Controlar el scroll del body cuando se abre el menú móvil
             if (isOpen) {
+                // Guardar la posición actual de scroll
+                this.lastScrollPosition = window.pageYOffset;
                 document.body.style.overflow = 'hidden';
                 document.body.style.position = 'fixed';
                 document.body.style.width = '100%';
-                document.body.style.height = '100%';
+                document.body.style.top = `-${this.lastScrollPosition}px`;
             } else {
+                // Restaurar la posición de scroll anterior
                 document.body.style.overflow = '';
                 document.body.style.position = '';
                 document.body.style.width = '';
-                document.body.style.height = '';
+                document.body.style.top = '';
+                if (this.lastScrollPosition > 0) {
+                    window.scrollTo(0, this.lastScrollPosition);
+                }
             }
         }
     },
@@ -139,66 +147,86 @@ export default {
         window.addEventListener('keydown', this.handleKeydown);
         this.setupIntersectionObserver();
         this.$nextTick(() => {
-            this.updateActiveTab();
+            this.updateActiveTabFromCurrentSection();
         });
     },
     beforeUnmount() {
         window.removeEventListener('scroll', this.handleScroll);
         window.removeEventListener('resize', this.handleResize);
         window.removeEventListener('keydown', this.handleKeydown);
-        // Restaurar el scroll al desmontar el componente
         document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.width = '';
+        document.body.style.top = '';
     },
     methods: {
         handleScroll() {
             this.scrolled = window.scrollY > 20;
         },
         handleResize() {
-            // Cerrar el menú móvil cuando se redimensiona a desktop
             if (window.innerWidth >= 768 && this.isMobileMenuOpen) {
                 this.closeMobileMenu();
             }
-            this.updateActiveTab();
+            this.updateActiveTabFromCurrentSection();
         },
         handleKeydown(e) {
-            // Cerrar el menú al presionar Escape
             if (e.key === 'Escape' && this.isMobileMenuOpen) {
                 this.closeMobileMenu();
             }
         },
         toggleMobileMenu() {
             this.isMobileMenuOpen = !this.isMobileMenuOpen;
-            // Forzar la actualización del DOM para asegurar que el botón de cierre es visible
-            this.$nextTick(() => {
-                if (this.isMobileMenuOpen) {
-                    // Asegurar que la página esté en la parte superior cuando se abre el menú
-                    window.scrollTo(0, 0);
-                }
-            });
         },
         closeMobileMenu() {
             this.isMobileMenuOpen = false;
         },
-        setupIntersectionObserver() {
-            const sections = document.querySelectorAll('section[id]');
+        scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                // Si estamos en la misma sección, no hacer nada
+                if (this.activeSection === sectionId && !this.isMobileMenuOpen) {
+                    return;
+                }
 
-            const observer = new IntersectionObserver(
-                (entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            this.activeSection = entry.target.id;
-                            this.updateActiveTab();
-                        }
+                // Añadir un pequeño retraso para el cierre del menú móvil
+                setTimeout(() => {
+                    const headerHeight = this.$el.offsetHeight;
+                    const sectionPosition = section.getBoundingClientRect().top + window.pageYOffset;
+
+                    // Calcular posición con ajuste para el header
+                    const offsetPosition = sectionPosition - headerHeight;
+
+                    // Scroll suave a la sección
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
                     });
-                },
-                { threshold: 0.3 }
-            );
 
-            sections.forEach(section => {
-                observer.observe(section);
+                    // Actualizar URL sin recargar
+                    if (history.pushState) {
+                        history.pushState(null, null, `#${sectionId}`);
+                    } else {
+                        location.hash = `#${sectionId}`;
+                    }
+
+                    // Actualizar sección activa
+                    this.activeSection = sectionId;
+                    this.updateActiveTabFromCurrentSection();
+                }, this.isMobileMenuOpen ? 300 : 0);
+            }
+        },
+        updateActiveTab(section) {
+            this.$nextTick(() => {
+                if (!this.$refs.navLinks) return;
+
+                const index = this.navigationItems.findIndex(item => item.section === section);
+                if (index !== -1 && this.$refs.navLinks[index]) {
+                    this.activeTabLeft = this.$refs.navLinks[index].offsetLeft;
+                    this.activeTabWidth = this.$refs.navLinks[index].offsetWidth;
+                }
             });
         },
-        updateActiveTab() {
+        updateActiveTabFromCurrentSection() {
             this.$nextTick(() => {
                 if (!this.$refs.navLinks) return;
 
@@ -210,10 +238,36 @@ export default {
                     this.activeTabLeft = activeLink.offsetLeft;
                     this.activeTabWidth = activeLink.offsetWidth;
                 } else if (this.$refs.navLinks.length > 0) {
-                    // Si no hay sección activa, usa el primer enlace
                     this.activeTabLeft = this.$refs.navLinks[0].offsetLeft;
                     this.activeTabWidth = this.$refs.navLinks[0].offsetWidth;
                 }
+            });
+        },
+        setupIntersectionObserver() {
+            const sections = document.querySelectorAll('section[id]');
+
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            this.activeSection = entry.target.id;
+                            this.updateActiveTabFromCurrentSection();
+
+                            // Actualizar URL silenciosamente si estamos haciendo scroll natural
+                            if (history.replaceState) {
+                                history.replaceState(null, null, `#${entry.target.id}`);
+                            }
+                        }
+                    });
+                },
+                {
+                    threshold: 0.3,
+                    rootMargin: `-${this.$el ? this.$el.offsetHeight : 80}px 0px 0px 0px`
+                }
+            );
+
+            sections.forEach(section => {
+                observer.observe(section);
             });
         }
     }
@@ -235,7 +289,6 @@ export default {
 /* Estilos adicionales para el menú móvil */
 button {
     -webkit-tap-highlight-color: transparent;
-    /* Elimina el highlight al tocar en móviles */
 }
 
 /* Asegurar que el menú móvil cubra todo el viewport */
@@ -250,12 +303,10 @@ button {
     display: flex !important;
     flex-direction: column !important;
     overflow: hidden !important;
-    /* Previene scroll en el contenedor principal */
 }
 
 .mobile-menu-container>div:last-child {
     overflow-y: auto !important;
-    /* Permite scroll solo en el contenido */
     flex: 1 !important;
 }
 </style>
