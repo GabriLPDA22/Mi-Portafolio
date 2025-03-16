@@ -24,6 +24,13 @@ export const projects = [
     title: "Elixium Foods",
     description: "Plataforma para restaurante con reservas online, menú interactivo y sistema de pedidos. Desarrollado con tecnologías modernas para ofrecer una experiencia fluida al usuario.",
     image: "/img/Elixium_Foods.png",
+    // Añadir galería de imágenes adicionales
+    gallery: [
+      { src: "/img/Menu-Elixium.png", alt: "Menú interactivo de Elixium Foods" },
+      { src: "/img/Reseva-Elixium.png", alt: "Sistema de reservas" },
+      { src: "/img/Select-Table.png", alt: "Selección de mesa" },
+      { src: "/img/Checkout.png", alt: "Proceso de pago" }
+    ],
     gradient: "from-purple-500 to-indigo-600",
     category: "app",
     technologies: [
@@ -33,7 +40,8 @@ export const projects = [
       { name: "C#", icon: ["fab", "microsoft"], color: "bg-purple-600/20 text-purple-400" }
     ],
     links: [
-      { label: "Ver proyecto", url: "https://github.com/GabriLPDA22/Restaurante-Front", icon: ["fas", "code"] }
+      { label: "Ver frontend", url: "https://github.com/GabriLPDA22/Restaurante-Front", icon: ["fas", "code"] },
+      { label: "Ver backend", url: "https://github.com/GabriLPDA22/Restaurante-Back", icon: ["fas", "server"] }
     ]
   },
   {

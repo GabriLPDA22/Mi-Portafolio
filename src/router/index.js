@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import ProjectDetailView from '../views/ProjectDetailView.vue'
 
 const routes = [
     {
@@ -8,6 +9,15 @@ const routes = [
         component: HomeView,
         meta: {
             title: 'Portafolio - Gabriel Saiz Estudiante de DAW'
+        }
+    },
+    {
+        path: '/proyecto/:id',
+        name: 'ProjectDetail',
+        component: ProjectDetailView,
+        props: true,
+        meta: {
+            title: 'Detalles del Proyecto - Portafolio de Gabriel Saiz'
         }
     },
     // Ruta de redirección para gestionar fragmentos de URL

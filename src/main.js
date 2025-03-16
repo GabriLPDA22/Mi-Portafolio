@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import router from './router'
 import './assets/styles/main.css'
 
 // Importaciones para Font Awesome
@@ -30,7 +31,10 @@ import {
     faGlobe,
     faServer,
     faDatabase,
-    faCodeBranch
+    faCodeBranch,
+    faImages, // Nuevo icono para galería
+    faChevronLeft, // Nuevo icono para navegación
+    faChevronRight // Nuevo icono para navegación
 } from '@fortawesome/free-solid-svg-icons'
 
 // Importar iconos brands
@@ -83,6 +87,9 @@ library.add(
     faServer,
     faDatabase,
     faCodeBranch,
+    faImages,
+    faChevronLeft,
+    faChevronRight,
 
     // Brands
     faGithub,
@@ -106,6 +113,8 @@ library.add(
     faSass,
     faMicrosoft
 )
+
 const app = createApp(App)
 app.component('font-awesome-icon', FontAwesomeIcon)
+app.use(router)
 app.mount('#app')

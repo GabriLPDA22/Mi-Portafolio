@@ -22,21 +22,54 @@
         <!-- Botones de acción en hover -->
         <div
           class="absolute inset-0 bg-black/40 backdrop-blur-sm opacity-0 group-hover:opacity-100 flex items-center justify-center gap-4 transition-all duration-300">
+          
+          <!-- Botón para ver detalles si el proyecto tiene galería -->
+          <router-link v-if="project.gallery && project.gallery.length > 0" 
+            :to="{ name: 'ProjectDetail', params: { id: project.id } }"
+            class="px-4 py-2 bg-zinc-800/80 hover:bg-indigo-600 backdrop-blur-sm rounded-full text-white text-sm font-medium flex items-center gap-2 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 hover:scale-105"
+            style="transition-delay: 0s">
+            <span class="text-indigo-400 group-hover:text-white">
+              <font-awesome-icon :icon="['fas', 'images']" />
+            </span>
+            <span>Ver galería</span>
+          </router-link>
+          
+          <!-- Enlaces externos del proyecto -->
           <a v-for="(link, index) in project.links" :key="link.url" :href="link.url" target="_blank"
-            class="px-4 py-2 bg-zinc-800/80 hover:bg-indigo-600 backdrop-blur-sm rounded-full text-white text-sm font-medium flex items-center gap-2 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300"
-            :style="`transition-delay: ${index * 0.1}s`">
+            class="px-4 py-2 bg-zinc-800/80 hover:bg-indigo-600 backdrop-blur-sm rounded-full text-white text-sm font-medium flex items-center gap-2 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 hover:scale-105"
+            :style="`transition-delay: ${(project.gallery && project.gallery.length > 0 ? index + 1 : index) * 0.1}s`">
             <span v-if="link.icon" class="text-indigo-400 group-hover:text-white">
               <font-awesome-icon :icon="link.icon" />
             </span>
             <span>{{ link.label }}</span>
           </a>
         </div>
+        
+        <!-- Indicador de galería para proyectos con imágenes adicionales (versión mejorada) -->
+        <div v-if="project.gallery && project.gallery.length > 0" 
+             class="absolute top-3 right-3 px-3 py-1.5 rounded-full bg-white/20 backdrop-blur-md text-white text-xs font-medium flex items-center gap-2 shadow-lg hover:bg-indigo-500/40 transition-colors duration-300 cursor-pointer"
+             @click="navigateToGallery">
+          <font-awesome-icon :icon="['fas', 'images']" class="text-indigo-300" />
+          <div class="flex items-center">
+            <span class="font-semibold mr-1">{{ project.gallery.length + 1 }}</span>
+            <span>fotos</span>
+          </div>
+          <div class="absolute -right-1 -top-1 w-3 h-3 rounded-full bg-indigo-500 animate-ping"></div>
+          <div class="absolute -right-1 -top-1 w-3 h-3 rounded-full bg-indigo-500"></div>
+        </div>
       </div>
 
       <!-- Información del proyecto -->
       <div class="p-5 flex flex-col flex-grow">
-        <!-- Título -->
-        <h3 class="text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors">{{ project.title }}
+        <!-- Título con enlace a galería si está disponible -->
+        <h3 @click="hasGallery && navigateToGallery()" 
+          :class="`text-xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors flex items-center ${hasGallery ? 'cursor-pointer' : ''}`">
+          {{ project.title }}
+          
+          <!-- Icono indicador de galería versión discreta -->
+          <div v-if="hasGallery" class="ml-2 opacity-70 group-hover:opacity-100 transition-opacity">
+            <font-awesome-icon :icon="['fas', 'images']" class="text-sm text-indigo-400" />
+          </div>
         </h3>
 
         <!-- Descripción -->
@@ -59,6 +92,15 @@
       <div
         class="h-1 w-full bg-gradient-to-r from-transparent via-zinc-800 to-transparent group-hover:via-indigo-500 transition-colors duration-300">
       </div>
+      
+      <!-- Indicador de galería en la esquina inferior derecha para el modo hover -->
+      <div v-if="hasGallery" 
+        class="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <router-link :to="{ name: 'ProjectDetail', params: { id: project.id } }"
+          class="w-8 h-8 flex items-center justify-center rounded-full bg-indigo-600/30 hover:bg-indigo-600/60 transition-colors">
+          <font-awesome-icon :icon="['fas', 'eye']" class="text-white text-sm" />
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -70,6 +112,18 @@ export default {
     project: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    hasGallery() {
+      return this.project.gallery && this.project.gallery.length > 0;
+    }
+  },
+  methods: {
+    navigateToGallery() {
+      if (this.hasGallery) {
+        this.$router.push({ name: 'ProjectDetail', params: { id: this.project.id } });
+      }
     }
   }
 };
