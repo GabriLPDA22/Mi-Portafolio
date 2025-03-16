@@ -1,20 +1,37 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
     content: [
-        "./index.html",
-        "./src/**/*.{vue,js,ts,jsx,tsx}",
+      "./index.html",
+      "./src/**/*.{vue,js,ts,jsx,tsx}",
     ],
-    darkMode: 'media', // o 'class' para modo oscuro basado en clases
     theme: {
-        extend: {
-            animation: {
-                'spin': 'spin 2s linear infinite',
-            },
-            backgroundImage: {
-                'gradient-radial-light': 'radial-gradient(ellipse 80% 80% at 50% -20%, rgba(217,216,255,0.5), rgba(255,255,255,0.9))',
-                'gradient-radial-dark': 'radial-gradient(ellipse 80% 80% at 50% -20%, rgba(120,119,198,0.3), rgba(255,255,255,0))'
-            }
+      extend: {
+        fontFamily: {
+          sans: ['Inter', 'Poppins', 'sans-serif'],
         },
+        colors: {
+          background: '#09090b', // zinc-950
+        },
+        animation: {
+          'fade-in-up': 'fadeInUp 0.8s ease-out both',
+          'float': 'float 6s ease-in-out infinite',
+          'pulse-slow': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        },
+        keyframes: {
+          fadeInUp: {
+            '0%': { opacity: '0', transform: 'translateY(20px)' },
+            '100%': { opacity: '1', transform: 'translateY(0)' },
+          },
+          float: {
+            '0%, 100%': { transform: 'translateY(0)' },
+            '50%': { transform: 'translateY(-15px)' },
+          },
+        },
+        backgroundImage: {
+          'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+          'grid-pattern': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(255 255 255 / 0.05)'%3E%3Cpath d='M0 .5H31.5V32'/%3E%3C/svg%3E\")",
+        },
+      },
     },
     plugins: [],
-}
+  }

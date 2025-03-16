@@ -1,8 +1,8 @@
 <template>
-    <section id="inicio" class="min-h-screen flex items-center pt-20 relative overflow-hidden">
+    <section id="inicio" class="relative min-h-screen flex items-center pt-20 pb-12 overflow-hidden">
         <!-- Efectos de fondo -->
         <div class="absolute inset-0 z-0">
-            <!-- Círculos decorativos -->
+            <!-- Círculos decorativos con degradados -->
             <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-indigo-600/10 blur-3xl"></div>
             <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-rose-600/10 blur-3xl"></div>
 
@@ -26,22 +26,31 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <!-- Columna de texto -->
                 <div class="space-y-6 text-left">
-                    <h2 class="text-2xl text-indigo-400 mb-4 font-medium animate-fade-in-up">¡Hola! Soy</h2>
+                    <!-- Badge animado -->
+                    <div class="inline-flex overflow-hidden p-[1px] rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+                        :class="animationClass(0.3)">
+                        <div class="bg-zinc-900/80 backdrop-blur-sm px-4 py-1 rounded-full flex items-center gap-2">
+                            <div class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+                            <span class="text-sm font-medium text-white/80">Disponible para proyectos</span>
+                        </div>
+                    </div>
 
-                    <h1
-                        class="text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-none animate-clip-text">
+                    <h2 class="text-2xl text-indigo-400 mb-4 font-medium" :class="animationClass(0.5)">¡Hola! Soy</h2>
+
+                    <h1 class="text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-none z-20 relative"
+                        :class="animationClassModified(0.7)">
                         <span
                             class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
                             Gabriel Saiz
                         </span>
                     </h1>
 
-                    <div class="flex items-center space-x-4 mt-3 mb-8 animate-fade-in-up" style="animation-delay: 0.2s">
+                    <div class="flex items-center space-x-4 mt-3 mb-8" :class="animationClass(0.9)">
                         <div class="h-1 w-16 bg-indigo-500"></div>
                         <div class="text-2xl font-medium text-white">Desarrollador Web</div>
                     </div>
 
-                    <p class="text-xl text-zinc-400 max-w-xl animate-fade-in-up" style="animation-delay: 0.4s">
+                    <p class="text-xl text-zinc-400 max-w-xl" :class="animationClass(1.1)">
                         Soy un <span class="text-white font-medium">estudiante de DAW</span> en formación Dual.
                         <span class="text-indigo-400">De Zaragoza, España</span>.
                         <span class="text-rose-400">Apasionado de la Informática</span> y el desarrollo de aplicaciones
@@ -49,9 +58,9 @@
                     </p>
 
                     <!-- Botones de acción -->
-                    <div class="flex flex-wrap gap-4 mt-8 animate-fade-in-up" style="animation-delay: 0.6s">
+                    <div class="flex flex-wrap gap-4 mt-8" :class="animationClass(1.3)">
                         <a href="#proyectos"
-                            class="relative inline-flex items-center h-12 overflow-hidden rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 px-8 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-gray-900 shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/50 transition-all duration-300 group">
+                            class="group relative inline-flex items-center h-12 overflow-hidden rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 px-8 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-gray-900 shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/50 transition-all duration-300">
                             <span class="relative flex items-center gap-2">
                                 Ver proyectos
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
@@ -61,20 +70,25 @@
                                         d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                                 </svg>
                             </span>
+                            <span
+                                class="absolute right-0 -top-2 -z-10 h-14 w-14 rounded-full bg-indigo-800 transition-all duration-300 ease-in-out group-hover:scale-150"></span>
                         </a>
+
                         <a href="/cv.pdf" target="_blank"
-                            class="relative inline-flex items-center gap-2 h-12 overflow-hidden rounded-full border border-indigo-600/30 bg-zinc-900/80 backdrop-blur-sm px-8 py-3 text-indigo-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-gray-900 hover:bg-indigo-600/10 transition-all duration-300">
-                            <span>Descargar CV</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                                stroke="currentColor" class="w-4 h-4">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                            </svg>
+                            class="group relative inline-flex items-center gap-2 h-12 overflow-hidden rounded-full border border-indigo-600/30 bg-zinc-900/80 backdrop-blur-sm px-8 py-3 text-indigo-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-gray-900 hover:bg-indigo-600/10 transition-all duration-300">
+                            <span class="flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                    stroke="currentColor" class="w-4 h-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                                </svg>
+                                Descargar CV
+                            </span>
                         </a>
                     </div>
 
                     <!-- Enlaces sociales -->
-                    <div class="flex items-center gap-6 mt-12 animate-fade-in-up" style="animation-delay: 0.8s">
+                    <div class="flex items-center gap-6 mt-12" :class="animationClass(1.5)">
                         <a v-for="link in socialLinks" :key="link.name" :href="link.url" target="_blank"
                             rel="noopener noreferrer"
                             class="w-12 h-12 flex items-center justify-center rounded-full bg-zinc-800/50 border border-white/5 text-zinc-400 hover:text-white hover:bg-indigo-600/20 hover:border-indigo-600/50 transition-all duration-300"
@@ -164,6 +178,42 @@ export default {
                 }
             ]
         }
+    },
+    methods: {
+        // Método original para aplicar la clase de animación
+        animationClass(delay, isClipText = false) {
+            if (isClipText) {
+                return {
+                    'animate-clip-text': true,
+                    'opacity-0': true,
+                    'style': `animation-delay: ${delay}s;`
+                }
+            }
+            return {
+                'animate-fade-in-up': true,
+                'opacity-0': true,
+                'style': `animation-delay: ${delay}s;`
+            }
+        },
+
+        // Nuevo método modificado para el nombre que asegura visibilidad
+        animationClassModified(delay) {
+            return {
+                'animate-clip-text-visible': true,
+                'style': `animation-delay: ${delay}s;`
+            }
+        }
+    },
+    // Asegurarse de que las animaciones se completan
+    mounted() {
+        // Establece un temporizador para asegurar que todas las animaciones se completan
+        setTimeout(() => {
+            const animatedElements = document.querySelectorAll('.opacity-0');
+            animatedElements.forEach(el => {
+                el.classList.remove('opacity-0');
+                el.classList.add('opacity-100');
+            });
+        }, 3000); // 3 segundos, ajustar según sea necesario
     }
 }
 </script>
@@ -175,6 +225,11 @@ export default {
 
 .animate-clip-text {
     animation: clipText 1s cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+/* Nueva animación que mantiene el texto visible */
+.animate-clip-text-visible {
+    animation: clipTextVisible 1s cubic-bezier(0.25, 1, 0.5, 1) both;
 }
 
 .animate-float {
@@ -208,6 +263,20 @@ export default {
 
     to {
         clip-path: inset(0 0 0 0);
+    }
+}
+
+/* Nueva animación que mantiene el texto siempre visible */
+@keyframes clipTextVisible {
+    from {
+        clip-path: inset(0 80% 0 0);
+        opacity: 0.3;
+        /* Comenzar con baja opacidad pero visible */
+    }
+
+    to {
+        clip-path: inset(0 0 0 0);
+        opacity: 1;
     }
 }
 

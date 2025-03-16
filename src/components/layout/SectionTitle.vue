@@ -1,8 +1,34 @@
 <template>
-    <h2 class="text-3xl font-semibold mb-6 flex gap-x-3 items-center text-black/80 dark:text-white/80">
-        <component :is="iconComponent" class="size-7" />
-        {{ title }}
-    </h2>
+    <div class="section-title-wrapper text-center mb-16 relative reveal-element">
+        <!-- Texto grande de fondo -->
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-8xl sm:text-9xl font-bold opacity-5 text-white w-full text-center z-0">
+            {{ backgroundText || title.toUpperCase() }}
+        </div>
+
+        <!-- Título principal con degradado -->
+        <h2 class="text-3xl md:text-4xl font-bold relative z-10 inline-block mb-4">
+            <span :class="[
+                'bg-clip-text text-transparent',
+                gradientClass || 'bg-gradient-to-r from-indigo-500 to-purple-500'
+            ]">
+                {{ title }}
+            </span>
+        </h2>
+
+        <!-- Línea decorativa con degradado -->
+        <div class="h-1.5 w-20 mx-auto rounded-full mb-6" :class="[
+            gradientClass || 'bg-gradient-to-r from-indigo-500 to-purple-500'
+        ]"></div>
+
+        <!-- Descripción opcional -->
+        <p v-if="description" class="text-lg text-zinc-400 max-w-2xl mx-auto">
+            {{ description }}
+        </p>
+
+        <!-- Contenido adicional -->
+        <slot></slot>
+    </div>
 </template>
 
 <script>
@@ -13,74 +39,88 @@ export default {
             type: String,
             required: true
         },
+        description: {
+            type: String,
+            default: ''
+        },
+        backgroundText: {
+            type: String,
+            default: ''
+        },
+        gradientClass: {
+            type: String,
+            default: ''
+        },
         icon: {
             type: String,
-            required: true
+            default: ''
         }
     },
-    computed: {
-        iconComponent() {
-            // Mapeo de íconos predefinidos
-            const icons = {
-                code: {
-                    template: `
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                  stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                  <path d="M7 8l-4 4l4 4"></path>
-                  <path d="M17 8l4 4l-4 4"></path>
-                  <path d="M14 4l-4 16"></path>
-              </svg>
-            `
+    mounted() {
+        // Opcional: Añadir animación al entrar en viewport
+        if (typeof IntersectionObserver !== 'undefined') {
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('revealed');
+                            observer.unobserve(entry.target);
+                        }
+                    });
                 },
-                briefcase: {
-                    template: `
-              <svg class="size-7" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                  fill="none" stroke-linecap="round" stroke-linejoin="round">
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                  <path d="M3 7m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"></path>
-                  <path d="M8 7v-2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v2"></path>
-                  <path d="M12 12l0 .01"></path>
-                  <path d="M3 13a20 20 0 0 0 18 0"></path>
-              </svg>
-            `
-                },
-                user: {
-                    template: `
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" 
-                  stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                  <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
-                  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-              </svg>
-            `
-                },
-                mountain: {
-                    template: `
-              <svg class="size-7" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                  fill="none" stroke-linecap="round" stroke-linejoin="round">
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                  <path d="M12 20l9 -12h-18z"></path>
-              </svg>
-            `
-                },
-                rocket: {
-                    template: `
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" 
-                  stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                  <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3" />
-                  <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3" />
-                  <path d="M15 9m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-              </svg>
-            `
-                }
-            }
+                { threshold: 0.2 }
+            );
 
-            return icons[this.icon] || {
-                template: `<span class="size-7">🔹</span>` // Default icon if not found
-            }
+            observer.observe(this.$el);
         }
     }
 }
 </script>
+
+<style scoped>
+.section-title-wrapper {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.section-title-wrapper.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@keyframes gradientFlow {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Clases predefinidas de gradientes */
+.bg-gradient-purple {
+    background: linear-gradient(90deg, rgba(168, 85, 247, 1) 0%, rgba(139, 92, 246, 1) 100%);
+}
+
+.bg-gradient-blue {
+    background: linear-gradient(90deg, rgba(59, 130, 246, 1) 0%, rgba(6, 182, 212, 1) 100%);
+}
+
+.bg-gradient-pink {
+    background: linear-gradient(90deg, rgba(236, 72, 153, 1) 0%, rgba(244, 114, 182, 1) 100%);
+}
+
+.bg-gradient-orange {
+    background: linear-gradient(90deg, rgba(234, 88, 12, 1) 0%, rgba(249, 115, 22, 1) 100%);
+}
+
+.bg-gradient-green {
+    background: linear-gradient(90deg, rgba(16, 185, 129, 1) 0%, rgba(5, 150, 105, 1) 100%);
+}
+</style>

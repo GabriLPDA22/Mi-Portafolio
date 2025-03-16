@@ -46,7 +46,7 @@ export default {
         HackathonSection,
         EducationSection,
         AboutMeSection,
-        CvDownloadSection
+        CvDownloadSection,
     },
     mounted() {
         // Si hay un hash en la URL, navegar a esa sección después de que todo esté cargado
