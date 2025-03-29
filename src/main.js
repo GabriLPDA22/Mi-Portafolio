@@ -3,6 +3,9 @@ import App from './App.vue'
 import router from './router'
 import './assets/styles/main.css'
 
+// Importar plugin de analytics
+import analytics from './plugins/analytics'
+
 // Importaciones para Font Awesome
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -34,7 +37,8 @@ import {
     faCodeBranch,
     faImages, // Nuevo icono para galería
     faChevronLeft, // Nuevo icono para navegación
-    faChevronRight // Nuevo icono para navegación
+    faChevronRight, // Nuevo icono para navegación
+    faStar
 } from '@fortawesome/free-solid-svg-icons'
 
 // Importar iconos brands
@@ -90,6 +94,7 @@ library.add(
     faImages,
     faChevronLeft,
     faChevronRight,
+    faStar,
 
     // Brands
     faGithub,
@@ -117,4 +122,8 @@ library.add(
 const app = createApp(App)
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.use(router)
+
+// Usar el plugin de analytics
+app.use(analytics, { router })
+
 app.mount('#app')

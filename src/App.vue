@@ -21,6 +21,7 @@
     
     <TheFooter />
     <BackToTop />
+    <CookieConsent />
   </div>
 </template>
 
@@ -28,19 +29,29 @@
 import TheHeader from '@/components/layout/TheHeader.vue'
 import TheFooter from '@/components/layout/TheFooter.vue'
 import BackToTop from '@/components/ui/BackToTop.vue'
+import CookieConsent from '@/components/ui/CookieConsent.vue'
 
 export default {
   name: 'App',
   components: {
     TheHeader,
     TheFooter,
-    BackToTop
+    BackToTop,
+    CookieConsent
   },
   mounted() {
     // Inicializar animaciones
     this.setupScrollRevealAnimations();
     // Añadir clase para animación inicial del body
     document.body.classList.add('loaded');
+    
+    // Registrar vista inicial para analytics
+    if (typeof window !== 'undefined' && window.gtag) {
+      this.$track('app_loaded', {
+        timestamp: new Date().toISOString(),
+        viewport: `${window.innerWidth}x${window.innerHeight}`
+      });
+    }
   },
   methods: {
     setupScrollRevealAnimations() {
@@ -56,6 +67,12 @@ export default {
             // Añadir clases para revelar elementos cuando sean visibles
             if (entry.target.classList.contains('reveal-card')) {
               entry.target.classList.add('revealed');
+              
+              // Registrar visualización de sección para analytics
+              const sectionId = entry.target.closest('section')?.id;
+              if (sectionId && typeof this.$track === 'function') {
+                this.$track('section_view', { section_id: sectionId });
+              }
             } else if (entry.target.classList.contains('reveal-element')) {
               entry.target.classList.add('revealed');
             } else if (entry.target.classList.contains('reveal-award')) {
