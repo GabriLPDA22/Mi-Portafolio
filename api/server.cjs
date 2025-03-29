@@ -1,8 +1,8 @@
-// backend/server.js
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const analyticsApi = require('./analytics-api');
+// api/server.js
+import 'dotenv/config';
+import express from 'express';
+import cors from 'cors';
+import analyticsRouter from './analytics-api.js';
 
 // Crear aplicación Express
 const app = express();
@@ -16,7 +16,7 @@ app.use(cors({
 app.use(express.json());
 
 // Rutas
-app.use('/api/analytics', analyticsApi);
+app.use('/api/analytics', analyticsRouter);
 
 // Ruta de verificación
 app.get('/api/health', (req, res) => {
