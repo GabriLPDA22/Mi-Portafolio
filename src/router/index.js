@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import ProjectDetailView from '../views/ProjectDetailView.vue'
 import PrivacyPolicy from '../views/PrivacyPolicy.vue'
 import DashboardView from '../views/DashboardView.vue'
+import NotFoundView from '../views/NotFoundView.vue'
 
 const routes = [
     {
@@ -50,10 +51,17 @@ const routes = [
             }
         }
     },
-    // Ruta de redirección para gestionar fragmentos de URL
+    // Página 404 personalizada
     {
         path: '/:pathMatch(.*)*',
-        redirect: '/'
+        name: 'NotFound',
+        component: NotFoundView,
+        meta: {
+            title: '404 - Página no encontrada',
+            analytics: {
+                pageType: '404'
+            }
+        }
     }
 ]
 
