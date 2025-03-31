@@ -1,8 +1,30 @@
 // src/services/analyticsService.js
 import api from './apiConfig';
 
-// ID de propiedad GA4
-const propertyId = import.meta.env.VITE_GA4_PROPERTY_ID || 'G-CEDV9NP2WJ';
+// Datos de respaldo para usar en caso de error
+const fallbackData = {
+  visitors: {
+    total: 0,
+    change: 0
+  },
+  pageViews: {
+    total: 0,
+    change: 0
+  },
+  projects: {
+    total: 0,
+    change: 0
+  },
+  cvDownloads: {
+    total: 0,
+    change: 0,
+    goal: 100,
+    percentage: 0
+  },
+  pageStats: [],
+  projectStats: [],
+  recentEvents: []
+};
 
 /**
  * Obtiene todos los datos de analytics para el dashboard
@@ -10,12 +32,22 @@ const propertyId = import.meta.env.VITE_GA4_PROPERTY_ID || 'G-CEDV9NP2WJ';
  */
 export async function getAnalyticsData() {
   try {
-    // Obtener datos del backend
-    const response = await api.get('/api/analytics/dashboard-data');
+    // Establecer un tiempo límite para la petición
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('La petición ha excedido el tiempo de espera')), 25000)
+    );
+    
+    // Petición a la API
+    const dataPromise = api.get('/api/analytics/dashboard-data');
+    
+    // Usar la respuesta que llegue primero (datos o timeout)
+    const response = await Promise.race([dataPromise, timeoutPromise]);
     return response.data;
   } catch (error) {
     console.error('Error al obtener datos de analytics:', error);
-    throw error;
+    
+    // En caso de error, retornar datos de respaldo
+    return fallbackData;
   }
 }
 
@@ -29,7 +61,7 @@ export async function getVisitorStats() {
     return response.data;
   } catch (error) {
     console.error('Error al obtener estadísticas de visitantes:', error);
-    throw error;
+    return fallbackData.visitors;
   }
 }
 
@@ -43,7 +75,7 @@ export async function getPageViewStats() {
     return response.data;
   } catch (error) {
     console.error('Error al obtener estadísticas de páginas vistas:', error);
-    throw error;
+    return fallbackData.pageViews;
   }
 }
 
@@ -57,7 +89,7 @@ export async function getProjectStats() {
     return response.data;
   } catch (error) {
     console.error('Error al obtener estadísticas de proyectos:', error);
-    throw error;
+    return fallbackData.projects;
   }
 }
 
@@ -71,7 +103,7 @@ export async function getCvDownloadStats() {
     return response.data;
   } catch (error) {
     console.error('Error al obtener estadísticas de descargas de CV:', error);
-    throw error;
+    return fallbackData.cvDownloads;
   }
 }
 
@@ -85,7 +117,7 @@ export async function getRecentEvents() {
     return response.data;
   } catch (error) {
     console.error('Error al obtener eventos recientes:', error);
-    throw error;
+    return fallbackData.recentEvents;
   }
 }
 
@@ -99,7 +131,7 @@ export async function getPageStats() {
     return response.data;
   } catch (error) {
     console.error('Error al obtener estadísticas de páginas:', error);
-    throw error;
+    return fallbackData.pageStats;
   }
 }
 
@@ -113,6 +145,21 @@ export async function getProjectInteractionStats() {
     return response.data;
   } catch (error) {
     console.error('Error al obtener estadísticas de interacciones de proyectos:', error);
-    throw error;
+    return fallbackData.projectStats;
+  }
+}
+
+/**
+ * Registra un evento de analytics
+ * @param {string} eventName - Nombre del evento
+ * @param {Object} params - Parámetros adicionales del evento
+ * @returns {Promise<void>}
+ */
+export async function trackEvent(eventName, params = {}) {
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', eventName, {
+      ...params,
+      timestamp: new Date().toISOString()
+    });
   }
 }
