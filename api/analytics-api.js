@@ -1,6 +1,6 @@
 // api/analytics-api.js
-import express from 'express';
-import { BetaAnalyticsDataClient } from '@google-analytics/data';
+const express = require('express');
+const { BetaAnalyticsDataClient } = require('@google-analytics/data');
 
 const router = express.Router();
 
@@ -712,4 +712,4 @@ router.get('/project-interactions', async (req, res) => {
     }
 });
 
-export default router;
+module.exports = router;

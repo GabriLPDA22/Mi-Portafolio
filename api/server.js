@@ -1,15 +1,16 @@
 // api/server.js
-import 'dotenv/config';
-import express from 'express';
-import cors from 'cors';
-import analyticsRouter from './analytics-api.js';
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const analyticsRouter = require('./analytics-api.js');
 
 // Crear aplicación Express
 const app = express();
 
 // Habilitar CORS
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173'
+  origin: process.env.FRONTEND_URL || 'https://gabrielcodes.dev',
+  credentials: true
 }));
 
 // Middleware para parsear JSON
@@ -30,7 +31,7 @@ app.use((err, req, res, next) => {
 });
 
 // Puerto
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // Iniciar servidor
 app.listen(PORT, () => {

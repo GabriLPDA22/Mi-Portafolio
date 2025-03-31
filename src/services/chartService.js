@@ -101,3 +101,75 @@ export function createPieChart(elementId, data, options = {}) {
 
     return chart;
 }
+
+/**
+ * Configura un tema oscuro para los gráficos de Google Charts
+ * @returns {Object} Opciones base para tema oscuro
+ */
+export function getDarkThemeOptions() {
+    return {
+        backgroundColor: 'transparent',
+        colors: ['#6366f1', '#8b5cf6', '#ec4899', '#0ea5e9', '#10b981'],
+        titleTextStyle: { 
+            color: '#ffffff',
+            fontName: 'Inter',
+            fontSize: 16
+        },
+        legend: { 
+            textStyle: { 
+                color: '#d4d4d8',
+                fontName: 'Inter'
+            }
+        },
+        hAxis: { 
+            textStyle: { color: '#d4d4d8' },
+            gridlines: { color: '#27272a' }
+        },
+        vAxis: { 
+            textStyle: { color: '#d4d4d8' },
+            gridlines: { color: '#27272a' }
+        },
+        chartArea: { 
+            width: '80%', 
+            height: '70%' 
+        }
+    };
+}
+
+/**
+ * Formatea los datos para renderizar un gráfico de páginas vistas
+ * @param {Array} pageStats - Estadísticas de páginas
+ * @returns {Object} DataTable para Google Charts
+ */
+export function formatPageViewsData(pageStats) {
+    const dataTable = new window.google.visualization.DataTable();
+    dataTable.addColumn('string', 'Página');
+    dataTable.addColumn('number', 'Visitas');
+    
+    pageStats.forEach(page => {
+        // Extraer solo el nombre de la página para simplificar las etiquetas
+        const pageName = page.title.replace(' - Portafolio de Gabriel Saiz', '')
+                            .replace('Portafolio - ', '');
+        dataTable.addRow([pageName, page.visits]);
+    });
+    
+    return dataTable;
+}
+
+/**
+ * Formatea los datos para renderizar un gráfico de interacciones de proyectos
+ * @param {Array} projectStats - Estadísticas de proyectos
+ * @returns {Object} DataTable para Google Charts
+ */
+export function formatProjectInteractionsData(projectStats) {
+    const dataTable = new window.google.visualization.DataTable();
+    dataTable.addColumn('string', 'Proyecto');
+    dataTable.addColumn('number', 'Vistas');
+    dataTable.addColumn('number', 'Interacciones');
+    
+    projectStats.forEach(project => {
+        dataTable.addRow([project.title, project.views, project.interactions]);
+    });
+    
+    return dataTable;
+}

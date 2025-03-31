@@ -11,7 +11,7 @@ const propertyId = import.meta.env.VITE_GA4_PROPERTY_ID || 'G-CEDV9NP2WJ';
 export async function getAnalyticsData() {
   try {
     // Obtener datos del backend
-    const response = await api.get('/analytics/dashboard-data');
+    const response = await api.get('/api/analytics/dashboard-data');
     return response.data;
   } catch (error) {
     console.error('Error al obtener datos de analytics:', error);
@@ -25,7 +25,7 @@ export async function getAnalyticsData() {
  */
 export async function getVisitorStats() {
   try {
-    const response = await api.get('/analytics/visitors');
+    const response = await api.get('/api/analytics/visitors');
     return response.data;
   } catch (error) {
     console.error('Error al obtener estadísticas de visitantes:', error);
@@ -39,7 +39,7 @@ export async function getVisitorStats() {
  */
 export async function getPageViewStats() {
   try {
-    const response = await api.get('/analytics/page-views');
+    const response = await api.get('/api/analytics/page-views');
     return response.data;
   } catch (error) {
     console.error('Error al obtener estadísticas de páginas vistas:', error);
@@ -53,7 +53,7 @@ export async function getPageViewStats() {
  */
 export async function getProjectStats() {
   try {
-    const response = await api.get('/analytics/projects');
+    const response = await api.get('/api/analytics/projects');
     return response.data;
   } catch (error) {
     console.error('Error al obtener estadísticas de proyectos:', error);
@@ -67,7 +67,7 @@ export async function getProjectStats() {
  */
 export async function getCvDownloadStats() {
   try {
-    const response = await api.get('/analytics/cv-downloads');
+    const response = await api.get('/api/analytics/cv-downloads');
     return response.data;
   } catch (error) {
     console.error('Error al obtener estadísticas de descargas de CV:', error);
@@ -81,7 +81,7 @@ export async function getCvDownloadStats() {
  */
 export async function getRecentEvents() {
   try {
-    const response = await api.get('/analytics/recent-events');
+    const response = await api.get('/api/analytics/recent-events');
     return response.data;
   } catch (error) {
     console.error('Error al obtener eventos recientes:', error);
@@ -95,7 +95,7 @@ export async function getRecentEvents() {
  */
 export async function getPageStats() {
   try {
-    const response = await api.get('/analytics/page-stats');
+    const response = await api.get('/api/analytics/page-stats');
     return response.data;
   } catch (error) {
     console.error('Error al obtener estadísticas de páginas:', error);
@@ -109,7 +109,7 @@ export async function getPageStats() {
  */
 export async function getProjectInteractionStats() {
   try {
-    const response = await api.get('/analytics/project-interactions');
+    const response = await api.get('/api/analytics/project-interactions');
     return response.data;
   } catch (error) {
     console.error('Error al obtener estadísticas de interacciones de proyectos:', error);

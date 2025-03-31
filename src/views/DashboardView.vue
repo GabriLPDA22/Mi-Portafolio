@@ -123,7 +123,7 @@
 
 <script>
 import { defineComponent, ref, onMounted } from 'vue';
-import { loadCharts } from '@/services/chartService';
+import { loadCharts, getDarkThemeOptions, formatPageViewsData, formatProjectInteractionsData } from '@/services/chartService';
 import { getAnalyticsData } from '@/services/analyticsService';
 import StatsCards from '@/components/dashboard/StatsCards.vue';
 import ChartCard from '@/components/dashboard/ChartCard.vue';
@@ -189,66 +189,44 @@ export default defineComponent({
       error.value = false;
       
       try {
-        // Simular datos si estamos en desarrollo y no hay API
-        if (process.env.NODE_ENV === 'development' && !window.location.hostname.includes('api')) {
-          await new Promise(resolve => setTimeout(resolve, 1500)); // Simular latencia
-          
-          stats.value = {
-            visitors: {
-              total: 152,
-              change: 12.5
-            },
-            pageViews: {
-              total: 478,
-              change: 8.3
-            },
-            projects: {
-              total: 89,
-              change: 15.2
-            },
-            cvDownloads: {
-              total: 37,
-              change: 22.0,
-              goal: 100,
-              percentage: 37
-            },
-            pageStats: [
-              { path: '/', title: 'Inicio', visits: 254 },
-              { path: '/proyecto/2', title: 'Elixium Foods', visits: 86 },
-              { path: '/proyecto/1', title: 'Sistema Cine', visits: 64 },
-              { path: '/proyecto/3', title: 'BurgerVibes', visits: 45 },
-              { path: '/sobre-mi', title: 'Sobre Mí', visits: 29 }
-            ],
-            projectStats: [
-              { id: '2', title: 'Elixium Foods', views: 86, interactions: 42 },
-              { id: '1', title: 'Sistema Cine', views: 64, interactions: 28 },
-              { id: '3', title: 'BurgerVibes', views: 45, interactions: 19 },
-              { id: '5', title: 'Portfolio Personal', views: 23, interactions: 11 },
-              { id: '4', title: 'CoreEvo Gym', views: 18, interactions: 7 }
-            ],
-            recentEvents: [
-              { name: 'Vista de proyecto', time: 'Hace 10 minutos' },
-              { name: 'Descarga de CV', time: 'Hace 2 horas' },
-              { name: 'Clic en contacto', time: 'Hace 3 horas' },
-              { name: 'Vista de proyecto', time: 'Hace 5 horas' },
-              { name: 'Descarga de CV', time: 'Hace 1 día' }
-            ]
-          };
-        } else {
-          // Obtener datos reales de la API
-          const analyticsData = await getAnalyticsData();
-          stats.value = analyticsData;
+        // Obtener datos reales de la API
+        const analyticsData = await getAnalyticsData();
+
+        // Verificar si los datos son válidos
+        if (!analyticsData) {
+          throw new Error('No se recibieron datos de la API');
         }
+
+        // Asignar datos a la variable reactiva
+        stats.value = analyticsData;
         
         if (googleChartsLoaded.value) {
           renderCharts();
+        }
+        
+        // Registrar eventos para analítica
+        if (typeof window !== 'undefined' && window.gtag) {
+          window.gtag('event', 'dashboard_loaded', {
+            'event_category': 'dashboard',
+            'event_label': 'Dashboard cargado con éxito',
+            'value': 1
+          });
         }
         
         isLoading.value = false;
       } catch (err) {
         console.error('Error fetching analytics data:', err);
         error.value = true;
-        errorMessage.value = 'No se pudieron cargar los datos de Analytics. Por favor, intenta de nuevo más tarde.';
+        
+        // Mensaje de error más descriptivo
+        if (err.response) {
+          errorMessage.value = `Error del servidor: ${err.response.status} - ${err.response.data?.error || 'Sin detalles'}`;
+        } else if (err.request) {
+          errorMessage.value = 'No se pudo conectar con el servidor de la API. Verifica tu conexión o si el servidor está en funcionamiento.';
+        } else {
+          errorMessage.value = `Error al obtener datos: ${err.message}`;
+        }
+        
         isLoading.value = false;
       }
     };
@@ -265,20 +243,31 @@ export default defineComponent({
       if (!window.google || !window.google.visualization || isLoading.value) return;
       
       try {
+        // Verificar que haya datos de páginas
+        if (!stats.value.pageStats || stats.value.pageStats.length === 0) {
+          console.warn('No hay datos de páginas para mostrar en el gráfico');
+          return;
+        }
+
+        // Formatear datos para el gráfico
         const pageData = new window.google.visualization.DataTable();
         pageData.addColumn('string', 'Página');
         pageData.addColumn('number', 'Visitas');
         
         stats.value.pageStats.forEach(page => {
-          pageData.addRow([page.title, page.visits]);
+          // Extraer solo el nombre de la página para simplificar las etiquetas
+          const pageName = page.title.replace(' - Portafolio de Gabriel Saiz', '')
+                              .replace('Portafolio - ', '');
+          pageData.addRow([pageName, page.visits]);
         });
         
+        // Obtener opciones de tema oscuro y personalizar
         const options = {
           backgroundColor: 'transparent',
           colors: ['#6366f1', '#8b5cf6', '#ec4899'],
           fontSize: 12,
           fontName: 'Inter',
-          legend: { position: 'bottom', textStyle: { color: '#d4d4d8' } },
+          legend: { position: 'none', textStyle: { color: '#d4d4d8' } },
           titleTextStyle: { color: '#ffffff' },
           hAxis: { textStyle: { color: '#d4d4d8' } },
           vAxis: { textStyle: { color: '#d4d4d8' }, gridlines: { color: '#27272a' } },
@@ -300,6 +289,13 @@ export default defineComponent({
       if (!window.google || !window.google.visualization || isLoading.value) return;
       
       try {
+        // Verificar que haya datos de proyectos
+        if (!stats.value.projectStats || stats.value.projectStats.length === 0) {
+          console.warn('No hay datos de proyectos para mostrar en el gráfico');
+          return;
+        }
+
+        // Formatear datos para el gráfico
         const projectData = new window.google.visualization.DataTable();
         projectData.addColumn('string', 'Proyecto');
         projectData.addColumn('number', 'Vistas');
@@ -309,6 +305,7 @@ export default defineComponent({
           projectData.addRow([project.title, project.views, project.interactions]);
         });
         
+        // Configurar opciones
         const options = {
           backgroundColor: 'transparent',
           colors: ['#6366f1', '#8b5cf6'],
@@ -349,6 +346,16 @@ export default defineComponent({
       // Cargar Google Charts y datos
       await loadGoogleCharts();
       fetchAnalyticsData();
+      
+      // Configurar escucha para redimensionamiento de ventana
+      window.addEventListener('resize', () => {
+        if (googleChartsLoaded.value && !isLoading.value) {
+          // Redimensionar gráficos cuando cambia el tamaño de la ventana
+          setTimeout(() => {
+            renderCharts();
+          }, 300);
+        }
+      });
     });
 
     // Exportar variables y métodos
