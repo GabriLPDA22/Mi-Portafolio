@@ -21,7 +21,7 @@
         </p>
       </div>
 
-      <!-- Destacado - Proyecto con galería (optimizado para móvil) -->
+      <!-- Destacado - Proyecto con galería (optimizado para rendimiento) -->
       <div v-if="hasProjectWithGallery" class="mb-8 sm:mb-16 fade-in-element visible">
         <div class="glass-card p-3 sm:p-4 rounded-xl overflow-hidden gradient-border">
           <div class="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4 px-1 sm:px-2">
@@ -34,22 +34,29 @@
           <div class="relative rounded-lg overflow-hidden">
             <router-link :to="{ name: 'ProjectDetail', params: { id: featuredProject.id } }">
               <div class="relative aspect-video overflow-hidden">
-                <!-- Imágenes en carrusel automático - Versión simplificada para móvil -->
+                <!-- Imágenes en carrusel optimizado -->
                 <div class="absolute inset-0 flex">
                   <div class="gallery-slider-mobile sm:gallery-slider">
-                    <!-- Usando solo 3 imágenes en móvil para mejor rendimiento -->
-                    <img :src="featuredProject.image" :alt="featuredProject.title" class="gallery-image" />
+                    <!-- Imagen principal optimizada con carga perezosa -->
+                    <img 
+                      :src="featuredProject.image" 
+                      :alt="featuredProject.title" 
+                      class="gallery-image" 
+                      loading="lazy" 
+                    />
+                    <!-- Imágenes de galería con carga perezosa -->
                     <img 
                       v-for="(img, index) in limitedGalleryImages" 
                       :key="index"
                       :src="img.src" 
                       :alt="img.alt" 
                       class="gallery-image" 
+                      loading="lazy"
                     />
                   </div>
                 </div>
                 
-                <!-- Overlay con degradado y texto - Contenido reducido en móvil -->
+                <!-- Overlay con degradado y texto - Optimizado para móvil -->
                 <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent flex items-center">
                   <div class="p-4 sm:p-6 md:p-10 max-w-full sm:max-w-lg md:max-w-2xl">
                     <h3 class="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2 sm:mb-3">{{ featuredProject.title }}</h3>
@@ -76,18 +83,35 @@
         </div>
       </div>
 
-      <!-- Cartas de proyectos -->
+      <!-- Cartas de proyectos con renderizado condicional -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
         <ProjectCard 
-          v-for="project in projects" 
+          v-for="project in visibleProjects" 
           :key="project.id" 
           :project="project" 
           class="reveal-card" 
+          @intersect="onCardIntersect"
         />
       </div>
 
-      <!-- Botón para ver más proyectos -->
-      <div class="flex justify-center mt-10 sm:mt-16">
+      <!-- Botón para cargar más proyectos -->
+      <div v-if="hasMoreProjects" class="flex justify-center mt-10 sm:mt-16">
+        <button 
+          @click="loadMoreProjects"
+          class="group relative overflow-hidden rounded-full bg-zinc-900 border border-zinc-800 px-4 sm:px-6 py-2 sm:py-3 text-zinc-400 hover:text-white hover:border-indigo-500/50 hover:bg-indigo-500/10 transition-all duration-300"
+        >
+          <span class="relative flex items-center gap-2">
+            Cargar más proyectos
+            <svg class="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:translate-x-1"
+              xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </span>
+        </button>
+      </div>
+      
+      <!-- Enlace a GitHub -->
+      <div class="flex justify-center mt-6">
         <a href="https://github.com/GabriLPDA22" target="_blank"
           class="group relative overflow-hidden rounded-full bg-zinc-900 border border-zinc-800 px-4 sm:px-6 py-2 sm:py-3 text-zinc-400 hover:text-white hover:border-indigo-500/50 hover:bg-indigo-500/10 transition-all duration-300">
           <span class="relative flex items-center gap-2">
@@ -103,80 +127,101 @@
   </section>
 </template>
 
-<script>
+<script setup>
+import { ref, computed, onMounted, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { projects } from '@/data/projects';
 import ProjectCard from '@/components/ui/ProjectCard.vue';
+import { useIntersectionObserver } from '@vueuse/core';
 
-export default {
-  name: 'ProjectsSection',
-  components: {
-    ProjectCard
-  },
-  data() {
-    return {
-      projects
-    };
-  },
-  computed: {
-    hasProjectWithGallery() {
-      return this.projects.some(project => project.gallery && project.gallery.length > 0);
-    },
-    featuredProject() {
-      return this.projects.find(project => project.gallery && project.gallery.length > 0) || null;
-    },
-    // Limitar imágenes para dispositivos móviles
-    limitedGalleryImages() {
-      if (!this.featuredProject || !this.featuredProject.gallery) return [];
-      // En móvil, solo mostramos las primeras 2 imágenes para mejor rendimiento
-      return this.featuredProject.gallery.slice(0, 2);
-    }
-  },
-  mounted() {
-    // Configurar las animaciones de revelación para las tarjetas
-    this.setupRevealAnimations();
+// Estado reactivo con Composition API
+const router = useRouter();
+const projectsPerPage = ref(3);
+const currentPage = ref(1);
+const allProjects = ref(projects);
+const observedCards = ref(new Set());
+
+// Computados para mejorar rendimiento
+const visibleProjects = computed(() => {
+  return allProjects.value.slice(0, currentPage.value * projectsPerPage.value);
+});
+
+const hasMoreProjects = computed(() => {
+  return visibleProjects.value.length < allProjects.value.length;
+});
+
+const hasProjectWithGallery = computed(() => {
+  return allProjects.value.some(project => project.gallery && project.gallery.length > 0);
+});
+
+const featuredProject = computed(() => {
+  return allProjects.value.find(project => project.gallery && project.gallery.length > 0) || null;
+});
+
+const limitedGalleryImages = computed(() => {
+  if (!featuredProject.value || !featuredProject.value.gallery) return [];
+  // En móvil, solo mostramos las primeras 2 imágenes para mejor rendimiento
+  return featuredProject.value.gallery.slice(0, 2);
+});
+
+// Métodos con Composition API
+const loadMoreProjects = () => {
+  if (hasMoreProjects.value) {
+    currentPage.value++;
     
-    // Configurar variables CSS para la animación del carrusel
-    this.setupGalleryAnimation();
-    
-    // Escuchar cambios de tamaño para actualizar animaciones
-    window.addEventListener('resize', this.setupGalleryAnimation);
-  },
-  beforeUnmount() {
-    window.removeEventListener('resize', this.setupGalleryAnimation);
-  },
-  methods: {
-    setupRevealAnimations() {
-      const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, observerOptions);
-
-      // Observar todas las tarjetas con clase reveal-card
-      document.querySelectorAll('.reveal-card').forEach(card => {
-        observer.observe(card);
+    // Evento de analytics
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'load_more_projects', {
+        'event_category': 'interaction',
+        'event_label': `Página ${currentPage.value}`,
+        'value': currentPage.value
       });
-    },
-    
-    setupGalleryAnimation() {
-      // Ajustar la animación según el ancho de pantalla
-      const isMobile = window.innerWidth < 640;
-      const imageCount = isMobile ? 3 : this.featuredProject?.gallery?.length + 1 || 5;
-      
-      // Establecer variable CSS para la animación
-      document.documentElement.style.setProperty('--image-count', imageCount);
     }
   }
 };
+
+// Observador de intersección para animaciones
+const onCardIntersect = (element, isIntersecting) => {
+  if (isIntersecting && !observedCards.value.has(element)) {
+    element.classList.add('revealed');
+    observedCards.value.add(element);
+  }
+};
+
+// Configuración de efectos CSS para la galería
+const setupGalleryAnimation = () => {
+  // Ajustar la animación según el ancho de pantalla
+  const isMobile = window.innerWidth < 640;
+  const imageCount = isMobile ? 3 : featuredProject.value?.gallery?.length + 1 || 5;
+  
+  // Establecer variable CSS para la animación
+  document.documentElement.style.setProperty('--image-count', imageCount);
+};
+
+// Ciclo de vida del componente
+onMounted(() => {
+  // Configurar animaciones
+  setupGalleryAnimation();
+  
+  // Escuchar cambios de tamaño para actualizar animaciones
+  window.addEventListener('resize', setupGalleryAnimation);
+  
+  // Registrar vista de la sección de proyectos
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', 'view_project_section', {
+      'event_category': 'page_view',
+      'event_label': 'Proyectos'
+    });
+  }
+});
+
+// Limpiar efectos al desmontar
+watch(() => router.currentRoute.value, (newRoute) => {
+  if (newRoute.hash === '#proyectos') {
+    // Reiniciar el contador cuando se navega específicamente a esta sección
+    currentPage.value = 1;
+  }
+});
 </script>
 
 <style scoped>
@@ -204,30 +249,19 @@ export default {
   transition-delay: 0.5s;
 }
 
-/* Aplicar retrasos adicionales para proyectos subsiguientes */
-.reveal-card:nth-child(4) {
-  transition-delay: 0.7s;
-}
-
-.reveal-card:nth-child(5) {
-  transition-delay: 0.9s;
-}
-
-.reveal-card:nth-child(6) {
-  transition-delay: 1.1s;
-}
-
-/* Animación del carrusel de galería */
+/* Animación del carrusel de galería optimizada */
 .gallery-slider {
   display: flex;
   animation: slide 20s linear infinite;
   width: max-content;
+  will-change: transform; /* Optimización para rendimiento */
 }
 
 .gallery-slider-mobile {
   display: flex;
   animation: slideMobile 12s linear infinite;
   width: max-content;
+  will-change: transform; /* Optimización para rendimiento */
 }
 
 .gallery-image {

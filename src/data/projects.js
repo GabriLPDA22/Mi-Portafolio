@@ -4,7 +4,7 @@ export const projects = [
     id: 1,
     title: "Sistema Cine",
     description: "Gestión de un sistema de cine con visualización de películas y horarios. Frontend en HTML, SCSS y JavaScript. API en C#, con Swagger.",
-    image: "/img/Cine.png",
+    image: "/img/Cine.webp",
     gradient: "from-blue-600 to-indigo-600",
     category: "web",
     technologies: [
@@ -23,13 +23,13 @@ export const projects = [
     id: 2,
     title: "Elixium Foods",
     description: "Plataforma para restaurante con reservas online, menú interactivo y sistema de pedidos. Desarrollado con tecnologías modernas para ofrecer una experiencia fluida al usuario.",
-    image: "/img/Elixium_Foods.png",
+    image: "/img/Elixium_Foods.webp",
     // Añadir galería de imágenes adicionales
     gallery: [
-      { src: "/img/Menu-Elixium.png", alt: "Menú interactivo de Elixium Foods" },
-      { src: "/img/Reseva-Elixium.png", alt: "Sistema de reservas" },
-      { src: "/img/Select-Table.png", alt: "Selección de mesa" },
-      { src: "/img/Checkout.png", alt: "Proceso de pago" }
+      { src: "/img/Menu-Elixium.webp", alt: "Menú interactivo de Elixium Foods" },
+      { src: "/img/Reseva-Elixium.webp", alt: "Sistema de reservas" },
+      { src: "/img/Select-Table.webp", alt: "Selección de mesa" },
+      { src: "/img/Checkout.webp", alt: "Proceso de pago" }
     ],
     gradient: "from-purple-500 to-indigo-600",
     category: "app",
@@ -48,7 +48,7 @@ export const projects = [
     id: 3,
     title: "BurgerVibes",
     description: "Aplicación para gestión de pedidos y menús en un restaurante. Base de datos en SQL (Oracle), frontend en HTML/CSS/JS y backend en Java.",
-    image: "/img/BurerVibes.jpg",
+    image: "/img/BurerVibes.webp",
     gradient: "from-orange-500 to-red-500",
     category: "app",
     technologies: [
@@ -67,7 +67,7 @@ export const projects = [
     id: 4,
     title: "CoreEvo Gym",
     description: "Mi primer proyecto web para un gimnasio. Sitio web responsivo con HTML, CSS y JavaScript que ofrece una experiencia interactiva y visualmente atractiva.",
-    image: "/img/Banner.png",
+    image: "/img/Banner.webp",
     gradient: "from-green-500 to-emerald-600",
     category: "web",
     technologies: [
@@ -83,7 +83,7 @@ export const projects = [
     id: 5,
     title: "Portfolio Personal",
     description: "Mi portafolio web personal desarrollado con Vue.js y TailwindCSS, con secciones para mostrar mis proyectos, experiencia y habilidades.",
-    image: "/img/portfolio.jpg",
+    image: "/img/portfolio.webp",
     gradient: "from-indigo-600 to-purple-600",
     category: "web",
     technologies: [

@@ -8,25 +8,49 @@
         content="Portafolio de Gabriel Saiz, estudiante de Desarrollo de Aplicaciones Web (DAW). Desarrollador Web especializado en crear aplicaciones modernas y soluciones web." />
     <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
     
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CEDV9NP2WJ"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-CEDV9NP2WJ');
-    </script>
+    <!-- SEO y compatibilidad con PWA -->
+    <link rel="apple-touch-icon" href="/img/icons/apple-touch-icon.png" sizes="180x180">
+    <link rel="mask-icon" href="/img/icons/safari-pinned-tab.svg" color="#6366f1">
+    <meta name="theme-color" content="#6366f1">
     
-    <!-- Añade esto justo antes de cerrar el head -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Portafolio - Gabriel Saiz Estudiante de DAW</title>
-
-    <!-- Precargar fuentes -->
+    <!-- Precargar recursos críticos -->
     <link rel="preload" href="/fonts/onest-variable.woff2" as="font" type="font/woff2" crossorigin />
-    <!-- En el head de index.html -->
+    
+    <!-- Preconectar con orígenes importantes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+    
+    <!-- CSS crítico incrustado para mejorar LCP -->
+    <style>
+      /* Estilos críticos para el renderizado inicial */
+      body {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        background-color: #09090b;
+        color: rgba(255, 255, 255, 0.95);
+        margin: 0;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+      }
+      body.loaded {
+        opacity: 1;
+      }
+      .app-wrapper {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      .bg-blur-element {
+        opacity: 0;
+        transition: opacity 0.5s ease;
+      }
+    </style>
+    
+    <!-- Google Fonts optimizado para cargar después -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    </noscript>
 
     <!-- Metadatos Open Graph -->
     <meta property="og:title" content="Portafolio - Gabriel Saiz" />
@@ -39,6 +63,23 @@
     <!-- Tema de color -->
     <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
+    
+    <!-- Tailwind CSS desde CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <title>Portafolio - Gabriel Saiz Estudiante de DAW</title>
+    
+    <!-- Google tag (gtag.js) - Cargado con estrategia de carga diferida -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CEDV9NP2WJ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-CEDV9NP2WJ', {
+        'transport_type': 'beacon',
+        'anonymize_ip': true
+      });
+    </script>
 </head>
 
 <body>

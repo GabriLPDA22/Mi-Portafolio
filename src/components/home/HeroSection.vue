@@ -127,7 +127,7 @@
                             class="relative overflow-hidden rounded-2xl border border-zinc-800 shadow-2xl shadow-black/50 bg-gradient-to-br from-zinc-800 to-zinc-900 z-10">
                             <div class="absolute inset-0 bg-grid-white/[0.02] bg-[length:30px_30px]"></div>
 
-                            <img src="/img/Yo.jpg" alt="Gabriel Saiz"
+                            <img src="/img/Yo.webp" alt="Gabriel Saiz"
                                 class="w-[350px] h-[450px] object-cover object-center z-10 mix-blend-screen opacity-90 scale-105" />
 
                             <!-- Efecto de brillo -->

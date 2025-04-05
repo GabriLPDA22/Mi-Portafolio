@@ -78,7 +78,7 @@
                         class="relative overflow-hidden rounded-2xl border border-zinc-800 shadow-2xl shadow-black/50 bg-gradient-to-br from-zinc-800 to-zinc-900 z-10">
                         <div class="absolute inset-0 bg-grid-white/[0.02] bg-[length:30px_30px]"></div>
 
-                        <img src="/img/Space_Apps_1.jpg" alt="Hackathon Space Apps NASA"
+                        <img src="/img/Space_Apps_1.webp" alt="Hackathon Space Apps NASA"
                             class="w-full aspect-video object-cover object-center z-10 hover:scale-105 transition-transform duration-700" />
                     </div>
 

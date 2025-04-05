@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import ProjectDetailView from '../views/ProjectDetailView.vue'
-import PrivacyPolicy from '../views/PrivacyPolicy.vue'
-import DashboardView from '../views/DashboardView.vue'
-import NotFoundView from '../views/NotFoundView.vue'
+
+// Importaciones con lazy loading para mejorar el rendimiento inicial
+const HomeView = () => import('../views/HomeView.vue')
+const ProjectDetailView = () => import('../views/ProjectDetailView.vue')
+const PrivacyPolicy = () => import('../views/PrivacyPolicy.vue')
+const DashboardView = () => import('../views/DashboardView.vue')
+const NotFoundView = () => import('../views/NotFoundView.vue')
 
 const routes = [
     {
@@ -69,17 +71,29 @@ const router = createRouter({
     history: createWebHistory(),
     routes,
     scrollBehavior(to, from, savedPosition) {
-        if (to.hash) {
+        // Si la navegación está utilizando el botón de retroceso, restaurar la posición guardada
+        if (savedPosition) {
             return {
-                el: to.hash,
+                ...savedPosition,
                 behavior: 'smooth',
-                top: 80 // Offset para el header fijo
             }
-        } else if (savedPosition) {
-            return savedPosition
-        } else {
-            return { top: 0 }
         }
+        
+        // Si hay un hash en la URL (ancla), desplazar a ese elemento con un offset para el header fijo
+        if (to.hash) {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve({
+                        el: to.hash,
+                        behavior: 'smooth',
+                        top: 80 // Offset para el header fijo
+                    })
+                }, 500) // Pequeño retraso para asegurar que los componentes se hayan renderizado
+            })
+        } 
+        
+        // De lo contrario, ir al principio de la página
+        return { top: 0, behavior: 'smooth' }
     }
 })
 
@@ -88,15 +102,34 @@ router.beforeEach((to, from, next) => {
     // Actualizar título de página
     document.title = to.meta.title || 'Portafolio - Gabriel Saiz'
     
-    // Si estamos en producción, registrar inicio de navegación para analytics (opcional)
-    if (process.env.NODE_ENV === 'production' && window.gtag) {
+    // Si estamos en producción, registrar inicio de navegación para analytics
+    if (typeof window !== 'undefined' && window.gtag) {
         window.gtag('set', {
             'page_path': to.path,
             'page_title': to.meta.title || document.title
         });
+        
+        window.gtag('event', 'page_view', {
+            page_path: to.path,
+            page_title: to.meta.title || document.title,
+            page_location: window.location.href
+        });
     }
     
     next()
+})
+
+// Optimización: notificar cuando la navegación está completa
+router.afterEach((to, from) => {
+    // Marcar navegación como completada
+    if (window.performance && window.gtag) {
+        // Registrar tiempo de carga de página
+        window.gtag('event', 'timing_complete', {
+            name: 'page_load',
+            value: Math.round(performance.now()),
+            event_category: 'Navigation'
+        });
+    }
 })
 
 export default router
