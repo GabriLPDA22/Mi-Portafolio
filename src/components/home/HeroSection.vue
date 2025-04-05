@@ -1,3 +1,4 @@
+<!-- src/components/sections/HeroSection.vue -->
 <template>
     <section id="inicio" class="relative min-h-screen flex items-center pt-20 pb-12 overflow-hidden">
         <!-- Efectos de fondo -->
@@ -74,6 +75,20 @@
                                 class="absolute right-0 -top-2 -z-10 h-14 w-14 rounded-full bg-indigo-800 transition-all duration-300 ease-in-out group-hover:scale-150"></span>
                         </a>
 
+                        <!-- Botón "Saber más de mí" -->
+                        <a href="#sobre-mi"
+                            class="group relative inline-flex items-center h-12 overflow-hidden rounded-full bg-zinc-800 border border-indigo-500/30 px-8 py-3 text-indigo-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-gray-900 hover:bg-indigo-600/20 transition-all duration-300">
+                            <span class="relative flex items-center gap-2">
+                                Saber más de mí
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                    stroke="currentColor"
+                                    class="w-4 h-4 transform transition-transform duration-300 group-hover:translate-x-1">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+                                </svg>
+                            </span>
+                        </a>
+
                         <a href="/cv.pdf" target="_blank"
                             class="group relative inline-flex items-center gap-2 h-12 overflow-hidden rounded-full border border-indigo-600/30 bg-zinc-900/80 backdrop-blur-sm px-8 py-3 text-indigo-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-gray-900 hover:bg-indigo-600/10 transition-all duration-300">
                             <span class="flex items-center gap-2">
@@ -98,7 +113,7 @@
                     </div>
                 </div>
 
-                <!-- Columna de imagen -->
+                <!-- Columna de imagen con ajustes específicos para móvil -->
                 <div class="relative flex justify-center lg:justify-end animate-float">
                     <div class="relative">
                         <!-- Marco decorativo animado -->
@@ -121,21 +136,43 @@
                             </div>
                         </div>
 
-                        <!-- Elementos flotantes alrededor de la imagen -->
+                        <!-- Elemento flotante "años exp." con ajustes para móvil -->
                         <div
-                            class="absolute -bottom-10 -left-10 w-24 h-24 backdrop-blur-md bg-zinc-900/50 border border-white/10 rounded-lg flex items-center justify-center animate-float-delay-1 shadow-lg">
+                            class="hidden md:flex absolute -bottom-10 -left-10 w-24 h-24 backdrop-blur-md bg-zinc-900/50 border border-white/10 rounded-lg items-center justify-center animate-float-delay-1 shadow-lg">
                             <div
                                 class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-indigo-600">
                                 1+</div>
                             <div class="text-xs text-zinc-400 absolute bottom-3">años exp.</div>
                         </div>
 
+                        <!-- Versión móvil del elemento "años exp." -->
                         <div
-                            class="absolute -top-10 -right-10 p-3 backdrop-blur-md bg-zinc-900/50 border border-white/10 rounded-lg animate-float-delay-2 shadow-lg">
+                            class="md:hidden absolute -bottom-5 -left-5 w-20 h-20 backdrop-blur-md bg-zinc-900/50 border border-white/10 rounded-lg flex flex-col items-center justify-center animate-float-delay-1 shadow-lg z-20">
+                            <div
+                                class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-indigo-600">
+                                1
+                            </div>
+                            <div class="text-xs text-zinc-400 mt-1">años exp.</div>
+                        </div>
+
+                        <!-- Elemento flotante "Desarrollador" sin cambios para PC -->
+                        <div
+                            class="hidden md:block absolute -top-10 -right-10 p-3 backdrop-blur-md bg-zinc-900/50 border border-white/10 rounded-lg animate-float-delay-2 shadow-lg">
                             <div class="flex space-x-1">
                                 <span class="block w-3 h-3 rounded-full bg-indigo-500"></span>
                                 <span class="block w-3 h-3 rounded-full bg-purple-500"></span>
                                 <span class="block w-3 h-3 rounded-full bg-rose-500"></span>
+                            </div>
+                            <div class="text-xs text-zinc-400 mt-1">Desarrollador</div>
+                        </div>
+
+                        <!-- Versión móvil del elemento "Desarrollador" -->
+                        <div
+                            class="md:hidden absolute -top-5 -right-5 p-2 backdrop-blur-md bg-zinc-900/50 border border-white/10 rounded-lg animate-float-delay-2 shadow-lg z-20">
+                            <div class="flex space-x-1">
+                                <span class="block w-2 h-2 rounded-full bg-indigo-500"></span>
+                                <span class="block w-2 h-2 rounded-full bg-purple-500"></span>
+                                <span class="block w-2 h-2 rounded-full bg-rose-500"></span>
                             </div>
                             <div class="text-xs text-zinc-400 mt-1">Desarrollador</div>
                         </div>
@@ -214,6 +251,11 @@ export default {
                 el.classList.add('opacity-100');
             });
         }, 3000); // 3 segundos, ajustar según sea necesario
+        
+        // Registrar vista de sección para analytics
+        if (typeof this.$track === 'function') {
+            this.$track('section_view', { section_id: 'hero' });
+        }
     }
 }
 </script>
