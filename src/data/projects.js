@@ -95,5 +95,28 @@ export const projects = [
       { label: "Ver código", url: "https://github.com/GabriLPDA22/Mi-Portafolio", icon: ["fab", "github"] },
       // { label: "Ver demo", url: "https://gabrielcodes.dev", icon: ["fas", "eye"] }
     ]
+  },
+  {
+    id: 6,
+    title: "ELIXIUM FOODS Delivery",
+    description: "Una reimaginación moderna de plataformas de entrega de comida tipo UberEats. Este proyecto, que forma parte de mi TFG, se encuentra actualmente en desarrollo activo.",
+    image: "/img/home-screen.webp",
+    gallery: [
+      { src: "/img/restaurants-screen.webp", alt: "Lista de restaurantes" },
+      { src: "/img/categories-screen.webp", alt: "Categorías de comida" }
+    ],
+    gradient: "from-violet-500 to-fuchsia-500",
+    category: "app",
+    technologies: [
+      { name: "Vue.js", icon: ["fab", "vuejs"], color: "bg-green-500/20 text-green-400" },
+      { name: "SCSS", icon: ["fab", "sass"], color: "bg-pink-500/20 text-pink-400" },
+      { name: "Tailwind", icon: ["fab", "css3-alt"], color: "bg-blue-500/20 text-blue-400" },
+      { name: "Astro", icon: ["fas", "rocket"], color: "bg-orange-500/20 text-orange-400" }
+    ],
+    links: [
+      { label: "Ver proyecto", url: "https://github.com/GabriLPDA22/ELIXIUM-FOODS", icon: ["fab", "github"] }
+    ],
+    progress: 40,
+    inDevelopment: true
   }
 ];
