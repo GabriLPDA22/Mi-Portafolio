@@ -82,6 +82,7 @@ export default defineConfig({
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './src'),
+            'three': path.resolve(__dirname, 'node_modules/three')
         },
     },
     server: {
@@ -108,7 +109,8 @@ export default defineConfig({
                         '@fortawesome/fontawesome-svg-core',
                         '@fortawesome/free-solid-svg-icons',
                         '@fortawesome/free-brands-svg-icons',
-                        '@fortawesome/vue-fontawesome'
+                        '@fortawesome/vue-fontawesome',
+                        'three'
                     ],
                     'vue-core': ['vue', 'vue-router', 'pinia']
                 }
@@ -128,7 +130,11 @@ export default defineConfig({
             '@fortawesome/fontawesome-svg-core',
             '@fortawesome/free-solid-svg-icons',
             '@fortawesome/free-brands-svg-icons',
-            '@fortawesome/vue-fontawesome'
+            '@fortawesome/vue-fontawesome',
+            'three',
+            'three/examples/jsm/controls/OrbitControls',
+            'three/examples/jsm/loaders/GLTFLoader',
+            'three/examples/jsm/loaders/DRACOLoader'
         ]
     }
 })
