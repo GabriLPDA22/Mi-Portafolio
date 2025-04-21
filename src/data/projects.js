@@ -19,31 +19,6 @@ export const projects = [
       { label: "Ver backend", url: "https://github.com/GabriLPDA22/Cine-Back", icon: ["fas", "server"] }
     ]
   },
-  // {
-  //   id: 2,
-  //   title: "Elixium Foods",
-  //   description: "Plataforma para restaurante con reservas online, menú interactivo y sistema de pedidos. Desarrollado con tecnologías modernas para ofrecer una experiencia fluida al usuario.",
-  //   image: "/img/Elixium_Foods.webp",
-  //   // Añadir galería de imágenes adicionales
-  //   gallery: [
-  //     { src: "/img/Menu-Elixium.webp", alt: "Menú interactivo de Elixium Foods" },
-  //     { src: "/img/Reseva-Elixium.webp", alt: "Sistema de reservas" },
-  //     { src: "/img/Select-Table.webp", alt: "Selección de mesa" },
-  //     { src: "/img/Checkout.webp", alt: "Proceso de pago" }
-  //   ],
-  //   gradient: "from-purple-500 to-indigo-600",
-  //   category: "app",
-  //   technologies: [
-  //     { name: "Vue.js", icon: ["fab", "vuejs"], color: "bg-green-500/20 text-green-400" },
-  //     { name: "TypeScript", icon: ["fab", "js"], color: "bg-blue-600/20 text-blue-400" },
-  //     { name: "SCSS", icon: ["fab", "sass"], color: "bg-pink-500/20 text-pink-400" },
-  //     { name: "C#", icon: ["fab", "microsoft"], color: "bg-purple-600/20 text-purple-400" }
-  //   ],
-  //   links: [
-  //     { label: "Ver frontend", url: "https://github.com/GabriLPDA22/Restaurante-Front", icon: ["fas", "code"] },
-  //     { label: "Ver backend", url: "https://github.com/GabriLPDA22/Restaurante-Back", icon: ["fas", "server"] }
-  //   ]
-  // },
   {
     id: 3,
     title: "BurgerVibes",
@@ -118,5 +93,30 @@ export const projects = [
     ],
     progress: 40,
     inDevelopment: true
-  }
+  },
+  {
+    id: 2,
+    title: "Elixium Foods",
+    description: "Plataforma para restaurante con reservas online, menú interactivo y sistema de pedidos. Desarrollado con tecnologías modernas para ofrecer una experiencia fluida al usuario.",
+    image: "/img/Elixium_Foods.webp",
+    // Añadir galería de imágenes adicionales
+    gallery: [
+      { src: "/img/Menu-Elixium.webp", alt: "Menú interactivo de Elixium Foods" },
+      { src: "/img/Reseva-Elixium.webp", alt: "Sistema de reservas" },
+      { src: "/img/Select-Table.webp", alt: "Selección de mesa" },
+      { src: "/img/Checkout.webp", alt: "Proceso de pago" }
+    ],
+    gradient: "from-purple-500 to-indigo-600",
+    category: "app",
+    technologies: [
+      { name: "Vue.js", icon: ["fab", "vuejs"], color: "bg-green-500/20 text-green-400" },
+      { name: "TypeScript", icon: ["fab", "js"], color: "bg-blue-600/20 text-blue-400" },
+      { name: "SCSS", icon: ["fab", "sass"], color: "bg-pink-500/20 text-pink-400" },
+      { name: "C#", icon: ["fab", "microsoft"], color: "bg-purple-600/20 text-purple-400" }
+    ],
+    links: [
+      { label: "Ver frontend", url: "https://github.com/GabriLPDA22/Restaurante-Front", icon: ["fas", "code"] },
+      { label: "Ver backend", url: "https://github.com/GabriLPDA22/Restaurante-Back", icon: ["fas", "server"] }
+    ]
+  },
 ];
