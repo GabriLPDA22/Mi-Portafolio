@@ -6,6 +6,9 @@
         <!-- Sección Proyectos -->
         <ProjectsSection />
 
+        <!-- Sección Habilidades con efectos interactivos -->
+        <SkillsSection />
+
         <!-- Sección Reconocimientos -->
         <AwardsSection />
 
@@ -29,6 +32,7 @@
 <script>
 import HeroSection from '@/components/home/HeroSection.vue'
 import ProjectsSection from '@/components/home/ProjectsSection.vue'
+import SkillsSection from '@/components/home/SkillsSection.vue'
 import AwardsSection from '@/components/home/AwardsSection.vue'
 import ExperienceSection from '@/components/home/ExperienceSection.vue'
 import HackathonSection from '@/components/home/HackathonSection.vue'
@@ -41,6 +45,7 @@ export default {
     components: {
         HeroSection,
         ProjectsSection,
+        SkillsSection,
         AwardsSection,
         ExperienceSection,
         HackathonSection,

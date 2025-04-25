@@ -106,6 +106,7 @@ export default {
       navigationItems: [
         { label: 'Inicio', section: 'inicio' },
         { label: 'Proyectos', section: 'proyectos' },
+        { label: 'Habilidades', section: 'skills' },
         { label: 'Reconocimientos', section: 'reconocimientos' },
         { label: 'Experiencia', section: 'experiencia' },
         { label: 'Hackathones', section: 'hackathones' },

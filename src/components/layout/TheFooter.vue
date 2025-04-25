@@ -152,10 +152,12 @@ export default {
       quickLinks: [
         { name: 'Inicio', path: '/#inicio' },
         { name: 'Proyectos', path: '/#proyectos' },
+        { name: 'Habilidades', path: '/#habilidades' },
+        { name: 'Reconocimientos', path: '/#reconocimientos' },
+        { name: 'Educación', path: '/#educacion' },
         { name: 'Experiencia', path: '/#experiencia' },
         { name: 'Sobre mí', path: '/#sobre-mi' },
         { name: 'Hackathones', path: '/#hackathones' },
-        { name: 'Reconocimientos', path: '/#reconocimientos' }
       ]
     }
   },

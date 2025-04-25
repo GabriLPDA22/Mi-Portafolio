@@ -1,5 +1,7 @@
 <template>
     <section id="estudios" class="py-24 relative overflow-hidden">
+        <ParticleBackground color="#6366f1" :particleCount="100" :connectionDistance="150" :speed="0.8"
+        :interactive="true" :size="1.5" />
         <!-- Efectos de fondo -->
         <div class="absolute -top-[400px] -right-[200px] w-[600px] h-[600px] rounded-full bg-blue-600/5 blur-3xl z-0">
         </div>
@@ -187,6 +189,7 @@
 </template>
 
 <script>
+import ParticleBackground from '@/components/ui/ParticleBackground.vue';
 export default {
     name: 'EducationSection',
     mounted() {
