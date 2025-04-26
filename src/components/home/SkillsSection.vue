@@ -139,7 +139,7 @@ export default {
                 '  ],',
                 '  backend: [',
                 '    "PHP", "Node.js", "Symfony",',
-                '    "Java", "C#", "Express"',
+                '    "Java", "C#"',
                 '  ],',
                 '  databases: [',
                 '    "MySQL", "PostgreSQL", "MongoDB"',
@@ -151,7 +151,7 @@ export default {
                 '',
                 '// Tecnologías que estoy aprendiendo',
                 'const learning = [',
-                '  "TypeScript", "React", "Next.js"',
+                '  "TypeScript", "React", "Next.js","Astro"',
                 '];',
                 '',
                 '// Mostrando mi experiencia',
@@ -180,13 +180,13 @@ export default {
                     name: 'Desarrollo Frontend',
                     level: 85,
                     colorClass: 'bg-gradient-to-r from-indigo-500 to-purple-500',
-                    technologies: ['HTML', 'CSS', 'JavaScript', 'Vue.js', 'TailwindCSS', 'SCSS']
+                    technologies: ['HTML', 'CSS', 'JavaScript','Vue.js', 'TailwindCSS', 'SCSS']
                 },
                 {
                     name: 'Desarrollo Backend',
                     level: 75,
                     colorClass: 'bg-gradient-to-r from-purple-500 to-pink-500',
-                    technologies: ['PHP', 'Node.js', 'Java', 'C#', 'Symfony', 'Express']
+                    technologies: ['PHP', 'Node.js', 'Java', 'C#', 'Symfony']
                 },
                 {
                     name: 'Bases de Datos',
