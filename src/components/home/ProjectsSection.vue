@@ -1,3 +1,4 @@
+<!-- Modificación al ProjectsSection.vue -->
 <template>
   <section id="proyectos" class="py-16 sm:py-24 relative overflow-hidden">
     <!-- Efectos de fondo -->
@@ -29,6 +30,11 @@
         </p>
       </div>
 
+      <!-- NUEVA SECCIÓN: Proyecto McPoints destacado -->
+      <div class="mb-16 reveal-element" data-delay="200">
+        <McPointsCard />
+      </div>
+
       <!-- Proyectos destacados al estilo Apple -->
       <ProjectShowcase :featuredProjects="highlightedProjects" class="mb-16" />
 
@@ -36,7 +42,9 @@
       <div class="text-center mb-10">
         <h3 class="text-xl sm:text-2xl font-bold text-white inline-block relative">
           Otros Proyectos
-          <div class="absolute -bottom-2 left-0 w-full h-0.5 bg-gradient-to-r from-indigo-500/0 via-indigo-500 to-indigo-500/0"></div>
+          <div
+            class="absolute -bottom-2 left-0 w-full h-0.5 bg-gradient-to-r from-indigo-500/0 via-indigo-500 to-indigo-500/0">
+          </div>
         </h3>
       </div>
 
@@ -83,6 +91,7 @@ import { useRouter } from 'vue-router';
 import { projects } from '@/data/projects';
 import ProjectCard from '@/components/ui/ProjectCard.vue';
 import ProjectShowcase from '@/components/ui/ProjectShowcase.vue';
+import McPointsCard from '@/components/ui/McPointsCard.vue'; // Importar el nuevo componente
 import { useIntersectionObserver } from '@vueuse/core';
 
 // Estado reactivo con Composition API
@@ -128,7 +137,7 @@ const visibleProjects = computed(() => {
   // Excluir los proyectos destacados
   // Utilizamos IDs específicos en lugar de IDs numéricos que podrían coincidir
   const highlightedTitles = highlightedProjects.value.map(p => p.title);
-  const filteredProjects = allProjects.value.filter(project => 
+  const filteredProjects = allProjects.value.filter(project =>
     !highlightedTitles.includes(project.title)
   );
   console.log("Proyectos filtrados:", filteredProjects);
@@ -138,7 +147,7 @@ const visibleProjects = computed(() => {
 const hasMoreProjects = computed(() => {
   // Ajustar contando solo los proyectos filtrados
   const highlightedTitles = highlightedProjects.value.map(p => p.title);
-  const filteredTotal = allProjects.value.filter(project => 
+  const filteredTotal = allProjects.value.filter(project =>
     !highlightedTitles.includes(project.title)
   ).length;
   return visibleProjects.value.length < filteredTotal;
@@ -177,17 +186,17 @@ onMounted(() => {
       'event_label': 'Proyectos'
     });
   }
-  
+
   // Cargar los proyectos de projects.js y verificar que el Sistema Cine esté presente
   console.log("Proyectos cargados:", allProjects.value);
-  
+
   // Verificar que el proyecto "Sistema Cine" esté entre los proyectos cargados
   const cinemaProject = allProjects.value.find(p => p.title === "Sistema Cine");
   console.log("Proyecto Sistema Cine:", cinemaProject);
-  
+
   // Verificar los proyectos filtrados que se mostrarán
   const highlightedTitles = highlightedProjects.value.map(p => p.title);
-  const filteredProjects = allProjects.value.filter(project => 
+  const filteredProjects = allProjects.value.filter(project =>
     !highlightedTitles.includes(project.title)
   );
   console.log("Proyectos que se mostrarán:", filteredProjects);
