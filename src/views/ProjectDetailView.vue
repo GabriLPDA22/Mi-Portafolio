@@ -45,7 +45,7 @@
             <img src="/img/Logo.webp" alt="Logo McPoints" class="w-32 h-32 mb-2" />
             <h1
               class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2 sm:mb-4 drop-shadow-lg text-center px-4">
-              La mejor app para coleccionar números promocionales de McDonald's
+              La mejor app para coleccionar números de pedido de McDonald's
             </h1>
 
             <!-- Tecnologías -->
@@ -61,9 +61,9 @@
                 Java
               </span>
               <span
-                class="bg-orange-500/20 text-orange-400 py-1 px-3 rounded-full text-xs sm:text-sm font-medium flex items-center gap-1 backdrop-blur-md">
-                <font-awesome-icon :icon="['fas', 'database']" />
-                SQLite
+                class="bg-cyan-500/20 text-cyan-400 py-1 px-3 rounded-full text-xs sm:text-sm font-medium flex items-center gap-1 backdrop-blur-md">
+                <font-awesome-icon :icon="['fab', 'react']" />
+                React Native
               </span>
               <span
                 class="bg-purple-500/20 text-purple-400 py-1 px-3 rounded-full text-xs sm:text-sm font-medium flex items-center gap-1 backdrop-blur-md">
@@ -82,23 +82,22 @@
               <h2 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 gradient-text-red">Sobre el proyecto</h2>
 
               <p class="text-zinc-300 mb-6 sm:mb-8 text-sm sm:text-base">
-                McPoints es una aplicación Android diseñada para coleccionar números promocionales de McDonald's.
-                Permite a los usuarios escanear o introducir manualmente los números que aparecen en tickets y
-                envoltorios,
+                McPoints es una aplicación Android diseñada para coleccionar números de pedido de McDonald's.
+                Permite a los usuarios escanear o introducir manualmente los números que aparecen en los tickets,
                 mantener un registro de su colección y seguir su progreso con estadísticas detalladas.
               </p>
 
               <p class="text-zinc-300 mb-6 sm:mb-8 text-sm sm:text-base">
-                Este proyecto nace de mi interés por crear una herramienta útil para los aficionados a coleccionar
-                los números promocionales de McDonald's, proporcionando una experiencia de usuario intuitiva y atractiva
-                con un diseño acorde a la estética de la marca.
+                Este proyecto nace porque mi amigo quería coleccionar todos los números de pedido que aparecen
+                en los tickets de McDonald's. Desarrollé esta herramienta para hacer más fácil y divertido
+                el proceso de colección, con una interfaz intuitiva y funcionalidades avanzadas.
               </p>
 
               <h3 class="text-lg font-bold text-white mb-3">Características principales</h3>
               <ul class="space-y-2 mb-6 text-zinc-300 text-sm sm:text-base">
                 <li class="flex items-start gap-2">
                   <span class="text-red-400 mt-1">•</span>
-                  <span>Escáner de códigos para capturar números directamente con la cámara</span>
+                  <span>Escáner de números de ticket con la cámara del dispositivo</span>
                 </li>
                 <li class="flex items-start gap-2">
                   <span class="text-red-400 mt-1">•</span>
@@ -627,7 +626,7 @@ export default {
       },
       {
         src: '/img/McPointsScanner.webp',
-        alt: 'Escáner para capturar números promocionales con la cámara',
+        alt: 'Escáner para capturar números de ticket con la cámara',
         thumbnail: '/img/McPointsScanner.webp'
       },
       {

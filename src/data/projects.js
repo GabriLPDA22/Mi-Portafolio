@@ -263,13 +263,13 @@ export const projects = [
     id: 7,
     title: "McPoints",
     description:
-      "Aplicación Android para coleccionar números promocionales de McDonald's. Permite escanear códigos, llevar un registro de la colección y visualizar estadísticas detalladas del progreso.",
+      "Aplicación Android para coleccionar números de pedido de McDonald's. Mi amigo quería coleccionar todos los números que aparecen en los tickets, así que desarrollé esta app para escanearlos y llevar un registro detallado con estadísticas.",
     image: "/img/McPointsHome.webp",
     gallery: [
       { src: "/img/McPointsHome.webp", alt: "Pantalla principal de McPoints" },
       {
         src: "/img/McPointsScanner.webp",
-        alt: "Escáner de números promocionales",
+        alt: "Escáner de números de tickets",
       },
       { src: "/img/McPointsStats.webp", alt: "Estadísticas de la colección" },
       { src: "/img/McPointsSettings.webp", alt: "Ajustes de la aplicación" },
@@ -288,9 +288,9 @@ export const projects = [
         color: "bg-blue-600/20 text-blue-400",
       },
       {
-        name: "SQLite",
-        icon: ["fas", "database"],
-        color: "bg-orange-500/20 text-orange-400",
+        name: "React Native",
+        icon: ["fab", "react"],
+        color: "bg-cyan-500/20 text-cyan-400",
       },
       {
         name: "CameraX",

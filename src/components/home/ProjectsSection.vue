@@ -4,9 +4,15 @@
     <div class="absolute inset-0">
       <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(17,24,39,1),rgba(0,0,0,1))]"></div>
       <div class="absolute w-full h-full">
-        <div class="absolute top-20 left-10 w-72 h-72 bg-purple-600/20 rounded-full mix-blend-screen filter blur-[128px] animate-pulse"></div>
-        <div class="absolute top-40 right-10 w-96 h-96 bg-pink-600/20 rounded-full mix-blend-screen filter blur-[128px] animate-pulse animation-delay-1000"></div>
-        <div class="absolute bottom-20 left-1/2 w-80 h-80 bg-blue-600/20 rounded-full mix-blend-screen filter blur-[128px] animate-pulse animation-delay-2000"></div>
+        <div
+          class="absolute top-20 left-10 w-72 h-72 bg-purple-600/20 rounded-full mix-blend-screen filter blur-[128px] animate-pulse">
+        </div>
+        <div
+          class="absolute top-40 right-10 w-96 h-96 bg-pink-600/20 rounded-full mix-blend-screen filter blur-[128px] animate-pulse animation-delay-1000">
+        </div>
+        <div
+          class="absolute bottom-20 left-1/2 w-80 h-80 bg-blue-600/20 rounded-full mix-blend-screen filter blur-[128px] animate-pulse animation-delay-2000">
+        </div>
       </div>
     </div>
 
@@ -15,38 +21,35 @@
       <div class="text-center mb-20">
         <div class="inline-block">
           <h2 class="text-7xl md:text-8xl font-black mb-6 relative">
-            <span class="absolute inset-0 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600 blur-lg">
+            <span
+              class="absolute inset-0 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600 blur-lg">
               Proyectos
             </span>
-            <span class="relative bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
+            <span
+              class="relative bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
               Proyectos
             </span>
           </h2>
           <div class="h-1 w-32 mx-auto bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mb-6"></div>
           <p class="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            Una colección de aplicaciones web y móviles que demuestran mi pasión por crear experiencias digitales excepcionales
+            Una colección de aplicaciones web y móviles que demuestran mi pasión por crear experiencias digitales
+            excepcionales
           </p>
         </div>
       </div>
 
       <!-- Navegación de categorías con nuevo diseño -->
       <div class="flex justify-center mb-20">
-        <div class="inline-flex p-1 bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl shadow-2xl border border-gray-700/50">
-          <button
-            v-for="tab in tabs"
-            :key="tab.id"
-            @click="activeTab = tab.id"
-            :class="[
-              'relative px-8 py-3 rounded-xl text-sm font-semibold transition-all duration-500',
-              activeTab === tab.id
-                ? 'text-white shadow-lg'
-                : 'text-gray-400 hover:text-gray-300'
-            ]"
-          >
-            <span
-              v-if="activeTab === tab.id"
-              class="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl"
-            ></span>
+        <div
+          class="inline-flex p-1 bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl shadow-2xl border border-gray-700/50">
+          <button v-for="tab in tabs" :key="tab.id" @click="activeTab = tab.id" :class="[
+            'relative px-8 py-3 rounded-xl text-sm font-semibold transition-all duration-500',
+            activeTab === tab.id
+              ? 'text-white shadow-lg'
+              : 'text-gray-400 hover:text-gray-300'
+          ]">
+            <span v-if="activeTab === tab.id"
+              class="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl"></span>
             <span class="relative flex items-center gap-2">
               <component :is="tab.icon" class="w-4 h-4" />
               {{ tab.label }}
@@ -62,10 +65,14 @@
           <div v-if="activeTab === 'all'" key="all" class="space-y-32">
             <!-- Elixium Foods - Proyecto destacado -->
             <div class="relative group">
-              <div class="absolute -inset-4 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-3xl blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-              <div class="relative grid lg:grid-cols-2 gap-12 items-center p-8 bg-gray-900/50 backdrop-blur-sm rounded-3xl border border-gray-800 hover:border-purple-500/50 transition-all duration-500">
+              <div
+                class="absolute -inset-4 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-3xl blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+              </div>
+              <div
+                class="relative grid lg:grid-cols-2 gap-12 items-center p-8 bg-gray-900/50 backdrop-blur-sm rounded-3xl border border-gray-800 hover:border-purple-500/50 transition-all duration-500">
                 <div class="space-y-8">
-                  <div class="inline-flex items-center px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/20">
+                  <div
+                    class="inline-flex items-center px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/20">
                     <div class="w-2 h-2 rounded-full bg-purple-400 animate-pulse mr-2"></div>
                     <span class="text-purple-400 text-sm font-semibold">Proyecto Completo</span>
                   </div>
@@ -78,7 +85,8 @@
                   </div>
 
                   <p class="text-xl text-gray-300 leading-relaxed">
-                    Plataforma para restaurante con reservas online, menú interactivo y sistema de pedidos. Desarrollado con tecnologías modernas para ofrecer una experiencia fluida al usuario.
+                    Plataforma para restaurante con reservas online, menú interactivo y sistema de pedidos. Desarrollado
+                    con tecnologías modernas para ofrecer una experiencia fluida al usuario.
                   </p>
 
                   <div class="flex flex-wrap gap-3">
@@ -89,26 +97,18 @@
                   </div>
 
                   <div class="flex flex-wrap gap-4 pt-4">
-                    <a
-                      href="https://github.com/GabriLPDA22/Restaurante-Front"
-                      target="_blank"
-                      class="px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-xl flex items-center gap-2 transition-all hover:-translate-y-0.5"
-                    >
+                    <a href="https://github.com/GabriLPDA22/Restaurante-Front" target="_blank"
+                      class="px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-xl flex items-center gap-2 transition-all hover:-translate-y-0.5">
                       <Code class="w-4 h-4" />
                       Ver Frontend
                     </a>
-                    <a
-                      href="https://github.com/GabriLPDA22/Restaurante-Back"
-                      target="_blank"
-                      class="px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-xl flex items-center gap-2 transition-all hover:-translate-y-0.5"
-                    >
+                    <a href="https://github.com/GabriLPDA22/Restaurante-Back" target="_blank"
+                      class="px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-xl flex items-center gap-2 transition-all hover:-translate-y-0.5">
                       <Server class="w-4 h-4" />
                       Ver Backend
                     </a>
-                    <router-link
-                      :to="{ name: 'ProjectDetail', params: { id: 2 } }"
-                      class="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-xl flex items-center gap-2 transition-all hover:-translate-y-0.5"
-                    >
+                    <router-link :to="{ name: 'ProjectDetail', params: { id: 2 } }"
+                      class="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-xl flex items-center gap-2 transition-all hover:-translate-y-0.5">
                       <Images class="w-4 h-4" />
                       Ver Galería
                     </router-link>
@@ -116,13 +116,12 @@
                 </div>
 
                 <div class="relative group">
-                  <div class="absolute inset-0 bg-gradient-to-br from-purple-600/30 via-pink-600/30 to-red-600/30 rounded-2xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                  <div class="relative rounded-2xl overflow-hidden shadow-2xl transform transition-transform duration-700 group-hover:scale-[1.02]">
-                    <img
-                      src="/img/Elixium_Foods.webp"
-                      alt="Elixium Foods"
-                      class="w-full"
-                    />
+                  <div
+                    class="absolute inset-0 bg-gradient-to-br from-purple-600/30 via-pink-600/30 to-red-600/30 rounded-2xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                  </div>
+                  <div
+                    class="relative rounded-2xl overflow-hidden shadow-2xl transform transition-transform duration-700 group-hover:scale-[1.02]">
+                    <img src="/img/Elixium_Foods.webp" alt="Elixium Foods" class="w-full" />
                     <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
                   </div>
                 </div>
@@ -131,8 +130,11 @@
 
             <!-- McPoints - Proyecto móvil destacado -->
             <div class="relative group">
-              <div class="absolute -inset-4 bg-gradient-to-r from-red-600/20 to-yellow-600/20 rounded-3xl blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-              <div class="relative grid lg:grid-cols-2 gap-12 items-center p-8 bg-gray-900/50 backdrop-blur-sm rounded-3xl border border-gray-800 hover:border-red-500/50 transition-all duration-500">
+              <div
+                class="absolute -inset-4 bg-gradient-to-r from-red-600/20 to-yellow-600/20 rounded-3xl blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+              </div>
+              <div
+                class="relative grid lg:grid-cols-2 gap-12 items-center p-8 bg-gray-900/50 backdrop-blur-sm rounded-3xl border border-gray-800 hover:border-red-500/50 transition-all duration-500">
                 <div class="order-2 lg:order-1">
                   <div class="relative mx-auto max-w-[320px]">
                     <!-- Frame del dispositivo móvil -->
@@ -148,11 +150,7 @@
 
                       <!-- Pantalla -->
                       <div class="relative bg-black rounded-[2rem] overflow-hidden aspect-[9/19.5]">
-                        <img
-                          src="/img/McPointsHome.webp"
-                          alt="McPoints App"
-                          class="w-full h-full object-cover"
-                        />
+                        <img src="/img/McPointsHome.webp" alt="McPoints App" class="w-full h-full object-cover" />
                       </div>
                     </div>
                     <!-- Sombra del dispositivo -->
@@ -170,33 +168,30 @@
                     <h3 class="text-5xl font-bold text-white mb-2">
                       McPoints
                     </h3>
-                    <p class="text-2xl text-red-400">Coleccionador de Promociones</p>
+                    <p class="text-2xl text-red-400">Coleccionador de Números de Pedido</p>
                   </div>
 
                   <p class="text-xl text-gray-300 leading-relaxed">
-                    Aplicación Android para coleccionar números promocionales de McDonald's. Permite escanear códigos, llevar un registro de la colección y visualizar estadísticas detalladas del progreso.
+                    Aplicación Android para coleccionar números de pedido de McDonald's. Mi amigo quería coleccionar
+                    todos los números de los tickets, así que desarrollé esta app para escanearlos, llevar un registro
+                    detallado y visualizar estadísticas del progreso.
                   </p>
 
                   <div class="flex flex-wrap gap-3">
                     <TechnologyBadge name="Android" :icon="['fab', 'android']" color="green" />
                     <TechnologyBadge name="Java" :icon="['fab', 'java']" color="blue" />
-                    <TechnologyBadge name="SQLite" :icon="['fas', 'database']" color="orange" />
+                    <TechnologyBadge name="React Native" :icon="['fab', 'react']" color="cyan" />
                     <TechnologyBadge name="CameraX" :icon="['fas', 'camera']" color="purple" />
                   </div>
 
                   <div class="flex flex-wrap gap-4 pt-4">
-                    <a
-                      href="https://github.com/GabriLPDA22/McPoints"
-                      target="_blank"
-                      class="px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-xl flex items-center gap-2 transition-all hover:-translate-y-0.5"
-                    >
+                    <a href="https://github.com/GabriLPDA22/McPoints" target="_blank"
+                      class="px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-xl flex items-center gap-2 transition-all hover:-translate-y-0.5">
                       <Github class="w-4 h-4" />
                       Ver Código
                     </a>
-                    <router-link
-                      :to="{ name: 'ProjectDetail', params: { id: 7 } }"
-                      class="px-6 py-3 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 rounded-xl flex items-center gap-2 transition-all hover:-translate-y-0.5"
-                    >
+                    <router-link :to="{ name: 'ProjectDetail', params: { id: 7 } }"
+                      class="px-6 py-3 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 rounded-xl flex items-center gap-2 transition-all hover:-translate-y-0.5">
                       <Images class="w-4 h-4" />
                       Ver Galería
                     </router-link>
@@ -207,10 +202,14 @@
 
             <!-- Elixium Foods Delivery - Proyecto en desarrollo -->
             <div class="relative group">
-              <div class="absolute -inset-4 bg-gradient-to-r from-violet-600/20 to-fuchsia-600/20 rounded-3xl blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-              <div class="relative grid lg:grid-cols-2 gap-12 items-center p-8 bg-gray-900/50 backdrop-blur-sm rounded-3xl border border-gray-800 hover:border-violet-500/50 transition-all duration-500">
+              <div
+                class="absolute -inset-4 bg-gradient-to-r from-violet-600/20 to-fuchsia-600/20 rounded-3xl blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+              </div>
+              <div
+                class="relative grid lg:grid-cols-2 gap-12 items-center p-8 bg-gray-900/50 backdrop-blur-sm rounded-3xl border border-gray-800 hover:border-violet-500/50 transition-all duration-500">
                 <div class="space-y-8">
-                  <div class="inline-flex items-center px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/20">
+                  <div
+                    class="inline-flex items-center px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/20">
                     <div class="w-2 h-2 rounded-full bg-violet-400 animate-pulse mr-2"></div>
                     <span class="text-violet-400 text-sm font-semibold">En Desarrollo - 40%</span>
                   </div>
@@ -223,7 +222,8 @@
                   </div>
 
                   <p class="text-xl text-gray-300 leading-relaxed">
-                    Una reimaginación moderna de plataformas de entrega de comida tipo UberEats. Este proyecto, que forma parte de mi TFG, se encuentra actualmente en desarrollo activo.
+                    Una reimaginación moderna de plataformas de entrega de comida tipo UberEats. Este proyecto, que
+                    forma parte de mi TFG, se encuentra actualmente en desarrollo activo.
                   </p>
 
                   <!-- Barra de progreso -->
@@ -247,18 +247,13 @@
                   </div>
 
                   <div class="flex flex-wrap gap-4 pt-4">
-                    <a
-                      href="https://github.com/GabriLPDA22/ELIXIUM-FOODS"
-                      target="_blank"
-                      class="px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-xl flex items-center gap-2 transition-all hover:-translate-y-0.5"
-                    >
+                    <a href="https://github.com/GabriLPDA22/ELIXIUM-FOODS" target="_blank"
+                      class="px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-xl flex items-center gap-2 transition-all hover:-translate-y-0.5">
                       <Github class="w-4 h-4" />
                       Ver Código
                     </a>
-                    <router-link
-                      :to="{ name: 'ProjectDetail', params: { id: 6 } }"
-                      class="px-6 py-3 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700 rounded-xl flex items-center gap-2 transition-all hover:-translate-y-0.5"
-                    >
+                    <router-link :to="{ name: 'ProjectDetail', params: { id: 6 } }"
+                      class="px-6 py-3 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700 rounded-xl flex items-center gap-2 transition-all hover:-translate-y-0.5">
                       <Images class="w-4 h-4" />
                       Ver Galería
                     </router-link>
@@ -266,13 +261,12 @@
                 </div>
 
                 <div class="relative group">
-                  <div class="absolute inset-0 bg-gradient-to-br from-violet-600/30 via-fuchsia-600/30 to-pink-600/30 rounded-2xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                  <div class="relative rounded-2xl overflow-hidden shadow-2xl transform transition-transform duration-700 group-hover:scale-[1.02]">
-                    <img
-                      src="/img/home-screen.webp"
-                      alt="Elixium Foods Delivery"
-                      class="w-full"
-                    />
+                  <div
+                    class="absolute inset-0 bg-gradient-to-br from-violet-600/30 via-fuchsia-600/30 to-pink-600/30 rounded-2xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                  </div>
+                  <div
+                    class="relative rounded-2xl overflow-hidden shadow-2xl transform transition-transform duration-700 group-hover:scale-[1.02]">
+                    <img src="/img/home-screen.webp" alt="Elixium Foods Delivery" class="w-full" />
                     <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
                   </div>
                 </div>
@@ -283,11 +277,8 @@
             <div class="mt-20">
               <h3 class="text-3xl font-bold text-white mb-12">Otros Proyectos</h3>
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div
-                  v-for="project in otherProjects"
-                  :key="project.id"
-                  class="group relative rounded-2xl overflow-hidden border border-gray-800 hover:border-gray-700 transition-all duration-300"
-                >
+                <div v-for="project in otherProjects" :key="project.id"
+                  class="group relative rounded-2xl overflow-hidden border border-gray-800 hover:border-gray-700 transition-all duration-300">
                   <ProjectCard :project="project" />
                 </div>
               </div>
@@ -298,11 +289,8 @@
         <!-- Vista: Proyectos Web -->
         <transition name="fade-scale">
           <div v-if="activeTab === 'web'" key="web" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div
-              v-for="project in webProjects"
-              :key="project.id"
-              class="group relative rounded-2xl overflow-hidden border border-gray-800 hover:border-gray-700 transition-all duration-300"
-            >
+            <div v-for="project in webProjects" :key="project.id"
+              class="group relative rounded-2xl overflow-hidden border border-gray-800 hover:border-gray-700 transition-all duration-300">
               <ProjectCard :project="project" />
             </div>
           </div>
@@ -382,10 +370,21 @@ export default {
 <style scoped>
 /* Animaciones */
 @keyframes blob {
-  0% { transform: translate(0px, 0px) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.9); }
-  100% { transform: translate(0px, 0px) scale(1); }
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
 }
 
 .animate-blob {
@@ -431,9 +430,12 @@ export default {
 
 /* Animación de pulse mejorada */
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.5;
   }
