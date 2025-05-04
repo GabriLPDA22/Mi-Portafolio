@@ -19,7 +19,7 @@
         </p>
 
         <div class="hero-actions">
-          <a href="https://github.com/GabriLPDA22/McPoints/releases/download/v1.0.0/McPoints_v1.0.0.apk"
+          <a href="https://github.com/GabriLPDA22/McPoints/releases"
              target="_blank"
              class="cta-primary">
             <font-awesome-icon :icon="['fas', 'download']" />
