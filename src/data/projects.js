@@ -55,7 +55,7 @@ export const projects = [
       "Aplicación para gestión de pedidos y menús en un restaurante. Base de datos en SQL (Oracle), frontend en HTML/CSS/JS y backend en Java.",
     image: "/img/BurerVibes.webp",
     gradient: "from-orange-500 to-red-500",
-    category: "app",
+    category: "web",
     technologies: [
       {
         name: "HTML",
@@ -160,7 +160,6 @@ export const projects = [
         url: "https://github.com/GabriLPDA22/Mi-Portafolio",
         icon: ["fab", "github"],
       },
-      // { label: "Ver demo", url: "https://gabrielcodes.dev", icon: ["fas", "eye"] }
     ],
   },
   {
@@ -174,7 +173,7 @@ export const projects = [
       { src: "/img/categories-screen.webp", alt: "Categorías de comida" },
     ],
     gradient: "from-violet-500 to-fuchsia-500",
-    category: "app",
+    category: "web", // Cambiado de "mobile" a "web"
     technologies: [
       {
         name: "Vue.js",
@@ -213,7 +212,6 @@ export const projects = [
     description:
       "Plataforma para restaurante con reservas online, menú interactivo y sistema de pedidos. Desarrollado con tecnologías modernas para ofrecer una experiencia fluida al usuario.",
     image: "/img/Elixium_Foods.webp",
-    // Añadir galería de imágenes adicionales
     gallery: [
       {
         src: "/img/Menu-Elixium.webp",
@@ -224,7 +222,8 @@ export const projects = [
       { src: "/img/Checkout.webp", alt: "Proceso de pago" },
     ],
     gradient: "from-purple-500 to-indigo-600",
-    category: "app",
+    category: "web",
+    featured: true,
     technologies: [
       {
         name: "Vue.js",
@@ -260,7 +259,6 @@ export const projects = [
       },
     ],
   },
-  // Nuevo proyecto McPoints
   {
     id: 7,
     title: "McPoints",
@@ -277,7 +275,7 @@ export const projects = [
       { src: "/img/McPointsSettings.webp", alt: "Ajustes de la aplicación" },
     ],
     gradient: "from-red-600 via-red-500 to-yellow-600",
-    category: "app",
+    category: "mobile",
     technologies: [
       {
         name: "Android",
