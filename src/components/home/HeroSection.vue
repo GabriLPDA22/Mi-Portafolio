@@ -1,8 +1,8 @@
 <template>
     <section id="inicio" class="relative min-h-screen flex items-center pt-20 pb-12 overflow-hidden">
         <!-- Efectos de fondo -->
-        <ParticleBackground color="#6366f1" :particleCount="100" :connectionDistance="150" :speed="0.8"
-            :interactive="true" :size="1.5" />
+        <!-- <ParticleBackground color="#6366f1" :particleCount="100" :connectionDistance="150" :speed="0.8"
+            :interactive="true" :size="1.5" /> -->
 
         <div class="absolute inset-0 z-0">
             <!-- Círculos decorativos con degradados -->
