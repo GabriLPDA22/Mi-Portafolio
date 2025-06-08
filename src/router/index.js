@@ -5,6 +5,7 @@ const HomeView = () => import('../views/HomeView.vue')
 const ProjectDetailView = () => import('../views/ProjectDetailView.vue')
 const PrivacyPolicy = () => import('../views/PrivacyPolicy.vue')
 const DashboardView = () => import('../views/DashboardView.vue')
+const RecommendationLetterView = () => import('../views/RecommendationLetterView.vue')
 const NotFoundView = () => import('../views/NotFoundView.vue')
 
 const routes = [
@@ -28,6 +29,17 @@ const routes = [
             title: 'Detalles del Proyecto - Portafolio de Gabriel Saiz',
             analytics: {
                 pageType: 'project_detail'
+            }
+        }
+    },
+    {
+        path: '/carta-recomendacion',
+        name: 'RecommendationLetter',
+        component: RecommendationLetterView,
+        meta: {
+            title: 'Carta de Recomendación - Gabriel Saiz',
+            analytics: {
+                pageType: 'recommendation_letter'
             }
         }
     },
@@ -78,7 +90,7 @@ const router = createRouter({
                 behavior: 'smooth',
             }
         }
-        
+
         // Si hay un hash en la URL (ancla), desplazar a ese elemento con un offset para el header fijo
         if (to.hash) {
             return new Promise((resolve) => {
@@ -90,8 +102,8 @@ const router = createRouter({
                     })
                 }, 500) // Pequeño retraso para asegurar que los componentes se hayan renderizado
             })
-        } 
-        
+        }
+
         // De lo contrario, ir al principio de la página
         return { top: 0, behavior: 'smooth' }
     }
@@ -101,21 +113,21 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     // Actualizar título de página
     document.title = to.meta.title || 'Portafolio - Gabriel Saiz'
-    
+
     // Si estamos en producción, registrar inicio de navegación para analytics
     if (typeof window !== 'undefined' && window.gtag) {
         window.gtag('set', {
             'page_path': to.path,
             'page_title': to.meta.title || document.title
         });
-        
+
         window.gtag('event', 'page_view', {
             page_path: to.path,
             page_title: to.meta.title || document.title,
             page_location: window.location.href
         });
     }
-    
+
     next()
 })
 

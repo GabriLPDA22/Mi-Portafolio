@@ -24,7 +24,7 @@
              class="cta-primary">
             <font-awesome-icon :icon="['fas', 'download']" />
             <span>Descargar APK</span>
-            <div class="version-badge">v1.0.0</div>
+            <div class="version-badge">v1.0.1</div>
           </a>
           <a href="https://github.com/GabriLPDA22/McPoints"
              target="_blank"

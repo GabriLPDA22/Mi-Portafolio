@@ -17,7 +17,7 @@
     </div>
 
     <div class="relative z-10 container mx-auto px-4">
-      <!-- Título principal con nuevo diseño -->
+      <!-- Título principal mejorado -->
       <div class="text-center mb-20">
         <div class="inline-block">
           <h2 class="text-7xl md:text-8xl font-black mb-6 relative">
@@ -32,13 +32,12 @@
           </h2>
           <div class="h-1 w-32 mx-auto bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mb-6"></div>
           <p class="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            Una colección de aplicaciones web y móviles que demuestran mi pasión por crear experiencias digitales
-            excepcionales
+            Una colección de aplicaciones web y móviles que demuestran mi evolución como desarrollador
           </p>
         </div>
       </div>
 
-      <!-- Navegación de categorías con nuevo diseño -->
+      <!-- Navegación de categorías mejorada -->
       <div class="flex justify-center mb-20">
         <div
           class="inline-flex p-1 bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl shadow-2xl border border-gray-700/50">
@@ -63,6 +62,105 @@
         <!-- Vista: Todos los proyectos -->
         <transition name="fade-scale">
           <div v-if="activeTab === 'all'" key="all" class="space-y-32">
+
+            <!-- ELIXIUM FOODS DELIVERY - TFG COMPLETADO -->
+            <div class="relative group">
+              <div
+                class="absolute -inset-4 bg-gradient-to-r from-violet-600/30 to-fuchsia-600/30 rounded-3xl blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+              </div>
+              <div
+                class="relative grid lg:grid-cols-2 gap-12 items-center p-8 bg-gray-900/50 backdrop-blur-sm rounded-3xl border border-gray-800 hover:border-violet-500/50 transition-all duration-500">
+                <div class="space-y-8">
+                  <!-- Badge de proyecto completado -->
+                  <div class="flex items-center gap-4">
+                    <div class="inline-flex items-center px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20">
+                      <div class="w-2 h-2 rounded-full bg-green-400 mr-2"></div>
+                      <span class="text-green-400 text-sm font-semibold">TFG Completado</span>
+                    </div>
+                    <div class="inline-flex items-center px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20">
+                      <span class="text-violet-400 text-xs font-medium">v2.0</span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 class="text-5xl font-bold text-white mb-2">
+                      Elixium Foods Delivery
+                    </h3>
+                    <p class="text-2xl text-violet-400">Plataforma Completa de Delivery</p>
+                  </div>
+
+                  <p class="text-xl text-gray-300 leading-relaxed">
+                    Plataforma completa de entrega de comida desarrollada como TFG. Incluye panel de administración,
+                    sistema de pedidos en tiempo real, gestión de restaurantes y backend robusto con .NET 9 y PostgreSQL.
+                    Despliegue profesional en la nube con Docker, Kubernetes y AWS.
+                  </p>
+
+                  <!-- Logros del proyecto -->
+                  <div class="grid grid-cols-2 gap-4">
+                    <div class="flex items-center gap-2 text-sm text-gray-300">
+                      <div class="w-2 h-2 rounded-full bg-green-400"></div>
+                      <span>CI/CD Automatizado</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-sm text-gray-300">
+                      <div class="w-2 h-2 rounded-full bg-blue-400"></div>
+                      <span>Arquitectura Escalable</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-sm text-gray-300">
+                      <div class="w-2 h-2 rounded-full bg-purple-400"></div>
+                      <span>Panel Admin Completo</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-sm text-gray-300">
+                      <div class="w-2 h-2 rounded-full bg-orange-400"></div>
+                      <span>Despliegue en AWS</span>
+                    </div>
+                  </div>
+
+                  <div class="flex flex-wrap gap-3">
+                    <TechnologyBadge name="Vue.js" :icon="['fab', 'vuejs']" color="green" />
+                    <TechnologyBadge name="SCSS" :icon="['fab', 'sass']" color="pink" />
+                    <TechnologyBadge name=".NET 9" :icon="['fab', 'microsoft']" color="purple" />
+                    <TechnologyBadge name="PostgreSQL" :icon="['fas', 'database']" color="blue" />
+                    <TechnologyBadge name="Docker" :icon="['fab', 'docker']" color="blue" />
+                    <TechnologyBadge name="Kubernetes" :icon="['fas', 'dharmachakra']" color="purple" />
+                    <TechnologyBadge name="AWS" :icon="['fab', 'aws']" color="orange" />
+                    <TechnologyBadge name="GitHub Actions" :icon="['fab', 'github']" color="gray" />
+                  </div>
+
+                  <div class="flex flex-wrap gap-4 pt-4">
+                    <a href="https://github.com/GabriLPDA22/ELIXIUM-FOODS" target="_blank"
+                      class="px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-xl flex items-center gap-2 transition-all hover:-translate-y-0.5">
+                      <Github class="w-4 h-4" />
+                      Ver Código
+                    </a>
+                    <router-link :to="{ name: 'ProjectDetail', params: { id: 6 } }"
+                      class="px-6 py-3 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700 rounded-xl flex items-center gap-2 transition-all hover:-translate-y-0.5">
+                      <PlayCircle class="w-4 h-4" />
+                      Ver Demo
+                    </router-link>
+                  </div>
+                </div>
+
+                <div class="relative group">
+                  <div
+                    class="absolute inset-0 bg-gradient-to-br from-violet-600/30 via-fuchsia-600/30 to-pink-600/30 rounded-2xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                  </div>
+                  <div
+                    class="relative rounded-2xl overflow-hidden shadow-2xl transform transition-transform duration-700 group-hover:scale-[1.02]">
+                    <img src="/img/home-screen.webp" alt="Elixium Foods Delivery" class="w-full" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+
+                    <!-- Badge de completado superpuesto -->
+                    <div class="absolute top-4 right-4 px-3 py-1 rounded-full bg-green-500/20 backdrop-blur-md border border-green-500/30">
+                      <span class="text-green-400 text-sm font-semibold flex items-center gap-1">
+                        <CheckCircle class="w-4 h-4" />
+                        Completado
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <!-- Elixium Foods - Proyecto destacado -->
             <div class="relative group">
               <div
@@ -128,7 +226,7 @@
               </div>
             </div>
 
-            <!-- McPoints - Proyecto móvil destacado -->
+            <!-- McPoints - Proyecto móvil mejorado -->
             <div class="relative group">
               <div
                 class="absolute -inset-4 bg-gradient-to-r from-red-600/20 to-yellow-600/20 rounded-3xl blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700">
@@ -137,7 +235,7 @@
                 class="relative grid lg:grid-cols-2 gap-12 items-center p-8 bg-gray-900/50 backdrop-blur-sm rounded-3xl border border-gray-800 hover:border-red-500/50 transition-all duration-500">
                 <div class="order-2 lg:order-1">
                   <div class="relative mx-auto max-w-[320px]">
-                    <!-- Frame del dispositivo móvil -->
+                    <!-- Frame del dispositivo móvil mejorado -->
                     <div class="relative bg-gray-900 rounded-[3rem] p-4 shadow-2xl border border-gray-700">
                       <!-- Notch -->
                       <div class="absolute top-0 inset-x-0 h-6 flex justify-center">
@@ -152,6 +250,11 @@
                       <div class="relative bg-black rounded-[2rem] overflow-hidden aspect-[9/19.5]">
                         <img src="/img/McPointsHome.webp" alt="McPoints App" class="w-full h-full object-cover" />
                       </div>
+
+                      <!-- Badge de versión -->
+                      <div class="absolute -top-2 -right-2 px-2 py-1 rounded-full bg-red-500/20 backdrop-blur-md border border-red-500/30">
+                        <span class="text-red-400 text-xs font-semibold">v1.0.1</span>
+                      </div>
                     </div>
                     <!-- Sombra del dispositivo -->
                     <div class="absolute inset-x-8 -bottom-4 h-8 bg-black/50 rounded-full blur-xl"></div>
@@ -159,16 +262,21 @@
                 </div>
 
                 <div class="order-1 lg:order-2 space-y-8">
-                  <div class="inline-flex items-center px-4 py-2 rounded-full bg-red-500/10 border border-red-500/20">
-                    <div class="w-2 h-2 rounded-full bg-red-400 animate-pulse mr-2"></div>
-                    <span class="text-red-400 text-sm font-semibold">App Android</span>
+                  <div class="flex items-center gap-4">
+                    <div class="inline-flex items-center px-4 py-2 rounded-full bg-red-500/10 border border-red-500/20">
+                      <div class="w-2 h-2 rounded-full bg-red-400 animate-pulse mr-2"></div>
+                      <span class="text-red-400 text-sm font-semibold">App Android</span>
+                    </div>
+                    <div class="inline-flex items-center px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20">
+                      <span class="text-green-400 text-xs font-medium">Estable</span>
+                    </div>
                   </div>
 
                   <div>
                     <h3 class="text-5xl font-bold text-white mb-2">
                       McPoints
                     </h3>
-                    <p class="text-2xl text-red-400">Coleccionador de Números de Pedido</p>
+                    <p class="text-2xl text-red-400">Coleccionador de Números v1.0.1</p>
                   </div>
 
                   <p class="text-xl text-gray-300 leading-relaxed">
@@ -192,93 +300,20 @@
                     </a>
                     <router-link :to="{ name: 'ProjectDetail', params: { id: 7 } }"
                       class="px-6 py-3 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 rounded-xl flex items-center gap-2 transition-all hover:-translate-y-0.5">
-                      <Images class="w-4 h-4" />
-                      Ver Galería
+                      <Smartphone class="w-4 h-4" />
+                      Ver App
                     </router-link>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Elixium Foods Delivery - Proyecto en desarrollo -->
-            <div class="relative group">
-              <div
-                class="absolute -inset-4 bg-gradient-to-r from-violet-600/20 to-fuchsia-600/20 rounded-3xl blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-              </div>
-              <div
-                class="relative grid lg:grid-cols-2 gap-12 items-center p-8 bg-gray-900/50 backdrop-blur-sm rounded-3xl border border-gray-800 hover:border-violet-500/50 transition-all duration-500">
-                <div class="space-y-8">
-                  <div
-                    class="inline-flex items-center px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/20">
-                    <div class="w-2 h-2 rounded-full bg-violet-400 animate-pulse mr-2"></div>
-                    <span class="text-violet-400 text-sm font-semibold">En Desarrollo - 40%</span>
-                  </div>
-
-                  <div>
-                    <h3 class="text-5xl font-bold text-white mb-2">
-                      Elixium Foods Delivery
-                    </h3>
-                    <p class="text-2xl text-violet-400">Plataforma de Entrega de Comida</p>
-                  </div>
-
-                  <p class="text-xl text-gray-300 leading-relaxed">
-                    Una reimaginación moderna de plataformas de entrega de comida tipo UberEats. Este proyecto, que
-                    forma parte de mi TFG, se encuentra actualmente en desarrollo activo.
-                  </p>
-
-                  <!-- Barra de progreso -->
-                  <div class="space-y-3">
-                    <div class="flex justify-between text-sm">
-                      <span class="text-gray-400">Progreso del proyecto</span>
-                      <span class="text-violet-400 font-semibold">40%</span>
-                    </div>
-                    <div class="h-2 bg-gray-800 rounded-full overflow-hidden">
-                      <div class="h-full w-[40%] bg-gradient-to-r from-violet-600 to-fuchsia-600 rounded-full relative">
-                        <div class="absolute right-0 top-0 h-full w-4 bg-white/20 blur animate-pulse"></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="flex flex-wrap gap-3">
-                    <TechnologyBadge name="Vue.js" :icon="['fab', 'vuejs']" color="green" />
-                    <TechnologyBadge name="SCSS" :icon="['fab', 'sass']" color="pink" />
-                    <TechnologyBadge name="Tailwind" :icon="['fab', 'css3-alt']" color="blue" />
-                    <TechnologyBadge name="Astro" :icon="['fas', 'rocket']" color="orange" />
-                  </div>
-
-                  <div class="flex flex-wrap gap-4 pt-4">
-                    <a href="https://github.com/GabriLPDA22/ELIXIUM-FOODS" target="_blank"
-                      class="px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-xl flex items-center gap-2 transition-all hover:-translate-y-0.5">
-                      <Github class="w-4 h-4" />
-                      Ver Código
-                    </a>
-                    <router-link :to="{ name: 'ProjectDetail', params: { id: 6 } }"
-                      class="px-6 py-3 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700 rounded-xl flex items-center gap-2 transition-all hover:-translate-y-0.5">
-                      <Images class="w-4 h-4" />
-                      Ver Galería
-                    </router-link>
-                  </div>
-                </div>
-
-                <div class="relative group">
-                  <div
-                    class="absolute inset-0 bg-gradient-to-br from-violet-600/30 via-fuchsia-600/30 to-pink-600/30 rounded-2xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                  </div>
-                  <div
-                    class="relative rounded-2xl overflow-hidden shadow-2xl transform transition-transform duration-700 group-hover:scale-[1.02]">
-                    <img src="/img/home-screen.webp" alt="Elixium Foods Delivery" class="w-full" />
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Grid de otros proyectos -->
+            <!-- Grid de otros proyectos mejorado -->
             <div class="mt-20">
-              <h3 class="text-3xl font-bold text-white mb-12">Otros Proyectos</h3>
+              <h3 class="text-3xl font-bold text-white mb-12 text-center">Otros Proyectos</h3>
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div v-for="project in otherProjects" :key="project.id"
-                  class="group relative rounded-2xl overflow-hidden border border-gray-800 hover:border-gray-700 transition-all duration-300">
+                  class="group relative rounded-2xl overflow-hidden border border-gray-800 hover:border-gray-700 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl">
                   <ProjectCard :project="project" />
                 </div>
               </div>
@@ -290,7 +325,7 @@
         <transition name="fade-scale">
           <div v-if="activeTab === 'web'" key="web" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div v-for="project in webProjects" :key="project.id"
-              class="group relative rounded-2xl overflow-hidden border border-gray-800 hover:border-gray-700 transition-all duration-300">
+              class="group relative rounded-2xl overflow-hidden border border-gray-800 hover:border-gray-700 transition-all duration-300 transform hover:-translate-y-2">
               <ProjectCard :project="project" />
             </div>
           </div>
@@ -313,7 +348,17 @@ import { projects } from '@/data/projects'
 import ProjectCard from '@/components/ui/ProjectCard.vue'
 import McPointsCard from '@/components/ui/McPointsCard.vue'
 import TechnologyBadge from '@/components/ui/TechnologyBadge.vue'
-import { Globe, Smartphone, Grid, Github, Server, Code, Images } from 'lucide-vue-next'
+import {
+  Globe,
+  Smartphone,
+  Grid,
+  Github,
+  Server,
+  Code,
+  Images,
+  PlayCircle,
+  CheckCircle
+} from 'lucide-vue-next'
 
 export default {
   name: 'ProjectsSection',
@@ -327,7 +372,9 @@ export default {
     Github,
     Server,
     Code,
-    Images
+    Images,
+    PlayCircle,
+    CheckCircle
   },
   setup() {
     const activeTab = ref('all')
@@ -368,7 +415,7 @@ export default {
 </script>
 
 <style scoped>
-/* Animaciones */
+/* Animaciones mejoradas */
 @keyframes blob {
   0% {
     transform: translate(0px, 0px) scale(1);
@@ -399,7 +446,7 @@ export default {
   animation-delay: 2s;
 }
 
-/* Transiciones */
+/* Transiciones mejoradas */
 .fade-scale-enter-active,
 .fade-scale-leave-active {
   transition: all 0.5s ease;
@@ -443,5 +490,14 @@ export default {
 
 .animate-pulse {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Efectos hover mejorados */
+.group:hover .group-hover\:scale-\[1\.02\] {
+  transform: scale(1.02);
+}
+
+.hover\:-translate-y-2:hover {
+  transform: translateY(-0.5rem);
 }
 </style>

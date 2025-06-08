@@ -1,4 +1,4 @@
-// Datos de proyectos
+// Datos de proyectos actualizados - Versión 2.0
 export const projects = [
   {
     id: 1,
@@ -166,14 +166,14 @@ export const projects = [
     id: 6,
     title: "ELIXIUM FOODS Delivery",
     description:
-      "Una reimaginación moderna de plataformas de entrega de comida tipo UberEats. Este proyecto, que forma parte de mi TFG, se encuentra actualmente en desarrollo activo.",
+      "Plataforma completa de entrega de comida estilo UberEats desarrollada como TFG. Incluye panel de administración, sistema de pedidos en tiempo real, gestión de restaurantes y un despliegue profesional en la nube con .NET 9 y PostgreSQL.",
     image: "/img/home-screen.webp",
     gallery: [
       { src: "/img/restaurants-screen.webp", alt: "Lista de restaurantes" },
       { src: "/img/categories-screen.webp", alt: "Categorías de comida" },
     ],
     gradient: "from-violet-500 to-fuchsia-500",
-    category: "web", // Cambiado de "mobile" a "web"
+    category: "web",
     technologies: [
       {
         name: "Vue.js",
@@ -186,14 +186,39 @@ export const projects = [
         color: "bg-pink-500/20 text-pink-400",
       },
       {
-        name: "Tailwind",
+        name: "TailwindCSS",
         icon: ["fab", "css3-alt"],
         color: "bg-blue-500/20 text-blue-400",
       },
       {
-        name: "Astro",
-        icon: ["fas", "rocket"],
+        name: ".NET 9",
+        icon: ["fab", "microsoft"],
+        color: "bg-purple-600/20 text-purple-400",
+      },
+      {
+        name: "PostgreSQL",
+        icon: ["fas", "database"],
+        color: "bg-blue-700/20 text-blue-400",
+      },
+      {
+        name: "Docker",
+        icon: ["fab", "docker"],
+        color: "bg-blue-600/20 text-blue-400",
+      },
+      {
+        name: "Kubernetes",
+        icon: ["fas", "dharmachakra"],
+        color: "bg-purple-500/20 text-purple-400",
+      },
+      {
+        name: "AWS",
+        icon: ["fab", "aws"],
         color: "bg-orange-500/20 text-orange-400",
+      },
+      {
+        name: "GitHub Actions",
+        icon: ["fab", "github"],
+        color: "bg-gray-500/20 text-gray-400",
       },
     ],
     links: [
@@ -203,8 +228,17 @@ export const projects = [
         icon: ["fab", "github"],
       },
     ],
-    progress: 40,
-    inDevelopment: true,
+    progress: 100,
+    inDevelopment: false,
+    completed: true,
+    featured: true,
+    video: "/videos/DEMO-ELIXIUMFOODS.mp4", // Video demo añadido
+    achievements: [
+      "TFG completado con éxito",
+      "Despliegue automatizado con CI/CD",
+      "Arquitectura escalable en la nube",
+      "Panel de administración completo"
+    ]
   },
   {
     id: 2,
@@ -263,7 +297,7 @@ export const projects = [
     id: 7,
     title: "McPoints",
     description:
-      "Aplicación Android para coleccionar números de pedido de McDonald's. Mi amigo quería coleccionar todos los números que aparecen en los tickets, así que desarrollé esta app para escanearlos y llevar un registro detallado con estadísticas.",
+      "Aplicación Android v1.0.1 para coleccionar números de pedido de McDonald's. Mi amigo quería coleccionar todos los números que aparecen en los tickets, así que desarrollé esta app para escanearlos y llevar un registro detallado con estadísticas.",
     image: "/img/McPointsHome.webp",
     gallery: [
       { src: "/img/McPointsHome.webp", alt: "Pantalla principal de McPoints" },
@@ -276,6 +310,7 @@ export const projects = [
     ],
     gradient: "from-red-600 via-red-500 to-yellow-600",
     category: "mobile",
+    version: "1.0.1",
     technologies: [
       {
         name: "Android",

@@ -35,10 +35,10 @@
           </div>
         </div>
 
-        <!-- Botón de contacto -->
+        <!-- Botón de contacto - ACTUALIZADO -->
         <div class="hidden md:block">
-          <a href="mailto:gsaiz.bajo@gmail.com"
-            class="relative inline-flex h-10 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-gray-900">
+          <a @click.prevent="scrollToSection('contacto')" href="#contacto"
+            class="relative inline-flex h-10 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-gray-900 cursor-pointer">
             <span
               class="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#4f46e5_0%,#9333ea_50%,#4f46e5_100%)]"></span>
             <span
@@ -84,8 +84,9 @@
             {{ item.label }}
           </a>
 
-          <a href="mailto:gsaiz.bajo@gmail.com"
-            class="mt-4 text-center py-4 text-lg font-medium text-indigo-400 border border-indigo-500/30 rounded-xl bg-indigo-500/10">
+          <!-- Contacto móvil también actualizado -->
+          <a @click.prevent="scrollToSection('contacto'); closeMobileMenu()" href="#contacto"
+            class="mt-4 text-center py-4 text-lg font-medium text-indigo-400 border border-indigo-500/30 rounded-xl bg-indigo-500/10 cursor-pointer">
             Contacto
           </a>
         </div>
