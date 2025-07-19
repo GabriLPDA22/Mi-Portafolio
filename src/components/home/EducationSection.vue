@@ -22,7 +22,7 @@
         <div class="h-1.5 w-16 sm:w-20 bg-gradient-to-r from-blue-500 to-cyan-500 mx-auto rounded-full mb-4 sm:mb-6">
         </div>
         <p class="text-base sm:text-lg text-zinc-400 max-w-xl mx-auto px-4">
-          Mi camino académico hacia la Ingeniería Informática y formación continua en tecnologías emergentes.
+          Mi camino académico hacia la Ingeniería Informática y especialización en Ciberseguridad.
         </p>
       </div>
 
@@ -36,7 +36,7 @@
         <!-- Items de formación -->
         <div class="space-y-12 sm:space-y-20">
 
-          <!-- Diplomas Universitarios - En Curso -->
+          <!-- Ingeniería Informática UNED + Máster Ciberseguridad CESUR - En Curso -->
           <div class="relative reveal-card">
             <div
               class="hidden sm:block absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-6 sm:w-8 h-6 sm:h-8 rounded-full border-4 border-emerald-500 bg-zinc-900 z-10 education-dot-current">
@@ -47,11 +47,11 @@
               <div class="sm:text-right sm:pr-12 mb-4 sm:mb-0">
                 <span
                   class="inline-block px-3 py-1.5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs sm:text-sm font-medium mb-2">
-                  En Curso - 2025
+                  En Curso - 2025+
                 </span>
-                <h3 class="text-xl sm:text-2xl font-bold text-white">Diplomas Universitarios</h3>
-                <div class="text-emerald-400 mt-1 sm:mt-2 text-sm sm:text-base">ILERNA + UCAM</div>
-                <div class="text-xs sm:text-sm text-zinc-500 mt-1">🎯 Especialización para acceso a carrera</div>
+                <h3 class="text-xl sm:text-2xl font-bold text-white">Doble Formación Universitaria</h3>
+                <div class="text-emerald-400 mt-1 sm:mt-2 text-sm sm:text-base">UNED + CESUR</div>
+                <div class="text-xs sm:text-sm text-zinc-500 mt-1">🚀 Formación paralela estratégica</div>
               </div>
 
               <!-- Contenido -->
@@ -59,56 +59,47 @@
                 class="bg-gradient-to-br from-emerald-900/30 to-emerald-800/20 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-emerald-800/50 shadow-lg sm:ml-12 hover:border-emerald-500/30 transition-all duration-300 hover:shadow-emerald-500/10">
                 <div class="flex items-center gap-2 mb-3">
                   <span class="text-emerald-400 text-lg sm:text-xl">🎓</span>
-                  <span class="text-emerald-400 font-semibold text-sm sm:text-base">Camino a Ingeniería
-                    Informática</span>
+                  <span class="text-emerald-400 font-semibold text-sm sm:text-base">Plan Académico Avanzado</span>
                 </div>
 
                 <p class="text-zinc-300 mb-3 sm:mb-4 text-sm sm:text-base">
-                  Con el Técnico Superior de DAW completado, ahora estoy cursando estos dos diplomas universitarios
-                  que me permitirán <strong class="text-white">acceder directamente a 3º curso del Grado en Ingeniería
-                    Informática</strong>
-                  en la UCAM.
+                  Con el Técnico Superior de DAW completado, ahora estoy cursando simultáneamente la
+                  <strong class="text-white">Ingeniería Informática en la UNED</strong> junto con el
+                  <strong class="text-white">Máster en Ciberseguridad de CESUR</strong>. Esta combinación me dará una formación completa y especializada.
                 </p>
 
                 <div class="space-y-3 mb-4">
                   <div class="bg-emerald-500/10 rounded-lg p-3 border border-emerald-500/20">
                     <div class="flex items-center gap-2 mb-1">
-                      <span class="text-emerald-400">📘</span>
-                      <h5 class="font-semibold text-emerald-300 text-sm">Diploma en Análisis, Diseño y Soluciones del
-                        Software</h5>
+                      <span class="text-emerald-400">🏛️</span>
+                      <h5 class="font-semibold text-emerald-300 text-sm">Grado en Ingeniería Informática - UNED</h5>
                     </div>
-                    <p class="text-zinc-300 text-xs">Ingeniería de requisitos, modelado de software, calidad del
-                      software</p>
+                    <p class="text-zinc-300 text-xs">Formación universitaria completa, metodología online flexible</p>
                   </div>
 
-                  <div class="bg-emerald-500/10 rounded-lg p-3 border border-emerald-500/20">
+                  <div class="bg-red-500/10 rounded-lg p-3 border border-red-500/20">
                     <div class="flex items-center gap-2 mb-1">
-                      <span class="text-emerald-400">💻</span>
-                      <h5 class="font-semibold text-emerald-300 text-sm">Diploma en Programación Avanzada</h5>
+                      <span class="text-red-400">🔒</span>
+                      <h5 class="font-semibold text-red-300 text-sm">Máster en Ciberseguridad - CESUR</h5>
                     </div>
-                    <p class="text-zinc-300 text-xs">Fundamentos avanzados, algoritmia, programación paralela</p>
+                    <p class="text-zinc-300 text-xs">Especialización en seguridad informática, ethical hacking, auditorías</p>
                   </div>
                 </div>
 
                 <div class="bg-emerald-500/5 rounded-lg p-3 border border-emerald-500/10 mb-4">
                   <div class="flex items-center gap-2">
                     <span class="text-emerald-400">🏆</span>
-                    <span class="text-emerald-300 font-medium text-sm">Reconocimiento: 94,5 ECTS</span>
+                    <span class="text-emerald-300 font-medium text-sm">Estrategia: Doble Especialización</span>
                   </div>
-                  <p class="text-zinc-400 text-xs mt-1">Acceso directo a 3º curso → Solo 2 años más para el grado
-                    completo</p>
+                  <p class="text-zinc-400 text-xs mt-1">Grado universitario + Máster especializado = Perfil muy demandado</p>
                 </div>
 
                 <!-- Competencias especializadas -->
                 <div class="flex flex-wrap gap-1.5 sm:gap-2">
-                  <span class="px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs">Ingeniería
-                    Software</span>
-                  <span class="px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs">Algoritmia
-                    Avanzada</span>
-                  <span class="px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs">Análisis de
-                    Sistemas</span>
-                  <span class="px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs">Calidad
-                    Software</span>
+                  <span class="px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs">Ingeniería Software</span>
+                  <span class="px-2 py-1 rounded-full bg-red-500/10 text-red-400 text-xs">Ciberseguridad</span>
+                  <span class="px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs">Ethical Hacking</span>
+                  <span class="px-2 py-1 rounded-full bg-red-500/10 text-red-400 text-xs">Auditorías</span>
                 </div>
               </div>
             </div>
@@ -137,8 +128,7 @@
                 class="bg-gradient-to-br from-orange-900/30 to-orange-800/20 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-orange-800/50 shadow-lg sm:ml-12 hover:border-orange-500/30 transition-all duration-300 hover:shadow-orange-500/10">
                 <div class="flex items-center gap-2 mb-3">
                   <span class="text-orange-400 text-lg sm:text-xl">☁️</span>
-                  <span class="text-orange-400 font-semibold text-sm sm:text-base">Especialización en Cloud
-                    Computing</span>
+                  <span class="text-orange-400 font-semibold text-sm sm:text-base">Especialización en Cloud Computing</span>
                 </div>
 
                 <p class="text-zinc-300 mb-3 sm:mb-4 text-sm sm:text-base">
@@ -182,8 +172,7 @@
                 <!-- Competencias -->
                 <div class="flex flex-wrap gap-1.5 sm:gap-2">
                   <span class="px-2 py-1 rounded-full bg-orange-500/10 text-orange-400 text-xs">AWS</span>
-                  <span class="px-2 py-1 rounded-full bg-orange-500/10 text-orange-400 text-xs">Cloud
-                    Architecture</span>
+                  <span class="px-2 py-1 rounded-full bg-orange-500/10 text-orange-400 text-xs">Cloud Architecture</span>
                   <span class="px-2 py-1 rounded-full bg-orange-500/10 text-orange-400 text-xs">Serverless</span>
                   <span class="px-2 py-1 rounded-full bg-orange-500/10 text-orange-400 text-xs">DevOps</span>
                 </div>
@@ -218,10 +207,9 @@
                 </div>
 
                 <p class="text-zinc-300 mb-3 sm:mb-4 text-sm sm:text-base">
-                  Completé exitosamente el Grado Superior en Desarrollo de Aplicaciones Web con formación dual en GOLIVE
-                  Services.
-                  Esta titulación me proporciona <strong class="text-white">60 ECTS reconocidos</strong> para el Grado
-                  en Ingeniería Informática.
+                  Completé exitosamente el Grado Superior en Desarrollo de Aplicaciones Web con formación dual en GOLIVE Services.
+                  Esta titulación me proporciona una <strong class="text-white">base sólida en desarrollo web</strong>
+                  y experiencia práctica real en empresa.
                 </p>
 
                 <div class="space-y-2 mb-4 text-sm">
@@ -254,98 +242,6 @@
             </div>
           </div>
 
-          <!-- Ingeniería Informática - Futuro -->
-          <div class="relative reveal-card">
-            <div
-              class="hidden sm:block absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-6 sm:w-8 h-6 sm:h-8 rounded-full border-4 border-purple-500 bg-zinc-900 z-10 education-dot-future">
-            </div>
-
-            <div class="ml-12 sm:ml-0 sm:grid sm:grid-cols-2 gap-6 sm:gap-8 items-center">
-              <!-- Fecha y título -->
-              <div class="sm:text-right sm:pr-12 mb-4 sm:mb-0">
-                <span
-                  class="inline-block px-3 py-1.5 rounded-full bg-purple-500/20 text-purple-400 text-xs sm:text-sm font-medium mb-2">
-                  2026 - 2028
-                </span>
-                <h3 class="text-xl sm:text-2xl font-bold text-white">Grado en Ingeniería Informática</h3>
-                <div class="text-purple-400 mt-1 sm:mt-2 text-sm sm:text-base">UCAM - Acceso directo a 3º curso</div>
-                <div class="text-xs sm:text-sm text-zinc-500 mt-1">🎯 Solo 2 años más para completar el grado</div>
-              </div>
-
-              <!-- Contenido -->
-              <div
-                class="bg-gradient-to-br from-purple-900/30 to-purple-800/20 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-purple-800/50 shadow-lg sm:ml-12 hover:border-purple-500/30 transition-all duration-300 hover:shadow-purple-500/10">
-                <div class="flex items-center gap-2 mb-3">
-                  <span class="text-purple-400 text-lg sm:text-xl">🏛️</span>
-                  <span class="text-purple-400 font-semibold text-sm sm:text-base">Universidad Católica de Murcia</span>
-                </div>
-
-                <p class="text-zinc-300 mb-3 sm:mb-4 text-sm sm:text-base">
-                  Gracias al pack de ILERNA (DAW + Diplomas), podré acceder directamente a 3º curso del Grado en
-                  Ingeniería Informática.
-                  Con 94,5 ECTS ya reconocidos, <strong class="text-white">solo necesito 2 años más</strong> para
-                  obtener el título universitario completo.
-                </p>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-                  <div class="bg-purple-500/10 rounded-lg p-3 border border-purple-500/20">
-                    <div class="flex items-center gap-2 mb-1">
-                      <span class="text-purple-400">⏰</span>
-                      <span class="font-semibold text-purple-300 text-sm">Acceso directo</span>
-                    </div>
-                    <p class="text-zinc-300 text-xs">Entrada a 3º curso sin exámenes de acceso</p>
-                  </div>
-
-                  <div class="bg-purple-500/10 rounded-lg p-3 border border-purple-500/20">
-                    <div class="flex items-center gap-2 mb-1">
-                      <span class="text-purple-400">🎯</span>
-                      <span class="font-semibold text-purple-300 text-sm">Optimización</span>
-                    </div>
-                    <p class="text-zinc-300 text-xs">Solo 4 años total en lugar de 6</p>
-                  </div>
-                </div>
-
-                <div class="space-y-2 mb-4 text-sm">
-                  <div class="flex items-start gap-2">
-                    <span class="text-purple-400 mt-0.5">🧮</span>
-                    <span class="text-zinc-300">Fundamentos matemáticos: Álgebra, Cálculo, Estadística</span>
-                  </div>
-                  <div class="flex items-start gap-2">
-                    <span class="text-purple-400 mt-0.5">💻</span>
-                    <span class="text-zinc-300">Arquitectura y estructura de computadores</span>
-                  </div>
-                  <div class="flex items-start gap-2">
-                    <span class="text-purple-400 mt-0.5">🔒</span>
-                    <span class="text-zinc-300">Seguridad informática y administración de sistemas</span>
-                  </div>
-                  <div class="flex items-start gap-2">
-                    <span class="text-purple-400 mt-0.5">🤖</span>
-                    <span class="text-zinc-300">Inteligencia artificial y sistemas inteligentes</span>
-                  </div>
-                </div>
-
-                <!-- Ventajas del plan -->
-                <div class="bg-purple-500/5 rounded-lg p-3 border border-purple-500/10 mb-4">
-                  <div class="text-center">
-                    <span class="text-purple-300 font-semibold text-sm">🏆 Plan Optimizado</span>
-                    <p class="text-zinc-400 text-xs mt-1">DAW (2 años) + Diplomas + Grado (2 años) = Ingeniería en 4
-                      años</p>
-                  </div>
-                </div>
-
-                <!-- Competencias futuras -->
-                <div class="flex flex-wrap gap-1.5 sm:gap-2">
-                  <span class="px-2 py-1 rounded-full bg-purple-500/10 text-purple-400 text-xs">Ingeniería
-                    Software</span>
-                  <span class="px-2 py-1 rounded-full bg-purple-500/10 text-purple-400 text-xs">IA & ML</span>
-                  <span class="px-2 py-1 rounded-full bg-purple-500/10 text-purple-400 text-xs">Sistemas
-                    Distribuidos</span>
-                  <span class="px-2 py-1 rounded-full bg-purple-500/10 text-purple-400 text-xs">Ciberseguridad</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
           <!-- Grado Medio SMR -->
           <div class="relative reveal-card">
             <div
@@ -369,8 +265,7 @@
                 class="bg-zinc-900/50 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-zinc-800 shadow-lg sm:ml-12 hover:border-cyan-500/30 transition-all duration-300 hover:shadow-cyan-500/10">
                 <p class="text-zinc-300 mb-3 sm:mb-4 text-sm sm:text-base">
                   Base sólida en sistemas informáticos, redes y mantenimiento de equipos.
-                  Esta formación me proporcionó los fundamentos técnicos necesarios para continuar hacia el desarrollo
-                  web
+                  Esta formación me proporcionó los fundamentos técnicos necesarios para continuar hacia el desarrollo web
                   y la especialización universitaria.
                 </p>
 
@@ -412,7 +307,7 @@
           class="bg-gradient-to-br from-blue-900/20 to-purple-900/20 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-blue-800/50 max-w-4xl mx-auto">
           <h3 class="text-xl sm:text-2xl font-bold text-white mb-6 text-center">
             <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
-              🗺️ Roadmap Académico Completo
+              🗺️ Roadmap Académico Actualizado
             </span>
           </h3>
 
@@ -427,7 +322,7 @@
               <div class="space-y-1 text-sm text-zinc-300">
                 <p>• Grado Medio SMR</p>
                 <p>• Técnico Superior DAW</p>
-                <p class="text-blue-400 font-medium">60 ECTS reconocidos</p>
+                <p class="text-blue-400 font-medium">Base técnica sólida</p>
               </div>
             </div>
 
@@ -439,23 +334,23 @@
               </div>
               <h4 class="font-bold text-emerald-400 mb-2">En Curso</h4>
               <div class="space-y-1 text-sm text-zinc-300">
-                <p>• Diplomas Universitarios</p>
-                <p>• Certificaciones AWS</p>
-                <p class="text-emerald-400 font-medium">+34,5 ECTS adicionales</p>
+                <p>• Ingeniería Informática (UNED)</p>
+                <p>• Máster Ciberseguridad (CESUR)</p>
+                <p class="text-emerald-400 font-medium">Doble formación</p>
               </div>
             </div>
 
             <!-- Futuro -->
             <div class="text-center">
               <div
-                class="w-16 h-16 rounded-full bg-purple-500/20 border-2 border-purple-500 flex items-center justify-center mx-auto mb-3">
-                <span class="text-2xl">🚀</span>
+                class="w-16 h-16 rounded-full bg-orange-500/20 border-2 border-orange-500 flex items-center justify-center mx-auto mb-3">
+                <span class="text-2xl">☁️</span>
               </div>
-              <h4 class="font-bold text-purple-400 mb-2">2026-2028</h4>
+              <h4 class="font-bold text-orange-400 mb-2">Verano 2025</h4>
               <div class="space-y-1 text-sm text-zinc-300">
-                <p>• Ingeniería Informática</p>
-                <p>• Acceso directo a 3º</p>
-                <p class="text-purple-400 font-medium">Solo 2 años más</p>
+                <p>• Certificaciones AWS</p>
+                <p>• Solutions Architect</p>
+                <p class="text-orange-400 font-medium">Cloud specialist</p>
               </div>
             </div>
           </div>
@@ -464,23 +359,23 @@
           <div class="bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-xl p-4 border border-blue-500/20">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
               <div>
-                <div class="text-2xl mb-2">⚡</div>
-                <div class="font-semibold text-blue-300 text-sm">Optimizado</div>
-                <div class="text-xs text-zinc-400">4 años en total</div>
+                <div class="text-2xl mb-2">🎓</div>
+                <div class="font-semibold text-blue-300 text-sm">UNED</div>
+                <div class="text-xs text-zinc-400">Grado universitario</div>
               </div>
               <div>
-                <div class="text-2xl mb-2">🎓</div>
-                <div class="font-semibold text-emerald-300 text-sm">Sin exámenes</div>
-                <div class="text-xs text-zinc-400">Acceso directo</div>
+                <div class="text-2xl mb-2">🔒</div>
+                <div class="font-semibold text-red-300 text-sm">CESUR</div>
+                <div class="text-xs text-zinc-400">Máster especializado</div>
               </div>
               <div>
                 <div class="text-2xl mb-2">💼</div>
-                <div class="font-semibold text-orange-300 text-sm">Experiencia</div>
+                <div class="font-semibold text-emerald-300 text-sm">Experiencia</div>
                 <div class="text-xs text-zinc-400">Formación DUAL</div>
               </div>
               <div>
                 <div class="text-2xl mb-2">☁️</div>
-                <div class="font-semibold text-purple-300 text-sm">Cloud Ready</div>
+                <div class="font-semibold text-orange-300 text-sm">Cloud Ready</div>
                 <div class="text-xs text-zinc-400">Certificaciones AWS</div>
               </div>
             </div>
@@ -511,18 +406,18 @@
 
           <!-- Tarjeta 2 -->
           <div
-            class="bg-zinc-900/50 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-zinc-800 text-center hover:border-orange-500/30 transition-all duration-300 hover:transform hover:-translate-y-1">
+            class="bg-zinc-900/50 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-zinc-800 text-center hover:border-red-500/30 transition-all duration-300 hover:transform hover:-translate-y-1">
             <div
-              class="w-12 sm:w-14 h-12 sm:h-14 rounded-full bg-orange-500/20 flex items-center justify-center mx-auto mb-3 sm:mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 sm:h-8 w-6 sm:w-8 text-orange-400" fill="none"
+              class="w-12 sm:w-14 h-12 sm:h-14 rounded-full bg-red-500/20 flex items-center justify-center mx-auto mb-3 sm:mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 sm:h-8 w-6 sm:w-8 text-red-400" fill="none"
                 viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                  d="M12 15v2m0 0h5a2 2 0 002-2V9a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2h3zm6-8V5a2 2 0 00-2-2H8a2 2 0 00-2 2v2m12 0V7a2 2 0 00-2-2H8a2 2 0 00-2 2v0" />
               </svg>
             </div>
-            <h4 class="text-base sm:text-lg font-bold text-white mb-2">Cloud Computing</h4>
-            <p class="text-zinc-400 text-sm sm:text-base">Especialización en AWS con enfoque en arquitecturas escalables
-              y soluciones serverless modernas.</p>
+            <h4 class="text-base sm:text-lg font-bold text-white mb-2">Ciberseguridad</h4>
+            <p class="text-zinc-400 text-sm sm:text-base">Especialización en seguridad informática, ethical hacking,
+              auditorías y protección de sistemas mediante el Máster de CESUR.</p>
           </div>
 
           <!-- Tarjeta 3 -->
@@ -537,8 +432,8 @@
               </svg>
             </div>
             <h4 class="text-base sm:text-lg font-bold text-white mb-2">Ingeniería de Software</h4>
-            <p class="text-zinc-400 text-sm sm:text-base">Formación universitaria en ingeniería de software,
-              arquitectura de sistemas y desarrollo empresarial.</p>
+            <p class="text-zinc-400 text-sm sm:text-base">Formación universitaria completa en la UNED con metodología
+              flexible, arquitectura de sistemas y desarrollo empresarial.</p>
           </div>
         </div>
       </div>
