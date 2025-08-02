@@ -21,8 +21,8 @@
           </div>
 
           <p class="text-zinc-400 mb-6 max-w-md">
-            Desarrollador web apasionado por crear experiencias digitales modernas y funcionales.
-            Estudiante de DAW en formación Dual, siempre buscando aprender y mejorar mis habilidades.
+            Desarrollador web apasionado por crear experiencias digitales modernas y funcionales. Con mi titulación y
+            experiencia DUAL, ahora llevo mis habilidades al siguiente nivel especializándome en ciberseguridad.
           </p>
 
           <!-- Enlaces sociales -->

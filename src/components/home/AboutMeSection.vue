@@ -1,6 +1,5 @@
 <template>
   <section id="sobre-mi" class="py-20 sm:py-24 relative overflow-hidden">
-    <!-- Efectos de fondo mejorados -->
     <div class="absolute inset-0 bg-gradient-to-b from-zinc-950 via-zinc-950 to-teal-950/20 opacity-50 z-0"></div>
     <div
       class="absolute -left-[300px] top-[150px] w-[600px] h-[600px] rounded-full bg-teal-600/8 blur-3xl z-0 animate-pulse">
@@ -11,7 +10,6 @@
     </div>
 
     <div class="container mx-auto px-4 sm:px-6 relative">
-      <!-- Encabezado de sección -->
       <div class="text-center mb-16 relative">
         <div
           class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-6xl sm:text-8xl md:text-9xl font-bold opacity-5 text-white w-full text-center z-0">
@@ -25,14 +23,12 @@
         <div class="h-1.5 w-16 sm:w-20 bg-gradient-to-r from-teal-500 to-emerald-500 mx-auto rounded-full mb-4 sm:mb-6">
         </div>
         <p class="text-base sm:text-lg text-zinc-400 max-w-2xl mx-auto">
-          De estudiante a desarrollador profesional, especializado en transformación digital
+          De la formación a la especialización en desarrollo web y ciberseguridad.
         </p>
       </div>
 
-      <!-- Grid principal -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 mb-12">
 
-        <!-- Columna principal - Información personal ampliada -->
         <div class="lg:col-span-2 fade-in-element">
           <div
             class="bg-zinc-900/50 backdrop-blur-sm rounded-xl p-6 sm:p-8 border border-zinc-800 h-full hover:border-teal-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-teal-500/10">
@@ -43,11 +39,11 @@
 
             <div class="space-y-4 sm:space-y-5 text-zinc-300 text-sm sm:text-base">
               <p>
-                Soy <strong class="text-white">Gabriel Saiz</strong>, desarrollador web full-stack recién graduado del
-                <span class="text-teal-400 font-medium">Grado Superior en DAW</span> con modalidad DUAL.
-                Actualmente trabajo en <span class="text-emerald-400 font-medium">GOLIVE Services</span>
-                en el departamento de Mobile Technology y Web Integrations, donde colaboro con diversos
-                clientes en proyectos de desarrollo y mantenimiento.
+                Soy <strong class="text-white">Gabriel Saiz</strong>, un desarrollador web full-stack titulado en
+                <span class="text-teal-400 font-medium">Desarrollo de Aplicaciones Web (DAW)</span>. Mi formación en
+                modalidad DUAL me permitió adquirir experiencia práctica en
+                <span class="text-emerald-400 font-medium">tecnología móvil e integraciones web</span>, colaborando en
+                el desarrollo y mantenimiento de proyectos en un entorno profesional.
               </p>
 
               <p>
@@ -63,22 +59,12 @@
                 idea personal y ahora cuenta con usuarios activos.
               </p>
 
-              <p>
-                Actualmente estoy ampliando mis competencias como <strong class="text-emerald-400">
-                  Agente de Transformación Digital</strong> a través del programa "Generación Digital - Agentes del
-                Cambio"
-                del Plan Nacional de Capacidades Digitales, financiado por fondos Next Generation EU.
-              </p>
-
-              <!-- Cita destacada -->
               <div class="border-l-4 border-teal-500 pl-4 my-6 sm:my-8 bg-teal-500/5 rounded-r-lg py-3">
                 <p class="text-base sm:text-lg text-white italic">
-                  "Mi objetivo es combinar el desarrollo técnico con la transformación digital empresarial,
-                  y especializarme en Inteligencia Artificial para estar a la vanguardia de la innovación."
+                  "Busco construir una carrera sólida donde el desarrollo de software y la ciberseguridad converjan para crear tecnología segura, robusta y a la vanguardia de la innovación."
                 </p>
               </div>
 
-              <!-- Visión futura -->
               <div
                 class="bg-gradient-to-r from-purple-900/20 to-blue-900/20 rounded-lg p-4 border border-purple-500/20">
                 <h4 class="text-base sm:text-lg font-semibold text-purple-400 mb-2 flex items-center gap-2">
@@ -86,46 +72,46 @@
                   Próximos Pasos
                 </h4>
                 <p class="text-zinc-300 text-sm sm:text-base">
-                  En 2026 planeo cursar un <strong class="text-white">Máster en Inteligencia Artificial</strong>
-                  para fusionar mis conocimientos en desarrollo web con IA, machine learning y crear
-                  soluciones tecnológicas que realmente marquen la diferencia.
+                    Actualmente estoy preparándome para comenzar un <strong class="text-white">Máster en Ciberseguridad</strong> este mismo año, y mi siguiente gran meta es iniciar el <strong class="text-white">Grado en Ingeniería Informática</strong> para seguir profundizando mis conocimientos.
                 </p>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Columna lateral - Stats y tecnologías -->
         <div class="space-y-6 sm:space-y-8 fade-in-element" data-delay="200">
 
-          <!-- Métricas rápidas -->
           <div
-            class="bg-zinc-900/50 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-zinc-800 hover:border-emerald-500/30 transition-all duration-300">
+            class="bg-gradient-to-br from-emerald-900/30 to-teal-900/20 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-emerald-800/50">
             <h3 class="text-lg sm:text-xl font-bold text-white mb-4 flex items-center gap-2">
-              <span class="text-emerald-400">📊</span>
-              En Números
+              <span class="text-emerald-400">🎓</span>
+              Formación
             </h3>
-            <div class="grid grid-cols-2 gap-3 sm:gap-4">
-              <div class="text-center p-3 bg-zinc-800/50 rounded-lg border border-zinc-700">
-                <div class="text-lg sm:text-xl font-bold text-teal-400">1+</div>
-                <div class="text-xs sm:text-sm text-zinc-400">Año de Experiencia</div>
+            <div class="space-y-3">
+              <div class="flex items-start gap-3">
+                <div class="w-2 h-2 rounded-full bg-purple-500 mt-2 animate-pulse"></div>
+                <div>
+                  <div class="font-medium text-purple-400 text-sm">Máster en Ciberseguridad</div>
+                  <div class="text-xs text-zinc-400">🚀 Iniciando Oct. 2025</div>
+                </div>
               </div>
-              <div class="text-center p-3 bg-zinc-800/50 rounded-lg border border-zinc-700">
-                <div class="text-lg sm:text-xl font-bold text-emerald-400">7+</div>
-                <div class="text-xs sm:text-sm text-zinc-400">Proyectos Completados</div>
+              <div class="flex items-start gap-3">
+                <div class="w-2 h-2 rounded-full bg-blue-500 mt-2"></div>
+                <div>
+                  <div class="font-medium text-blue-400 text-sm">Grado Superior DAW</div>
+                  <div class="text-xs text-zinc-400">✅ Finalizado - Junio 2025</div>
+                </div>
               </div>
-              <div class="text-center p-3 bg-zinc-800/50 rounded-lg border border-zinc-700">
-                <div class="text-lg sm:text-xl font-bold text-violet-400">1</div>
-                <div class="text-xs sm:text-sm text-zinc-400">TFG Finalizado</div>
-              </div>
-              <div class="text-center p-3 bg-zinc-800/50 rounded-lg border border-zinc-700">
-                <div class="text-lg sm:text-xl font-bold text-red-400">1.0.1</div>
-                <div class="text-xs sm:text-sm text-zinc-400">App Android</div>
+              <div class="flex items-start gap-3">
+                <div class="w-2 h-2 rounded-full bg-orange-500 mt-2"></div>
+                <div>
+                  <div class="font-medium text-orange-400 text-sm">Grado en Ing. Informática</div>
+                  <div class="text-xs text-zinc-400">🎯 Próximo objetivo</div>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- Stack tecnológico actualizado -->
           <div
             class="bg-zinc-900/50 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-zinc-800 hover:border-teal-500/30 transition-all duration-300">
             <h3 class="text-lg sm:text-xl font-bold text-white mb-4 flex items-center gap-2">
@@ -133,7 +119,6 @@
               Stack Actual
             </h3>
 
-            <!-- Frontend -->
             <div class="mb-4">
               <h4 class="text-sm font-semibold text-teal-400 mb-2">Frontend</h4>
               <div class="flex flex-wrap gap-1.5">
@@ -150,7 +135,6 @@
               </div>
             </div>
 
-            <!-- Backend -->
             <div class="mb-4">
               <h4 class="text-sm font-semibold text-emerald-400 mb-2">Backend</h4>
               <div class="flex flex-wrap gap-1.5">
@@ -166,7 +150,6 @@
               </div>
             </div>
 
-            <!-- DevOps -->
             <div>
               <h4 class="text-sm font-semibold text-blue-400 mb-2">DevOps & Cloud</h4>
               <div class="flex flex-wrap gap-1.5">
@@ -181,45 +164,11 @@
               </div>
             </div>
           </div>
-
-          <!-- Formación actual -->
-          <div
-            class="bg-gradient-to-br from-emerald-900/30 to-teal-900/20 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-emerald-800/50">
-            <h3 class="text-lg sm:text-xl font-bold text-white mb-4 flex items-center gap-2">
-              <span class="text-emerald-400">🎓</span>
-              Formación
-            </h3>
-            <div class="space-y-3">
-              <div class="flex items-start gap-3">
-                <div class="w-2 h-2 rounded-full bg-emerald-500 mt-2 animate-pulse"></div>
-                <div>
-                  <div class="font-medium text-emerald-400 text-sm">Agentes del Cambio 2025</div>
-                  <div class="text-xs text-zinc-400">Transformación Digital PYMEs</div>
-                </div>
-              </div>
-              <div class="flex items-start gap-3">
-                <div class="w-2 h-2 rounded-full bg-blue-500 mt-2"></div>
-                <div>
-                  <div class="font-medium text-blue-400 text-sm">Grado Superior DAW</div>
-                  <div class="text-xs text-zinc-400">✅ Graduado - Junio 2025</div>
-                </div>
-              </div>
-              <div class="flex items-start gap-3">
-                <div class="w-2 h-2 rounded-full bg-purple-500 mt-2"></div>
-                <div>
-                  <div class="font-medium text-purple-400 text-sm">Máster en IA</div>
-                  <div class="text-xs text-zinc-400">🎯 Planificado 2026</div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
-      <!-- Sección de intereses y especialidades -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-12">
 
-        <!-- Desarrollo Web -->
         <div
           class="bg-zinc-900/50 backdrop-blur-sm rounded-xl p-6 border border-zinc-800 hover:border-teal-500/30 transition-all duration-300 fade-in-element"
           data-delay="300">
@@ -231,46 +180,39 @@
             </svg>
           </div>
           <h3 class="text-lg font-bold text-white mb-3">Desarrollo Full-Stack</h3>
-          <p class="text-zinc-400 text-sm">Especializado en crear aplicaciones web modernas desde el frontend hasta el
-            backend, con arquitecturas escalables y buenas prácticas.</p>
+          <p class="text-zinc-400 text-sm">Creación de aplicaciones web modernas desde el frontend hasta el backend, con arquitecturas escalables y buenas prácticas.</p>
           <div class="mt-3 text-xs text-teal-400">Vue.js • .NET 9 • PostgreSQL • Docker</div>
         </div>
 
-        <!-- Transformación Digital -->
         <div
           class="bg-zinc-900/50 backdrop-blur-sm rounded-xl p-6 border border-zinc-800 hover:border-emerald-500/30 transition-all duration-300 fade-in-element"
           data-delay="400">
           <div class="w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center mb-4">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-400" fill="none" viewBox="0 0 24 24"
               stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
             </svg>
           </div>
-          <h3 class="text-lg font-bold text-white mb-3">Transformación Digital</h3>
-          <p class="text-zinc-400 text-sm">Ayudo a PYMEs a digitalizarse e implementar soluciones tecnológicas que
-            optimicen sus procesos y mejoren su competitividad.</p>
-          <div class="mt-3 text-xs text-emerald-400">Consultoría • Automatización • Growth</div>
+          <h3 class="text-lg font-bold text-white mb-3">Ciberseguridad Aplicada</h3>
+          <p class="text-zinc-400 text-sm">Enfocado en aplicar las mejores prácticas de seguridad en todo el ciclo de vida del software para construir aplicaciones robustas y resilientes.</p>
+          <div class="mt-3 text-xs text-emerald-400">OWASP Top 10 • Pentesting • SecDevOps</div>
         </div>
 
-        <!-- Innovación -->
         <div
           class="bg-zinc-900/50 backdrop-blur-sm rounded-xl p-6 border border-zinc-800 hover:border-purple-500/30 transition-all duration-300 fade-in-element"
           data-delay="500">
           <div class="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center mb-4">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-400" fill="none" viewBox="0 0 24 24"
               stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2z" />
             </svg>
           </div>
-          <h3 class="text-lg font-bold text-white mb-3">Futuro en IA</h3>
-          <p class="text-zinc-400 text-sm">Mi próximo objetivo es especializarme en Inteligencia Artificial para
-            integrar ML y automatización inteligente en aplicaciones web.</p>
-          <div class="mt-3 text-xs text-purple-400">Machine Learning • NLP • Computer Vision</div>
+          <h3 class="text-lg font-bold text-white mb-3">Arquitectura de Software</h3>
+          <p class="text-zinc-400 text-sm">Apasionado por diseñar sistemas eficientes, aplicando patrones de diseño y principios de ingeniería para crear soluciones escalables.</p>
+          <div class="mt-3 text-xs text-purple-400">Patrones de Diseño • Microservicios • Cloud</div>
         </div>
       </div>
 
-      <!-- Call to action mejorado -->
       <div class="text-center fade-in-element" data-delay="600">
         <div class="inline-flex flex-col sm:flex-row gap-4 sm:gap-6">
           <a href="/cv.pdf" download="Gabriel_Saiz_CV.pdf" target="_blank"

@@ -60,15 +60,13 @@
           </MouseParallaxEffect>
 
           <!-- Descripción con parallax sutil -->
-          <MouseParallaxEffect :intensity="0.02" :enable-rotation="false">
-            <p class="text-xl text-zinc-400 max-w-xl" :class="animationClass(1.1)">
-              Soy un <span class="text-white font-medium">estudiante de DAW</span> en formación Dual.
-              <span class="text-indigo-400">De Zaragoza, España</span>.
-              <span class="text-rose-400">Apasionado de la Informática</span> y el desarrollo de
-              aplicaciones
-              modernas.
-            </p>
-          </MouseParallaxEffect>
+<MouseParallaxEffect :intensity="0.02" :enable-rotation="false">
+          <p class="text-xl text-zinc-400 max-w-xl" :class="animationClass(1.1)">
+            Soy un <span class="text-white font-medium">Desarrollador Web </span>
+            <span class="text-rose-400">apasionado por construir aplicaciones modernas</span>.
+            Desde <span class="text-indigo-400">Zaragoza, España</span>, me dedico a transformar ideas en soluciones digitales.
+          </p>
+        </MouseParallaxEffect>
 
           <!-- Botones de acción con parallax -->
           <MouseParallaxEffect :intensity="0.04" :perspective="1000">
