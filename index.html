@@ -5,16 +5,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description"
-        content="Portafolio de Gabriel Saiz, estudiante de Desarrollo de Aplicaciones Web (DAW). Desarrollador Web especializado en crear aplicaciones modernas y soluciones web." />
-    <link rel="icon" type="image/svg+xml" href="/img/yo.webp" />
-
-    <!-- SEO y compatibilidad con PWA -->
-    <link rel="apple-touch-icon" href="/img/icons/apple-touch-icon.png" sizes="180x180">
-    <link rel="mask-icon" href="/img/icons/safari-pinned-tab.svg" color="#6366f1">
+        content="Portafolio de Gabriel Saiz (DAW). Desarrollador Web especializado en crear aplicaciones modernas, accesibles y de alto rendimiento." />
+    <meta name="robots" content="index, follow">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href="https://gabrielcodes.dev/" />
     <meta name="theme-color" content="#6366f1">
 
-    <!-- Precargar recursos críticos -->
-    <link rel="preload" href="/fonts/onest-variable.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Precargar recursos críticos (evitar 404: usar solo si el recurso existe) -->
 
     <!-- Preconectar con orígenes importantes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -58,7 +55,15 @@
         content="Desarrollador Web y Estudiante de DAW especializado en crear aplicaciones modernas y soluciones web." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://gabrielcodes.dev" />
-    <meta property="og:image" content="https://gabrielcodes.dev/img/og-image.jpg" />
+    <meta property="og:image" content="https://gabrielcodes.dev/img/portfolio.webp" />
+    <meta property="og:site_name" content="Gabriel Saiz - Portafolio" />
+    <meta property="og:locale" content="es_ES" />
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Portafolio - Gabriel Saiz" />
+    <meta name="twitter:description" content="Desarrollador Web (DAW) creando soluciones modernas y eficientes." />
+    <meta name="twitter:image" content="https://gabrielcodes.dev/img/portfolio.webp" />
 
     <!-- Tema de color -->
     <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
@@ -68,6 +73,30 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <title>Portafolio - Gabriel Saiz Estudiante de DAW</title>
+
+    <!-- Datos estructurados JSON-LD: Persona -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Gabriel Saiz",
+      "url": "https://gabrielcodes.dev/",
+      "jobTitle": "Desarrollador Web",
+      "description": "Desarrollador Web (DAW) especializado en aplicaciones modernas y accesibles.",
+      "knowsAbout": ["Vue.js", "TailwindCSS", "JavaScript", ".NET", "Docker", "AWS"],
+      "image": "https://gabrielcodes.dev/img/Yo.webp"
+    }
+    </script>
+
+    <!-- Datos estructurados JSON-LD: Sitio Web -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Portafolio - Gabriel Saiz",
+      "url": "https://gabrielcodes.dev/"
+    }
+    </script>
 
     <!-- Google tag (gtag.js) - Cargado con estrategia de carga diferida -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CEDV9NP2WJ"></script>
