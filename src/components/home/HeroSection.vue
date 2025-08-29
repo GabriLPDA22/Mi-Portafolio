@@ -1,15 +1,18 @@
 <template>
   <section id="inicio" class="relative min-h-screen flex items-center pt-20 pb-12 overflow-hidden">
-    <!-- Efectos de fondo -->
-    <!-- <ParticleBackground color="#6366f1" :particleCount="100" :connectionDistance="150" :speed="0.8"
-            :interactive="true" :size="1.5" /> -->
-
+    <!-- Efectos de fondo sutilmente dinámicos -->
     <div class="absolute inset-0 z-0">
-      <!-- Círculos decorativos con degradados -->
-      <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-indigo-600/10 blur-3xl"></div>
-      <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-rose-600/10 blur-3xl"></div>
+      <!-- Círculos decorativos con transiciones suaves -->
+      <div :class="[
+        'absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full blur-3xl transition-all duration-[3000ms]',
+        currentMode === 'dev' ? 'bg-indigo-600/10' : 'bg-red-600/8'
+      ]"></div>
+      <div :class="[
+        'absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full blur-3xl transition-all duration-[3000ms]',
+        currentMode === 'dev' ? 'bg-rose-600/10' : 'bg-orange-600/8'
+      ]"></div>
 
-      <!-- Patrones decorativos -->
+      <!-- Patrones decorativos originales -->
       <div class="absolute right-32 top-32 opacity-20">
         <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="50" cy="50" r="45" stroke="white" stroke-width="2" />
@@ -29,14 +32,16 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <!-- Columna de texto con efecto parallax -->
         <div class="space-y-6 text-left">
-          <!-- Badge animado con parallax -->
+          <!-- Badge animado con parallax - Mejorado con dual gradient -->
           <MouseParallaxEffect :intensity="0.03" :enable-rotation="false">
-            <div
-              class="inline-flex overflow-hidden p-[1px] rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+            <div class="inline-flex overflow-hidden p-[1px] rounded-full bg-dual-gradient animate-dual-pulse"
               :class="animationClass(0.3)">
-              <div class="bg-zinc-900/80 backdrop-blur-sm px-4 py-1 rounded-full flex items-center gap-2">
-                <div class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
-                <span class="text-sm font-medium text-white/80">Disponible para proyectos</span>
+              <div class="bg-zinc-900/80 backdrop-blur-sm px-4 py-2 rounded-full flex items-center gap-2">
+                <div :class="[
+                  'w-2 h-2 rounded-full animate-pulse transition-colors duration-1000',
+                  currentMode === 'dev' ? 'bg-green-400' : 'bg-red-400'
+                ]"></div>
+                <span class="text-sm font-medium text-white/80">{{ currentStatus }}</span>
               </div>
             </div>
           </MouseParallaxEffect>
@@ -53,26 +58,72 @@
               </span>
             </h1>
 
+            <!-- Título con transición suave -->
             <div class="flex items-center space-x-4 mt-3 mb-8" :class="animationClass(0.9)">
-              <div class="h-1 w-16 bg-indigo-500"></div>
-              <div class="text-2xl font-medium text-white">Desarrollador Web</div>
+              <div :class="[
+                'h-1 w-16 transition-all duration-1000',
+                currentMode === 'dev' ? 'bg-indigo-500' : 'bg-red-500'
+              ]"></div>
+              <div class="text-2xl font-medium text-white transition-all duration-500">
+                {{ currentTitle }}
+              </div>
+              <!-- Icono pequeño que rota -->
+              <div :class="[
+                'p-2 rounded-lg transition-all duration-1000',
+                currentMode === 'dev' ? 'bg-indigo-600/20' : 'bg-red-600/20'
+              ]">
+                <font-awesome-icon
+                  :icon="currentMode === 'dev' ? ['fas', 'code'] : ['fas', 'shield']"
+                  class="w-4 h-4 text-white transition-transform duration-500"
+                />
+              </div>
             </div>
           </MouseParallaxEffect>
 
-          <!-- Descripción con parallax sutil -->
-<MouseParallaxEffect :intensity="0.02" :enable-rotation="false">
-          <p class="text-xl text-zinc-400 max-w-xl" :class="animationClass(1.1)">
-            Soy un <span class="text-white font-medium">Desarrollador Web </span>
-            <span class="text-rose-400">apasionado por construir aplicaciones modernas</span>.
-            Desde <span class="text-indigo-400">Zaragoza, España</span>, me dedico a transformar ideas en soluciones digitales.
-          </p>
-        </MouseParallaxEffect>
+          <!-- Descripción con parallax sutil - Unificada -->
+          <MouseParallaxEffect :intensity="0.02" :enable-rotation="false">
+            <p class="text-xl text-zinc-400 max-w-xl" :class="animationClass(1.1)">
+              Soy un <span class="text-white font-medium">Desarrollador Web </span>
+              <span class="text-rose-400">apasionado por construir aplicaciones modernas</span> y
+              <span :class="currentMode === 'dev' ? 'text-indigo-400' : 'text-orange-400'">
+                {{ currentMode === 'dev' ? 'crear soluciones digitales' : 'proteger infraestructuras seguras' }}
+              </span>.
+              Desde <span class="text-indigo-400">Zaragoza, España</span>.
+            </p>
+          </MouseParallaxEffect>
 
-          <!-- Botones de acción con parallax -->
+          <!-- Skills que cambian sutilmente -->
+          <div class="flex flex-wrap gap-2 mt-6" :class="animationClass(1.15)">
+            <span v-for="(skill, index) in currentSkills.slice(0, 5)" :key="skill"
+                  :class="[
+                    'px-3 py-1 rounded-full text-sm font-medium border transition-all duration-700 animate-fade-in-up',
+                    currentMode === 'dev' ? 'bg-blue-500/10 border-blue-500/30 text-blue-300' : 'bg-red-500/10 border-red-500/30 text-red-300'
+                  ]"
+                  :style="{ animationDelay: (1.2 + index * 0.1) + 's' }">
+              {{ skill }}
+            </span>
+          </div>
+
+          <!-- Indicador discreto del modo actual -->
+          <div class="flex items-center gap-3 mt-4 text-sm text-gray-500" :class="animationClass(1.25)">
+            <div class="flex gap-1">
+              <div :class="[
+                'w-2 h-2 rounded-full transition-all duration-500',
+                currentMode === 'dev' ? 'bg-indigo-500' : 'bg-gray-600'
+              ]"></div>
+              <div :class="[
+                'w-2 h-2 rounded-full transition-all duration-500',
+                currentMode === 'cybersec' ? 'bg-red-500' : 'bg-gray-600'
+              ]"></div>
+            </div>
+            <span class="transition-colors duration-500">{{ currentLabel }}</span>
+          </div>
+
+          <!-- Botones de acción con parallax - ARREGLADOS -->
           <MouseParallaxEffect :intensity="0.04" :perspective="1000">
             <div class="flex flex-wrap gap-4 mt-8" :class="animationClass(1.3)">
-              <a href="#proyectos"
-                class="group relative inline-flex items-center h-12 overflow-hidden rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 px-8 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-gray-900 shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/50 transition-all duration-300">
+              <!-- Botón principal ARREGLADO -->
+              <a href="#proyectos" class="btn-primary group">
                 <span class="relative flex items-center gap-2">
                   Ver proyectos
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
@@ -81,13 +132,10 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                   </svg>
                 </span>
-                <span
-                  class="absolute right-0 -top-2 -z-10 h-14 w-14 rounded-full bg-indigo-800 transition-all duration-300 ease-in-out group-hover:scale-150"></span>
               </a>
 
               <!-- Botón "Saber más de mí" -->
-              <a href="#sobre-mi"
-                class="group relative inline-flex items-center h-12 overflow-hidden rounded-full bg-zinc-800 border border-indigo-500/30 px-8 py-3 text-indigo-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-gray-900 hover:bg-indigo-600/20 transition-all duration-300">
+              <a href="#sobre-mi" class="btn-secondary group">
                 <span class="relative flex items-center gap-2">
                   Saber más de mí
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
@@ -99,7 +147,7 @@
               </a>
 
               <a href="/cv.pdf" download="Gabriel_Saiz_CV.pdf" target="_blank" @click="trackCvDownload"
-                class="group relative inline-flex items-center gap-2 h-12 overflow-hidden rounded-full border border-indigo-600/30 bg-zinc-900/80 backdrop-blur-sm px-8 py-3 text-indigo-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-gray-900 hover:bg-indigo-600/10 transition-all duration-300">
+                class="btn-cv group">
                 <span class="flex items-center gap-2">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                     stroke="currentColor" class="w-4 h-4">
@@ -115,7 +163,7 @@
           <!-- Enlaces sociales -->
           <div class="flex items-center gap-6 mt-12" :class="animationClass(1.5)">
             <a v-for="link in socialLinks" :key="link.name" :href="link.url" target="_blank" rel="noopener noreferrer"
-              class="w-12 h-12 flex items-center justify-center rounded-full bg-zinc-800/50 border border-white/5 text-zinc-400 hover:text-white hover:bg-indigo-600/20 hover:border-indigo-600/50 transition-all duration-300"
+              class="w-12 h-12 flex items-center justify-center rounded-full bg-zinc-800/50 border border-white/5 text-zinc-400 hover:text-white hover:bg-indigo-600/20 hover:border-indigo-600/50 transition-all duration-300 hover:-translate-y-1"
               :aria-label="link.name">
               <span v-html="link.icon"></span>
             </a>
@@ -145,45 +193,76 @@
                 </div>
               </div>
 
-              <!-- Elemento flotante "años exp." con ajustes para móvil -->
+              <!-- Elemento flotante "años exp." - Dinámico -->
               <div
                 class="hidden md:flex absolute -bottom-10 -left-10 w-24 h-24 backdrop-blur-md bg-zinc-900/50 border border-white/10 rounded-lg items-center justify-center animate-float-delay-1 shadow-lg">
-                <div
-                  class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-indigo-600">
-                  1+</div>
-                <div class="text-xs text-zinc-400 absolute bottom-3">años exp.</div>
+                <div :class="[
+                  'text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r transition-all duration-1000',
+                  currentMode === 'dev' ? 'from-indigo-400 to-indigo-600' : 'from-red-400 to-orange-600'
+                ]">
+                  {{ currentMode === 'dev' ? '1+' : 'Oct' }}
+                </div>
+                <div class="text-xs text-zinc-400 absolute bottom-3">
+                  {{ currentMode === 'dev' ? 'años exp.' : '2025' }}
+                </div>
               </div>
 
-              <!-- Versión móvil del elemento "años exp." -->
+              <!-- Versión móvil del elemento flotante -->
               <div
                 class="md:hidden absolute -bottom-5 -left-5 w-20 h-20 backdrop-blur-md bg-zinc-900/50 border border-white/10 rounded-lg flex flex-col items-center justify-center animate-float-delay-1 shadow-lg z-20">
-                <div
-                  class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-indigo-600">
-                  1
+                <div :class="[
+                  'text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r transition-all duration-1000',
+                  currentMode === 'dev' ? 'from-indigo-400 to-indigo-600' : 'from-red-400 to-orange-600'
+                ]">
+                  {{ currentMode === 'dev' ? '1+' : 'Oct' }}
                 </div>
-                <div class="text-xs text-zinc-400 mt-1">años exp.</div>
+                <div class="text-xs text-zinc-400 mt-1">
+                  {{ currentMode === 'dev' ? 'años' : '2025' }}
+                </div>
               </div>
 
-              <!-- Elemento flotante "Desarrollador" sin cambios para PC -->
+              <!-- Elemento flotante especialidad - Dinámico -->
               <div
                 class="hidden md:block absolute -top-10 -right-10 p-3 backdrop-blur-md bg-zinc-900/50 border border-white/10 rounded-lg animate-float-delay-2 shadow-lg">
                 <div class="flex space-x-1">
-                  <span class="block w-3 h-3 rounded-full bg-indigo-500"></span>
-                  <span class="block w-3 h-3 rounded-full bg-purple-500"></span>
-                  <span class="block w-3 h-3 rounded-full bg-rose-500"></span>
+                  <span :class="[
+                    'block w-3 h-3 rounded-full transition-colors duration-1000',
+                    currentMode === 'dev' ? 'bg-indigo-500' : 'bg-red-500'
+                  ]"></span>
+                  <span :class="[
+                    'block w-3 h-3 rounded-full transition-colors duration-1000',
+                    currentMode === 'dev' ? 'bg-purple-500' : 'bg-orange-500'
+                  ]"></span>
+                  <span :class="[
+                    'block w-3 h-3 rounded-full transition-colors duration-1000',
+                    currentMode === 'dev' ? 'bg-rose-500' : 'bg-amber-500'
+                  ]"></span>
                 </div>
-                <div class="text-xs text-zinc-400 mt-1">Desarrollador</div>
+                <div class="text-xs text-zinc-400 mt-1">
+                  {{ currentMode === 'dev' ? 'Desarrollador' : 'Security' }}
+                </div>
               </div>
 
-              <!-- Versión móvil del elemento "Desarrollador" -->
+              <!-- Versión móvil especialidad -->
               <div
                 class="md:hidden absolute -top-5 -right-5 p-2 backdrop-blur-md bg-zinc-900/50 border border-white/10 rounded-lg animate-float-delay-2 shadow-lg z-20">
                 <div class="flex space-x-1">
-                  <span class="block w-2 h-2 rounded-full bg-indigo-500"></span>
-                  <span class="block w-2 h-2 rounded-full bg-purple-500"></span>
-                  <span class="block w-2 h-2 rounded-full bg-rose-500"></span>
+                  <span :class="[
+                    'block w-2 h-2 rounded-full transition-colors duration-1000',
+                    currentMode === 'dev' ? 'bg-indigo-500' : 'bg-red-500'
+                  ]"></span>
+                  <span :class="[
+                    'block w-2 h-2 rounded-full transition-colors duration-1000',
+                    currentMode === 'dev' ? 'bg-purple-500' : 'bg-orange-500'
+                  ]"></span>
+                  <span :class="[
+                    'block w-2 h-2 rounded-full transition-colors duration-1000',
+                    currentMode === 'dev' ? 'bg-rose-500' : 'bg-amber-500'
+                  ]"></span>
                 </div>
-                <div class="text-xs text-zinc-400 mt-1">Desarrollador</div>
+                <div class="text-xs text-zinc-400 mt-1">
+                  {{ currentMode === 'dev' ? 'Dev' : 'Sec' }}
+                </div>
               </div>
             </div>
           </div>
@@ -213,6 +292,23 @@ export default {
   },
   data() {
     return {
+      currentMode: 'dev', // 'dev' o 'cybersec'
+
+      modes: {
+        dev: {
+          title: 'Desarrollador Web Full-Stack',
+          status: 'Disponible para proyectos',
+          label: 'Desarrollo Web & Apps',
+          skills: ['Vue.js', 'PHP', 'JavaScript', 'TypeScript', '.NET', 'Java', 'Symfony', 'PostgreSQL']
+        },
+        cybersec: {
+          title: 'Especialista en Ciberseguridad',
+          status: 'Iniciando máster en octubre 2024',
+          label: 'Ciberseguridad & SecDevOps',
+          skills: ['Security Fundamentals', 'OWASP Top 10', 'Vulnerability Analysis', 'Risk Assessment', 'Network Security', 'Compliance']
+        }
+      },
+
       socialLinks: [
         {
           name: 'LinkedIn',
@@ -232,6 +328,22 @@ export default {
       ]
     }
   },
+
+  computed: {
+    currentTitle() {
+      return this.modes[this.currentMode].title;
+    },
+    currentStatus() {
+      return this.modes[this.currentMode].status;
+    },
+    currentLabel() {
+      return this.modes[this.currentMode].label;
+    },
+    currentSkills() {
+      return this.modes[this.currentMode].skills;
+    }
+  },
+
   methods: {
     trackCvDownload() {
       if (typeof this.$track === 'function') {
@@ -249,7 +361,6 @@ export default {
       }
     },
 
-    // Método original para aplicar la clase de animación
     animationClass(delay, isClipText = false) {
       if (isClipText) {
         return {
@@ -265,29 +376,37 @@ export default {
       }
     },
 
-    // Nuevo método modificado para el nombre que asegura visibilidad
     animationClassModified(delay) {
       return {
         'animate-clip-text-visible': true,
         'style': `animation-delay: ${delay}s;`
       }
+    },
+
+    // Cambio suave de modo
+    switchMode() {
+      this.currentMode = this.currentMode === 'dev' ? 'cybersec' : 'dev';
     }
   },
-  // Asegurarse de que las animaciones se completan
+
   mounted() {
-    // Establece un temporizador para asegurar que todas las animaciones se completan
+    // Tus animaciones originales
     setTimeout(() => {
       const animatedElements = document.querySelectorAll('.opacity-0');
       animatedElements.forEach(el => {
         el.classList.remove('opacity-0');
         el.classList.add('opacity-100');
       });
-    }, 3000); // 3 segundos, ajustar según sea necesario
+    }, 3000);
 
-    // Registrar vista de sección para analytics
     if (typeof this.$track === 'function') {
       this.$track('section_view', { section_id: 'hero' });
     }
+
+    // Cambio automático sutil cada 8 segundos
+    setInterval(() => {
+      this.switchMode();
+    }, 8000);
   }
 }
 </script>
@@ -301,7 +420,6 @@ export default {
   animation: clipText 1s cubic-bezier(0.25, 1, 0.5, 1) both;
 }
 
-/* Nueva animación que mantiene el texto visible */
 .animate-clip-text-visible {
   animation: clipTextVisible 1s cubic-bezier(0.25, 1, 0.5, 1) both;
 }
@@ -318,12 +436,132 @@ export default {
   animation: float 6s ease-in-out 2s infinite;
 }
 
+/* Gradiente dual para el badge */
+.bg-dual-gradient {
+  background: linear-gradient(90deg,
+    #4F46E5 0%, #4F46E5 45%,
+    #DC2626 55%, #DC2626 100%);
+  background-size: 200% 100%;
+  background-position: 0% 50%;
+}
+
+.animate-dual-pulse {
+  animation: dualPulse 6s ease-in-out infinite;
+}
+
+@keyframes dualPulse {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Botones arreglados */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #EC4899 100%);
+  border-radius: 50px;
+  padding: 14px 32px;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  color: white;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(79, 70, 229, 0.25);
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn-primary:hover::before {
+  left: 100%;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(79, 70, 229, 0.4);
+}
+
+.btn-secondary {
+  position: relative;
+  background: rgba(24, 24, 27, 0.8);
+  border: 2px solid rgba(99, 102, 241, 0.3);
+  border-radius: 50px;
+  padding: 12px 28px;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  color: #A5B4FC;
+  text-decoration: none;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-secondary:hover {
+  border-color: rgba(99, 102, 241, 0.6);
+  background: rgba(99, 102, 241, 0.1);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.btn-cv {
+  position: relative;
+  background: rgba(24, 24, 27, 0.8);
+  border: 2px solid rgba(99, 102, 241, 0.3);
+  border-radius: 50px;
+  padding: 12px 24px;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  color: #A5B4FC;
+  text-decoration: none;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-cv:hover {
+  border-color: rgba(99, 102, 241, 0.6);
+  background: rgba(99, 102, 241, 0.1);
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  .btn-primary, .btn-secondary, .btn-cv {
+    padding: 12px 24px;
+    min-height: 44px;
+    font-size: 14px;
+    width: 100%;
+    margin-bottom: 8px;
+  }
+}
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
     transform: translateY(20px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
@@ -334,20 +572,16 @@ export default {
   from {
     clip-path: inset(0 100% 0 0);
   }
-
   to {
     clip-path: inset(0 0 0 0);
   }
 }
 
-/* Nueva animación que mantiene el texto siempre visible */
 @keyframes clipTextVisible {
   from {
     clip-path: inset(0 80% 0 0);
     opacity: 0.3;
-    /* Comenzar con baja opacidad pero visible */
   }
-
   to {
     clip-path: inset(0 0 0 0);
     opacity: 1;
@@ -355,18 +589,14 @@ export default {
 }
 
 @keyframes float {
-
-  0%,
-  100% {
+  0%, 100% {
     transform: translateY(0);
   }
-
   50% {
     transform: translateY(-15px);
   }
 }
 
-/* Estilos para cuadrícula de fondo */
 .bg-grid-white {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(255 255 255 / 0.05)'%3E%3Cpath d='M0 .5H31.5V32'/%3E%3C/svg%3E");
 }

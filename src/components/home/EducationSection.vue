@@ -105,7 +105,7 @@
               <div class="sm:text-right sm:pr-12 mb-4 sm:mb-0">
                 <span
                   class="inline-block px-3 py-1.5 rounded-full bg-orange-500/20 text-orange-400 text-xs sm:text-sm font-medium mb-2">
-                  Verano 2025
+                  2026
                 </span>
                 <h3 class="text-xl sm:text-2xl font-bold text-white">Certificaciones AWS</h3>
                 <div class="text-orange-400 mt-1 sm:mt-2 text-sm sm:text-base">Amazon Web Services</div>
@@ -305,7 +305,7 @@
                 class="w-16 h-16 rounded-full bg-orange-500/20 border-2 border-orange-500 flex items-center justify-center mx-auto mb-3">
                 <span class="text-2xl">☁️</span>
               </div>
-              <h4 class="font-bold text-orange-400 mb-2">Verano 2025</h4>
+              <h4 class="font-bold text-orange-400 mb-2">Verano 2026</h4>
               <div class="space-y-1 text-sm text-zinc-300">
                 <p>• Certificaciones AWS</p>
                 <p>• Solutions Architect</p>

@@ -56,7 +56,7 @@
               <p>
                 Además del desarrollo web, he creado <span class="text-red-400 font-medium">McPoints v1.0.1</span>,
                 una aplicación Android para coleccionar números de pedido de McDonald's que surgió de una
-                idea personal y ahora cuenta con usuarios activos.
+                idea personal.
               </p>
 
               <div class="border-l-4 border-teal-500 pl-4 my-6 sm:my-8 bg-teal-500/5 rounded-r-lg py-3">
