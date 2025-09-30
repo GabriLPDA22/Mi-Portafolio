@@ -3,7 +3,6 @@
     id="proyectos"
     class="py-16 md:py-24 lg:py-32 bg-zinc-950 relative overflow-hidden"
   >
-    <!-- Background animado -->
     <div class="absolute inset-0 opacity-20">
       <div
         class="absolute top-1/4 right-1/4 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl animate-pulse"
@@ -15,9 +14,7 @@
     </div>
 
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      <!-- Header -->
       <div class="text-center mb-12 md:mb-16 relative">
-        <!-- Título de fondo gigante -->
         <div
           class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-6xl sm:text-8xl md:text-9xl font-bold opacity-5 text-white w-full text-center z-0 pointer-events-none"
         >
@@ -34,12 +31,13 @@
             Proyectos
           </span>
         </h2>
-        <p class="text-zinc-400 text-base md:text-lg max-w-2xl mx-auto relative z-10">
+        <p
+          class="text-zinc-400 text-base md:text-lg max-w-2xl mx-auto relative z-10"
+        >
           Explora mis últimos trabajos y proyectos en producción
         </p>
       </div>
 
-      <!-- Tabs -->
       <div class="flex justify-center mb-10 md:mb-14">
         <div
           class="inline-flex rounded-2xl bg-zinc-900/50 p-1.5 backdrop-blur-sm border border-zinc-800 overflow-x-auto max-w-full"
@@ -47,7 +45,10 @@
           <button
             v-for="tab in tabs"
             :key="tab.id"
-            @click="activeTab = tab.id; currentSlide = 0"
+            @click="
+              activeTab = tab.id;
+              currentSlide = 0;
+            "
             class="px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-medium transition-all duration-300 flex items-center gap-2 whitespace-nowrap text-sm sm:text-base"
             :class="
               activeTab === tab.id
@@ -61,17 +62,12 @@
         </div>
       </div>
 
-      <!-- Grid de Proyectos -->
       <transition name="fade-scale" mode="out-in">
         <div :key="activeTab">
-          <!-- Desktop: Grid normal -->
-          <div class="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            <!-- Huvegrym destacado -->
-            <div
-              v-if="shouldShowHuvegrym"
-              class="project-card-special group"
-            >
-              <!-- Badge especial -->
+          <div
+            class="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+          >
+            <div v-if="shouldShowHuvegrym" class="project-card-special group">
               <div class="absolute top-4 right-4 z-10">
                 <div
                   class="px-3 py-1.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full text-white text-xs font-bold flex items-center gap-1.5 shadow-lg animate-pulse"
@@ -81,7 +77,6 @@
                 </div>
               </div>
 
-              <!-- Imagen -->
               <div class="relative overflow-hidden aspect-video">
                 <div
                   class="absolute inset-0 bg-gradient-to-br from-purple-600/20 to-pink-600/20 group-hover:opacity-0 transition-opacity duration-500"
@@ -96,7 +91,6 @@
                 ></div>
               </div>
 
-              <!-- Contenido -->
               <div class="p-5 sm:p-6">
                 <h3
                   class="text-xl sm:text-2xl font-bold text-white mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all duration-300"
@@ -113,7 +107,6 @@
                   {{ huvegrymProject.description }}
                 </p>
 
-                <!-- Tecnologías -->
                 <div class="flex flex-wrap gap-2 mb-4">
                   <span
                     v-for="tech in huvegrymProject.technologies.slice(0, 4)"
@@ -125,8 +118,9 @@
                   </span>
                 </div>
 
-                <!-- Botones - Solo visible en hover -->
-                <div class="flex flex-wrap gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div
+                  class="flex flex-wrap gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                >
                   <a
                     v-for="link in huvegrymProject.links"
                     :key="link.url"
@@ -147,7 +141,6 @@
               </div>
             </div>
 
-            <!-- Resto de proyectos -->
             <ProjectCard
               v-for="project in displayedProjects"
               :key="project.id"
@@ -156,27 +149,30 @@
             />
           </div>
 
-          <!-- Mobile: Carrusel (solo si hay más de 1 proyecto) -->
           <div class="md:hidden" v-if="showCarousel">
-            <div class="relative">
+            <div class="relative" ref="carouselWrapper">
               <div class="overflow-hidden">
                 <div
                   class="flex transition-transform duration-500 ease-out"
                   :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
                 >
-                  <!-- Huvegrym -->
-                  <div v-if="shouldShowHuvegrym" class="w-full flex-shrink-0 px-4">
+                  <div
+                    v-if="shouldShowHuvegrym"
+                    class="w-full flex-shrink-0 px-4"
+                  >
                     <div class="project-card-special-mobile">
-                      <!-- Badge -->
                       <div class="absolute top-3 right-3 z-10">
-                        <div class="px-2 py-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full text-white text-xs font-bold flex items-center gap-1">
+                        <div
+                          class="px-2 py-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full text-white text-xs font-bold flex items-center gap-1"
+                        >
                           <Sparkles :size="12" />
                           <span>En Producción</span>
                         </div>
                       </div>
 
-                      <!-- Imagen -->
-                      <div class="relative overflow-hidden aspect-video rounded-t-2xl">
+                      <div
+                        class="relative overflow-hidden aspect-video rounded-t-2xl"
+                      >
                         <img
                           :src="huvegrymProject.image"
                           :alt="huvegrymProject.title"
@@ -184,7 +180,6 @@
                         />
                       </div>
 
-                      <!-- Contenido -->
                       <div class="p-4">
                         <h3 class="text-lg font-bold text-white mb-1">
                           {{ huvegrymProject.title }}
@@ -196,10 +191,12 @@
                           {{ huvegrymProject.description }}
                         </p>
 
-                        <!-- Tecnologías -->
                         <div class="flex flex-wrap gap-2 mb-3">
                           <span
-                            v-for="tech in huvegrymProject.technologies.slice(0, 3)"
+                            v-for="tech in huvegrymProject.technologies.slice(
+                              0,
+                              3
+                            )"
                             :key="tech.name"
                             :class="tech.color"
                             class="px-2 py-1 rounded-full text-xs font-medium"
@@ -208,7 +205,6 @@
                           </span>
                         </div>
 
-                        <!-- Botones siempre visibles en mobile -->
                         <div class="flex flex-col gap-2">
                           <a
                             v-for="link in huvegrymProject.links"
@@ -231,7 +227,6 @@
                     </div>
                   </div>
 
-                  <!-- Otros proyectos -->
                   <div
                     v-for="project in displayedProjects"
                     :key="project.id"
@@ -242,28 +237,6 @@
                 </div>
               </div>
 
-              <!-- Controles del carrusel -->
-              <button
-                v-if="currentSlide > 0"
-                @click="currentSlide--"
-                class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center shadow-lg z-10"
-              >
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-
-              <button
-                v-if="currentSlide < totalSlides - 1"
-                @click="currentSlide++"
-                class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center shadow-lg z-10"
-              >
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-
-              <!-- Dots -->
               <div class="flex justify-center gap-2 mt-6">
                 <button
                   v-for="index in totalSlides"
@@ -280,7 +253,6 @@
             </div>
           </div>
 
-          <!-- Mobile: Un solo proyecto (sin carrusel) -->
           <div class="md:hidden px-4" v-else>
             <ProjectCard :project="displayedProjects[0]" :mobile-mode="true" />
           </div>
@@ -292,6 +264,7 @@
 
 <script>
 import { ref, computed } from "vue";
+import { useSwipe } from "@vueuse/core";
 import { projects } from "@/data/projects";
 import ProjectCard from "@/components/ui/ProjectCard.vue";
 import { Globe, Smartphone, Grid, Sparkles } from "lucide-vue-next";
@@ -308,6 +281,7 @@ export default {
   setup() {
     const activeTab = ref("all");
     const currentSlide = ref(0);
+    const carouselWrapper = ref(null);
 
     const tabs = [
       { id: "all", label: "Todos", icon: Grid },
@@ -315,9 +289,7 @@ export default {
       { id: "mobile", label: "Mobile", icon: Smartphone },
     ];
 
-    const huvegrymProject = computed(() =>
-      projects.find((p) => p.id === 8)
-    );
+    const huvegrymProject = computed(() => projects.find((p) => p.id === 8));
 
     const shouldShowHuvegrym = computed(() => {
       if (!huvegrymProject.value) return false;
@@ -338,11 +310,25 @@ export default {
     });
 
     const totalSlides = computed(() => {
-      const count = displayedProjects.value.length + (shouldShowHuvegrym.value ? 1 : 0);
+      const count =
+        displayedProjects.value.length + (shouldShowHuvegrym.value ? 1 : 0);
       return count;
     });
 
     const showCarousel = computed(() => totalSlides.value > 1);
+
+    useSwipe(carouselWrapper, {
+      onSwipeEnd: (e, direction) => {
+        if (
+          direction === "left" &&
+          currentSlide.value < totalSlides.value - 1
+        ) {
+          currentSlide.value++;
+        } else if (direction === "right" && currentSlide.value > 0) {
+          currentSlide.value--;
+        }
+      },
+    });
 
     return {
       activeTab,
@@ -353,6 +339,7 @@ export default {
       displayedProjects,
       totalSlides,
       showCarousel,
+      carouselWrapper,
     };
   },
 };
