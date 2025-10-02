@@ -1,594 +1,731 @@
 <template>
-  <section id="inicio" class="relative min-h-screen flex items-center pt-20 pb-12 overflow-hidden">
-    <!-- Efectos de fondo sutilmente dinámicos -->
-    <div class="absolute inset-0 z-0">
-      <!-- Círculos decorativos con transiciones suaves -->
-      <div :class="[
-        'absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full blur-3xl transition-all duration-[3000ms]',
-        currentMode === 'dev' ? 'bg-indigo-600/10' : 'bg-red-600/8'
-      ]"></div>
-      <div :class="[
-        'absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full blur-3xl transition-all duration-[3000ms]',
-        currentMode === 'dev' ? 'bg-rose-600/10' : 'bg-orange-600/8'
-      ]"></div>
+  <section id="inicio" class="hero-section">
+    <!-- Efectos de fondo animados con parallax -->
+    <div class="hero-bg" ref="heroBg">
+      <div class="glow glow-orange" ref="glowOrange"></div>
+      <div class="glow glow-purple" ref="glowPurple"></div>
+      <div class="glow glow-cyan" ref="glowCyan"></div>
+      <div class="grid-overlay"></div>
+    </div>
 
-      <!-- Patrones decorativos originales -->
-      <div class="absolute right-32 top-32 opacity-20">
-        <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="50" cy="50" r="45" stroke="white" stroke-width="2" />
-          <line x1="50" y1="5" x2="50" y2="95" stroke="white" stroke-width="2" />
-          <line x1="5" y1="50" x2="95" y2="50" stroke="white" stroke-width="2" />
-        </svg>
+    <div class="hero-container">
+      <!-- Badge de disponibilidad -->
+      <div class="availability-badge" data-aos="fade-down">
+        <span class="pulse-dot"></span>
+        <span class="badge-text">Disponible para nuevos proyectos</span>
       </div>
-      <div class="absolute left-48 bottom-32 opacity-20">
-        <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="10" y="10" width="100" height="100" stroke="white" stroke-width="2" />
-          <rect x="30" y="30" width="60" height="60" stroke="white" stroke-width="2" />
-        </svg>
+
+      <!-- Contenido principal -->
+      <div class="hero-content">
+        <!-- Título principal -->
+        <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">
+          Desarrollo aplicaciones
+          <span class="gradient-text">web y mobile</span>
+          que convierten
+        </h1>
+
+        <!-- Subtítulo más honesto -->
+        <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+          Desarrollador Full Stack con experiencia en <strong>Vue.js</strong>, 
+          <strong>React Native</strong> y <strong>Symfony</strong>. 
+          Especializado en crear experiencias digitales fluidas con UI/UX cuidado al detalle.
+        </p>
+
+        <!-- Stack badges -->
+        <div class="tech-stack" data-aos="fade-up" data-aos-delay="300">
+          <span class="tech-badge">Vue.js</span>
+          <span class="tech-badge">React Native</span>
+          <span class="tech-badge">TypeScript</span>
+          <span class="tech-badge">Symfony</span>
+          <span class="tech-badge">Tailwind CSS</span>
+        </div>
+
+        <!-- CTAs -->
+        <div class="cta-group" data-aos="fade-up" data-aos-delay="400">
+          <a href="mailto:tu@email.com" class="btn btn-primary">
+            <span>Hablemos de tu proyecto</span>
+            <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </a>
+          <a href="#proyectos" class="btn btn-secondary">
+            <span>Ver proyectos</span>
+          </a>
+        </div>
+
+        <!-- Stats más realistas -->
+        <div class="hero-stats" data-aos="fade-up" data-aos-delay="500">
+          <div class="stat-item">
+            <div class="stat-number">{{ stats.projects }}+</div>
+            <div class="stat-label">Proyectos realizados</div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <div class="stat-number">{{ stats.experience }}</div>
+            <div class="stat-label">Año de experiencia</div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <div class="stat-number">{{ stats.technologies }}+</div>
+            <div class="stat-label">Tecnologías</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tu foto con efecto parallax sutil -->
+      <div class="hero-visual" data-aos="fade-left" data-aos-delay="300" ref="heroVisual">
+        <div class="avatar-container">
+          <!-- Círculos decorativos con parallax -->
+          <div class="decoration-circle circle-1" ref="circle1"></div>
+          <div class="decoration-circle circle-2" ref="circle2"></div>
+          <div class="decoration-circle circle-3" ref="circle3"></div>
+          
+          <!-- Tu foto (CAMBIA la ruta por tu imagen) -->
+          <div class="avatar-wrapper">
+            <img 
+              src="/img/Yo.webp" 
+              alt="Gabriel Saiz - Desarrollador Full Stack"
+              class="avatar-image"
+            >
+            <!-- Borde gradiente animado -->
+            <div class="avatar-border"></div>
+          </div>
+
+          <!-- Badges flotantes -->
+          <div class="floating-badge badge-1" ref="badge1">
+            <span class="badge-icon">⚡</span>
+            <span class="badge-label">Vue.js Expert</span>
+          </div>
+          
+          <div class="floating-badge badge-2" ref="badge2">
+            <span class="badge-icon">📱</span>
+            <span class="badge-label">Mobile Dev</span>
+          </div>
+          
+          <div class="floating-badge badge-3" ref="badge3">
+            <span class="badge-icon">🎨</span>
+            <span class="badge-label">UI/UX Focus</span>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="container mx-auto px-6 relative z-10">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        <!-- Columna de texto con efecto parallax -->
-        <div class="space-y-6 text-left">
-          <!-- Badge animado con parallax - Mejorado con dual gradient -->
-          <MouseParallaxEffect :intensity="0.03" :enable-rotation="false">
-            <div class="inline-flex overflow-hidden p-[1px] rounded-full bg-dual-gradient animate-dual-pulse"
-              :class="animationClass(0.3)">
-              <div class="bg-zinc-900/80 backdrop-blur-sm px-4 py-2 rounded-full flex items-center gap-2">
-                <div :class="[
-                  'w-2 h-2 rounded-full animate-pulse transition-colors duration-1000',
-                  currentMode === 'dev' ? 'bg-green-400' : 'bg-red-400'
-                ]"></div>
-                <span class="text-sm font-medium text-white/80">{{ currentStatus }}</span>
-              </div>
-            </div>
-          </MouseParallaxEffect>
-
-          <!-- Encabezado con parallax más intenso -->
-          <MouseParallaxEffect :intensity="0.05" :perspective="1200">
-            <h2 class="text-2xl text-indigo-400 mb-4 font-medium" :class="animationClass(0.5)">¡Hola! Soy
-            </h2>
-
-            <h1 class="text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-none z-20 relative"
-              :class="animationClassModified(0.7)">
-              <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-                Gabriel Saiz
-              </span>
-            </h1>
-
-            <!-- Título con transición suave -->
-            <div class="flex items-center space-x-4 mt-3 mb-8" :class="animationClass(0.9)">
-              <div :class="[
-                'h-1 w-16 transition-all duration-1000',
-                currentMode === 'dev' ? 'bg-indigo-500' : 'bg-red-500'
-              ]"></div>
-              <div class="text-2xl font-medium text-white transition-all duration-500">
-                {{ currentTitle }}
-              </div>
-              <!-- Icono pequeño que rota -->
-              <div :class="[
-                'p-2 rounded-lg transition-all duration-1000',
-                currentMode === 'dev' ? 'bg-indigo-600/20' : 'bg-red-600/20'
-              ]">
-                <font-awesome-icon
-                  :icon="currentMode === 'dev' ? ['fas', 'code'] : ['fas', 'shield']"
-                  class="w-4 h-4 text-white transition-transform duration-500"
-                />
-              </div>
-            </div>
-          </MouseParallaxEffect>
-
-          <!-- Descripción con parallax sutil - Unificada -->
-          <MouseParallaxEffect :intensity="0.02" :enable-rotation="false">
-            <p class="text-xl text-zinc-400 max-w-xl" :class="animationClass(1.1)">
-              Soy un <span class="text-white font-medium">Desarrollador Web </span>
-              <span class="text-rose-400">apasionado por construir aplicaciones modernas</span> y
-              <span :class="currentMode === 'dev' ? 'text-indigo-400' : 'text-orange-400'">
-                {{ currentMode === 'dev' ? 'crear soluciones digitales' : 'proteger infraestructuras seguras' }}
-              </span>.
-              Desde <span class="text-indigo-400">Zaragoza, España</span>.
-            </p>
-          </MouseParallaxEffect>
-
-          <!-- Skills que cambian sutilmente -->
-          <div class="flex flex-wrap gap-2 mt-6" :class="animationClass(1.15)">
-            <span v-for="(skill, index) in currentSkills.slice(0, 5)" :key="skill"
-                  :class="[
-                    'px-3 py-1 rounded-full text-sm font-medium border transition-all duration-700 animate-fade-in-up',
-                    currentMode === 'dev' ? 'bg-blue-500/10 border-blue-500/30 text-blue-300' : 'bg-red-500/10 border-red-500/30 text-red-300'
-                  ]"
-                  :style="{ animationDelay: (1.2 + index * 0.1) + 's' }">
-              {{ skill }}
-            </span>
-          </div>
-
-          <!-- Indicador discreto del modo actual -->
-          <div class="flex items-center gap-3 mt-4 text-sm text-gray-500" :class="animationClass(1.25)">
-            <div class="flex gap-1">
-              <div :class="[
-                'w-2 h-2 rounded-full transition-all duration-500',
-                currentMode === 'dev' ? 'bg-indigo-500' : 'bg-gray-600'
-              ]"></div>
-              <div :class="[
-                'w-2 h-2 rounded-full transition-all duration-500',
-                currentMode === 'cybersec' ? 'bg-red-500' : 'bg-gray-600'
-              ]"></div>
-            </div>
-            <span class="transition-colors duration-500">{{ currentLabel }}</span>
-          </div>
-
-          <!-- Botones de acción con parallax - ARREGLADOS -->
-          <MouseParallaxEffect :intensity="0.04" :perspective="1000">
-            <div class="flex flex-wrap gap-4 mt-8" :class="animationClass(1.3)">
-              <!-- Botón principal ARREGLADO -->
-              <a href="#proyectos" class="btn-primary group">
-                <span class="relative flex items-center gap-2">
-                  Ver proyectos
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                    stroke="currentColor"
-                    class="w-4 h-4 transform transition-transform duration-300 group-hover:translate-x-1">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                  </svg>
-                </span>
-              </a>
-
-              <!-- Botón "Saber más de mí" -->
-              <a href="#sobre-mi" class="btn-secondary group">
-                <span class="relative flex items-center gap-2">
-                  Saber más de mí
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                    stroke="currentColor"
-                    class="w-4 h-4 transform transition-transform duration-300 group-hover:translate-x-1">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
-                  </svg>
-                </span>
-              </a>
-
-              <a href="/cv.pdf" download="Gabriel_Saiz_CV.pdf" target="_blank" @click="trackCvDownload"
-                class="btn-cv group">
-                <span class="flex items-center gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                    stroke="currentColor" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                  </svg>
-                  Descargar CV
-                </span>
-              </a>
-            </div>
-          </MouseParallaxEffect>
-
-          <!-- Enlaces sociales -->
-          <div class="flex items-center gap-6 mt-12" :class="animationClass(1.5)">
-            <a v-for="link in socialLinks" :key="link.name" :href="link.url" target="_blank" rel="noopener noreferrer"
-              class="w-12 h-12 flex items-center justify-center rounded-full bg-zinc-800/50 border border-white/5 text-zinc-400 hover:text-white hover:bg-indigo-600/20 hover:border-indigo-600/50 transition-all duration-300 hover:-translate-y-1"
-              :aria-label="link.name">
-              <span v-html="link.icon"></span>
-            </a>
-          </div>
-        </div>
-
-        <!-- Columna de imagen con parallax -->
-        <MouseParallaxEffect :intensity="0.06" :perspective="1000">
-          <div class="relative flex justify-center lg:justify-end animate-float">
-            <div class="relative">
-              <!-- Marco decorativo animado -->
-              <div class="absolute inset-0 rotate-3 rounded-3xl border border-indigo-500/30 bg-indigo-500/5">
-              </div>
-              <div class="absolute inset-0 -rotate-3 rounded-3xl border border-rose-500/20 bg-rose-500/5">
-              </div>
-
-              <!-- Imagen principal con efecto de brillo -->
-              <div
-                class="relative overflow-hidden rounded-2xl border border-zinc-800 shadow-2xl shadow-black/50 bg-gradient-to-br from-zinc-800 to-zinc-900 z-10">
-                <div class="absolute inset-0 bg-grid-white/[0.02] bg-[length:30px_30px]"></div>
-
-                <img src="/img/Yo.webp" alt="Gabriel Saiz"
-                  class="w-[350px] h-[450px] object-cover object-center z-10 mix-blend-screen opacity-90 scale-105" />
-
-                <!-- Efecto de brillo -->
-                <div class="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 opacity-20 blur-xl">
-                </div>
-              </div>
-
-              <!-- Elemento flotante "años exp." - Dinámico -->
-              <div
-                class="hidden md:flex absolute -bottom-10 -left-10 w-24 h-24 backdrop-blur-md bg-zinc-900/50 border border-white/10 rounded-lg items-center justify-center animate-float-delay-1 shadow-lg">
-                <div :class="[
-                  'text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r transition-all duration-1000',
-                  currentMode === 'dev' ? 'from-indigo-400 to-indigo-600' : 'from-red-400 to-orange-600'
-                ]">
-                  {{ currentMode === 'dev' ? '1+' : 'Oct' }}
-                </div>
-                <div class="text-xs text-zinc-400 absolute bottom-3">
-                  {{ currentMode === 'dev' ? 'años exp.' : '2025' }}
-                </div>
-              </div>
-
-              <!-- Versión móvil del elemento flotante -->
-              <div
-                class="md:hidden absolute -bottom-5 -left-5 w-20 h-20 backdrop-blur-md bg-zinc-900/50 border border-white/10 rounded-lg flex flex-col items-center justify-center animate-float-delay-1 shadow-lg z-20">
-                <div :class="[
-                  'text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r transition-all duration-1000',
-                  currentMode === 'dev' ? 'from-indigo-400 to-indigo-600' : 'from-red-400 to-orange-600'
-                ]">
-                  {{ currentMode === 'dev' ? '1+' : 'Oct' }}
-                </div>
-                <div class="text-xs text-zinc-400 mt-1">
-                  {{ currentMode === 'dev' ? 'años' : '2025' }}
-                </div>
-              </div>
-
-              <!-- Elemento flotante especialidad - Dinámico -->
-              <div
-                class="hidden md:block absolute -top-10 -right-10 p-3 backdrop-blur-md bg-zinc-900/50 border border-white/10 rounded-lg animate-float-delay-2 shadow-lg">
-                <div class="flex space-x-1">
-                  <span :class="[
-                    'block w-3 h-3 rounded-full transition-colors duration-1000',
-                    currentMode === 'dev' ? 'bg-indigo-500' : 'bg-red-500'
-                  ]"></span>
-                  <span :class="[
-                    'block w-3 h-3 rounded-full transition-colors duration-1000',
-                    currentMode === 'dev' ? 'bg-purple-500' : 'bg-orange-500'
-                  ]"></span>
-                  <span :class="[
-                    'block w-3 h-3 rounded-full transition-colors duration-1000',
-                    currentMode === 'dev' ? 'bg-rose-500' : 'bg-amber-500'
-                  ]"></span>
-                </div>
-                <div class="text-xs text-zinc-400 mt-1">
-                  {{ currentMode === 'dev' ? 'Desarrollador' : 'Security' }}
-                </div>
-              </div>
-
-              <!-- Versión móvil especialidad -->
-              <div
-                class="md:hidden absolute -top-5 -right-5 p-2 backdrop-blur-md bg-zinc-900/50 border border-white/10 rounded-lg animate-float-delay-2 shadow-lg z-20">
-                <div class="flex space-x-1">
-                  <span :class="[
-                    'block w-2 h-2 rounded-full transition-colors duration-1000',
-                    currentMode === 'dev' ? 'bg-indigo-500' : 'bg-red-500'
-                  ]"></span>
-                  <span :class="[
-                    'block w-2 h-2 rounded-full transition-colors duration-1000',
-                    currentMode === 'dev' ? 'bg-purple-500' : 'bg-orange-500'
-                  ]"></span>
-                  <span :class="[
-                    'block w-2 h-2 rounded-full transition-colors duration-1000',
-                    currentMode === 'dev' ? 'bg-rose-500' : 'bg-amber-500'
-                  ]"></span>
-                </div>
-                <div class="text-xs text-zinc-400 mt-1">
-                  {{ currentMode === 'dev' ? 'Dev' : 'Sec' }}
-                </div>
-              </div>
-            </div>
-          </div>
-        </MouseParallaxEffect>
+    <!-- Scroll indicator FUERA del container -->
+    <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="600">
+      <div class="scroll-mouse">
+        <div class="scroll-wheel"></div>
       </div>
-
-      <!-- Indicador de desplazamiento -->
-      <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-          class="w-6 h-6 text-zinc-500">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 5.25l-7.5 7.5-7.5-7.5m15 6l-7.5 7.5-7.5-7.5" />
-        </svg>
-      </div>
+      <span class="scroll-text">Scroll para explorar</span>
     </div>
   </section>
 </template>
 
-<script>
-import ParticleBackground from '@/components/ui/ParticleBackground.vue';
-import MouseParallaxEffect from '@/components/ui/MouseParallaxEffect.vue';
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
-export default {
-  name: 'HeroSection',
-  components: {
-    ParticleBackground,
-    MouseParallaxEffect
-  },
-  data() {
-    return {
-      currentMode: 'dev', // 'dev' o 'cybersec'
+// Stats realistas
+const stats = ref({
+  projects: 8,
+  experience: '1+',
+  technologies: 15
+})
 
-      modes: {
-        dev: {
-          title: 'Desarrollador Web Full-Stack',
-          status: 'Disponible para proyectos',
-          label: 'Desarrollo Web & Apps',
-          skills: ['Vue.js', 'PHP', 'JavaScript', 'TypeScript', '.NET', 'Java', 'Symfony', 'PostgreSQL']
-        },
-        cybersec: {
-          title: 'Especialista en Ciberseguridad',
-          status: 'Iniciando máster en octubre 2024',
-          label: 'Ciberseguridad & SecDevOps',
-          skills: ['Security Fundamentals', 'OWASP Top 10', 'Vulnerability Analysis', 'Risk Assessment', 'Network Security', 'Compliance']
-        }
-      },
+// Referencias para parallax
+const heroBg = ref(null)
+const glowOrange = ref(null)
+const glowPurple = ref(null)
+const glowCyan = ref(null)
+const heroVisual = ref(null)
+const circle1 = ref(null)
+const circle2 = ref(null)
+const circle3 = ref(null)
+const badge1 = ref(null)
+const badge2 = ref(null)
+const badge3 = ref(null)
 
-      socialLinks: [
-        {
-          name: 'LinkedIn',
-          url: 'https://www.linkedin.com/in/gabriel-saiz-de-la-maza-bajo-140370184/',
-          icon: '<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>'
-        },
-        {
-          name: 'GitHub',
-          url: 'https://github.com/GabriLPDA22',
-          icon: '<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>'
-        },
-        {
-          name: 'Email',
-          url: 'mailto:gsaiz.bajo@gmail.com',
-          icon: '<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>'
-        }
-      ]
-    }
-  },
+// Parallax sutil estilo Apple
+const handleMouseMove = (e) => {
+  const { clientX, clientY } = e
+  const centerX = window.innerWidth / 2
+  const centerY = window.innerHeight / 2
+  
+  const moveX = (clientX - centerX) / centerX
+  const moveY = (clientY - centerY) / centerY
 
-  computed: {
-    currentTitle() {
-      return this.modes[this.currentMode].title;
-    },
-    currentStatus() {
-      return this.modes[this.currentMode].status;
-    },
-    currentLabel() {
-      return this.modes[this.currentMode].label;
-    },
-    currentSkills() {
-      return this.modes[this.currentMode].skills;
-    }
-  },
+  // Glows con movimiento muy sutil
+  if (glowOrange.value) {
+    glowOrange.value.style.transform = `translate(${moveX * 20}px, ${moveY * 20}px)`
+  }
+  if (glowPurple.value) {
+    glowPurple.value.style.transform = `translate(${moveX * -15}px, ${moveY * -15}px)`
+  }
+  if (glowCyan.value) {
+    glowCyan.value.style.transform = `translate(${moveX * 25}px, ${moveY * 25}px)`
+  }
 
-  methods: {
-    trackCvDownload() {
-      if (typeof this.$track === 'function') {
-        this.$track('cv_download', {
-          section: 'hero_section',
-          device_type: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? 'mobile' : 'desktop'
-        });
-      }
-      if (typeof window !== 'undefined' && window.gtag) {
-        window.gtag('event', 'file_download', {
-          file_name: 'Gabriel_Saiz_CV.pdf',
-          file_type: 'pdf',
-          download_method: 'hero_button'
-        });
-      }
-    },
+  // Círculos decorativos
+  if (circle1.value) {
+    circle1.value.style.transform = `translate(${moveX * -30}px, ${moveY * -30}px)`
+  }
+  if (circle2.value) {
+    circle2.value.style.transform = `translate(${moveX * 40}px, ${moveY * 40}px)`
+  }
+  if (circle3.value) {
+    circle3.value.style.transform = `translate(${moveX * -20}px, ${moveY * -20}px)`
+  }
 
-    animationClass(delay, isClipText = false) {
-      if (isClipText) {
-        return {
-          'animate-clip-text': true,
-          'opacity-0': true,
-          'style': `animation-delay: ${delay}s;`
-        }
-      }
-      return {
-        'animate-fade-in-up': true,
-        'opacity-0': true,
-        'style': `animation-delay: ${delay}s;`
-      }
-    },
-
-    animationClassModified(delay) {
-      return {
-        'animate-clip-text-visible': true,
-        'style': `animation-delay: ${delay}s;`
-      }
-    },
-
-    // Cambio suave de modo
-    switchMode() {
-      this.currentMode = this.currentMode === 'dev' ? 'cybersec' : 'dev';
-    }
-  },
-
-  mounted() {
-    // Tus animaciones originales
-    setTimeout(() => {
-      const animatedElements = document.querySelectorAll('.opacity-0');
-      animatedElements.forEach(el => {
-        el.classList.remove('opacity-0');
-        el.classList.add('opacity-100');
-      });
-    }, 3000);
-
-    if (typeof this.$track === 'function') {
-      this.$track('section_view', { section_id: 'hero' });
-    }
-
-    // Cambio automático sutil cada 8 segundos
-    setInterval(() => {
-      this.switchMode();
-    }, 8000);
+  // Badges flotantes
+  if (badge1.value) {
+    badge1.value.style.transform = `translate(${moveX * 15}px, ${moveY * 15}px)`
+  }
+  if (badge2.value) {
+    badge2.value.style.transform = `translate(${moveX * -10}px, ${moveY * -10}px)`
+  }
+  if (badge3.value) {
+    badge3.value.style.transform = `translate(${moveX * 20}px, ${moveY * 20}px)`
   }
 }
+
+// Parallax en scroll (muy sutil)
+const handleScroll = () => {
+  const scrolled = window.scrollY
+  
+  if (heroBg.value) {
+    heroBg.value.style.transform = `translateY(${scrolled * 0.3}px)`
+  }
+  
+  if (heroVisual.value) {
+    heroVisual.value.style.transform = `translateY(${scrolled * -0.2}px)`
+  }
+}
+
+onMounted(() => {
+  // Inicializar AOS
+  AOS.init({
+    duration: 800,
+    easing: 'ease-out-cubic',
+    once: true,
+    offset: 50
+  })
+
+  // Event listeners para parallax
+  window.addEventListener('mousemove', handleMouseMove)
+  window.addEventListener('scroll', handleScroll)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('mousemove', handleMouseMove)
+  window.removeEventListener('scroll', handleScroll)
+})
 </script>
 
 <style scoped>
-.animate-fade-in-up {
-  animation: fadeInUp 0.8s ease-out both;
-}
+/* ============================================
+   HERO SECTION
+   ============================================ */
 
-.animate-clip-text {
-  animation: clipText 1s cubic-bezier(0.25, 1, 0.5, 1) both;
-}
-
-.animate-clip-text-visible {
-  animation: clipTextVisible 1s cubic-bezier(0.25, 1, 0.5, 1) both;
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-.animate-float-delay-1 {
-  animation: float 6s ease-in-out 1s infinite;
-}
-
-.animate-float-delay-2 {
-  animation: float 6s ease-in-out 2s infinite;
-}
-
-/* Gradiente dual para el badge */
-.bg-dual-gradient {
-  background: linear-gradient(90deg,
-    #4F46E5 0%, #4F46E5 45%,
-    #DC2626 55%, #DC2626 100%);
-  background-size: 200% 100%;
-  background-position: 0% 50%;
-}
-
-.animate-dual-pulse {
-  animation: dualPulse 6s ease-in-out infinite;
-}
-
-@keyframes dualPulse {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-/* Botones arreglados */
-.btn-primary {
+.hero-section {
   position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
   overflow: hidden;
-  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #EC4899 100%);
-  border-radius: 50px;
-  padding: 14px 32px;
-  min-height: 48px;
+  background: var(--bg-dark);
+  padding: 6rem 1rem 4rem;
+}
+
+@media (min-width: 768px) {
+  .hero-section {
+    padding: 8rem 2rem 6rem;
+  }
+}
+
+/* --------------------------------------------
+   FONDO Y EFECTOS CON PARALLAX
+   -------------------------------------------- */
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  transition: transform 0.1s ease-out;
+}
+
+.glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.6;
+  transition: transform 0.3s ease-out;
+  will-change: transform;
+}
+
+.glow-orange {
+  top: 10%;
+  right: 15%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.2) 0%, transparent 70%);
+}
+
+.glow-purple {
+  top: 40%;
+  left: -10%;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
+}
+
+.glow-cyan {
+  bottom: 10%;
+  right: 20%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, transparent 70%);
+}
+
+.grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.3;
+}
+
+/* --------------------------------------------
+   CONTAINER
+   -------------------------------------------- */
+
+.hero-container {
+  position: relative;
+  z-index: 10;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-bottom: 6rem;
+}
+
+@media (min-width: 1024px) {
+  .hero-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 3rem;
+    padding-bottom: 0;
+  }
+}
+
+/* --------------------------------------------
+   BADGE DE DISPONIBILIDAD
+   -------------------------------------------- */
+
+.availability-badge {
+  position: absolute;
+  top: -3rem;
+  left: 0;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(6, 182, 212, 0.1);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  border-radius: 9999px;
+  backdrop-filter: blur(10px);
+  z-index: 20;
+}
+
+@media (min-width: 768px) {
+  .availability-badge {
+    top: -4rem;
+  }
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: pulse-dot 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.badge-text {
+  font-size: 0.875rem;
+  color: var(--accent-light);
+  font-weight: 500;
+}
+
+@keyframes pulse-dot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+}
+
+/* --------------------------------------------
+   CONTENIDO PRINCIPAL
+   -------------------------------------------- */
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .hero-content {
+    gap: 2rem;
+  }
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .hero-title {
+    font-size: 3.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-title {
+    font-size: 4rem;
+  }
+}
+
+.hero-subtitle {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .hero-subtitle {
+    font-size: 1.25rem;
+  }
+}
+
+.hero-subtitle strong {
+  color: var(--text-secondary);
   font-weight: 600;
-  font-size: 16px;
-  color: white;
+}
+
+/* --------------------------------------------
+   TECH STACK
+   -------------------------------------------- */
+
+.tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.tech-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.tech-badge:hover {
+  background: rgba(249, 115, 22, 0.1);
+  border-color: rgba(249, 115, 22, 0.3);
+  transform: translateY(-2px);
+  color: var(--primary-light);
+}
+
+/* --------------------------------------------
+   CTAs
+   -------------------------------------------- */
+
+.cta-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 1rem;
   text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 20px rgba(79, 70, 229, 0.25);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-.btn-primary::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s;
+@media (min-width: 768px) {
+  .btn {
+    padding: 1.25rem 2.5rem;
+    font-size: 1.125rem;
+  }
 }
 
-.btn-primary:hover::before {
-  left: 100%;
+.btn-icon {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.btn:hover .btn-icon {
+  transform: translateX(4px);
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: white;
+  box-shadow: 0 10px 40px -10px rgba(249, 115, 22, 0.4);
 }
 
 .btn-primary:hover {
+  box-shadow: 0 15px 50px -10px rgba(249, 115, 22, 0.6);
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(79, 70, 229, 0.4);
 }
 
 .btn-secondary {
-  position: relative;
-  background: rgba(24, 24, 27, 0.8);
-  border: 2px solid rgba(99, 102, 241, 0.3);
-  border-radius: 50px;
-  padding: 12px 28px;
-  min-height: 48px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-weight: 600;
-  font-size: 16px;
-  color: #A5B4FC;
-  text-decoration: none;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-secondary:hover {
-  border-color: rgba(99, 102, 241, 0.6);
-  background: rgba(99, 102, 241, 0.1);
-  color: white;
-  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
 }
 
-.btn-cv {
+/* --------------------------------------------
+   STATS
+   -------------------------------------------- */
+
+.hero-stats {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@media (min-width: 768px) {
+  .stat-number {
+    font-size: 2.5rem;
+  }
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.stat-divider {
+  width: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* --------------------------------------------
+   AVATAR CON PARALLAX
+   -------------------------------------------- */
+
+.hero-visual {
+  display: none;
+  transition: transform 0.1s ease-out;
+  will-change: transform;
+}
+
+@media (min-width: 1024px) {
+  .hero-visual {
+    display: block;
+  }
+}
+
+.avatar-container {
   position: relative;
-  background: rgba(24, 24, 27, 0.8);
-  border: 2px solid rgba(99, 102, 241, 0.3);
-  border-radius: 50px;
-  padding: 12px 24px;
-  min-height: 48px;
-  display: inline-flex;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 0 60px;
+}
+
+@media (min-width: 1280px) {
+  .avatar-container {
+    padding: 0 100px;
+  }
+}
+
+/* Círculos decorativos con parallax */
+.decoration-circle {
+  position: absolute;
+  border-radius: 50%;
+  transition: transform 0.3s ease-out;
+  will-change: transform;
+  pointer-events: none;
+}
+
+.circle-1 {
+  top: -50px;
+  right: -50px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.1) 0%, transparent 70%);
+  animation: float-slow 8s ease-in-out infinite;
+}
+
+.circle-2 {
+  bottom: -80px;
+  left: -80px;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, transparent 70%);
+  animation: float-slow 10s ease-in-out infinite reverse;
+}
+
+.circle-3 {
+  top: 50%;
+  right: -100px;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.1) 0%, transparent 70%);
+  animation: float-slow 12s ease-in-out infinite;
+}
+
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-30px) scale(1.05);
+  }
+}
+
+/* Tu foto */
+.avatar-wrapper {
+  position: relative;
+  width: 350px;
+  height: 350px;
+  margin: 0 auto;
+}
+
+@media (min-width: 1280px) {
+  .avatar-wrapper {
+    width: 400px;
+    height: 400px;
+  }
+}
+
+.avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Borde gradiente animado */
+.avatar-border {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+  z-index: 1;
+  animation: rotate 10s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Badges flotantes */
+.floating-badge {
+  position: absolute;
+  display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-weight: 600;
-  font-size: 16px;
-  color: #A5B4FC;
-  text-decoration: none;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(39, 39, 42, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
   backdrop-filter: blur(10px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease-out;
+  will-change: transform;
+  animation: float-badge 6s ease-in-out infinite;
 }
 
-.btn-cv:hover {
-  border-color: rgba(99, 102, 241, 0.6);
-  background: rgba(99, 102, 241, 0.1);
-  color: white;
-  transform: translateY(-1px);
+.badge-1 {
+  top: 20%;
+  right: -50px;
+  animation-delay: 0s;
 }
 
-/* Mobile optimizations */
-@media (max-width: 640px) {
-  .btn-primary, .btn-secondary, .btn-cv {
-    padding: 12px 24px;
-    min-height: 44px;
-    font-size: 14px;
-    width: 100%;
-    margin-bottom: 8px;
-  }
+.badge-2 {
+  bottom: 30%;
+  left: -60px;
+  animation-delay: 2s;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.badge-3 {
+  top: 60%;
+  right: -40px;
+  animation-delay: 4s;
 }
 
-@keyframes clipText {
-  from {
-    clip-path: inset(0 100% 0 0);
-  }
-  to {
-    clip-path: inset(0 0 0 0);
-  }
-}
-
-@keyframes clipTextVisible {
-  from {
-    clip-path: inset(0 80% 0 0);
-    opacity: 0.3;
-  }
-  to {
-    clip-path: inset(0 0 0 0);
-    opacity: 1;
-  }
-}
-
-@keyframes float {
+@keyframes float-badge {
   0%, 100% {
     transform: translateY(0);
   }
@@ -597,7 +734,132 @@ export default {
   }
 }
 
-.bg-grid-white {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(255 255 255 / 0.05)'%3E%3Cpath d='M0 .5H31.5V32'/%3E%3C/svg%3E");
+.badge-icon {
+  font-size: 1.5rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.badge-label {
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
+}
+
+/* --------------------------------------------
+   SCROLL INDICATOR - CENTRADO
+   -------------------------------------------- */
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+  z-index: 20;
+  animation: bounce 2s infinite;
+}
+
+.scroll-indicator:hover {
+  opacity: 1;
+}
+
+/* En desktop, mover a la esquina */
+@media (min-width: 1024px) {
+  .scroll-indicator {
+    left: 3rem;
+    transform: translateX(0);
+  }
+}
+
+.scroll-mouse {
+  width: 28px;
+  height: 45px;
+  border: 2px solid rgba(249, 115, 22, 0.5);
+  border-radius: 14px;
+  position: relative;
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.2);
+  background: rgba(249, 115, 22, 0.05);
+  animation: scroll-glow 2s ease-in-out infinite;
+}
+
+@keyframes scroll-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(249, 115, 22, 0.2);
+    border-color: rgba(249, 115, 22, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(249, 115, 22, 0.4);
+    border-color: rgba(249, 115, 22, 0.8);
+  }
+}
+
+.scroll-wheel {
+  width: 4px;
+  height: 10px;
+  background: linear-gradient(to bottom, var(--primary), var(--secondary));
+  border-radius: 2px;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: scroll-wheel 2s ease-in-out infinite;
+}
+
+.scroll-text {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+  animation: fade-pulse 2s ease-in-out infinite;
+}
+
+@keyframes fade-pulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(10px);
+  }
+}
+
+/* En desktop el bounce es diferente */
+@media (min-width: 1024px) {
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateX(0) translateY(0);
+    }
+    50% {
+      transform: translateX(0) translateY(10px);
+    }
+  }
+}
+
+@keyframes scroll-wheel {
+  0% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(16px);
+  }
 }
 </style>

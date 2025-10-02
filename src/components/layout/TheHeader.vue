@@ -7,13 +7,15 @@
         <div class="flex items-center">
           <a @click.prevent="scrollToSection('inicio')" href="#inicio" class="flex items-center group cursor-pointer">
             <div
-              class="w-10 h-10 rounded-xl flex items-center justify-center bg-gradient-to-br from-indigo-600 to-violet-600 shadow-lg shadow-indigo-500/20">
+              class="w-10 h-10 rounded-xl flex items-center justify-center bg-gradient-to-br from-orange-500 to-purple-600 shadow-lg shadow-orange-500/20">
               <span class="text-xl font-bold text-white">GS</span>
             </div>
-            <span class="ml-2 text-white font-semibold text-xl relative overflow-hidden">
-              <span class="block transition-transform duration-300 group-hover:-translate-y-full">Gabriel</span>
-              <span
-                class="absolute inset-0 transition-transform duration-300 translate-y-full group-hover:translate-y-0 text-indigo-400">Saiz</span>
+            <span class="ml-3 flex flex-col">
+              <span class="text-white font-semibold text-base">Gabriel</span>
+              <span class="text-xs text-emerald-400 flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                Disponible para proyectos
+              </span>
             </span>
           </a>
         </div>
@@ -24,9 +26,9 @@
             <nav class="flex space-x-1">
               <a v-for="item in navigationItems" :key="item.label" :href="'#' + item.section"
                 @click.prevent="scrollToSection(item.section)"
-                class="px-3 py-2 text-sm font-medium rounded-full transition-all duration-200 hover:bg-indigo-500/20 hover:text-white cursor-pointer"
+                class="px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 hover:bg-orange-500/20 hover:text-white cursor-pointer"
                 :class="{
-                  'text-white bg-indigo-500/20 border-indigo-500/30': activeSection === item.section,
+                  'text-white bg-gradient-to-r from-orange-500/20 to-purple-500/20 border border-orange-500/30': activeSection === item.section,
                   'text-zinc-400': activeSection !== item.section
                 }">
                 {{ item.label }}
@@ -35,14 +37,14 @@
           </div>
         </div>
 
-        <!-- Botón de contacto - ACTUALIZADO -->
+        <!-- Botón de contacto -->
         <div class="hidden md:block">
-          <a @click.prevent="scrollToSection('contacto')" href="#contacto"
-            class="relative inline-flex h-10 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-gray-900 cursor-pointer">
+          <a href="mailto:gsaiz.bajo@gmail.com"
+            class="relative inline-flex h-10 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-gray-900 cursor-pointer group">
             <span
-              class="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#4f46e5_0%,#9333ea_50%,#4f46e5_100%)]"></span>
+              class="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#f97316_0%,#a855f7_50%,#f97316_100%)]"></span>
             <span
-              class="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-zinc-950 px-6 py-1 text-sm font-medium text-white backdrop-blur-3xl">
+              class="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-zinc-950 px-6 py-1 text-sm font-medium text-white backdrop-blur-3xl group-hover:bg-zinc-900 transition-colors">
               Contacto
             </span>
           </a>
@@ -80,13 +82,13 @@
           <a v-for="item in navigationItems" :key="item.label" :href="'#' + item.section"
             @click.prevent="scrollToSection(item.section); closeMobileMenu()"
             class="text-center py-4 text-lg font-medium text-white border-b border-white/10 hover:bg-white/5 transition-colors cursor-pointer"
-            :class="{ 'text-indigo-400': activeSection === item.section }">
+            :class="{ 'text-orange-400': activeSection === item.section }">
             {{ item.label }}
           </a>
 
-          <!-- Contacto móvil también actualizado -->
-          <a @click.prevent="scrollToSection('contacto'); closeMobileMenu()" href="#contacto"
-            class="mt-4 text-center py-4 text-lg font-medium text-indigo-400 border border-indigo-500/30 rounded-xl bg-indigo-500/10 cursor-pointer">
+          <!-- Contacto móvil -->
+          <a href="mailto:tu@email.com"
+            class="mt-4 text-center py-4 text-lg font-medium text-orange-400 border border-orange-500/30 rounded-xl bg-orange-500/10 cursor-pointer">
             Contacto
           </a>
         </div>
@@ -104,28 +106,25 @@ export default {
       isMobileMenuOpen: false,
       activeSection: '',
       lastScrollPosition: 0,
+      // ✅ LINKS ACTUALIZADOS - Solo secciones que existen
       navigationItems: [
         { label: 'Inicio', section: 'inicio' },
         { label: 'Proyectos', section: 'proyectos' },
-        { label: 'Habilidades', section: 'skills' },
-        { label: 'Reconocimientos', section: 'reconocimientos' },
+        { label: 'Skills', section: 'skills' },
         { label: 'Experiencia', section: 'experiencia' },
-        { label: 'Hackathones', section: 'hackathones' },
-        { label: 'Educación', section: 'estudios' }
+        { label: 'Sobre mí', section: 'sobre-mi' }
       ]
     }
   },
   watch: {
     isMobileMenuOpen(isOpen) {
       if (isOpen) {
-        // Guardar la posición actual de scroll
         this.lastScrollPosition = window.pageYOffset;
         document.body.style.overflow = 'hidden';
         document.body.style.position = 'fixed';
         document.body.style.width = '100%';
         document.body.style.top = `-${this.lastScrollPosition}px`;
       } else {
-        // Restaurar la posición de scroll anterior
         document.body.style.overflow = '';
         document.body.style.position = '';
         document.body.style.width = '';
@@ -142,7 +141,6 @@ export default {
     window.addEventListener('keydown', this.handleKeydown);
     this.setupIntersectionObserver();
 
-    // Verificar la URL inicial
     const hash = window.location.hash.substring(1);
     if (hash) {
       this.activeSection = hash;
@@ -185,33 +183,26 @@ export default {
     scrollToSection(sectionId, smooth = true) {
       const section = document.getElementById(sectionId);
       if (section) {
-        // Si estamos en la misma sección, no hacer nada
         if (this.activeSection === sectionId && !this.isMobileMenuOpen) {
           return;
         }
 
-        // Añadir un pequeño retraso para el cierre del menú móvil
         setTimeout(() => {
           const headerHeight = this.$el.offsetHeight;
           const sectionPosition = section.getBoundingClientRect().top + window.pageYOffset;
-
-          // Calcular posición con ajuste para el header
           const offsetPosition = sectionPosition - headerHeight;
 
-          // Scroll suave a la sección
           window.scrollTo({
             top: offsetPosition,
             behavior: smooth ? 'smooth' : 'auto'
           });
 
-          // Actualizar URL sin recargar
           if (history.pushState) {
             history.pushState(null, null, `#${sectionId}`);
           } else {
             location.hash = `#${sectionId}`;
           }
 
-          // Actualizar sección activa
           this.activeSection = sectionId;
         }, this.isMobileMenuOpen ? 300 : 0);
       }
@@ -225,7 +216,6 @@ export default {
             if (entry.isIntersecting) {
               this.activeSection = entry.target.id;
 
-              // Actualizar URL silenciosamente si estamos haciendo scroll natural
               if (history.replaceState) {
                 history.replaceState(null, null, `#${entry.target.id}`);
               }
@@ -247,7 +237,6 @@ export default {
 </script>
 
 <style scoped>
-/* Animación para el menú móvil */
 .slide-fade-enter-active,
 .slide-fade-leave-active {
   transition: all 0.3s ease;
@@ -258,12 +247,10 @@ export default {
   opacity: 0;
 }
 
-/* Estilos adicionales para el menú móvil */
 button {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Asegurar que el menú móvil cubra todo el viewport */
 .mobile-menu-container {
   height: 100vh !important;
   width: 100vw !important;

@@ -1,301 +1,430 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* ============================================
+   🎨 MAIN.CSS - SUNSET GRADIENT
+   Portfolio Profesional - Gabriel Saiz
+   ============================================ */
 
-/* Variables globales */
-:root {
-  --primary: rgb(99, 102, 241); /* indigo-500 */
-  --primary-light: rgb(129, 140, 248); /* indigo-400 */
-  --primary-dark: rgb(79, 70, 229); /* indigo-600 */
-  
-  --secondary: rgb(168, 85, 247); /* purple-500 */
-  --secondary-light: rgb(192, 132, 252); /* purple-400 */
-  --secondary-dark: rgb(147, 51, 234); /* purple-600 */
-  
-  --accent: rgb(236, 72, 153); /* pink-500 */
-  --accent-light: rgb(244, 114, 182); /* pink-400 */
-  --accent-dark: rgb(219, 39, 119); /* pink-600 */
-  
-  --bg-dark: rgb(9, 9, 11); /* zinc-950 */
-  --bg-card: rgba(24, 24, 27, 0.6); /* zinc-900 con transparencia */
-  --border-card: rgba(63, 63, 70, 0.4); /* zinc-700 con transparencia */
-  
-  --text-primary: rgba(255, 255, 255, 0.95);
-  --text-secondary: rgba(255, 255, 255, 0.6);
-  
-  --blur-strength: 12px;
-}
-
-/* Estilos base */
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 80px; /* Para compensar el header fijo */
-}
-
-body {
-  font-family: 'Inter', 'Poppins', system-ui, sans-serif;
-  background-color: var(--bg-dark);
-  color: var(--text-primary);
-  line-height: 1.6;
-  overflow-x: hidden;
-}
-
-/* Estilos para glassmorphism */
-.glass {
-  @apply bg-zinc-900/60 backdrop-blur-sm border border-zinc-800/40;
-}
-
-.glass-card {
-  @apply glass rounded-xl border border-zinc-800/40 hover:border-indigo-500/30 transition-all duration-300;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-}
-
-/* Animaciones comunes */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes fadeInUp {
-  from { 
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to { 
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-15px);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    box-shadow: 0 0 15px rgba(99, 102, 241, 0.7);
-  }
-  50% {
-    box-shadow: 0 0 25px rgba(99, 102, 241, 0.9);
-  }
-}
-
-@keyframes scroll-down {
-  0% { 
-    opacity: 1;
-    transform: translateY(0);
-  }
-  75% {
-    opacity: 1;
-    transform: translateY(8px);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-}
-
-@keyframes blob {
-  0% {
-    transform: translate(0px, 0px) scale(1);
-  }
-  33% {
-    transform: translate(30px, -50px) scale(1.1);
-  }
-  66% {
-    transform: translate(-20px, 20px) scale(0.9);
-  }
-  100% {
-    transform: translate(0px, 0px) scale(1);
-  }
-}
-
-/* Utilidades para animaciones */
-.animation-delay-2000 {
-  animation-delay: 2s;
-}
-
-.animation-delay-4000 {
-  animation-delay: 4s;
-}
-
-.animate-blob {
-  animation: blob 7s infinite;
-}
-
-.animate-scrollDown {
-  animation: scroll-down 1.5s infinite;
-}
-
-/* Estilos para gradientes de texto */
-.gradient-text {
-  @apply text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500;
-}
-
-.gradient-text-secondary {
-  @apply text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-emerald-500;
-}
-
-.gradient-text-accent {
-  @apply text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-pink-500;
-}
-
-/* Bordes gradientes */
-.gradient-border {
-  position: relative;
-  z-index: 0;
-  border-radius: 0.75rem;
-  overflow: hidden;
-}
-
-.gradient-border::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: 0.75rem;
-  padding: 1px;
-  background: linear-gradient(to right, var(--primary), var(--secondary));
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  z-index: -1;
-}
-
-/* Efectos de hover para enlaces sociales */
-.social-icon-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.social-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 3rem;
-  height: 3rem;
-  color: #a1a1aa;
-  background-color: rgba(39, 39, 42, 0.5);
-  border: 1px solid rgba(63, 63, 70, 0.4);
-  border-radius: 9999px;
-  transition: all 0.3s ease;
-}
-
-.social-icon-link:hover .social-icon {
-  color: white;
-  border-color: rgba(99, 102, 241, 0.5);
-  background-color: rgba(99, 102, 241, 0.1);
-  transform: translateY(-3px);
-}
-
-/* Scrollbar personalizada */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(24, 24, 27, 0.6);
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(99, 102, 241, 0.5);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(99, 102, 241, 0.8);
-}
-
-/* Media queries para reducción de movimiento */
-@media (prefers-reduced-motion: reduce) {
-  *, ::before, ::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* Animaciones para scroll reveal */
-.reveal-card {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.reveal-card.revealed {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.reveal-element {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.reveal-element.revealed {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.reveal-award {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.reveal-award.revealed {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.fade-in-element {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-
-.fade-in-element.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.fade-right {
-  opacity: 0;
-  transform: translateX(-30px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.fade-left {
-  opacity: 0;
-  transform: translateX(30px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.animated-right,
-.animated-left {
-  opacity: 1;
-  transform: translateX(0);
-}
+   @tailwind base;
+   @tailwind components;
+   @tailwind utilities;
+   
+   /* ============================================
+      🔥 VARIABLES CSS - NUEVA PALETA SUNSET
+      ============================================ */
+   :root {
+     /* 🆕 COLORES PRIMARIOS - Sunset Gradient */
+     --primary: rgb(249, 115, 22); /* orange-500 */
+     --primary-light: rgb(251, 146, 60); /* orange-400 */
+     --primary-dark: rgb(234, 88, 12); /* orange-600 */
+     
+     --secondary: rgb(168, 85, 247); /* purple-500 */
+     --secondary-light: rgb(192, 132, 252); /* purple-400 */
+     --secondary-dark: rgb(147, 51, 234); /* purple-600 */
+     
+     /* 🆕 ACCENT COLOR - Cyan */
+     --accent: rgb(6, 182, 212); /* cyan-500 */
+     --accent-light: rgb(34, 211, 238); /* cyan-400 */
+     --accent-dark: rgb(8, 145, 178); /* cyan-600 */
+     
+     /* Fondos */
+     --bg-dark: rgb(24, 24, 27); /* zinc-950 */
+     --bg-surface: rgb(39, 39, 42); /* zinc-800 */
+     --bg-card: rgba(39, 39, 42, 0.8); /* zinc-800 con transparencia */
+     --border-card: rgba(82, 82, 91, 0.4); /* zinc-600 con transparencia */
+     
+     /* Textos */
+     --text-primary: rgba(250, 250, 250, 0.95); /* zinc-50 */
+     --text-secondary: rgba(212, 212, 216, 0.9); /* zinc-300 */
+     --text-muted: rgba(161, 161, 170, 0.8); /* zinc-400 */
+     
+     /* Efectos */
+     --blur-strength: 12px;
+     
+     /* 🆕 Gradientes */
+     --gradient-hero: linear-gradient(135deg, rgb(249, 115, 22) 0%, rgb(168, 85, 247) 100%);
+     --gradient-cta: linear-gradient(90deg, rgb(249, 115, 22) 0%, rgb(251, 146, 60) 100%);
+   }
+   
+   /* ============================================
+      📐 ESTILOS BASE
+      ============================================ */
+   html {
+     scroll-behavior: smooth;
+     scroll-padding-top: 80px;
+   }
+   
+   body {
+     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+     background-color: var(--bg-dark);
+     color: var(--text-primary);
+     line-height: 1.6;
+     overflow-x: hidden;
+     -webkit-font-smoothing: antialiased;
+     -moz-osx-font-smoothing: grayscale;
+   }
+   
+   /* ============================================
+      🎨 UTILIDADES GLASS & CARDS
+      ============================================ */
+   .glass {
+     background: rgba(39, 39, 42, 0.6);
+     backdrop-filter: blur(12px);
+     -webkit-backdrop-filter: blur(12px);
+     border: 1px solid rgba(255, 255, 255, 0.1);
+   }
+   
+   .glass-card {
+     @apply glass rounded-xl;
+     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+     transition: all 0.3s ease;
+   }
+   
+   /* 🆕 Hover con colores Sunset */
+   .glass-card:hover {
+     border-color: rgba(249, 115, 22, 0.3);
+     box-shadow: 0 15px 35px rgba(249, 115, 22, 0.15);
+   }
+   
+   /* ============================================
+      ✨ ANIMACIONES
+      ============================================ */
+   @keyframes fadeIn {
+     from { opacity: 0; }
+     to { opacity: 1; }
+   }
+   
+   @keyframes fadeInUp {
+     from { 
+       opacity: 0;
+       transform: translateY(20px);
+     }
+     to { 
+       opacity: 1;
+       transform: translateY(0);
+     }
+   }
+   
+   @keyframes fadeInDown {
+     from {
+       opacity: 0;
+       transform: translateY(-20px);
+     }
+     to {
+       opacity: 1;
+       transform: translateY(0);
+     }
+   }
+   
+   @keyframes scaleIn {
+     from {
+       opacity: 0;
+       transform: scale(0.95);
+     }
+     to {
+       opacity: 1;
+       transform: scale(1);
+     }
+   }
+   
+   @keyframes float {
+     0%, 100% {
+       transform: translateY(0);
+     }
+     50% {
+       transform: translateY(-15px);
+     }
+   }
+   
+   /* 🆕 Pulse con color Sunset */
+   @keyframes pulse {
+     0%, 100% {
+       box-shadow: 0 0 15px rgba(249, 115, 22, 0.5);
+     }
+     50% {
+       box-shadow: 0 0 25px rgba(249, 115, 22, 0.8);
+     }
+   }
+   
+   @keyframes scroll-down {
+     0% { 
+       opacity: 1;
+       transform: translateY(0);
+     }
+     75% {
+       opacity: 1;
+       transform: translateY(8px);
+     }
+     100% {
+       opacity: 0;
+       transform: translateY(8px);
+     }
+   }
+   
+   @keyframes blob {
+     0% {
+       transform: translate(0px, 0px) scale(1);
+     }
+     33% {
+       transform: translate(30px, -50px) scale(1.1);
+     }
+     66% {
+       transform: translate(-20px, 20px) scale(0.9);
+     }
+     100% {
+       transform: translate(0px, 0px) scale(1);
+     }
+   }
+   
+   /* 🆕 Animación de rotate para loaders */
+   @keyframes rotate {
+     from {
+       transform: rotate(0deg);
+     }
+     to {
+       transform: rotate(360deg);
+     }
+   }
+   
+   /* ============================================
+      🎯 CLASES DE ANIMACIÓN
+      ============================================ */
+   .animation-delay-2000 {
+     animation-delay: 2s;
+   }
+   
+   .animation-delay-4000 {
+     animation-delay: 4s;
+   }
+   
+   .animate-blob {
+     animation: blob 7s infinite;
+   }
+   
+   .animate-scrollDown {
+     animation: scroll-down 1.5s infinite;
+   }
+   
+   .animate-float {
+     animation: float 6s ease-in-out infinite;
+   }
+   
+   /* ============================================
+      🌈 GRADIENTES DE TEXTO
+      ============================================ */
+   /* 🆕 Gradiente Sunset principal */
+   .gradient-text {
+     background: linear-gradient(135deg, rgb(249, 115, 22) 0%, rgb(168, 85, 247) 100%);
+     -webkit-background-clip: text;
+     -webkit-text-fill-color: transparent;
+     background-clip: text;
+   }
+   
+   /* 🆕 Gradiente Cyan */
+   .gradient-text-cyan {
+     background: linear-gradient(135deg, rgb(6, 182, 212) 0%, rgb(34, 211, 238) 100%);
+     -webkit-background-clip: text;
+     -webkit-text-fill-color: transparent;
+     background-clip: text;
+   }
+   
+   /* Alternativo para secondary (purple) */
+   .gradient-text-secondary {
+     background: linear-gradient(135deg, rgb(168, 85, 247) 0%, rgb(192, 132, 252) 100%);
+     -webkit-background-clip: text;
+     -webkit-text-fill-color: transparent;
+     background-clip: text;
+   }
+   
+   /* Para acentos de éxito/verde */
+   .gradient-text-accent {
+     background: linear-gradient(135deg, rgb(16, 185, 129) 0%, rgb(52, 211, 153) 100%);
+     -webkit-background-clip: text;
+     -webkit-text-fill-color: transparent;
+     background-clip: text;
+   }
+   
+   /* ============================================
+      🎨 BORDES CON GRADIENTE
+      ============================================ */
+   .gradient-border {
+     position: relative;
+     z-index: 0;
+     border-radius: 0.75rem;
+     overflow: hidden;
+   }
+   
+   /* 🆕 Borde con gradiente Sunset */
+   .gradient-border::before {
+     content: '';
+     position: absolute;
+     top: 0;
+     left: 0;
+     right: 0;
+     bottom: 0;
+     border-radius: 0.75rem;
+     padding: 1px;
+     background: linear-gradient(to right, var(--primary), var(--secondary));
+     -webkit-mask: 
+       linear-gradient(#fff 0 0) content-box, 
+       linear-gradient(#fff 0 0);
+     -webkit-mask-composite: xor;
+     mask-composite: exclude;
+     z-index: -1;
+   }
+   
+   /* ============================================
+      🔗 ENLACES Y SOCIAL ICONS
+      ============================================ */
+   .social-icon-link {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+   }
+   
+   .social-icon {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     width: 3rem;
+     height: 3rem;
+     color: #a1a1aa;
+     background-color: rgba(39, 39, 42, 0.5);
+     border: 1px solid rgba(82, 82, 91, 0.4);
+     border-radius: 9999px;
+     transition: all 0.3s ease;
+   }
+   
+   /* 🆕 Hover con colores Sunset */
+   .social-icon-link:hover .social-icon {
+     color: white;
+     border-color: rgba(249, 115, 22, 0.5);
+     background-color: rgba(249, 115, 22, 0.1);
+     transform: translateY(-3px);
+     box-shadow: 0 10px 25px rgba(249, 115, 22, 0.3);
+   }
+   
+   /* ============================================
+      📜 SCROLLBAR PERSONALIZADA
+      ============================================ */
+   ::-webkit-scrollbar {
+     width: 8px;
+   }
+   
+   ::-webkit-scrollbar-track {
+     background: rgba(24, 24, 27, 0.8);
+   }
+   
+   /* 🆕 Scrollbar con color Sunset */
+   ::-webkit-scrollbar-thumb {
+     background: rgba(249, 115, 22, 0.5);
+     border-radius: 4px;
+     transition: background 0.3s ease;
+   }
+   
+   ::-webkit-scrollbar-thumb:hover {
+     background: rgba(249, 115, 22, 0.8);
+   }
+   
+   /* ============================================
+      ♿ ACCESIBILIDAD
+      ============================================ */
+   @media (prefers-reduced-motion: reduce) {
+     *, ::before, ::after {
+       animation-duration: 0.01ms !important;
+       animation-iteration-count: 1 !important;
+       transition-duration: 0.01ms !important;
+       scroll-behavior: auto !important;
+     }
+   }
+   
+   /* ============================================
+      📱 ANIMACIONES SCROLL REVEAL
+      ============================================ */
+   .reveal-card,
+   .reveal-element,
+   .reveal-award {
+     opacity: 0;
+     transform: translateY(30px);
+     transition: opacity 0.8s ease, transform 0.8s ease;
+   }
+   
+   .reveal-card.revealed,
+   .reveal-element.revealed,
+   .reveal-award.revealed {
+     opacity: 1;
+     transform: translateY(0);
+   }
+   
+   .fade-in-element {
+     opacity: 0;
+     transform: translateY(20px);
+     transition: opacity 0.7s ease, transform 0.7s ease;
+   }
+   
+   .fade-in-element.visible {
+     opacity: 1;
+     transform: translateY(0);
+   }
+   
+   .fade-right {
+     opacity: 0;
+     transform: translateX(-30px);
+     transition: opacity 0.8s ease, transform 0.8s ease;
+   }
+   
+   .fade-left {
+     opacity: 0;
+     transform: translateX(30px);
+     transition: opacity 0.8s ease, transform 0.8s ease;
+   }
+   
+   .animated-right,
+   .animated-left {
+     opacity: 1;
+     transform: translateX(0);
+   }
+   
+   /* ============================================
+      🎯 UTILIDADES ADICIONALES
+      ============================================ */
+   
+   /* Ocultar scrollbar pero mantener funcionalidad */
+   .hide-scrollbar {
+     scrollbar-width: none;
+     -ms-overflow-style: none;
+   }
+   
+   .hide-scrollbar::-webkit-scrollbar {
+     display: none;
+   }
+   
+   /* Text selection personalizado */
+   ::selection {
+     background-color: rgba(249, 115, 22, 0.3);
+     color: white;
+   }
+   
+   ::-moz-selection {
+     background-color: rgba(249, 115, 22, 0.3);
+     color: white;
+   }
+   
+   /* Focus visible para accesibilidad */
+   *:focus-visible {
+     outline: 2px solid var(--primary);
+     outline-offset: 2px;
+   }
+   
+   /* ============================================
+      🔥 SOMBRAS CON COLOR SUNSET
+      ============================================ */
+   .shadow-orange {
+     box-shadow: 0 10px 40px -10px rgba(249, 115, 22, 0.4);
+   }
+   
+   .shadow-purple {
+     box-shadow: 0 10px 40px -10px rgba(168, 85, 247, 0.4);
+   }
+   
+   .shadow-cyan {
+     box-shadow: 0 10px 40px -10px rgba(6, 182, 212, 0.4);
+   }
