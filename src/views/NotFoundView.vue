@@ -1,54 +1,97 @@
 <template>
-    <div class="min-h-screen pt-20 pb-16 flex items-center justify-center">
-      <div class="container mx-auto px-4 sm:px-6 relative z-10 text-center">
-        <div class="max-w-lg mx-auto glass-card p-8 sm:p-10">
-          <!-- Imagen del monstruo 404 -->
-          <div class="mb-8 mx-auto w-64">
-            <img src="" alt="Error 404" class="w-full h-auto" 
-                 onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMTUwIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgZmlsbD0iIzZhNWRjOSIgcng9IjEwIiByeT0iMTAiLz48Y2lyY2xlIGN4PSI2NSIgY3k9IjgwIiByPSIyNSIgZmlsbD0iI2ZmZiIvPjxjaXJjbGUgY3g9IjY1IiBjeT0iODAiIHI9IjEyIiBmaWxsPSIjMDAwIi8+PGNpcmNsZSBjeD0iMTMwIiBjeT0iODAiIHI9IjI1IiBmaWxsPSIjZmZmIi8+PGNpcmNsZSBjeD0iMTMwIiBjeT0iODAiIHI9IjEyIiBmaWxsPSIjMDAwIi8+PHBhdGggZD0iTTcwIDExMGMxNSAyMCA0NCAyMCA2MCAwIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNCIgZmlsbD0ibm9uZSIvPjx0ZXh0IHg9IjEwMCIgeT0iNDAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZiI+NDA0PC90ZXh0PjxwYXRoIGQ9Ik00MCAyMGwyMCAxME02MCAxMGwxNSAyNU0xNDAgMjBsMjAgMTBNMTYwIDEwbDE1IDI1IiBzdHJva2U9IiNmZjgwODAiIHN0cm9rZS13aWR0aD0iNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+'">
-          </div>
-  
-          <h1 class="text-3xl sm:text-4xl font-bold text-white mb-4">Oops, página no encontrada</h1>
-          
-          <p class="text-zinc-400 mb-8">
-            La página que estás buscando no existe o ha sido movida.
-          </p>
-  
-          <div class="flex justify-center">
-            <router-link to="/" 
-              class="group relative overflow-hidden rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 px-8 py-3 text-white transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/25">
-              <span class="relative flex items-center gap-2">
-                <font-awesome-icon :icon="['fas', 'arrow-right']" class="transform rotate-180" />
-                Volver al inicio
-              </span>
-              <span class="absolute right-0 -top-2 -z-10 h-14 w-14 rounded-full bg-indigo-800 transition-all duration-300 ease-in-out group-hover:scale-150"></span>
-            </router-link>
-          </div>
-        </div>
-      </div>
+  <div class="not-found">
+    <div class="not-found-content">
+      <div class="error-code">404</div>
+
+      <h1 class="error-title">Página no encontrada</h1>
+
+      <p class="error-description">
+        Lo sentimos, la página que buscas no existe o ha sido movida.
+      </p>
+
+      <router-link to="/" class="back-button">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+          />
+        </svg>
+        <span>Volver al inicio</span>
+      </router-link>
     </div>
-  </template>
-  
-  <script>
-  import { defineComponent, onMounted } from 'vue';
-  import { useTitle } from '@vueuse/core';
-  
-  export default defineComponent({
-    name: 'NotFoundView',
-    setup() {
-      // Establecer el título de la página
-      useTitle('404 - Página no encontrada');
-      
-      onMounted(() => {
-        // Registrar evento de página no encontrada
-        if (typeof window.gtag === 'function') {
-          window.gtag('event', 'page_404', {
-            page: window.location.pathname,
-            referrer: document.referrer,
-            timestamp: new Date().toISOString()
-          });
-        }
-      })
-    }
-  });
-  </script>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "NotFoundView",
+};
+</script>
+
+<style scoped>
+.not-found {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0a0a0b;
+  padding: 2rem;
+}
+
+.not-found-content {
+  text-align: center;
+  max-width: 500px;
+}
+
+.error-code {
+  font-size: clamp(6rem, 15vw, 10rem);
+  font-weight: 900;
+  background: linear-gradient(135deg, #ff6b35, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+
+.error-title {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 1rem;
+}
+
+.error-description {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0 0 2rem;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #ff6b35, #ec4899);
+  border-radius: 0.75rem;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.5);
+}
+
+.back-button svg {
+  width: 20px;
+  height: 20px;
+}
+</style>

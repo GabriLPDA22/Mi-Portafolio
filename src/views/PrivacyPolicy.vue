@@ -1,188 +1,221 @@
 <template>
-    <div class="min-h-screen pt-20 pb-16">
-        <div class="container mx-auto px-4 sm:px-6 relative z-10">
-            <div class="max-w-4xl mx-auto glass-card p-6 sm:p-8 md:p-10">
-                <!-- Encabezado -->
-                <div class="mb-8 pb-4 border-b border-zinc-800">
-                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">Política de Privacidad y
-                        Cookies</h1>
-                    <p class="text-zinc-400">Última actualización: {{ lastUpdated }}</p>
-                </div>
+  <div class="privacy-page">
+    <div class="privacy-container">
+      <button @click="goBack" class="back-button">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+          />
+        </svg>
+        <span>Volver</span>
+      </button>
 
-                <!-- Contenido -->
-                <div class="space-y-8 text-zinc-300">
-                    <!-- Introducción -->
-                    <section>
-                        <h2 class="text-xl sm:text-2xl font-bold text-white mb-4">1. Introducción</h2>
-                        <p>
-                            Bienvenido a gabrielcodes.dev. Respeto tu privacidad y me comprometo a proteger tus datos
-                            personales.
-                            Esta política de privacidad te informará sobre cómo trato tus datos personales cuando
-                            visitas mi sitio web
-                            y te informará sobre tus derechos de privacidad.
-                        </p>
-                    </section>
+      <h1 class="privacy-title">Política de Privacidad</h1>
 
-                    <!-- Qué información recopilo -->
-                    <section>
-                        <h2 class="text-xl sm:text-2xl font-bold text-white mb-4">2. Información que recopilo</h2>
-                        <p>
-                            Cuando visitas mi sitio web, recopilo automáticamente cierta información sobre tu
-                            dispositivo,
-                            incluida información sobre tu navegador web, dirección IP, zona horaria y algunas de las
-                            cookies
-                            que están instaladas en tu dispositivo.
-                        </p>
-                        <p class="mt-2">
-                            Además, a medida que navegas por el sitio, recopilo información sobre las páginas web
-                            individuales
-                            que visitas, qué sitios web o términos de búsqueda te remitieron a mi sitio y cómo navegas e
-                            interactúas con él.
-                            Me refiero a esta información recopilada automáticamente como "Información del dispositivo".
-                        </p>
-                    </section>
+      <div class="privacy-content">
+        <section class="privacy-section">
+          <h2>1. Información que recopilamos</h2>
+          <p>
+            Este sitio web personal no recopila información personal
+            identificable de forma activa. Sin embargo, como la mayoría de
+            sitios web, puede recopilar información técnica básica como:
+          </p>
+          <ul>
+            <li>Dirección IP</li>
+            <li>Tipo de navegador</li>
+            <li>Páginas visitadas</li>
+            <li>Tiempo de permanencia en el sitio</li>
+          </ul>
+        </section>
 
-                    <!-- Cómo recopilo la información -->
-                    <section>
-                        <h2 class="text-xl sm:text-2xl font-bold text-white mb-4">3. Cómo recopilo la información</h2>
-                        <p>
-                            Recopilo información del dispositivo utilizando las siguientes tecnologías:
-                        </p>
-                        <ul class="list-disc list-inside mt-2 ml-4 space-y-2">
-                            <li>
-                                <strong>Cookies</strong>: son archivos de datos que se colocan en tu dispositivo o
-                                computadora
-                                y que a menudo incluyen un identificador único anónimo.
-                            </li>
-                            <li>
-                                <strong>Google Analytics</strong>: utilizo Google Analytics para recopilar información
-                                sobre
-                                cómo interactúas con mi sitio web. Esto me ayuda a mejorar la experiencia del usuario.
-                            </li>
-                        </ul>
-                    </section>
+        <section class="privacy-section">
+          <h2>2. Uso de cookies</h2>
+          <p>
+            Utilizamos cookies esenciales para el funcionamiento básico del
+            sitio web. Puedes gestionar tus preferencias de cookies en cualquier
+            momento.
+          </p>
+        </section>
 
-                    <!-- Cómo uso la información -->
-                    <section>
-                        <h2 class="text-xl sm:text-2xl font-bold text-white mb-4">4. Cómo uso la información</h2>
-                        <p>
-                            Uso la Información del Dispositivo que recopilo para ayudarme a detectar posibles riesgos y
-                            fraudes
-                            (en particular, tu dirección IP) y, de manera más general, para mejorar y optimizar mi sitio
-                            (por ejemplo, generando análisis sobre cómo navegas e interactúas con el sitio).
-                        </p>
-                    </section>
+        <section class="privacy-section">
+          <h2>3. Compartir información</h2>
+          <p>
+            No compartimos, vendemos ni alquilamos tu información personal a
+            terceros. Los datos técnicos recopilados se utilizan únicamente para
+            mejorar la experiencia del usuario.
+          </p>
+        </section>
 
-                    <!-- Cookies utilizadas -->
-                    <section>
-                        <h2 class="text-xl sm:text-2xl font-bold text-white mb-4">5. Cookies utilizadas</h2>
-                        <p>
-                            Mi sitio utiliza los siguientes tipos de cookies:
-                        </p>
-                        <ul class="list-disc list-inside mt-2 ml-4 space-y-2">
-                            <li>
-                                <strong>Cookies analíticas</strong>: utilizo Google Analytics para recopilar datos sobre
-                                el uso de mi sitio con el fin de mejorar su rendimiento. Estas cookies recopilan
-                                información
-                                como el número de visitantes al sitio, de dónde provienen los visitantes y las páginas
-                                que visitan.
-                            </li>
-                        </ul>
-                    </section>
+        <section class="privacy-section">
+          <h2>4. Enlaces externos</h2>
+          <p>
+            Este sitio puede contener enlaces a sitios web externos. No somos
+            responsables de las prácticas de privacidad de estos sitios.
+          </p>
+        </section>
 
-                    <!-- Tus derechos -->
-                    <section>
-                        <h2 class="text-xl sm:text-2xl font-bold text-white mb-4">6. Tus derechos</h2>
-                        <p>
-                            Si eres residente europeo, tienes derecho a acceder a la información personal que tengo
-                            sobre ti y
-                            a solicitar que tu información personal sea corregida, actualizada o eliminada. Si deseas
-                            ejercer este
-                            derecho, ponte en contacto conmigo a través de los datos de contacto que aparecen más abajo.
-                        </p>
-                        <p class="mt-2">
-                            Además, si eres residente europeo, tomo nota de que estoy procesando tu información para
-                            cumplir con
-                            contratos que podríamos tener contigo o para perseguir nuestros intereses comerciales
-                            legítimos
-                            listados anteriormente. Además, ten en cuenta que tu información puede ser transferida fuera
-                            de Europa,
-                            incluyendo Canadá y Estados Unidos.
-                        </p>
-                    </section>
+        <section class="privacy-section">
+          <h2>5. Contacto</h2>
+          <p>
+            Si tienes preguntas sobre esta política de privacidad, puedes
+            contactarme en:
+          </p>
+          <p>
+            <a href="mailto:gsaiz.bajo@gmail.com" class="contact-link"
+              >gsaiz.bajo@gmail.com</a
+            >
+          </p>
+        </section>
 
-                    <!-- Retención de datos -->
-                    <section>
-                        <h2 class="text-xl sm:text-2xl font-bold text-white mb-4">7. Retención de datos</h2>
-                        <p>
-                            Cuando visitas el sitio, mantendré tu Información del Dispositivo durante un período de
-                            tiempo
-                            según sea necesario para los fines establecidos en esta política de privacidad a menos que
-                            se requiera
-                            un período de retención más largo por ley.
-                        </p>
-                    </section>
-
-                    <!-- Cambios en la política -->
-                    <section>
-                        <h2 class="text-xl sm:text-2xl font-bold text-white mb-4">8. Cambios</h2>
-                        <p>
-                            Puedo actualizar esta política de privacidad de vez en cuando para reflejar, por ejemplo,
-                            cambios en
-                            mis prácticas o por otras razones operativas, legales o regulatorias.
-                        </p>
-                    </section>
-
-                    <!-- Contacto -->
-                    <section>
-                        <h2 class="text-xl sm:text-2xl font-bold text-white mb-4">9. Contacto</h2>
-                        <p>
-                            Para más información sobre mis prácticas de privacidad, si tienes preguntas o si quieres
-                            hacer una
-                            reclamación, ponte en contacto conmigo por correo electrónico a gsaiz.bajo@gmail.com.
-                        </p>
-                    </section>
-                </div>
-            </div>
-        </div>
+        <p class="last-updated">
+          Última actualización: {{ new Date().toLocaleDateString("es-ES") }}
+        </p>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'PrivacyPolicy',
-    data() {
-        return {
-            lastUpdated: '29 de marzo de 2025'
-        }
-    },
-    mounted() {
-        // Cambiar el título de la página
-        document.title = 'Política de Privacidad - Portfolio de Gabriel Saiz';
+  name: "PrivacyPolicy",
 
-        // Registrar vista de página de privacidad para analytics
-        if (typeof this.$track === 'function') {
-            this.$track('view_privacy_policy');
-        }
-    }
-}
+  methods: {
+    goBack() {
+      this.$router.go(-1);
+    },
+  },
+};
 </script>
 
 <style scoped>
-/* Estilos adicionales específicos para la página de privacidad */
-section h2 {
-    position: relative;
-    padding-left: 0.5rem;
+.privacy-page {
+  min-height: 100vh;
+  background: #0a0a0b;
+  padding: 4rem 1.5rem;
 }
 
-section h2::before {
-    content: '';
-    position: absolute;
-    left: -0.5rem;
-    top: 0.5rem;
-    bottom: 0.5rem;
-    width: 3px;
-    background: linear-gradient(to bottom, #6366f1, #a855f7);
-    border-radius: 3px;
+.privacy-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 2rem;
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #ff6b35;
+  transform: translateX(-4px);
+}
+
+.back-button svg {
+  width: 20px;
+  height: 20px;
+}
+
+.privacy-title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  background: linear-gradient(135deg, #ff6b35, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 2rem;
+}
+
+.privacy-content {
+  background: rgba(39, 39, 42, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+}
+
+.privacy-section {
+  margin-bottom: 2.5rem;
+}
+
+.privacy-section:last-of-type {
+  margin-bottom: 0;
+}
+
+.privacy-section h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 1rem;
+}
+
+.privacy-section p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0 0 1rem;
+}
+
+.privacy-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.privacy-section li {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.75);
+  padding-left: 1.5rem;
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+
+.privacy-section li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #ff6b35;
+  font-weight: 700;
+}
+
+.contact-link {
+  color: #ff6b35;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.contact-link:hover {
+  color: #ec5b25;
+  text-decoration: underline;
+}
+
+.last-updated {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
+  margin: 2rem 0 0;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 767px) {
+  .privacy-content {
+    padding: 1.5rem;
+  }
 }
 </style>

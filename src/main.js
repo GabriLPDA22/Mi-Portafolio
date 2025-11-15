@@ -48,7 +48,6 @@ library.add(
 
 // Registrar componentes de interfaz de usuario globales
 import ParticleBackground from '@/components/ui/ParticleBackground.vue'
-import CodeTerminalEffect from '@/components/ui/CodeTerminalEffect.vue'
 
 // Crear la instancia de pinia
 const pinia = createPinia()
@@ -59,7 +58,6 @@ const app = createApp(App)
 // Registrar componentes globales
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.component('ParticleBackground', ParticleBackground)
-app.component('CodeTerminalEffect', CodeTerminalEffect)
 
 // Registrar plugins
 app.use(pinia)

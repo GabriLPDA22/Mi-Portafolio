@@ -7,7 +7,7 @@
       <div class="bg-layer layer-3" ref="layer3"></div>
     </div>
 
-    <!-- Elementos decorativos en los márgenes -->
+    <!-- Elementos decorativos -->
     <div class="decorative-elements">
       <div class="deco-circle deco-1"></div>
       <div class="deco-circle deco-2"></div>
@@ -15,259 +15,495 @@
     </div>
 
     <div class="projects-container">
-      
       <!-- Sticky Header Section -->
       <div class="sticky-header" ref="stickyHeader">
         <div class="header-content" :class="{ 'is-scrolled': isScrolled }">
-          
-          <!-- Texto gigante de fondo -->
           <div class="background-text">PROYECTOS</div>
-          
           <h2 class="section-title">
-            Mis <span class="gradient-text">Proyectos</span>
+            Casos de <span class="gradient-text">Éxito</span>
           </h2>
           <p class="section-subtitle">
-            Aplicaciones reales que demuestran mi experiencia en desarrollo full stack, desde apps mobile hasta plataformas web complejas.
+            Proyectos reales en producción que demuestran mi experiencia en
+            desarrollo full stack, desde apps mobile hasta plataformas web
+            complejas.
           </p>
         </div>
       </div>
 
-      <!-- Projects Grid - 3 proyectos -->
-      <div class="projects-grid" ref="projectsGrid">
-        
-        <!-- Project Card 1: ELIXIUM FOODS -->
-        <div 
-          class="project-card project-card-no-link" 
-          ref="card1"
-        >
-          <div class="card-glow"></div>
-          <div class="card-content">
-            
-            <div class="card-image card-image-gradient">
-              <div class="project-logo">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                </svg>
+      <!-- Projects Grid Desktop / Carousel Mobile -->
+      <div class="projects-wrapper">
+        <!-- Desktop Grid -->
+        <div class="projects-grid desktop-only" ref="projectsGrid">
+          <div class="project-card" ref="card1">
+            <div class="card-glow"></div>
+            <div class="card-content">
+              <div class="card-image gradient-bg">
+                <div class="project-icon">
+                  <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    />
+                  </svg>
+                </div>
+                <div class="card-overlay"></div>
               </div>
-              <div class="card-overlay"></div>
+              <div class="card-info">
+                <div class="card-badges">
+                  <span class="badge badge-featured">TFG</span>
+                  <span class="badge badge-fullstack">Full Stack</span>
+                </div>
+                <h3 class="card-title">ELIXIUM FOODS Delivery</h3>
+                <p class="card-description">
+                  Plataforma completa de entrega de comida estilo UberEats
+                  desarrollada como TFG. Sistema de pedidos en tiempo real,
+                  panel de administración y arquitectura cloud-native.
+                </p>
+                <div class="card-tech">
+                  <span class="tech-tag">.NET 9</span>
+                  <span class="tech-tag">Vue.js 3</span>
+                  <span class="tech-tag">PostgreSQL</span>
+                  <span class="tech-tag">AWS</span>
+                </div>
+                <div class="card-result">
+                  <svg
+                    class="result-icon"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <span
+                    >Arquitectura profesional cloud-native con deploy en
+                    AWS</span
+                  >
+                </div>
+              </div>
             </div>
-            
-            <div class="card-info">
-              <div class="card-badges">
-                <span class="badge badge-featured">Proyecto Destacado</span>
-                <span class="badge badge-fullstack">Full Stack</span>
+          </div>
+
+          <div class="project-card" ref="card2" @click="openHuvegrym">
+            <div class="card-glow"></div>
+            <div class="card-content">
+              <div class="card-image">
+                <img
+                  src="/img/huvegrym_preview.png"
+                  alt="Huvegrym"
+                  loading="lazy"
+                />
+                <div class="card-overlay"></div>
               </div>
-              
-              <h3 class="card-title">ELIXIUM FOODS Delivery</h3>
-              <p class="card-description">
-                Plataforma completa de entrega de comida estilo UberEats. Sistema de pedidos en tiempo real, panel de administración y gestión de restaurantes.
-              </p>
-              
-              <div class="card-tech">
-                <span class="tech-tag">.NET 9</span>
-                <span class="tech-tag">Vue.js 3</span>
-                <span class="tech-tag">PostgreSQL</span>
-                <span class="tech-tag">AWS</span>
+              <div class="card-info">
+                <div class="card-badges">
+                  <span class="badge badge-production">En Producción ⭐</span>
+                  <span class="badge badge-web">Cliente Real</span>
+                </div>
+                <h3 class="card-title">Huvegrym - Danza Contemporánea</h3>
+                <p class="card-description">
+                  Portfolio digital profesional para grupo de danza. Galería de
+                  espectáculos, sistema de contacto directo y diseño
+                  completamente responsive.
+                </p>
+                <div class="card-tech">
+                  <span class="tech-tag">HTML5</span>
+                  <span class="tech-tag">CSS3</span>
+                  <span class="tech-tag">JavaScript</span>
+                  <span class="tech-tag">Bootstrap</span>
+                </div>
+                <div class="card-result">
+                  <svg
+                    class="result-icon"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+                    />
+                  </svg>
+                  <span>Sitio live en huvegrym.es - Cliente satisfecho</span>
+                </div>
+                <div class="card-link-hint">
+                  <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                    />
+                  </svg>
+                  <span>Visitar sitio web</span>
+                </div>
               </div>
-              
-              <div class="card-result">
-                <svg class="result-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                <span>Arquitectura profesional cloud-native con deploy en AWS</span>
+            </div>
+          </div>
+
+          <div class="project-card" ref="card3" @click="openMVPApp">
+            <div class="card-glow"></div>
+            <div class="card-content">
+              <div class="card-image gradient-bg upcoming-bg">
+                <div class="project-icon">
+                  <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
+                    />
+                  </svg>
+                </div>
+                <div class="card-overlay"></div>
+              </div>
+              <div class="card-info">
+                <div class="card-badges">
+                  <span class="badge badge-upcoming"
+                    >v1.1.3 - En Desarrollo</span
+                  >
+                  <span class="badge badge-fullstack">Full Stack MVP</span>
+                </div>
+                <h3 class="card-title">MVP Profesional Multiplatform</h3>
+                <p class="card-description">
+                  Desarrollo actual de un MVP completo con aplicación web
+                  Vue.js, mobile iOS con React Native y arquitectura cloud.
+                  Sistema completo con backend .NET y AWS.
+                </p>
+                <div class="card-tech">
+                  <span class="tech-tag">Vue.js 3</span>
+                  <span class="tech-tag">React Native</span>
+                  <span class="tech-tag">.NET</span>
+                  <span class="tech-tag">PostgreSQL</span>
+                  <span class="tech-tag">AWS S3</span>
+                </div>
+                <div class="card-result">
+                  <svg
+                    class="result-icon"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <span
+                    >Primer gran proyecto freelance - Lanzamiento ~3 meses</span
+                  >
+                </div>
+                <div class="card-link-hint">
+                  <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
+                    />
+                  </svg>
+                  <span>Ver en App Store (Beta)</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Project Card 2: Huvegrym - CASO DE ÉXITO -->
-        <div 
-          class="project-card" 
-          ref="card2"
-          @click="openHuvegrym"
-        >
-          <div class="card-glow"></div>
-          <div class="card-content">
-            
-            <div class="card-image">
-              <img src="/img/huvegrym_preview.png" alt="Huvegrym" />
-              <div class="card-overlay"></div>
+        <!-- Mobile Carousel -->
+        <div class="carousel-container mobile-only">
+          <div
+            class="carousel-track"
+            ref="carouselTrack"
+            @touchstart="handleTouchStart"
+            @touchmove="handleTouchMove"
+            @touchend="handleTouchEnd"
+            @mousedown="handleMouseDown"
+            @mousemove="handleMouseMove"
+            @mouseup="handleMouseUp"
+            @mouseleave="handleMouseUp"
+            :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
+          >
+            <!-- Slide 1 -->
+            <div class="carousel-slide">
+              <div class="project-card mobile-card">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                  <div class="card-image gradient-bg">
+                    <div class="project-icon">
+                      <svg
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                        />
+                      </svg>
+                    </div>
+                    <div class="card-overlay"></div>
+                  </div>
+                  <div class="card-info">
+                    <div class="card-badges">
+                      <span class="badge badge-featured">TFG</span>
+                      <span class="badge badge-fullstack">Full Stack</span>
+                    </div>
+                    <h3 class="card-title">ELIXIUM FOODS Delivery</h3>
+                    <p class="card-description">
+                      Plataforma completa de entrega de comida estilo UberEats.
+                      Sistema de pedidos en tiempo real y arquitectura cloud.
+                    </p>
+                    <div class="card-tech">
+                      <span class="tech-tag">.NET 9</span>
+                      <span class="tech-tag">Vue.js 3</span>
+                      <span class="tech-tag">PostgreSQL</span>
+                      <span class="tech-tag">AWS</span>
+                    </div>
+                    <div class="card-result">
+                      <svg
+                        class="result-icon"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                      <span>Cloud-native con deploy en AWS</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            
-            <div class="card-info">
-              <div class="card-badges">
-                <span class="badge badge-production">Caso de Éxito ⭐</span>
-                <span class="badge badge-web">Cliente Real</span>
+
+            <!-- Slide 2 -->
+            <div class="carousel-slide">
+              <div class="project-card mobile-card" @click="openHuvegrym">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                  <div class="card-image">
+                    <img
+                      src="/img/huvegrym_preview.png"
+                      alt="Huvegrym"
+                      loading="lazy"
+                    />
+                    <div class="card-overlay"></div>
+                  </div>
+                  <div class="card-info">
+                    <div class="card-badges">
+                      <span class="badge badge-production"
+                        >En Producción ⭐</span
+                      >
+                      <span class="badge badge-web">Cliente Real</span>
+                    </div>
+                    <h3 class="card-title">Huvegrym - Danza</h3>
+                    <p class="card-description">
+                      Portfolio digital profesional para grupo de danza. Galería
+                      de espectáculos y diseño responsive.
+                    </p>
+                    <div class="card-tech">
+                      <span class="tech-tag">HTML5</span>
+                      <span class="tech-tag">CSS3</span>
+                      <span class="tech-tag">JavaScript</span>
+                      <span class="tech-tag">Bootstrap</span>
+                    </div>
+                    <div class="card-result">
+                      <svg
+                        class="result-icon"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+                        />
+                      </svg>
+                      <span>Live en huvegrym.es</span>
+                    </div>
+                    <div class="card-link-hint">
+                      <svg
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                        />
+                      </svg>
+                      <span>Visitar sitio</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              
-              <h3 class="card-title">Huvegrym - Danza Contemporánea</h3>
-              <p class="card-description">
-                Portfolio digital profesional para grupo de danza. Galería de espectáculos, sistema de contacto directo y diseño completamente responsive.
-              </p>
-              
-              <div class="card-tech">
-                <span class="tech-tag">HTML5</span>
-                <span class="tech-tag">CSS3</span>
-                <span class="tech-tag">JavaScript</span>
-                <span class="tech-tag">Bootstrap</span>
-              </div>
-              
-              <div class="card-result">
-                <svg class="result-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
-                </svg>
-                <span>Sitio live en huvegrym.es - Cliente satisfecho y en producción</span>
-              </div>
-              
-              <div class="card-link-hint">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                </svg>
-                <span>Visitar sitio web</span>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="carousel-slide">
+              <div class="project-card mobile-card" @click="openMVPApp">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                  <div class="card-image gradient-bg upcoming-bg">
+                    <div class="project-icon">
+                      <svg
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
+                        />
+                      </svg>
+                    </div>
+                    <div class="card-overlay"></div>
+                  </div>
+                  <div class="card-info">
+                    <div class="card-badges">
+                      <span class="badge badge-upcoming"
+                        >v1.1.3 - En Desarrollo</span
+                      >
+                      <span class="badge badge-fullstack">Full Stack MVP</span>
+                    </div>
+                    <h3 class="card-title">MVP Multiplatform</h3>
+                    <p class="card-description">
+                      MVP completo con Vue.js, React Native iOS y arquitectura
+                      cloud. Backend .NET y AWS.
+                    </p>
+                    <div class="card-tech">
+                      <span class="tech-tag">Vue.js 3</span>
+                      <span class="tech-tag">React Native</span>
+                      <span class="tech-tag">.NET</span>
+                      <span class="tech-tag">PostgreSQL</span>
+                    </div>
+                    <div class="card-result">
+                      <svg
+                        class="result-icon"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                      <span>Lanzamiento ~3 meses</span>
+                    </div>
+                    <div class="card-link-hint">
+                      <svg
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
+                        />
+                      </svg>
+                      <span>App Store (Beta)</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Project Card 3: MVP en Desarrollo -->
-        <div 
-          class="project-card project-card-upcoming" 
-          ref="card3"
-        >
-          <div class="card-glow"></div>
-          <div class="card-content">
-            
-            <div class="card-image card-image-blur">
-              <div class="upcoming-icon">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                </svg>
-              </div>
-              <div class="card-overlay"></div>
-            </div>
-            
-            <div class="card-info">
-              <div class="card-badges">
-                <span class="badge badge-upcoming">En Desarrollo</span>
-                <span class="badge badge-fullstack">Full Stack MVP</span>
-              </div>
-              
-              <h3 class="card-title">MVP Profesional Multiplatform</h3>
-              <p class="card-description">
-                Desarrollo actual de un MVP completo con aplicación web, mobile iOS y arquitectura cloud. Sistema completo con backend escalable y almacenamiento en la nube.
-              </p>
-              
-              <div class="card-tech">
-                <span class="tech-tag">Vue.js 3</span>
-                <span class="tech-tag">React Native</span>
-                <span class="tech-tag">.NET API</span>
-                <span class="tech-tag">PostgreSQL</span>
-                <span class="tech-tag">AWS S3</span>
-              </div>
-              
-              <div class="card-result">
-                <svg class="result-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-                </svg>
-                <span>Stack profesional con arquitectura cloud-native y apps nativas</span>
-              </div>
-            </div>
+          <!-- Dots Indicators - MÁS VISIBLES -->
+          <div class="carousel-dots">
+            <button
+              v-for="(dot, index) in 3"
+              :key="index"
+              class="carousel-dot"
+              :class="{ active: currentSlide === index }"
+              @click="goToSlide(index)"
+              :aria-label="`Ir a proyecto ${index + 1}`"
+            ></button>
           </div>
         </div>
-
       </div>
-
-      <!-- CTA Final -->
-      <div class="projects-cta" ref="ctaSection">
-        <h3 class="cta-title">¿Tienes un proyecto en mente?</h3>
-        <p class="cta-description">Puedo ayudarte a construir tu próxima aplicación web o mobile</p>
-        <div class="cta-buttons">
-          <a href="mailto:gsaiz.bajo@gmail.com" class="cta-button cta-primary">
-            <span>Hablemos de tu idea</span>
-            <svg class="cta-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-            </svg>
-          </a>
-          <a href="https://github.com/GabriLPDA22" target="_blank" class="cta-button cta-secondary">
-            <svg class="cta-icon-left" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-            </svg>
-            <span>Ver en GitHub</span>
-          </a>
-        </div>
-      </div>
-
     </div>
   </section>
 </template>
 
 <script>
 export default {
-  name: 'ProjectsSection',
-  
+  name: "ProjectsSection",
   data() {
     return {
       isScrolled: false,
-    }
+      currentSlide: 0,
+      touchStartX: 0,
+      touchEndX: 0,
+      isDragging: false,
+      startX: 0,
+      currentX: 0,
+    };
   },
-
   mounted() {
     this.initParallax();
     this.initScrollAnimations();
   },
-
   beforeUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener("scroll", this.handleScroll);
   },
-
   methods: {
+    // Parallax
     initParallax() {
-      window.addEventListener('scroll', this.handleScroll);
+      window.addEventListener("scroll", this.handleScroll);
     },
-
     handleScroll() {
       const scrollY = window.scrollY;
-      
-      // Parallax en las capas de fondo
-      if (this.$refs.layer1) {
-        this.$refs.layer1.style.transform = `translateY(${scrollY * 0.15}px)`;
-      }
-      if (this.$refs.layer2) {
-        this.$refs.layer2.style.transform = `translateY(${scrollY * 0.25}px)`;
-      }
-      if (this.$refs.layer3) {
-        this.$refs.layer3.style.transform = `translateY(${scrollY * 0.2}px)`;
-      }
-
-      // Header sticky
+      if (this.$refs.layer1)
+        this.$refs.layer1.style.transform = `translateY(${scrollY * 0.1}px)`;
+      if (this.$refs.layer2)
+        this.$refs.layer2.style.transform = `translateY(${scrollY * 0.2}px)`;
+      if (this.$refs.layer3)
+        this.$refs.layer3.style.transform = `translateY(${scrollY * 0.15}px)`;
       if (this.$refs.stickyHeader) {
         const headerTop = this.$refs.stickyHeader.getBoundingClientRect().top;
         this.isScrolled = headerTop <= 100;
       }
-
-      // Animaciones de cards
       this.animateCardsOnScroll();
     },
-
     animateCardsOnScroll() {
-      const cards = [
-        this.$refs.card1,
-        this.$refs.card2,
-        this.$refs.card3,
-      ];
-
+      const cards = [this.$refs.card1, this.$refs.card2, this.$refs.card3];
       cards.forEach((card) => {
         if (!card) return;
-        
         const rect = card.getBoundingClientRect();
         const windowHeight = window.innerHeight;
-        const progress = 1 - (rect.top / windowHeight);
-        
+        const progress = 1 - rect.top / windowHeight;
         if (progress > 0 && progress < 1.5) {
-          const opacity = Math.min(progress * 1.5, 1);
-          const scale = 0.9 + (Math.min(progress, 1) * 0.1);
-          const translateY = (1 - Math.min(progress, 1)) * 60;
-          
+          const opacity = Math.min(progress * 2, 1);
+          const scale = 0.9 + Math.min(progress, 1) * 0.1;
+          const translateY = (1 - Math.min(progress, 1)) * 50;
           card.style.opacity = opacity;
           card.style.transform = `scale(${scale}) translateY(${translateY}px)`;
         } else if (progress >= 1.5) {
@@ -275,53 +511,93 @@ export default {
           card.style.opacity = fadeOut;
         }
       });
+    },
+    initScrollAnimations() {
+      setTimeout(() => this.animateCardsOnScroll(), 100);
+    },
 
-      // CTA final
-      if (this.$refs.ctaSection) {
-        const ctaRect = this.$refs.ctaSection.getBoundingClientRect();
-        const ctaProgress = 1 - (ctaRect.top / window.innerHeight);
-        
-        if (ctaProgress > 0 && ctaProgress < 1) {
-          const ctaOpacity = Math.min(ctaProgress * 2, 1);
-          const ctaScale = 0.95 + (Math.min(ctaProgress, 1) * 0.05);
-          
-          this.$refs.ctaSection.style.opacity = ctaOpacity;
-          this.$refs.ctaSection.style.transform = `scale(${ctaScale})`;
+    // Carousel Navigation
+    goToSlide(index) {
+      this.currentSlide = index;
+    },
+
+    // Touch Gestures - SWIPE
+    handleTouchStart(e) {
+      this.touchStartX = e.touches[0].clientX;
+    },
+    handleTouchMove(e) {
+      this.touchEndX = e.touches[0].clientX;
+    },
+    handleTouchEnd() {
+      const diff = this.touchStartX - this.touchEndX;
+      const threshold = 50;
+
+      if (Math.abs(diff) > threshold) {
+        if (diff > 0 && this.currentSlide < 2) {
+          // Swipe left - next
+          this.currentSlide++;
+        } else if (diff < 0 && this.currentSlide > 0) {
+          // Swipe right - prev
+          this.currentSlide--;
         }
       }
+
+      this.touchStartX = 0;
+      this.touchEndX = 0;
     },
 
-    initScrollAnimations() {
-      setTimeout(() => {
-        this.animateCardsOnScroll();
-      }, 100);
+    // Mouse Drag
+    handleMouseDown(e) {
+      this.isDragging = true;
+      this.startX = e.clientX;
+      e.preventDefault();
+    },
+    handleMouseMove(e) {
+      if (!this.isDragging) return;
+      this.currentX = e.clientX;
+    },
+    handleMouseUp() {
+      if (!this.isDragging) return;
+
+      const diff = this.startX - this.currentX;
+      const threshold = 50;
+
+      if (Math.abs(diff) > threshold) {
+        if (diff > 0 && this.currentSlide < 2) {
+          // Drag left - next
+          this.currentSlide++;
+        } else if (diff < 0 && this.currentSlide > 0) {
+          // Drag right - prev
+          this.currentSlide--;
+        }
+      }
+
+      this.isDragging = false;
+      this.startX = 0;
+      this.currentX = 0;
     },
 
-    goToProject(projectId) {
-      // Método obsoleto - ya no se usa
-    },
-    
+    // Links
     openHuvegrym() {
-      // Abrir sitio web de Huvegrym en nueva pestaña
-      window.open('https://huvegrym.es', '_blank', 'noopener,noreferrer');
+      window.open("https://huvegrym.es", "_blank");
     },
-  }
-}
+    openMVPApp() {
+      window.open("https://apps.apple.com/app/id6753820007", "_blank");
+    },
+  },
+};
 </script>
 
 <style scoped>
-/* ================================
-   PROJECTS SECTION - BASE
-   ================================ */
+/* Base styles... keeping all the existing base, parallax, decorative styles */
 .projects-section {
   position: relative;
   min-height: 100vh;
   padding: 8rem 0 4rem;
-  background: var(--dark, #18181B);
+  background: #0a0a0b;
   overflow: hidden;
 }
 
-/* Parallax Background Layers */
 .parallax-bg {
   position: absolute;
   inset: 0;
@@ -333,35 +609,34 @@ export default {
   position: absolute;
   border-radius: 50%;
   filter: blur(120px);
-  opacity: 0.08;
+  opacity: 0.12;
   will-change: transform;
 }
 
 .layer-1 {
   top: 10%;
   left: 10%;
-  width: 500px;
-  height: 500px;
-  background: linear-gradient(135deg, var(--primary, #F97316), var(--secondary, #A855F7));
+  width: 600px;
+  height: 600px;
+  background: linear-gradient(135deg, #ff6b35, #a855f7);
 }
 
 .layer-2 {
-  top: 50%;
-  right: 10%;
-  width: 600px;
-  height: 600px;
-  background: linear-gradient(135deg, var(--secondary, #A855F7), var(--accent, #06B6D4));
+  top: 60%;
+  right: 5%;
+  width: 500px;
+  height: 500px;
+  background: linear-gradient(135deg, #ec4899, #06b6d4);
 }
 
 .layer-3 {
   bottom: 10%;
-  left: 30%;
+  left: 40%;
   width: 400px;
   height: 400px;
-  background: linear-gradient(135deg, var(--accent, #06B6D4), var(--primary, #F97316));
+  background: linear-gradient(135deg, #a855f7, #ff6b35);
 }
 
-/* Elementos Decorativos */
 .decorative-elements {
   position: absolute;
   inset: 0;
@@ -384,53 +659,48 @@ export default {
 
 .deco-1 {
   top: 20%;
-  right: 8%;
-  width: 60px;
-  height: 60px;
-  border-color: var(--primary, #F97316);
+  right: 10%;
+  width: 70px;
+  height: 70px;
+  border-color: #ff6b35;
 }
 
 .deco-2 {
-  bottom: 25%;
+  bottom: 30%;
   left: 8%;
-  width: 80px;
-  height: 80px;
-  border-color: var(--secondary, #A855F7);
+  width: 50px;
+  height: 50px;
+  border-color: #a855f7;
   animation-delay: -3s;
 }
 
 .deco-square {
-  border-radius: 0.5rem;
-}
-
-.deco-3 {
   top: 50%;
-  right: 10%;
-  width: 50px;
-  height: 50px;
-  border-color: var(--accent, #06B6D4);
+  right: 15%;
+  width: 60px;
+  height: 60px;
+  border-color: #06b6d4;
+  border-radius: 0.5rem;
   transform: rotate(45deg);
-  animation-delay: -5s;
+  animation-delay: -6s;
 }
 
 @keyframes float-slow {
-  0%, 100% {
-    transform: translateY(0px);
+  0%,
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+  25% {
+    transform: translateY(-15px) translateX(10px);
   }
   50% {
-    transform: translateY(-30px);
+    transform: translateY(-5px) translateX(-10px);
+  }
+  75% {
+    transform: translateY(-20px) translateX(5px);
   }
 }
 
-@media (max-width: 1023px) {
-  .decorative-elements {
-    display: none;
-  }
-}
-
-/* ================================
-   CONTAINER
-   ================================ */
 .projects-container {
   position: relative;
   z-index: 10;
@@ -439,24 +709,21 @@ export default {
   padding: 0 1.5rem;
 }
 
-/* ================================
-   STICKY HEADER
-   ================================ */
 .sticky-header {
   position: sticky;
   top: 100px;
   z-index: 20;
   margin-bottom: 4rem;
   padding: 2rem 0;
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.6s ease;
 }
 
 .header-content {
   text-align: center;
   max-width: 800px;
   margin: 0 auto;
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  transition: all 0.6s ease;
 }
 
 .background-text {
@@ -464,26 +731,13 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 6rem;
+  font-size: clamp(6rem, 12vw, 10rem);
   font-weight: 900;
   color: rgba(255, 255, 255, 0.03);
   white-space: nowrap;
-  z-index: 0;
   pointer-events: none;
   user-select: none;
   letter-spacing: 0.1em;
-}
-
-@media (min-width: 768px) {
-  .background-text {
-    font-size: 8rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .background-text {
-    font-size: 10rem;
-  }
 }
 
 .header-content.is-scrolled {
@@ -492,94 +746,151 @@ export default {
 }
 
 .section-title {
-  font-size: 2.5rem;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
   font-weight: 800;
   line-height: 1.2;
-  color: #FFFFFF;
+  color: #ffffff;
   margin: 0 0 1rem;
   letter-spacing: -0.02em;
-  position: relative;
-  z-index: 1;
-}
-
-@media (min-width: 768px) {
-  .section-title {
-    font-size: 3.5rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .section-title {
-    font-size: 4.5rem;
-  }
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, var(--primary, #F97316) 0%, var(--secondary, #A855F7) 100%);
+  background: linear-gradient(135deg, #ff6b35 0%, #a855f7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .section-subtitle {
-  font-size: 1.125rem;
+  font-size: clamp(1.125rem, 2vw, 1.25rem);
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.6);
-  margin: 0;
-  max-width: 600px;
   margin: 0 auto;
-  position: relative;
-  z-index: 1;
+  max-width: 600px;
 }
 
-/* ================================
-   PROJECTS GRID - 3 proyectos
-   ================================ */
-.projects-grid {
+/* Desktop / Mobile Toggle */
+.desktop-only {
   display: grid;
+}
+
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .desktop-only {
+    display: none;
+  }
+  .mobile-only {
+    display: block;
+  }
+  .decorative-elements {
+    display: none;
+  }
+}
+
+/* Desktop Grid */
+.projects-grid {
   grid-template-columns: 1fr;
-  gap: 2.5rem;
-  margin-bottom: 6rem;
+  gap: 2rem;
 }
 
 @media (min-width: 768px) {
   .projects-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
   }
 }
 
 @media (min-width: 1024px) {
   .projects-grid {
     grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
   }
 }
 
-/* ================================
-   PROJECT CARD
-   ================================ */
+/* CAROUSEL MOBILE - SOLO SWIPE + DOTS 🐱 */
+.carousel-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding-bottom: 4rem;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.carousel-track:active {
+  cursor: grabbing;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+/* Carousel Dots - GRANDES Y VISIBLES */
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.875rem;
+  margin-top: 2.5rem;
+  padding: 1rem 0;
+}
+
+.carousel-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-dot.active {
+  background: #ff6b35;
+  width: 32px;
+  border-radius: 6px;
+  box-shadow: 0 2px 12px rgba(255, 107, 53, 0.5);
+}
+
+/* Project Cards */
 .project-card {
   position: relative;
-  opacity: 0;
-  transform: scale(0.9) translateY(60px);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform, opacity;
+  opacity: 1;
+  transform: scale(1);
+  transition: all 0.4s ease;
   cursor: pointer;
-  height: 100%;
-  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-card {
+  opacity: 1 !important;
+  transform: scale(1) !important;
 }
 
 .project-card:hover {
-  transform: scale(1.02) translateY(-12px) !important;
+  transform: scale(1.02) translateY(-8px) !important;
 }
 
 .card-glow {
   position: absolute;
   inset: -2px;
-  background: linear-gradient(135deg, var(--primary, #F97316), var(--secondary, #A855F7));
+  background: linear-gradient(135deg, #ff6b35, #a855f7);
   border-radius: 1.5rem;
   opacity: 0;
-  filter: blur(24px);
-  transition: opacity 0.4s ease;
+  filter: blur(20px);
+  transition: opacity 0.3s ease;
   z-index: 0;
 }
 
@@ -595,139 +906,99 @@ export default {
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 1.5rem;
   overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   height: 100%;
   display: flex;
   flex-direction: column;
+  transition: all 0.3s ease;
 }
 
 .project-card:hover .card-content {
   background: rgba(39, 39, 42, 0.95);
-  border-color: rgba(249, 115, 22, 0.4);
+  border-color: rgba(255, 107, 53, 0.4);
 }
 
-/* Card Image */
 .card-image {
   position: relative;
   width: 100%;
-  height: 240px;
+  height: 200px;
   overflow: hidden;
-  background: linear-gradient(135deg, rgba(249, 115, 22, 0.1), rgba(168, 85, 247, 0.1));
+  flex-shrink: 0;
 }
 
 .card-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.5s ease;
+}
+
+.card-image.gradient-bg {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 107, 53, 0.2),
+    rgba(168, 85, 247, 0.2)
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-image.upcoming-bg {
+  background: linear-gradient(
+    135deg,
+    rgba(6, 182, 212, 0.2),
+    rgba(236, 72, 153, 0.2)
+  );
 }
 
 .project-card:hover .card-image img {
-  transform: scale(1.1);
+  transform: scale(1.05);
+}
+
+.project-icon {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+}
+
+.project-icon svg {
+  width: 35px;
+  height: 35px;
+  color: #ff6b35;
 }
 
 .card-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, transparent 0%, rgba(24, 24, 27, 0.8) 100%);
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  opacity: 0.5;
 }
 
-/* Card Image Gradient (para proyectos sin imagen específica) */
-.card-image-gradient {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, rgba(249, 115, 22, 0.3), rgba(168, 85, 247, 0.3));
-  position: relative;
-}
-
-.card-image-gradient::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: 
-    radial-gradient(circle at 30% 40%, rgba(249, 115, 22, 0.4) 0%, transparent 50%),
-    radial-gradient(circle at 70% 60%, rgba(168, 85, 247, 0.4) 0%, transparent 50%);
-  opacity: 0.6;
-}
-
-.project-logo {
-  width: 100px;
-  height: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(39, 39, 42, 0.8);
-  backdrop-filter: blur(12px);
-  border-radius: 50%;
-  border: 3px solid rgba(249, 115, 22, 0.5);
-  box-shadow: 
-    0 0 30px rgba(249, 115, 22, 0.4),
-    0 0 60px rgba(168, 85, 247, 0.3);
-  z-index: 1;
-  transition: all 0.3s ease;
-}
-
-.project-card:hover .project-logo {
-  transform: scale(1.1);
-  box-shadow: 
-    0 0 40px rgba(249, 115, 22, 0.6),
-    0 0 80px rgba(168, 85, 247, 0.5);
-}
-
-.project-logo svg {
-  width: 50px;
-  height: 50px;
-  color: var(--primary, #F97316);
-  filter: drop-shadow(0 0 10px rgba(249, 115, 22, 0.6));
-}
-
-/* Card Image Blur (para proyecto upcoming) */
-.card-image-blur {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(8px);
-  background: rgba(39, 39, 42, 0.6);
-}
-
-.upcoming-icon {
-  width: 80px;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, var(--primary, #F97316), var(--secondary, #A855F7));
-  border-radius: 50%;
-  color: #FFFFFF;
-  z-index: 1;
-}
-
-.upcoming-icon svg {
-  width: 40px;
-  height: 40px;
-}
-
-/* Card Info */
 .card-info {
-  padding: 2rem;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  flex-grow: 1;
+  gap: 0.875rem;
+  flex: 1;
 }
 
-/* Card Badges */
 .card-badges {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 0.5rem;
 }
 
 .badge {
-  padding: 0.375rem 0.875rem;
-  font-size: 0.75rem;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.65rem;
   font-weight: 600;
   border-radius: 9999px;
   text-transform: uppercase;
@@ -736,297 +1007,113 @@ export default {
 }
 
 .badge-featured {
-  background: linear-gradient(135deg, var(--primary, #F97316), var(--secondary, #A855F7));
-  color: #FFFFFF;
-  box-shadow: 0 0 20px rgba(249, 115, 22, 0.4);
+  background: linear-gradient(135deg, #ff6b35, #ec4899);
+  color: #ffffff;
 }
 
 .badge-production {
-  background: rgba(34, 197, 94, 0.15);
-  color: #22C55E;
+  background: rgba(34, 197, 94, 0.2);
+  color: rgb(34, 197, 94);
   border: 1px solid rgba(34, 197, 94, 0.3);
 }
 
-.badge-opensource {
-  background: rgba(168, 85, 247, 0.15);
-  color: var(--secondary, #A855F7);
+.badge-fullstack {
+  background: rgba(168, 85, 247, 0.2);
+  color: #a855f7;
   border: 1px solid rgba(168, 85, 247, 0.3);
 }
 
+.badge-web {
+  background: rgba(6, 182, 212, 0.2);
+  color: #06b6d4;
+  border: 1px solid rgba(6, 182, 212, 0.3);
+}
+
 .badge-upcoming {
-  background: rgba(249, 115, 22, 0.15);
-  color: var(--primary, #F97316);
-  border: 1px solid rgba(249, 115, 22, 0.3);
+  background: rgba(251, 146, 60, 0.2);
+  color: rgb(251, 146, 60);
+  border: 1px solid rgba(251, 146, 60, 0.3);
 }
 
-.badge-fullstack,
-.badge-web,
-.badge-mobile {
-  background: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-/* Card Title */
 .card-title {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
-  color: #FFFFFF;
+  color: #ffffff;
   margin: 0;
   line-height: 1.3;
 }
 
-/* Card Description */
 .card-description {
-  font-size: 0.9375rem;
+  font-size: 0.8125rem;
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.7);
   margin: 0;
-  min-height: 4.8rem;
-  flex-shrink: 0;
+  flex: 1;
 }
 
-/* Card Tech Tags */
 .card-tech {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-  flex-shrink: 0;
+  gap: 0.4rem;
 }
 
 .tech-tag {
-  padding: 0.375rem 0.75rem;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  background: rgba(249, 115, 22, 0.1);
-  color: var(--primary, #F97316);
-  border: 1px solid rgba(249, 115, 22, 0.2);
-  border-radius: 0.5rem;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.4rem;
+  color: rgba(255, 255, 255, 0.8);
 }
 
-/* Card Result */
 .card-result {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1rem;
-  background: rgba(249, 115, 22, 0.05);
-  border-left: 3px solid var(--primary, #F97316);
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: rgba(255, 107, 53, 0.05);
+  border-left: 3px solid #ff6b35;
   border-radius: 0.5rem;
-  margin-top: auto;
-  flex-shrink: 0;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .result-icon {
-  width: 1.5rem;
-  height: 1.5rem;
-  color: var(--primary, #F97316);
+  width: 16px;
+  height: 16px;
   flex-shrink: 0;
+  color: #ff6b35;
+  margin-top: 2px;
 }
 
-.card-result span {
-  font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.5;
-}
-
-/* Upcoming Card Style */
-.project-card-upcoming,
-.project-card-no-link {
-  cursor: default;
-  min-height: 600px;
-}
-
-.project-card-upcoming:hover,
-.project-card-no-link:hover {
-  transform: scale(1) translateY(0) !important;
-}
-
-.project-card-upcoming .card-glow,
-.project-card-no-link .card-glow {
-  opacity: 0.3;
-}
-
-/* Card Link Hint - Solo para cards clickeables */
 .card-link-hint {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  background: rgba(249, 115, 22, 0.1);
-  border: 1px solid rgba(249, 115, 22, 0.3);
-  border-radius: 0.75rem;
-  margin-top: 1rem;
-  transition: all 0.3s ease;
+  padding: 0.625rem;
+  background: rgba(6, 182, 212, 0.1);
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #06b6d4;
 }
 
 .card-link-hint svg {
-  width: 1.25rem;
-  height: 1.25rem;
-  color: var(--primary, #F97316);
-  transition: transform 0.3s ease;
+  width: 14px;
+  height: 14px;
 }
 
-.card-link-hint span {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--primary, #F97316);
-}
-
-.project-card:hover .card-link-hint {
-  background: rgba(249, 115, 22, 0.2);
-  border-color: var(--primary, #F97316);
-  transform: translateX(4px);
-}
-
-.project-card:hover .card-link-hint svg {
-  transform: translateX(4px) translateY(-4px);
-}
-
-/* ================================
-   CTA SECTION
-   ================================ */
-.projects-cta {
-  text-align: center;
-  padding: 4rem 2rem;
-  background: rgba(39, 39, 42, 0.4);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 2rem;
-  opacity: 0;
-  transform: scale(0.95);
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.cta-title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #FFFFFF;
-  margin: 0 0 1rem;
-}
-
-@media (min-width: 768px) {
-  .cta-title {
-    font-size: 2.5rem;
-  }
-}
-
-.cta-description {
-  font-size: 1.125rem;
-  color: rgba(255, 255, 255, 0.7);
-  margin: 0 0 2rem;
-}
-
-.cta-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-  align-items: center;
-}
-
-.cta-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1.25rem 2.5rem;
-  font-size: 1.125rem;
-  font-weight: 600;
-  border-radius: 1rem;
-  text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.cta-primary {
-  color: #FFFFFF;
-  background: linear-gradient(90deg, var(--primary, #F97316), var(--primary-dark, #EA580C));
-  box-shadow: 0 8px 30px rgba(249, 115, 22, 0.4);
-}
-
-.cta-primary:hover {
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 12px 40px rgba(249, 115, 22, 0.6);
-  background: linear-gradient(90deg, var(--primary-light, #FB923C), var(--primary, #F97316));
-}
-
-.cta-secondary {
-  color: rgba(255, 255, 255, 0.9);
-  background: rgba(39, 39, 42, 0.8);
-  border: 1px solid rgba(168, 85, 247, 0.3);
-}
-
-.cta-secondary:hover {
-  background: rgba(39, 39, 42, 1);
-  border-color: var(--primary, #F97316);
-  transform: translateY(-4px);
-  box-shadow: 0 8px 30px rgba(168, 85, 247, 0.3);
-}
-
-.cta-icon,
-.cta-icon-left {
-  width: 1.5rem;
-  height: 1.5rem;
-  transition: transform 0.3s ease;
-}
-
-.cta-primary:hover .cta-icon {
-  transform: translateX(4px);
-}
-
-/* ================================
-   RESPONSIVE
-   ================================ */
+/* Responsive ajustes */
 @media (max-width: 767px) {
   .projects-section {
     padding: 4rem 0 2rem;
   }
-
   .sticky-header {
     position: relative;
     top: 0;
-  }
-
-  .section-title {
-    font-size: 2rem;
-  }
-
-  .card-image {
-    height: 200px;
-  }
-
-  .card-info {
-    padding: 1.5rem;
-  }
-  
-  .project-card {
-    min-height: 550px;
-  }
-  
-  .card-description {
-    min-height: auto;
-  }
-
-  .cta-buttons {
-    flex-direction: column;
-  }
-
-  .cta-button {
-    width: 100%;
-    justify-content: center;
-  }
-}
-
-/* ================================
-   REDUCED MOTION
-   ================================ */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    margin-bottom: 2rem;
   }
 }
 </style>
