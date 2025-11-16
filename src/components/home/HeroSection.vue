@@ -15,30 +15,68 @@
         <!-- Status Badge -->
         <div class="status-badge" ref="badge">
           <span class="pulse-dot"></span>
-          <span>Disponible para proyectos</span>
+          <span>{{ t('hero.availability') }}</span>
         </div>
 
         <!-- Main Title with Word Animation -->
         <h1 class="hero-title">
-          <span class="title-line" ref="line1">Desarrollo</span>
+          <span class="title-line" ref="line1">{{ t('hero.title.line1') }}</span>
           <span class="title-line gradient-line" ref="line2">
-            aplicaciones web y mobile
+            {{ t('hero.title.line2') }}
           </span>
-          <span class="title-line" ref="line3">que convierten visitantes</span>
-          <span class="title-line" ref="line4">en clientes</span>
+          <span class="title-line" ref="line3">{{ t('hero.title.line3') }}</span>
+          <span class="title-line" ref="line4">{{ t('hero.title.line4') }}</span>
         </h1>
 
         <!-- Subtitle -->
         <p class="hero-subtitle" ref="subtitle">
-          Desarrollador Full Stack especializado en Vue.js, React Native y
-          experiencias digitales que generan resultados. Transformo ideas en
-          productos que tus usuarios amarán.
+          {{ t('hero.subtitle') }}
         </p>
+
+        <!-- Social Links - MOVIDO AQUÍ ARRIBA -->
+        <div class="hero-social" ref="social">
+          <span class="social-label">{{ t('hero.followMe') }}</span>
+          <div class="social-links">
+            <a 
+              href="https://www.linkedin.com/in/gabriel-saiz-de-la-maza-bajo-140370184/"
+              target="_blank"
+              rel="noopener noreferrer" 
+              aria-label="LinkedIn"
+              class="social-link linkedin"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+              </svg>
+            </a>
+            
+            <a 
+              href="https://github.com/GabriLPDA22"
+              target="_blank"
+              rel="noopener noreferrer" 
+              aria-label="GitHub"
+              class="social-link github"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+            </a>
+            
+            <a 
+              href="mailto:gsaiz.bajo@gmail.com"
+              aria-label="Email"
+              class="social-link email"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
 
         <!-- CTA Buttons -->
         <div class="hero-ctas" ref="ctas">
           <a href="mailto:gsaiz.bajo@gmail.com" class="btn-primary">
-            <span>Hablemos de tu proyecto</span>
+            <span>{{ t('hero.cta.primary') }}</span>
             <svg
               class="arrow-icon"
               fill="none"
@@ -54,24 +92,30 @@
             </svg>
           </a>
 
-          <a href="#proyectos" class="btn-secondary"> Ver casos de éxito </a>
+          <a href="#proyectos" class="btn-secondary">
+            {{ t('hero.cta.secondary') }}
+          </a>
+          
+          <a href="#sobre-mi" class="btn-outline">
+            {{ t('hero.cta.aboutMe') }}
+          </a>
         </div>
 
         <!-- Stats Counter -->
         <div class="hero-stats" ref="stats">
           <div class="stat-item">
             <div class="stat-number" ref="stat1">0</div>
-            <div class="stat-label">Proyectos completados</div>
+            <div class="stat-label">{{ t('hero.stats.projects') }}</div>
           </div>
           <div class="stat-divider"></div>
           <div class="stat-item">
             <div class="stat-number" ref="stat2">0</div>
-            <div class="stat-label">Años de experiencia</div>
+            <div class="stat-label">{{ t('hero.stats.experience') }}</div>
           </div>
           <div class="stat-divider"></div>
           <div class="stat-item">
             <div class="stat-number" ref="stat3">0</div>
-            <div class="stat-label">Tecnologías dominadas</div>
+            <div class="stat-label">{{ t('hero.stats.technologies') }}</div>
           </div>
         </div>
       </div>
@@ -86,7 +130,7 @@
           <div class="photo-wrapper">
             <img
               src="/img/Yo.webp"
-              alt="Gabriel Saiz - Desarrollador Full Stack"
+              :alt="t('hero.photoAlt')"
               class="photo"
               loading="eager"
             />
@@ -136,10 +180,17 @@
 </template>
 
 <script>
-import { gsap } from "gsap";
+import { gsap } from 'gsap';
+import { useI18n } from '@/composables/useI18n';
 
 export default {
-  name: "HeroSection",
+  name: 'HeroSection',
+
+  setup() {
+    const { t } = useI18n();
+    
+    return { t };
+  },
 
   mounted() {
     this.initAnimations();
@@ -147,7 +198,7 @@ export default {
 
   methods: {
     initAnimations() {
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
       // Badge entrance
       tl.from(this.$refs.badge, {
@@ -170,7 +221,7 @@ export default {
           duration: 0.8,
           stagger: 0.15,
         },
-        "-=0.3"
+        '-=0.3'
       );
 
       // Subtitle
@@ -181,7 +232,18 @@ export default {
           opacity: 0,
           duration: 0.8,
         },
-        "-=0.4"
+        '-=0.4'
+      );
+
+      // Social Links - MOVIDO ANTES DE LOS CTAs
+      tl.from(
+        this.$refs.social,
+        {
+          y: 20,
+          opacity: 0,
+          duration: 0.6,
+        },
+        '-=0.4'
       );
 
       // CTAs
@@ -193,7 +255,7 @@ export default {
           duration: 0.6,
           stagger: 0.1,
         },
-        "-=0.5"
+        '-=0.5'
       );
 
       // Stats with counter animation
@@ -205,7 +267,7 @@ export default {
           duration: 0.6,
           onComplete: () => this.animateStats(),
         },
-        "-=0.4"
+        '-=0.4'
       );
 
       // Visual (photo)
@@ -215,9 +277,9 @@ export default {
           x: 100,
           opacity: 0,
           duration: 1,
-          ease: "power2.out",
+          ease: 'power2.out',
         },
-        "-=1.2"
+        '-=1.2'
       );
 
       // Scroll indicator
@@ -227,34 +289,34 @@ export default {
           opacity: 0,
           duration: 0.6,
         },
-        "-=0.5"
+        '-=0.5'
       );
 
       // Animate photo border rotation
-      gsap.to(".photo-border", {
+      gsap.to('.photo-border', {
         rotation: 360,
         duration: 20,
         repeat: -1,
-        ease: "none",
+        ease: 'none',
       });
 
       // Float tech icons
-      gsap.to(".tech-icon", {
+      gsap.to('.tech-icon', {
         y: -15,
         duration: 2.5,
         stagger: 0.2,
         repeat: -1,
         yoyo: true,
-        ease: "power1.inOut",
+        ease: 'power1.inOut',
       });
 
       // Rotate tech icons
-      gsap.to(".tech-icon", {
+      gsap.to('.tech-icon', {
         rotation: 360,
         duration: 20,
         stagger: 5,
         repeat: -1,
-        ease: "none",
+        ease: 'none',
       });
     },
 
@@ -266,7 +328,7 @@ export default {
         snap: { innerText: 1 },
         onUpdate: function () {
           this.targets()[0].innerText =
-            Math.ceil(this.targets()[0].innerText) + "+";
+            Math.ceil(this.targets()[0].innerText) + '+';
         },
       });
 
@@ -277,7 +339,7 @@ export default {
         snap: { innerText: 1 },
         onUpdate: function () {
           this.targets()[0].innerText =
-            Math.ceil(this.targets()[0].innerText) + "+";
+            Math.ceil(this.targets()[0].innerText) + '+';
         },
       });
 
@@ -288,7 +350,7 @@ export default {
         snap: { innerText: 1 },
         onUpdate: function () {
           this.targets()[0].innerText =
-            Math.ceil(this.targets()[0].innerText) + "+";
+            Math.ceil(this.targets()[0].innerText) + '+';
         },
       });
     },
@@ -356,8 +418,7 @@ $accent-cyan: #06b6d4;
     width: 500px;
     height: 500px;
     background: radial-gradient(circle, $primary-purple, transparent 70%);
-    animation: float 15s ease-in-out infinite;
-    animation-delay: -5s;
+    animation: float 15s ease-in-out infinite reverse;
   }
 
   &.orb-3 {
@@ -368,7 +429,6 @@ $accent-cyan: #06b6d4;
     height: 400px;
     background: radial-gradient(circle, $primary-pink, transparent 70%);
     animation: float 18s ease-in-out infinite;
-    animation-delay: -10s;
   }
 }
 
@@ -376,40 +436,43 @@ $accent-cyan: #06b6d4;
   position: absolute;
   inset: 0;
   background-image: linear-gradient(
-      rgba(255, 107, 53, 0.03) 1px,
+      rgba(255, 255, 255, 0.02) 1px,
       transparent 1px
     ),
-    linear-gradient(90deg, rgba(168, 85, 247, 0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.3;
 }
 
 /* ================================
-   CONTAINER & LAYOUT
+   CONTAINER & GRID
    ================================ */
 .hero-container {
   position: relative;
   z-index: 10;
-  max-width: 1280px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 2rem;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 3rem;
+  gap: 4rem;
   align-items: center;
 
   @media (min-width: 1024px) {
-    grid-template-columns: 1.1fr 1fr;
-    gap: 5rem;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 6rem;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0 1.5rem;
+    gap: 3rem;
   }
 }
 
-/* ================================
-   CONTENT COLUMN
-   ================================ */
 .hero-content {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.5rem;
 
   @media (max-width: 1023px) {
     order: 2;
@@ -418,26 +481,27 @@ $accent-cyan: #06b6d4;
   }
 }
 
-/* Status Badge */
+/* ================================
+   STATUS BADGE
+   ================================ */
 .status-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.625rem;
-  padding: 0.75rem 1.5rem;
-  background: rgba(255, 107, 53, 0.1);
+  padding: 0.625rem 1.25rem;
+  background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 107, 53, 0.3);
+  border: 1px solid rgba(255, 107, 53, 0.2);
   border-radius: 9999px;
-  width: fit-content;
   font-size: 0.875rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.95);
-  letter-spacing: 0.025em;
+  color: rgba(255, 255, 255, 0.85);
   transition: all 0.3s ease;
+  width: fit-content;
 
   &:hover {
-    background: rgba(255, 107, 53, 0.15);
-    border-color: rgba(255, 107, 53, 0.5);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 107, 53, 0.4);
     transform: translateY(-2px);
   }
 }
@@ -486,6 +550,102 @@ $accent-cyan: #06b6d4;
 }
 
 /* ================================
+   SOCIAL LINKS
+   ================================ */
+.hero-social {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0;
+  
+  @media (max-width: 640px) {
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+
+.social-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  
+  @media (max-width: 640px) {
+    font-size: 0.75rem;
+  }
+}
+
+.social-links {
+  display: flex;
+  gap: 0.625rem;
+}
+
+.social-link {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.625rem;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  
+  svg {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+  }
+  
+  /* Efecto de fondo en hover */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, $primary-orange, $primary-pink);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+  }
+  
+  &:hover {
+    border-color: $primary-orange;
+    color: #FFFFFF;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+    
+    &::before {
+      opacity: 1;
+    }
+    
+    svg {
+      transform: scale(1.1);
+    }
+  }
+  
+  &:active {
+    transform: translateY(-1px);
+  }
+  
+  @media (max-width: 640px) {
+    width: 38px;
+    height: 38px;
+    
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+/* ================================
    CTA BUTTONS
    ================================ */
 .hero-ctas {
@@ -500,12 +660,14 @@ $accent-cyan: #06b6d4;
     a {
       flex: 1;
       justify-content: center;
+      min-width: 0;
     }
   }
 }
 
 .btn-primary,
-.btn-secondary {
+.btn-secondary,
+.btn-outline {
   display: inline-flex;
   align-items: center;
   gap: 0.625rem;
@@ -520,7 +682,7 @@ $accent-cyan: #06b6d4;
   white-space: nowrap;
 
   @media (max-width: 640px) {
-    padding: 1rem 1.75rem;
+    padding: 1rem 1.5rem;
     font-size: 0.9375rem;
   }
 }
@@ -549,6 +711,20 @@ $accent-cyan: #06b6d4;
   &:hover {
     background: rgba(255, 255, 255, 0.08);
     border-color: $primary-purple;
+    transform: translateY(-2px);
+  }
+}
+
+.btn-outline {
+  background: transparent;
+  backdrop-filter: blur(20px);
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: $accent-cyan;
+    color: #ffffff;
     transform: translateY(-2px);
   }
 }

@@ -14,22 +14,21 @@
         </div>
 
         <div class="consent-text">
-          <h3 class="consent-title">Cookies</h3>
+          <h3 class="consent-title">{{ t("cookies.title") }}</h3>
           <p class="consent-description">
-            Usamos cookies para mejorar tu experiencia. Al continuar navegando,
-            aceptas nuestra
-            <router-link to="/privacy-policy" class="consent-link"
-              >política de privacidad</router-link
+            {{ t("cookies.message") }}
+            <router-link to="/privacy-policy" class="consent-link">
+              {{ t("cookies.policy") }} </router-link
             >.
           </p>
         </div>
 
         <div class="consent-actions">
           <button @click="acceptCookies" class="consent-button primary">
-            Aceptar
+            {{ t("cookies.accept") }}
           </button>
           <button @click="rejectCookies" class="consent-button secondary">
-            Rechazar
+            {{ t("cookies.reject") }}
           </button>
         </div>
       </div>
@@ -38,8 +37,15 @@
 </template>
 
 <script>
+import { useI18n } from "@/composables/useI18n";
+
 export default {
   name: "CookieConsent",
+
+  setup() {
+    const { t } = useI18n();
+    return { t };
+  },
 
   data() {
     return {

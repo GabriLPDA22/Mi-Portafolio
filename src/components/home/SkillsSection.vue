@@ -19,14 +19,13 @@
       <div class="sticky-header" ref="stickyHeader">
         <div class="header-content" :class="{ 'is-scrolled': isScrolled }">
           <!-- Texto gigante de fondo -->
-          <div class="background-text">SKILLS</div>
+          <div class="background-text">{{ t('skills.title').toUpperCase() }} {{ t('skills.titleHighlight').toUpperCase() }}</div>
 
           <h2 class="section-title">
-            Stack <span class="gradient-text">Tecnológico</span>
+            {{ t('skills.title') }} <span class="gradient-text">{{ t('skills.titleHighlight') }}</span>
           </h2>
           <p class="section-subtitle">
-            Tecnologías y herramientas con las que trabajo día a día para
-            construir productos digitales de calidad.
+            {{ t('skills.subtitle') }}
           </p>
         </div>
       </div>
@@ -46,7 +45,7 @@
                 />
               </svg>
             </div>
-            <h3 class="category-title">Frontend & Frameworks</h3>
+            <h3 class="category-title">{{ t('skills.categories.frontend') }}</h3>
           </div>
           <div class="skills-grid">
             <div
@@ -74,7 +73,7 @@
                 />
               </svg>
             </div>
-            <h3 class="category-title">Backend & Bases de Datos</h3>
+            <h3 class="category-title">{{ t('skills.categories.backend') }}</h3>
           </div>
           <div class="skills-grid">
             <div
@@ -102,7 +101,7 @@
                 />
               </svg>
             </div>
-            <h3 class="category-title">Mobile</h3>
+            <h3 class="category-title">{{ t('skills.categories.mobile') }}</h3>
           </div>
           <div class="skills-grid">
             <div
@@ -137,7 +136,7 @@
                 />
               </svg>
             </div>
-            <h3 class="category-title">Herramientas & DevOps</h3>
+            <h3 class="category-title">{{ t('skills.categories.tools') }}</h3>
           </div>
           <div class="skills-grid">
             <div
@@ -157,107 +156,114 @@
 </template>
 
 <script>
+import { useI18n } from '@/composables/useI18n';
+
 export default {
-  name: "SkillsSection",
+  name: 'SkillsSection',
+
+  setup() {
+    const { t } = useI18n();
+    return { t };
+  },
 
   data() {
     return {
       isScrolled: false,
       frontend: [
         {
-          name: "Vue.js",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg",
+          name: 'Vue.js',
+          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg',
         },
         {
-          name: "React",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+          name: 'React',
+          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
         },
         {
-          name: "TypeScript",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
+          name: 'TypeScript',
+          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg',
         },
         {
-          name: "JavaScript",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
+          name: 'JavaScript',
+          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg',
         },
         {
-          name: "HTML5",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
+          name: 'HTML5',
+          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg',
         },
         {
-          name: "CSS3",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
+          name: 'CSS3',
+          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg',
         },
         {
-          name: "TailwindCSS",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg",
+          name: 'TailwindCSS',
+          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg',
         },
         {
-          name: "SCSS",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg",
+          name: 'SCSS',
+          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg',
         },
       ],
       backend: [
         {
-          name: "C#",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg",
+          name: 'C#',
+          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg',
         },
         {
-          name: "PHP",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg",
+          name: 'PHP',
+          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg',
         },
         {
-          name: "Symfony",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/symfony/symfony-original-wordmark.svg",
+          name: 'Symfony',
+          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/symfony/symfony-original-wordmark.svg',
         },
         {
-          name: "Node.js",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
+          name: 'Node.js',
+          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg',
         },
         {
-          name: "PostgreSQL",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
+          name: 'PostgreSQL',
+          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg',
         },
         {
-          name: "MySQL",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
+          name: 'MySQL',
+          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg',
         },
         {
-          name: "MongoDB",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
+          name: 'MongoDB',
+          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg',
         },
       ],
       mobile: [
         {
-          name: "React Native",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
-          badge: "🔥",
+          name: 'React Native',
+          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
+          badge: '🔥',
         },
         {
-          name: "Java",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
+          name: 'Java',
+          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg',
         },
       ],
       tools: [
         {
-          name: "Git",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
+          name: 'Git',
+          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg',
         },
         {
-          name: "GitHub",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",
+          name: 'GitHub',
+          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg',
         },
         {
-          name: "Docker",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
+          name: 'Docker',
+          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg',
         },
         {
-          name: "AWS",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg",
+          name: 'AWS',
+          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg',
         },
         {
-          name: "Figma",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
+          name: 'Figma',
+          icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg',
         },
       ],
     };
@@ -269,12 +275,12 @@ export default {
   },
 
   beforeUnmount() {
-    window.removeEventListener("scroll", this.handleScroll);
+    window.removeEventListener('scroll', this.handleScroll);
   },
 
   methods: {
     initParallax() {
-      window.addEventListener("scroll", this.handleScroll);
+      window.addEventListener('scroll', this.handleScroll);
     },
 
     handleScroll() {
@@ -299,17 +305,17 @@ export default {
     },
 
     animateCategoriesOnScroll() {
-      const categories = [
+      const elements = [
         this.$refs.category1,
         this.$refs.category2,
         this.$refs.category3,
         this.$refs.category4,
       ];
 
-      categories.forEach((category) => {
-        if (!category) return;
+      elements.forEach((el) => {
+        if (!el) return;
 
-        const rect = category.getBoundingClientRect();
+        const rect = el.getBoundingClientRect();
         const windowHeight = window.innerHeight;
 
         const progress = 1 - rect.top / windowHeight;
@@ -318,8 +324,8 @@ export default {
           const opacity = Math.min(progress * 2, 1);
           const translateY = (1 - Math.min(progress, 1)) * 30;
 
-          category.style.opacity = opacity;
-          category.style.transform = `translateY(${translateY}px)`;
+          el.style.opacity = opacity;
+          el.style.transform = `translateY(${translateY}px)`;
         }
       });
     },

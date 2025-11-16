@@ -1,13 +1,11 @@
 <template>
   <section id="proyectos" class="projects-section">
-    <!-- Background with Parallax Layers -->
     <div class="parallax-bg">
       <div class="bg-layer layer-1" ref="layer1"></div>
       <div class="bg-layer layer-2" ref="layer2"></div>
       <div class="bg-layer layer-3" ref="layer3"></div>
     </div>
 
-    <!-- Elementos decorativos -->
     <div class="decorative-elements">
       <div class="deco-circle deco-1"></div>
       <div class="deco-circle deco-2"></div>
@@ -15,25 +13,21 @@
     </div>
 
     <div class="projects-container">
-      <!-- Sticky Header Section -->
       <div class="sticky-header" ref="stickyHeader">
         <div class="header-content" :class="{ 'is-scrolled': isScrolled }">
-          <div class="background-text">PROYECTOS</div>
+          <div class="background-text">{{ t('projects.titleHighlight').toUpperCase() }}</div>
           <h2 class="section-title">
-            Casos de <span class="gradient-text">Éxito</span>
+            {{ t('projects.title') }} <span class="gradient-text">{{ t('projects.titleHighlight') }}</span>
           </h2>
           <p class="section-subtitle">
-            Proyectos reales en producción que demuestran mi experiencia en
-            desarrollo full stack, desde apps mobile hasta plataformas web
-            complejas.
+            {{ t('projects.subtitle') }}
           </p>
         </div>
       </div>
 
-      <!-- Projects Grid Desktop / Carousel Mobile -->
       <div class="projects-wrapper">
-        <!-- Desktop Grid -->
         <div class="projects-grid desktop-only" ref="projectsGrid">
+          
           <div class="project-card" ref="card1">
             <div class="card-glow"></div>
             <div class="card-content">
@@ -53,13 +47,11 @@
               <div class="card-info">
                 <div class="card-badges">
                   <span class="badge badge-featured">TFG</span>
-                  <span class="badge badge-fullstack">Full Stack</span>
+                  <span class="badge badge-fullstack">{{ t('projects.elixium.category') }}</span>
                 </div>
-                <h3 class="card-title">ELIXIUM FOODS Delivery</h3>
+                <h3 class="card-title">{{ t('projects.elixium.title') }}</h3>
                 <p class="card-description">
-                  Plataforma completa de entrega de comida estilo UberEats
-                  desarrollada como TFG. Sistema de pedidos en tiempo real,
-                  panel de administración y arquitectura cloud-native.
+                  {{ t('projects.elixium.description') }}
                 </p>
                 <div class="card-tech">
                   <span class="tech-tag">.NET 9</span>
@@ -81,10 +73,7 @@
                       d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>
-                  <span
-                    >Arquitectura profesional cloud-native con deploy en
-                    AWS</span
-                  >
+                  <span>{{ t('projects.status.completed') }} - AWS Deploy</span>
                 </div>
               </div>
             </div>
@@ -103,14 +92,12 @@
               </div>
               <div class="card-info">
                 <div class="card-badges">
-                  <span class="badge badge-production">En Producción ⭐</span>
-                  <span class="badge badge-web">Cliente Real</span>
+                  <span class="badge badge-production">{{ t('projects.status.production') }} ⭐</span>
+                  <span class="badge badge-web">{{ t('projects.huvegrym.category') }}</span>
                 </div>
-                <h3 class="card-title">Huvegrym - Danza Contemporánea</h3>
+                <h3 class="card-title">{{ t('projects.huvegrym.title') }}</h3>
                 <p class="card-description">
-                  Portfolio digital profesional para grupo de danza. Galería de
-                  espectáculos, sistema de contacto directo y diseño
-                  completamente responsive.
+                  {{ t('projects.huvegrym.description') }}
                 </p>
                 <div class="card-tech">
                   <span class="tech-tag">HTML5</span>
@@ -132,7 +119,7 @@
                       d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
                     />
                   </svg>
-                  <span>Sitio live en huvegrym.es - Cliente satisfecho</span>
+                  <span>Live: huvegrym.es</span>
                 </div>
                 <div class="card-link-hint">
                   <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -143,7 +130,7 @@
                       d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
                     />
                   </svg>
-                  <span>Visitar sitio web</span>
+                  <span>{{ t('projects.viewProject') }}</span>
                 </div>
               </div>
             </div>
@@ -168,15 +155,13 @@
               <div class="card-info">
                 <div class="card-badges">
                   <span class="badge badge-upcoming"
-                    >v1.1.3 - En Desarrollo</span
+                    >v1.1.3 - {{ t('projects.status.development') }}</span
                   >
-                  <span class="badge badge-fullstack">Full Stack MVP</span>
+                  <span class="badge badge-fullstack">{{ t('projects.mvpApp.category') }}</span>
                 </div>
-                <h3 class="card-title">MVP Profesional Multiplatform</h3>
+                <h3 class="card-title">{{ t('projects.mvpApp.title') }}</h3>
                 <p class="card-description">
-                  Desarrollo actual de un MVP completo con aplicación web
-                  Vue.js, mobile iOS con React Native y arquitectura cloud.
-                  Sistema completo con backend .NET y AWS.
+                  {{ t('projects.mvpApp.description') }}
                 </p>
                 <div class="card-tech">
                   <span class="tech-tag">Vue.js 3</span>
@@ -200,7 +185,7 @@
                     />
                   </svg>
                   <span
-                    >Primer gran proyecto freelance - Lanzamiento ~3 meses</span
+                    >Freelance MVP</span
                   >
                 </div>
                 <div class="card-link-hint">
@@ -212,14 +197,13 @@
                       d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
                     />
                   </svg>
-                  <span>Ver en App Store (Beta)</span>
+                  <span>App Store (Beta)</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Mobile Carousel -->
         <div class="carousel-container mobile-only">
           <div
             class="carousel-track"
@@ -233,7 +217,6 @@
             @mouseleave="handleMouseUp"
             :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
           >
-            <!-- Slide 1 -->
             <div class="carousel-slide">
               <div class="project-card mobile-card">
                 <div class="card-glow"></div>
@@ -258,12 +241,11 @@
                   <div class="card-info">
                     <div class="card-badges">
                       <span class="badge badge-featured">TFG</span>
-                      <span class="badge badge-fullstack">Full Stack</span>
+                      <span class="badge badge-fullstack">{{ t('projects.elixium.category') }}</span>
                     </div>
-                    <h3 class="card-title">ELIXIUM FOODS Delivery</h3>
+                    <h3 class="card-title">{{ t('projects.elixium.title') }}</h3>
                     <p class="card-description">
-                      Plataforma completa de entrega de comida estilo UberEats.
-                      Sistema de pedidos en tiempo real y arquitectura cloud.
+                       {{ t('projects.elixium.description') }}
                     </p>
                     <div class="card-tech">
                       <span class="tech-tag">.NET 9</span>
@@ -285,14 +267,13 @@
                           d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                         />
                       </svg>
-                      <span>Cloud-native con deploy en AWS</span>
+                      <span>{{ t('projects.status.completed') }}</span>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Slide 2 -->
             <div class="carousel-slide">
               <div class="project-card mobile-card" @click="openHuvegrym">
                 <div class="card-glow"></div>
@@ -307,15 +288,12 @@
                   </div>
                   <div class="card-info">
                     <div class="card-badges">
-                      <span class="badge badge-production"
-                        >En Producción ⭐</span
-                      >
-                      <span class="badge badge-web">Cliente Real</span>
+                      <span class="badge badge-production">{{ t('projects.status.production') }} ⭐</span>
+                      <span class="badge badge-web">{{ t('projects.huvegrym.category') }}</span>
                     </div>
-                    <h3 class="card-title">Huvegrym - Danza</h3>
+                    <h3 class="card-title">{{ t('projects.huvegrym.title') }}</h3>
                     <p class="card-description">
-                      Portfolio digital profesional para grupo de danza. Galería
-                      de espectáculos y diseño responsive.
+                      {{ t('projects.huvegrym.description') }}
                     </p>
                     <div class="card-tech">
                       <span class="tech-tag">HTML5</span>
@@ -337,7 +315,7 @@
                           d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
                         />
                       </svg>
-                      <span>Live en huvegrym.es</span>
+                      <span>Live: huvegrym.es</span>
                     </div>
                     <div class="card-link-hint">
                       <svg
@@ -352,14 +330,13 @@
                           d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
                         />
                       </svg>
-                      <span>Visitar sitio</span>
+                      <span>{{ t('projects.viewProject') }}</span>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Slide 3 -->
             <div class="carousel-slide">
               <div class="project-card mobile-card" @click="openMVPApp">
                 <div class="card-glow"></div>
@@ -384,14 +361,13 @@
                   <div class="card-info">
                     <div class="card-badges">
                       <span class="badge badge-upcoming"
-                        >v1.1.3 - En Desarrollo</span
+                        >v1.1.3 - {{ t('projects.status.development') }}</span
                       >
-                      <span class="badge badge-fullstack">Full Stack MVP</span>
+                      <span class="badge badge-fullstack">{{ t('projects.mvpApp.category') }}</span>
                     </div>
-                    <h3 class="card-title">MVP Multiplatform</h3>
+                    <h3 class="card-title">{{ t('projects.mvpApp.title') }}</h3>
                     <p class="card-description">
-                      MVP completo con Vue.js, React Native iOS y arquitectura
-                      cloud. Backend .NET y AWS.
+                      {{ t('projects.mvpApp.description') }}
                     </p>
                     <div class="card-tech">
                       <span class="tech-tag">Vue.js 3</span>
@@ -413,7 +389,7 @@
                           d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                         />
                       </svg>
-                      <span>Lanzamiento ~3 meses</span>
+                      <span>Freelance MVP</span>
                     </div>
                     <div class="card-link-hint">
                       <svg
@@ -436,7 +412,6 @@
             </div>
           </div>
 
-          <!-- Dots Indicators - MÁS VISIBLES -->
           <div class="carousel-dots">
             <button
               v-for="(dot, index) in 3"
@@ -454,8 +429,14 @@
 </template>
 
 <script>
+import { useI18n } from '@/composables/useI18n';
+
 export default {
   name: "ProjectsSection",
+  setup() {
+    const { t } = useI18n();
+    return { t };
+  },
   data() {
     return {
       isScrolled: false,
@@ -840,8 +821,8 @@ export default {
   display: flex;
   justify-content: center;
   gap: 0.875rem;
-  margin-top: 2.5rem;
-  padding: 1rem 0;
+  margin-top: 1rem; /* REDUCIDO EL MARGEN SUPERIOR */
+  padding: 0;
 }
 
 .carousel-dot {

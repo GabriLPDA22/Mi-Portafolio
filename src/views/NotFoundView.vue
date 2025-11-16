@@ -1,12 +1,12 @@
 <template>
   <div class="not-found">
     <div class="not-found-content">
-      <div class="error-code">404</div>
+      <div class="error-code">{{ t("notFound.code") }}</div>
 
-      <h1 class="error-title">Página no encontrada</h1>
+      <h1 class="error-title">{{ t("notFound.title") }}</h1>
 
       <p class="error-description">
-        Lo sentimos, la página que buscas no existe o ha sido movida.
+        {{ t("notFound.description") }}
       </p>
 
       <router-link to="/" class="back-button">
@@ -18,15 +18,22 @@
             d="M10 19l-7-7m0 0l7-7m-7 7h18"
           />
         </svg>
-        <span>Volver al inicio</span>
+        <span>{{ t("notFound.backHome") }}</span>
       </router-link>
     </div>
   </div>
 </template>
 
 <script>
+import { useI18n } from "@/composables/useI18n";
+
 export default {
   name: "NotFoundView",
+
+  setup() {
+    const { t } = useI18n();
+    return { t };
+  },
 };
 </script>
 

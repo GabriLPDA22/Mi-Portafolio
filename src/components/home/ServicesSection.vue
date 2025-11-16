@@ -20,14 +20,13 @@
       <div class="sticky-header" ref="stickyHeader">
         <div class="header-content" :class="{ 'is-scrolled': isScrolled }">
           <!-- Texto gigante de fondo -->
-          <div class="background-text">SERVICIOS</div>
+          <div class="background-text">{{ t('services.titleHighlight').toUpperCase() }}</div>
 
           <h2 class="section-title">
-            <span class="gradient-text">Servicios</span>
+            {{ t('services.title') }} <span class="title-highlight">{{ t('services.titleHighlight') }}</span>
           </h2>
           <p class="section-subtitle">
-            Desarrollo completo desde el diseño hasta el deploy. Especializado
-            en experiencias que tus usuarios amarán.
+            {{ t('services.subtitle') }}
           </p>
         </div>
       </div>
@@ -63,22 +62,20 @@
               </svg>
             </div>
 
-            <h3 class="card-title">Desarrollo Web Frontend</h3>
+            <h3 class="card-title">{{ t('services.cards.frontend.title') }}</h3>
             <p class="card-description">
-              Interfaces modernas y responsivas con Vue.js y React. Desde
-              landing pages hasta aplicaciones web complejas.
+              {{ t('services.cards.frontend.description') }}
             </p>
 
             <ul class="card-features">
-              <li>Vue.js 3 & Composition API</li>
-              <li>React & Next.js</li>
-              <li>TypeScript & JavaScript</li>
-              <li>Tailwind CSS + SCSS</li>
+              <li v-for="(feature, index) in t('services.cards.frontend.features')" :key="index">
+                {{ feature }}
+              </li>
             </ul>
 
             <div class="card-footer">
-              <div class="card-price">Desde 800€</div>
-              <div class="card-badge">Popular</div>
+              <div class="card-price">{{ t('services.cards.frontend.price') }}</div>
+              <div class="card-badge">{{ t('services.cards.frontend.badge') }}</div>
             </div>
           </div>
         </div>
@@ -116,22 +113,20 @@
               </svg>
             </div>
 
-            <h3 class="card-title">Apps Mobile Nativas</h3>
+            <h3 class="card-title">{{ t('services.cards.mobile.title') }}</h3>
             <p class="card-description">
-              Aplicaciones iOS y Android con React Native. Experiencia nativa
-              con código compartido y rendimiento óptimo.
+              {{ t('services.cards.mobile.description') }}
             </p>
 
             <ul class="card-features">
-              <li>React Native</li>
-              <li>iOS & Android</li>
-              <li>Expo & Bare Workflow</li>
-              <li>Push Notifications</li>
+              <li v-for="(feature, index) in t('services.cards.mobile.features')" :key="index">
+                {{ feature }}
+              </li>
             </ul>
 
             <div class="card-footer">
-              <div class="card-price">Desde 1.500€</div>
-              <div class="card-badge">Demandado</div>
+              <div class="card-price">{{ t('services.cards.mobile.price') }}</div>
+              <div class="card-badge">{{ t('services.cards.mobile.badge') }}</div>
             </div>
           </div>
         </div>
@@ -163,22 +158,20 @@
               </svg>
             </div>
 
-            <h3 class="card-title">Backend & APIs REST</h3>
+            <h3 class="card-title">{{ t('services.cards.backend.title') }}</h3>
             <p class="card-description">
-              Arquitecturas escalables y seguras con Symfony y .NET. Integración
-              con bases de datos y servicios externos.
+              {{ t('services.cards.backend.description') }}
             </p>
 
             <ul class="card-features">
-              <li>Symfony & PHP</li>
-              <li>.NET & C#</li>
-              <li>PostgreSQL & MySQL</li>
-              <li>API RESTful</li>
+              <li v-for="(feature, index) in t('services.cards.backend.features')" :key="index">
+                {{ feature }}
+              </li>
             </ul>
 
             <div class="card-footer">
-              <div class="card-price">Desde 1.200€</div>
-              <div class="card-badge">Full Stack</div>
+              <div class="card-price">{{ t('services.cards.backend.price') }}</div>
+              <div class="card-badge">{{ t('services.cards.backend.badge') }}</div>
             </div>
           </div>
         </div>
@@ -207,22 +200,20 @@
               </svg>
             </div>
 
-            <h3 class="card-title">UI/UX & Animaciones</h3>
+            <h3 class="card-title">{{ t('services.cards.uiux.title') }}</h3>
             <p class="card-description">
-              Diseños pixel-perfect con atención al detalle. Animaciones fluidas
-              y microinteracciones que enamoran.
+              {{ t('services.cards.uiux.description') }}
             </p>
 
             <ul class="card-features">
-              <li>Diseño Mobile-First</li>
-              <li>Scroll Animations</li>
-              <li>Parallax Effects</li>
-              <li>Prototipos Figma</li>
+              <li v-for="(feature, index) in t('services.cards.uiux.features')" :key="index">
+                {{ feature }}
+              </li>
             </ul>
 
             <div class="card-footer">
-              <div class="card-price">Desde 600€</div>
-              <div class="card-badge">Premium</div>
+              <div class="card-price">{{ t('services.cards.uiux.price') }}</div>
+              <div class="card-badge">{{ t('services.cards.uiux.badge') }}</div>
             </div>
           </div>
         </div>
@@ -251,22 +242,20 @@
               </svg>
             </div>
 
-            <h3 class="card-title">Web Performance</h3>
+            <h3 class="card-title">{{ t('services.cards.performance.title') }}</h3>
             <p class="card-description">
-              Optimización de velocidad y SEO. Auditorías Lighthouse y mejoras
-              técnicas para mejor posicionamiento.
+              {{ t('services.cards.performance.description') }}
             </p>
 
             <ul class="card-features">
-              <li>Core Web Vitals</li>
-              <li>SEO Técnico</li>
-              <li>Lazy Loading</li>
-              <li>Code Splitting</li>
+              <li v-for="(feature, index) in t('services.cards.performance.features')" :key="index">
+                {{ feature }}
+              </li>
             </ul>
 
             <div class="card-footer">
-              <div class="card-price">Desde 400€</div>
-              <div class="card-badge">Técnico</div>
+              <div class="card-price">{{ t('services.cards.performance.price') }}</div>
+              <div class="card-badge">{{ t('services.cards.performance.badge') }}</div>
             </div>
           </div>
         </div>
@@ -302,199 +291,262 @@
               </svg>
             </div>
 
-            <h3 class="card-title">Soporte & Mantenimiento</h3>
+            <h3 class="card-title">{{ t('services.cards.support.title') }}</h3>
             <p class="card-description">
-              Actualizaciones, mejoras continuas y resolución de bugs. Mantén tu
-              aplicación siempre al día y funcionando.
+              {{ t('services.cards.support.description') }}
             </p>
 
             <ul class="card-features">
-              <li>Bug Fixing</li>
-              <li>Actualizaciones</li>
-              <li>Nuevas Features</li>
-              <li>Soporte Mensual</li>
+              <li v-for="(feature, index) in t('services.cards.support.features')" :key="index">
+                {{ feature }}
+              </li>
             </ul>
 
             <div class="card-footer">
-              <div class="card-price">300€/mes</div>
-              <div class="card-badge">Recurrente</div>
+              <div class="card-price">{{ t('services.cards.support.price') }}</div>
+              <div class="card-badge">{{ t('services.cards.support.badge') }}</div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- CTA Final -->
+      <!-- CTA Section -->
       <div class="services-cta" ref="ctaSection">
-        <h3 class="cta-title">¿Tienes un proyecto en mente?</h3>
-        <p class="cta-description">
-          Hablemos y transformemos tu idea en realidad
-        </p>
+        <h3 class="cta-title">{{ t('contact.title') }} {{ t('contact.titleHighlight') }}</h3>
+        <p class="cta-description">{{ t('contact.subtitle') }}</p>
 
         <div class="cta-buttons">
-          <a href="mailto:gsaiz.bajo@gmail.com" class="cta-button primary">
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <a href="#contacto" class="cta-button primary">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
+                d="M3 8L10.89 13.26C11.54 13.67 12.46 13.67 13.11 13.26L21 8M5 19H19C20.1046 19 21 18.1046 21 17V7C21 5.89543 20.1046 5 19 5H5C3.89543 5 3 5.89543 3 7V17C3 18.1046 3.89543 19 5 19Z"
+                stroke="currentColor"
+                stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                stroke-width="2"
-                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
               />
             </svg>
-            <span>gsaiz.bajo@gmail.com</span>
+            {{ t('hero.cta.primary') }}
           </a>
-          <a href="tel:+34663941885" class="cta-button secondary">
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
+          <a href="#proyectos" class="cta-button secondary">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
+                d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                stroke="currentColor"
+                stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                stroke-width="2"
-                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
               />
             </svg>
-            <span>+34 663 941 885</span>
+            {{ t('hero.cta.secondary') }}
           </a>
         </div>
 
-        <p class="cta-note">
-          * Los precios son orientativos y varían según la complejidad del
-          proyecto
-        </p>
+        <p class="cta-note">{{ t('contact.note') }}</p>
       </div>
     </div>
   </section>
 </template>
 
-<script>
-export default {
-  name: "ServicesSection",
+<script setup>
+import { ref, onMounted, onBeforeUnmount } from "vue";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useI18n } from '@/composables/useI18n';
 
-  data() {
-    return {
-      isScrolled: false,
-      hoveredCard: null,
-      scrollProgress: 0,
-    };
-  },
+gsap.registerPlugin(ScrollTrigger);
 
-  mounted() {
-    this.initParallax();
-    this.initScrollAnimations();
-  },
+// i18n
+const { t } = useI18n();
 
-  beforeUnmount() {
-    window.removeEventListener("scroll", this.handleScroll);
-  },
+// Refs
+const stickyHeader = ref(null);
+const servicesGrid = ref(null);
+const ctaSection = ref(null);
+const layer1 = ref(null);
+const layer2 = ref(null);
+const layer3 = ref(null);
 
-  methods: {
-    initParallax() {
-      window.addEventListener("scroll", this.handleScroll);
+const card1 = ref(null);
+const card2 = ref(null);
+const card3 = ref(null);
+const card4 = ref(null);
+const card5 = ref(null);
+const card6 = ref(null);
+
+const isScrolled = ref(false);
+
+// Parallax
+let parallaxTween = null;
+
+function initParallax() {
+  parallaxTween = gsap.to([layer1.value, layer2.value, layer3.value], {
+    yPercent: -30,
+    ease: "none",
+    scrollTrigger: {
+      trigger: ".services-section",
+      start: "top top",
+      end: "bottom top",
+      scrub: true,
     },
+  });
+}
 
-    handleScroll() {
-      const scrollY = window.scrollY;
-      const windowHeight = window.innerHeight;
+// Animations
+function initAnimations() {
+  const cards = [
+    card1.value,
+    card2.value,
+    card3.value,
+    card4.value,
+    card5.value,
+    card6.value,
+  ];
 
-      // Parallax en las capas de fondo (diferentes velocidades)
-      if (this.$refs.layer1) {
-        this.$refs.layer1.style.transform = `translateY(${scrollY * 0.1}px)`;
-      }
-      if (this.$refs.layer2) {
-        this.$refs.layer2.style.transform = `translateY(${scrollY * 0.2}px)`;
-      }
-      if (this.$refs.layer3) {
-        this.$refs.layer3.style.transform = `translateY(${scrollY * 0.15}px)`;
-      }
-
-      // Detectar si el header sticky está en viewport
-      if (this.$refs.stickyHeader) {
-        const headerTop = this.$refs.stickyHeader.getBoundingClientRect().top;
-        this.isScrolled = headerTop <= 100;
-      }
-
-      // Animaciones de cards al hacer scroll
-      this.animateCardsOnScroll();
+  gsap.fromTo(
+    cards,
+    {
+      opacity: 0,
+      y: 60,
+      scale: 0.95,
     },
+    {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      duration: 0.8,
+      stagger: 0.15,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: servicesGrid.value,
+        start: "top 75%",
+        end: "bottom 25%",
+        toggleActions: "play none none none",
+      },
+    }
+  );
 
-    animateCardsOnScroll() {
-      const cards = [
-        this.$refs.card1,
-        this.$refs.card2,
-        this.$refs.card3,
-        this.$refs.card4,
-        this.$refs.card5,
-        this.$refs.card6,
-      ];
+  gsap.fromTo(
+    ctaSection.value,
+    {
+      opacity: 0,
+      scale: 0.95,
+    },
+    {
+      opacity: 1,
+      scale: 1,
+      duration: 0.8,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: ctaSection.value,
+        start: "top 80%",
+        toggleActions: "play none none none",
+      },
+    }
+  );
+}
 
-      cards.forEach((card, index) => {
-        if (!card) return;
+// Card Hover
+function handleCardHover(index) {
+  const cards = [
+    card1.value,
+    card2.value,
+    card3.value,
+    card4.value,
+    card5.value,
+    card6.value,
+  ];
 
-        const rect = card.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
-
-        // Calcular progreso de entrada (0 a 1)
-        const progress = 1 - rect.top / windowHeight;
-
-        if (progress > 0 && progress < 1.5) {
-          // Fade in + Scale + TranslateY
-          const opacity = Math.min(progress * 2, 1);
-          const scale = 0.9 + Math.min(progress, 1) * 0.1;
-          const translateY = (1 - Math.min(progress, 1)) * 50;
-
-          card.style.opacity = opacity;
-          card.style.transform = `scale(${scale}) translateY(${translateY}px)`;
-        } else if (progress >= 1.5) {
-          // Fade out gradual cuando sale del viewport por arriba
-          const fadeOut = Math.max(0, 2 - progress);
-          card.style.opacity = fadeOut;
-        }
+  cards.forEach((card, i) => {
+    if (i !== index && card) {
+      gsap.to(card, {
+        scale: 0.97,
+        opacity: 0.6,
+        duration: 0.3,
+        ease: "power2.out",
       });
+    }
+  });
+}
 
-      // Animar CTA final
-      if (this.$refs.ctaSection) {
-        const ctaRect = this.$refs.ctaSection.getBoundingClientRect();
-        const ctaProgress = 1 - ctaRect.top / window.innerHeight;
+function handleCardLeave() {
+  const cards = [
+    card1.value,
+    card2.value,
+    card3.value,
+    card4.value,
+    card5.value,
+    card6.value,
+  ];
 
-        if (ctaProgress > 0 && ctaProgress < 1) {
-          const ctaOpacity = Math.min(ctaProgress * 2, 1);
-          const ctaScale = 0.95 + Math.min(ctaProgress, 1) * 0.05;
+  cards.forEach((card) => {
+    if (card) {
+      gsap.to(card, {
+        scale: 1,
+        opacity: 1,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    }
+  });
+}
 
-          this.$refs.ctaSection.style.opacity = ctaOpacity;
-          this.$refs.ctaSection.style.transform = `scale(${ctaScale})`;
-        }
-      }
-    },
+// Lifecycle
+onMounted(() => {
+  initParallax();
+  initAnimations();
 
-    initScrollAnimations() {
-      // Trigger inicial para cards visibles
-      setTimeout(() => {
-        this.animateCardsOnScroll();
-      }, 100);
-    },
+  const handleScroll = () => {
+    isScrolled.value = window.scrollY > 100;
+  };
+  window.addEventListener("scroll", handleScroll);
 
-    handleCardHover(index) {
-      this.hoveredCard = index;
-    },
-
-    handleCardLeave() {
-      this.hoveredCard = null;
-    },
-  },
-};
+  onBeforeUnmount(() => {
+    window.removeEventListener("scroll", handleScroll);
+    if (parallaxTween) {
+      parallaxTween.kill();
+    }
+    ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+  });
+});
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 /* ================================
-   SERVICES SECTION - BASE
+   VARIABLES
+   ================================ */
+$primary-gradient: linear-gradient(135deg, #ff6b35, #ec4899);
+$dark-bg: rgba(24, 24, 27, 0.95);
+$card-bg: rgba(39, 39, 42, 0.8);
+$hover-card-bg: rgba(39, 39, 42, 0.95);
+
+/* ================================
+   SECTION CONTAINER
    ================================ */
 .services-section {
   position: relative;
   min-height: 100vh;
   padding: 8rem 0 4rem;
-  background: #0a0a0b;
   overflow: hidden;
+  background: linear-gradient(
+    180deg,
+    rgba(24, 24, 27, 0.95) 0%,
+    rgba(18, 18, 20, 0.98) 100%
+  );
 }
 
-/* Parallax Background Layers - COLORES AJUSTADOS */
+/* ================================
+   PARALLAX BACKGROUND
+   ================================ */
 .parallax-bg {
   position: absolute;
   inset: 0;
@@ -504,139 +556,126 @@ export default {
 
 .bg-layer {
   position: absolute;
-  border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.12;
-  will-change: transform;
+  width: 100%;
+  height: 120%;
+  top: -10%;
 }
 
 .layer-1 {
-  top: 0%;
-  left: 0%;
-  width: 600px;
-  height: 600px;
-  background: linear-gradient(135deg, #ff6b35, #a855f7);
+  background: radial-gradient(
+    circle at 20% 50%,
+    rgba(255, 107, 53, 0.08) 0%,
+    transparent 50%
+  );
 }
 
 .layer-2 {
-  top: 50%;
-  right: 0%;
-  width: 500px;
-  height: 500px;
-  background: linear-gradient(135deg, #a855f7, #ec4899);
+  background: radial-gradient(
+    circle at 80% 30%,
+    rgba(168, 85, 247, 0.06) 0%,
+    transparent 50%
+  );
 }
 
 .layer-3 {
-  bottom: 0%;
-  left: 30%;
-  width: 400px;
-  height: 400px;
-  background: linear-gradient(135deg, #06b6d4, #ff6b35);
+  background: radial-gradient(
+    circle at 50% 70%,
+    rgba(236, 72, 153, 0.04) 0%,
+    transparent 50%
+  );
 }
 
 /* ================================
-   ELEMENTOS DECORATIVOS
+   DECORATIVE ELEMENTS
    ================================ */
 .decorative-elements {
   position: absolute;
   inset: 0;
-  z-index: 5;
   pointer-events: none;
-  overflow: hidden;
+  z-index: 1;
 }
 
 .deco-circle,
-.deco-square,
-.deco-line {
+.deco-square {
   position: absolute;
-  opacity: 0.4;
-}
-
-.deco-circle {
-  border: 2px solid;
   border-radius: 50%;
+  opacity: 0.08;
+  animation: float 20s infinite ease-in-out;
 }
 
 .deco-1 {
-  top: 15%;
-  right: 5%;
-  width: 80px;
-  height: 80px;
-  border-color: #ff6b35;
-  animation: float-slow 8s ease-in-out infinite;
+  width: 300px;
+  height: 300px;
+  background: linear-gradient(135deg, #ff6b35, #a855f7);
+  filter: blur(100px);
+  top: 10%;
+  left: -5%;
+  animation-delay: 0s;
 }
 
 .deco-2 {
-  bottom: 20%;
-  left: 5%;
-  width: 60px;
-  height: 60px;
-  border-color: #a855f7;
-  animation: float-slow 10s ease-in-out infinite;
-  animation-delay: -3s;
-}
-
-.deco-square {
-  border: 2px solid;
-  border-radius: 0.5rem;
-}
-
-.deco-3 {
-  top: 40%;
-  right: 8%;
-  width: 50px;
-  height: 50px;
-  border-color: #06b6d4;
-  transform: rotate(45deg);
-  animation: float-slow 12s ease-in-out infinite;
+  width: 200px;
+  height: 200px;
+  background: linear-gradient(135deg, #ec4899, #a855f7);
+  filter: blur(80px);
+  bottom: 15%;
+  right: -3%;
   animation-delay: -5s;
 }
 
+.deco-3 {
+  width: 150px;
+  height: 150px;
+  background: rgba(255, 107, 53, 0.12);
+  border-radius: 1rem;
+  top: 50%;
+  right: 10%;
+  animation-delay: -10s;
+}
+
 .deco-line {
-  width: 2px;
-  height: 100px;
-  background: linear-gradient(to bottom, transparent, #ff6b35, transparent);
+  position: absolute;
+  height: 1px;
+  width: 200px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 107, 53, 0.3),
+    transparent
+  );
+  top: 30%;
+  left: 5%;
+  animation: glow 3s infinite alternate;
 }
 
-.deco-4 {
-  top: 25%;
-  left: 8%;
-  animation: float-slow 9s ease-in-out infinite;
-  animation-delay: -2s;
-}
-
-@keyframes float-slow {
+@keyframes float {
   0%,
   100% {
-    transform: translateY(0px) translateX(0px);
-  }
-  25% {
-    transform: translateY(-20px) translateX(10px);
+    transform: translateY(0) translateX(0);
   }
   50% {
-    transform: translateY(-10px) translateX(-10px);
-  }
-  75% {
-    transform: translateY(-30px) translateX(5px);
+    transform: translateY(-30px) translateX(20px);
   }
 }
 
-/* Ocultar elementos decorativos en mobile */
-@media (max-width: 1023px) {
-  .decorative-elements {
-    display: none;
+@keyframes glow {
+  0% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0.7;
   }
 }
 
 /* ================================
-   CONTAINER
+   SERVICES CONTAINER
    ================================ */
 .services-container {
   position: relative;
-  z-index: 10;
-  max-width: 1280px;
+  z-index: 2;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 2rem;
 }
 
 /* ================================
@@ -644,89 +683,70 @@ export default {
    ================================ */
 .sticky-header {
   position: sticky;
-  top: 100px;
-  z-index: 20;
+  top: 80px;
+  z-index: 10;
   margin-bottom: 4rem;
-  padding: 2rem 0;
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .header-content {
-  text-align: center;
-  max-width: 800px;
-  margin: 0 auto;
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  text-align: center;
+  padding: 2rem 0;
+  transition: all 0.3s ease;
 }
 
-/* Texto gigante de fondo */
+.header-content.is-scrolled {
+  transform: scale(0.95);
+  opacity: 0.9;
+}
+
 .background-text {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 6rem;
+  font-size: clamp(4rem, 15vw, 12rem);
   font-weight: 900;
-  color: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.02);
+  user-select: none;
+  pointer-events: none;
   white-space: nowrap;
   z-index: 0;
-  pointer-events: none;
-  user-select: none;
-  letter-spacing: 0.1em;
-}
-
-@media (min-width: 768px) {
-  .background-text {
-    font-size: 8rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .background-text {
-    font-size: 10rem;
-  }
-}
-
-.header-content.is-scrolled {
-  transform: scale(0.95);
-  opacity: 0.8;
 }
 
 .section-title {
-  font-size: 2.5rem;
+  position: relative;
+  font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 800;
-  line-height: 1.2;
+  margin: 0 0 1.5rem;
+  z-index: 1;
   color: #ffffff;
-  margin: 0 0 1rem;
-  letter-spacing: -0.02em;
 }
 
-@media (min-width: 768px) {
-  .section-title {
-    font-size: 3.5rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .section-title {
-    font-size: 4.5rem;
-  }
-}
-
-.gradient-text {
-  background: linear-gradient(135deg, #ff6b35 0%, #a855f7 100%);
+.title-highlight {
+  background: linear-gradient(135deg, #ff6b35, #ec4899, #a855f7);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  display: inline-block;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #ff6b35, #ec4899, #a855f7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
 }
 
 .section-subtitle {
-  font-size: 1.125rem;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.6);
-  margin: 0;
-  max-width: 600px;
+  position: relative;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 700px;
   margin: 0 auto;
+  line-height: 1.6;
+  z-index: 1;
 }
 
 /* ================================
@@ -734,16 +754,9 @@ export default {
    ================================ */
 .services-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
   gap: 2rem;
-  margin-bottom: 6rem;
-}
-
-@media (min-width: 768px) {
-  .services-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2.5rem;
-  }
+  margin-bottom: 4rem;
 }
 
 @media (min-width: 1024px) {
@@ -753,12 +766,11 @@ export default {
 }
 
 /* ================================
-   SERVICE CARD
+   SERVICE CARDS
    ================================ */
 .service-card {
   position: relative;
-  opacity: 0;
-  transform: scale(0.9) translateY(50px);
+  perspective: 1000px;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform, opacity;
 }

@@ -19,14 +19,17 @@
       <div class="sticky-header" ref="stickyHeader">
         <div class="header-content" :class="{ 'is-scrolled': isScrolled }">
           <!-- Texto gigante de fondo -->
-          <div class="background-text">SOBRE MÍ</div>
+          <div class="background-text">
+            {{ t("about.title").toUpperCase() }}
+            {{ t("about.titleHighlight").toUpperCase() }}
+          </div>
 
           <h2 class="section-title">
-            Conoce Mi <span class="gradient-text">Historia</span>
+            {{ t("about.title") }}
+            <span class="gradient-text">{{ t("about.titleHighlight") }}</span>
           </h2>
           <p class="section-subtitle">
-            Desarrollador apasionado por crear soluciones que marquen la
-            diferencia.
+            {{ t("about.subtitle") }}
           </p>
         </div>
       </div>
@@ -39,55 +42,19 @@
 
           <div class="card-header">
             <div class="pulse-dot"></div>
-            <h3 class="card-title">¿Quién soy?</h3>
+            <h3 class="card-title">{{ t("about.whoAmI") }}</h3>
           </div>
 
           <div class="card-body">
-            <p>
-              Soy <strong>Gabriel</strong>, un apasionado del desarrollo de
-              software y la tecnología. Me encanta crear soluciones que
-              realmente funcionen y ayuden a las personas. Para mí, programar no
-              es solo escribir código, es
-              <span class="highlight-orange"
-                >resolver problemas de forma creativa</span
-              >
-              y construir experiencias que marquen la diferencia.
-            </p>
-
-            <p>
-              Soy una persona
-              <span class="highlight-purple">curiosa y autodidacta</span>. Me
-              fascina aprender nuevas tecnologías y explorar cómo funcionan las
-              cosas por dentro. La ciberseguridad me apasiona tanto como el
-              desarrollo porque creo que
-              <strong>crear tecnología segura es una responsabilidad</strong>,
-              no una opción.
-            </p>
-
-            <p>
-              Me considero alguien
-              <span class="highlight-cyan">proactivo y resolutivo</span>. Cuando
-              me enfrento a un desafío, no me rindo hasta encontrar la solución.
-              Me gusta trabajar en equipo, aprender de otros desarrolladores y
-              compartir lo que sé. Creo firmemente en que la mejor forma de
-              crecer es rodeándote de gente que te inspire.
-            </p>
-
-            <p>
-              Más allá del código, me apasiona estar al día con las últimas
-              tendencias tech, participar en hackathones y crear proyectos que
-              surgen de ideas locas. Soy de esas personas que ve un problema
-              cotidiano y piensa
-              <span class="highlight-pink">"esto lo puedo automatizar"</span>.
-            </p>
+            <p v-html="t('about.paragraphs.intro')"></p>
+            <p v-html="t('about.paragraphs.passion')"></p>
+            <p v-html="t('about.paragraphs.mindset')"></p>
+            <p v-html="t('about.paragraphs.extra')"></p>
           </div>
 
           <!-- Quote -->
           <div class="quote-box">
-            <p>
-              "Mi objetivo es crear tecnología que no solo funcione, sino que
-              sea segura, elegante y aporte valor real"
-            </p>
+            <p>{{ t("about.quote") }}</p>
           </div>
         </div>
 
@@ -104,10 +71,9 @@
                 />
               </svg>
             </div>
-            <h4 class="value-title">Pasión por el código</h4>
+            <h4 class="value-title">{{ t("about.values.passion.title") }}</h4>
             <p class="value-description">
-              Disfruto cada línea de código, cada bug que soluciono y cada
-              funcionalidad que cobra vida.
+              {{ t("about.values.passion.description") }}
             </p>
           </div>
 
@@ -122,10 +88,9 @@
                 />
               </svg>
             </div>
-            <h4 class="value-title">Mentalidad de crecimiento</h4>
+            <h4 class="value-title">{{ t("about.values.growth.title") }}</h4>
             <p class="value-description">
-              Siempre buscando aprender, mejorar y salir de mi zona de confort
-              para evolucionar como profesional.
+              {{ t("about.values.growth.description") }}
             </p>
           </div>
 
@@ -140,10 +105,9 @@
                 />
               </svg>
             </div>
-            <h4 class="value-title">Orientado a soluciones</h4>
+            <h4 class="value-title">{{ t("about.values.solutions.title") }}</h4>
             <p class="value-description">
-              No me quedo en el problema, busco la manera de resolverlo de forma
-              eficiente y elegante.
+              {{ t("about.values.solutions.description") }}
             </p>
           </div>
         </div>
@@ -153,8 +117,15 @@
 </template>
 
 <script>
+import { useI18n } from "@/composables/useI18n";
+
 export default {
   name: "AboutMeSection",
+
+  setup() {
+    const { t } = useI18n();
+    return { t };
+  },
 
   data() {
     return {

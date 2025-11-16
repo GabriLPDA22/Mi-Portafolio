@@ -19,14 +19,13 @@
       <div class="sticky-header" ref="stickyHeader">
         <div class="header-content" :class="{ 'is-scrolled': isScrolled }">
           <!-- Texto gigante de fondo -->
-          <div class="background-text">EXPERIENCIA</div>
+          <div class="background-text">{{ t('experience.title') }} {{ t('experience.titleHighlight') }}</div>
 
           <h2 class="section-title">
-            Mi <span class="gradient-text">Trayectoria</span>
+            {{ t('experience.title') }} <span class="gradient-text">{{ t('experience.titleHighlight') }}</span>
           </h2>
           <p class="section-subtitle">
-            Desde formación dual hasta freelance profesional, construyendo
-            productos digitales de calidad.
+            {{ t('experience.subtitle') }}
           </p>
         </div>
       </div>
@@ -44,24 +43,26 @@
 
           <div class="timeline-content">
             <div class="timeline-date">
-              <span class="date-badge active">Jun 2025 - Actualidad</span>
-              <span class="status-badge">Freelance Activo 🚀</span>
+              <span class="date-badge active">{{ t('experience.freelance.date') }}</span>
+              <span class="status-badge">{{ t('experience.freelance.status') }}</span>
             </div>
 
             <div class="experience-card featured">
               <div class="card-glow"></div>
 
-              <h3 class="card-title">Desarrollador Full Stack Freelance</h3>
-              <p class="card-company">Trabajo Autónomo</p>
+              <h3 class="card-title">{{ t('experience.freelance.title') }}</h3>
+              <p class="card-company">{{ t('experience.freelance.company') }}</p>
 
               <p class="card-description">
-                Desarrollo de soluciones web y mobile completas para clientes.
-                Especializado en arquitecturas modernas con Vue.js, React
-                Native, .NET y AWS.
+                {{ t('experience.freelance.description') }}
               </p>
 
               <div class="card-achievements">
-                <div class="achievement-item">
+                <div 
+                  v-for="(achievement, index) in t('experience.freelance.achievements')" 
+                  :key="index"
+                  class="achievement-item"
+                >
                   <svg
                     class="achievement-icon"
                     fill="none"
@@ -75,44 +76,7 @@
                       d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>
-                  <span>Primer MVP completo (Web + iOS + Backend + AWS)</span>
-                </div>
-                <div class="achievement-item">
-                  <svg
-                    class="achievement-icon"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                  <span
-                    >Portfolio web para cliente (Huvegrym - En producción)</span
-                  >
-                </div>
-                <div class="achievement-item">
-                  <svg
-                    class="achievement-icon"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                  <span
-                    >Gestión completa de proyectos desde diseño hasta
-                    deploy</span
-                  >
+                  <span>{{ achievement }}</span>
                 </div>
               </div>
 
@@ -133,24 +97,26 @@
 
           <div class="timeline-content">
             <div class="timeline-date">
-              <span class="date-badge">Sep 2024 - Jun 2025</span>
-              <span class="status-badge completed">Completado ✓</span>
+              <span class="date-badge">{{ t('experience.golive.date') }}</span>
+              <span class="status-badge completed">{{ t('experience.golive.status') }}</span>
             </div>
 
             <div class="experience-card">
               <div class="card-glow"></div>
 
-              <h3 class="card-title">Desarrollador Full Stack</h3>
-              <p class="card-company">GOLIVE Services - Formación Dual</p>
+              <h3 class="card-title">{{ t('experience.golive.title') }}</h3>
+              <p class="card-company">{{ t('experience.golive.company') }}</p>
 
               <p class="card-description">
-                Formación dual en consultora tecnológica especializada en
-                desarrollo web y mobile. Participación en proyectos reales con
-                clientes de diversos sectores.
+                {{ t('experience.golive.description') }}
               </p>
 
               <div class="card-achievements">
-                <div class="achievement-item">
+                <div 
+                  v-for="(achievement, index) in t('experience.golive.achievements')" 
+                  :key="index"
+                  class="achievement-item"
+                >
                   <svg
                     class="achievement-icon"
                     fill="none"
@@ -164,44 +130,7 @@
                       d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>
-                  <span
-                    >Desarrollo de soluciones personalizadas para clientes</span
-                  >
-                </div>
-                <div class="achievement-item">
-                  <svg
-                    class="achievement-icon"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                  <span
-                    >Implementación de funcionalidades con tecnologías
-                    modernas</span
-                  >
-                </div>
-                <div class="achievement-item">
-                  <svg
-                    class="achievement-icon"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                  <span>Optimización del rendimiento de plataformas</span>
+                  <span>{{ achievement }}</span>
                 </div>
               </div>
 
@@ -213,22 +142,23 @@
               </div>
 
               <div class="card-links">
-                <a
-                  href="https://www.onegolive.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="card-link"
-                >
-                  <span>Visitar sitio web</span>
-                  <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                    />
-                  </svg>
-                </a>
+                 <a
+                   href="https://www.onegolive.com"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="card-link"
+                 >
+                   <span>{{ t('experience.golive.visitWebsite') }}</span>
+                   <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                     <path
+                       stroke-linecap="round"
+                       stroke-linejoin="round"
+                       stroke-width="2"
+                       d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                     />
+                   </svg>
+                 </a>
+                 
                 <a
                   href="/documents/carta-recomendacion-golive.pdf"
                   download="Carta-Recomendacion-Gabriel-Saiz-GOLIVE.pdf"
@@ -242,7 +172,7 @@
                       d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                     />
                   </svg>
-                  <span>Descargar Carta de Recomendación</span>
+                  <span>{{ t('experience.golive.downloadLetter') }}</span>
                 </a>
               </div>
             </div>
@@ -254,8 +184,15 @@
 </template>
 
 <script>
+import { useI18n } from '@/composables/useI18n';
+
 export default {
-  name: "ExperienceSection",
+  name: 'ExperienceSection',
+
+  setup() {
+    const { t } = useI18n();
+    return { t };
+  },
 
   data() {
     return {
@@ -269,12 +206,12 @@ export default {
   },
 
   beforeUnmount() {
-    window.removeEventListener("scroll", this.handleScroll);
+    window.removeEventListener('scroll', this.handleScroll);
   },
 
   methods: {
     initParallax() {
-      window.addEventListener("scroll", this.handleScroll);
+      window.addEventListener('scroll', this.handleScroll);
     },
 
     handleScroll() {
@@ -494,6 +431,7 @@ export default {
   pointer-events: none;
   user-select: none;
   letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .header-content.is-scrolled {

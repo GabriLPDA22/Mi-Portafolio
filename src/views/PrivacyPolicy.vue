@@ -10,59 +10,41 @@
             d="M10 19l-7-7m0 0l7-7m-7 7h18"
           />
         </svg>
-        <span>Volver</span>
+        <span>{{ t("privacy.back") }}</span>
       </button>
 
-      <h1 class="privacy-title">Política de Privacidad</h1>
+      <h1 class="privacy-title">{{ t("privacy.title") }}</h1>
 
       <div class="privacy-content">
         <section class="privacy-section">
-          <h2>1. Información que recopilamos</h2>
-          <p>
-            Este sitio web personal no recopila información personal
-            identificable de forma activa. Sin embargo, como la mayoría de
-            sitios web, puede recopilar información técnica básica como:
-          </p>
+          <h2>1. {{ t("privacy.sections.information.title") }}</h2>
+          <p>{{ t("privacy.sections.information.content") }}</p>
           <ul>
-            <li>Dirección IP</li>
-            <li>Tipo de navegador</li>
-            <li>Páginas visitadas</li>
-            <li>Tiempo de permanencia en el sitio</li>
+            <li>{{ t("privacy.sections.information.items.ip") }}</li>
+            <li>{{ t("privacy.sections.information.items.browser") }}</li>
+            <li>{{ t("privacy.sections.information.items.pages") }}</li>
+            <li>{{ t("privacy.sections.information.items.time") }}</li>
           </ul>
         </section>
 
         <section class="privacy-section">
-          <h2>2. Uso de cookies</h2>
-          <p>
-            Utilizamos cookies esenciales para el funcionamiento básico del
-            sitio web. Puedes gestionar tus preferencias de cookies en cualquier
-            momento.
-          </p>
+          <h2>2. {{ t("privacy.sections.cookies.title") }}</h2>
+          <p>{{ t("privacy.sections.cookies.content") }}</p>
         </section>
 
         <section class="privacy-section">
-          <h2>3. Compartir información</h2>
-          <p>
-            No compartimos, vendemos ni alquilamos tu información personal a
-            terceros. Los datos técnicos recopilados se utilizan únicamente para
-            mejorar la experiencia del usuario.
-          </p>
+          <h2>3. {{ t("privacy.sections.sharing.title") }}</h2>
+          <p>{{ t("privacy.sections.sharing.content") }}</p>
         </section>
 
         <section class="privacy-section">
-          <h2>4. Enlaces externos</h2>
-          <p>
-            Este sitio puede contener enlaces a sitios web externos. No somos
-            responsables de las prácticas de privacidad de estos sitios.
-          </p>
+          <h2>4. {{ t("privacy.sections.links.title") }}</h2>
+          <p>{{ t("privacy.sections.links.content") }}</p>
         </section>
 
         <section class="privacy-section">
-          <h2>5. Contacto</h2>
-          <p>
-            Si tienes preguntas sobre esta política de privacidad, puedes
-            contactarme en:
-          </p>
+          <h2>5. {{ t("privacy.sections.contact.title") }}</h2>
+          <p>{{ t("privacy.sections.contact.content") }}</p>
           <p>
             <a href="mailto:gsaiz.bajo@gmail.com" class="contact-link"
               >gsaiz.bajo@gmail.com</a
@@ -71,7 +53,10 @@
         </section>
 
         <p class="last-updated">
-          Última actualización: {{ new Date().toLocaleDateString("es-ES") }}
+          {{ t("privacy.lastUpdated") }}:
+          {{
+            new Date().toLocaleDateString(locale === "es" ? "es-ES" : "en-US")
+          }}
         </p>
       </div>
     </div>
@@ -79,8 +64,15 @@
 </template>
 
 <script>
+import { useI18n } from "@/composables/useI18n";
+
 export default {
   name: "PrivacyPolicy",
+
+  setup() {
+    const { t, locale } = useI18n();
+    return { t, locale };
+  },
 
   methods: {
     goBack() {
