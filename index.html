@@ -1,28 +1,49 @@
 <!DOCTYPE html>
 <html lang="es">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description"
-        content="Portafolio de Gabriel Saiz (DAW). Desarrollador Web especializado en crear aplicaciones modernas, accesibles y de alto rendimiento." />
-    <meta name="robots" content="index, follow">
+    <meta
+      name="description"
+      content="Portafolio de Gabriel Saiz (DAW). Desarrollador Web especializado en crear aplicaciones modernas, accesibles y de alto rendimiento."
+    />
+    <meta name="robots" content="index, follow" />
     <link rel="icon" type="image/svg+xml" href="/favicon.png" />
     <link rel="canonical" href="https://gabrielcodes.dev/" />
-    <meta name="theme-color" content="#6366f1">
-
-    <!-- Precargar recursos críticos (evitar 404: usar solo si el recurso existe) -->
+    <meta name="theme-color" content="#6366f1" />
 
     <!-- Preconectar con orígenes importantes -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- 🔥 PRELOAD IMAGEN LCP - CRÍTICO PARA PERFORMANCE -->
+    <link
+      rel="preload"
+      as="image"
+      href="/img/Yo-400.webp"
+      media="(max-width: 640px)"
+      fetchpriority="high"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/img/Yo-600.webp"
+      media="(min-width: 641px) and (max-width: 1024px)"
+      fetchpriority="high"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/img/Yo-800.webp"
+      media="(min-width: 1025px)"
+      fetchpriority="high"
+    />
 
     <!-- CSS crítico incrustado para mejorar LCP -->
     <style>
-      /* Estilos críticos para el renderizado inicial */
       body {
-        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+          sans-serif;
         background-color: #09090b;
         color: rgba(255, 255, 255, 0.95);
         margin: 0;
@@ -41,79 +62,178 @@
         opacity: 0;
         transition: opacity 0.5s ease;
       }
+
+      /* 🔥 CSS CRÍTICO HERO - Evita Layout Shift */
+      .hero-section {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .photo {
+        width: 100%;
+        max-width: 480px;
+        height: auto;
+        aspect-ratio: 1;
+        border-radius: 2rem;
+        display: block;
+      }
+      .photo-container {
+        max-width: 480px;
+        margin: 0 auto;
+      }
+      @media (max-width: 768px) {
+        .photo-container {
+          max-width: 320px;
+        }
+      }
+      @media (max-width: 480px) {
+        .photo-container {
+          max-width: 280px;
+        }
+        .photo {
+          max-width: 280px;
+        }
+      }
     </style>
 
-    <!-- Google Fonts optimizado para cargar después -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <!-- Preload + Google Fonts optimizado -->
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
     <noscript>
-      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+      />
     </noscript>
 
     <!-- Metadatos Open Graph -->
     <meta property="og:title" content="Portafolio - Gabriel Saiz" />
-    <meta property="og:description"
-        content="Desarrollador Web y Estudiante de DAW especializado en crear aplicaciones modernas y soluciones web." />
+    <meta
+      property="og:description"
+      content="Desarrollador Web y Estudiante de DAW especializado en crear aplicaciones modernas y soluciones web."
+    />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://gabrielcodes.dev" />
-    <meta property="og:image" content="https://gabrielcodes.dev/img/portfolio.webp" />
+    <meta
+      property="og:image"
+      content="https://gabrielcodes.dev/img/portfolio.webp"
+    />
     <meta property="og:site_name" content="Gabriel Saiz - Portafolio" />
     <meta property="og:locale" content="es_ES" />
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Portafolio - Gabriel Saiz" />
-    <meta name="twitter:description" content="Desarrollador Web (DAW) creando soluciones modernas y eficientes." />
-    <meta name="twitter:image" content="https://gabrielcodes.dev/img/portfolio.webp" />
+    <meta
+      name="twitter:description"
+      content="Desarrollador Web (DAW) creando soluciones modernas y eficientes."
+    />
+    <meta
+      name="twitter:image"
+      content="https://gabrielcodes.dev/img/portfolio.webp"
+    />
 
     <!-- Tema de color -->
-    <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
-
-    <!-- Tailwind CSS desde CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta
+      name="theme-color"
+      content="#0f172a"
+      media="(prefers-color-scheme: dark)"
+    />
+    <meta
+      name="theme-color"
+      content="#f8fafc"
+      media="(prefers-color-scheme: light)"
+    />
 
     <title>Portafolio - Gabriel Saiz Estudiante de DAW</title>
 
     <!-- Datos estructurados JSON-LD: Persona -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Gabriel Saiz",
-      "url": "https://gabrielcodes.dev/",
-      "jobTitle": "Desarrollador Web",
-      "description": "Desarrollador Web (DAW) especializado en aplicaciones modernas y accesibles.",
-      "knowsAbout": ["Vue.js", "TailwindCSS", "JavaScript", ".NET", "Docker", "AWS"],
-      "image": "https://gabrielcodes.dev/img/Yo.webp"
-    }
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Gabriel Saiz",
+        "url": "https://gabrielcodes.dev/",
+        "jobTitle": "Desarrollador Web",
+        "description": "Desarrollador Web (DAW) especializado en aplicaciones modernas y accesibles.",
+        "knowsAbout": [
+          "Vue.js",
+          "TailwindCSS",
+          "JavaScript",
+          ".NET",
+          "Docker",
+          "AWS"
+        ],
+        "image": "https://gabrielcodes.dev/img/Yo.webp"
+      }
     </script>
 
     <!-- Datos estructurados JSON-LD: Sitio Web -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Portafolio - Gabriel Saiz",
-      "url": "https://gabrielcodes.dev/"
-    }
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Portafolio - Gabriel Saiz",
+        "url": "https://gabrielcodes.dev/"
+      }
     </script>
 
-    <!-- Google tag (gtag.js) - Cargado con estrategia de carga diferida -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CEDV9NP2WJ"></script>
+    <!-- Google Analytics con lazy loading y manejo de errores -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-CEDV9NP2WJ', {
-        'transport_type': 'beacon',
-        'anonymize_ip': true
+      function loadGA() {
+        if (window.gaLoaded) return;
+        window.gaLoaded = true;
+
+        const script = document.createElement("script");
+        script.src = "https://www.googletagmanager.com/gtag/js?id=G-CEDV9NP2WJ";
+        script.async = true;
+        script.onerror = function () {
+          console.log("Analytics blocked by browser or extension");
+        };
+
+        script.onload = function () {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag("js", new Date());
+          gtag("config", "G-CEDV9NP2WJ", {
+            transport_type: "beacon",
+            anonymize_ip: true,
+          });
+        };
+
+        document.head.appendChild(script);
+      }
+
+      // Cargar solo después de que la página esté lista
+      if (document.readyState === "complete") {
+        setTimeout(loadGA, 3000);
+      } else {
+        window.addEventListener("load", function () {
+          setTimeout(loadGA, 3000);
+        });
+      }
+
+      // También cargar con primera interacción
+      ["scroll", "click", "touchstart"].forEach(function (event) {
+        window.addEventListener(event, loadGA, { once: true, passive: true });
       });
     </script>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
-</body>
-
+  </body>
 </html>
