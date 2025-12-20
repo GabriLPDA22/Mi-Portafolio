@@ -1,100 +1,62 @@
-# Gabriel Codes - Portfolio Personal
+# Portfolio Next.js - Gabriel Saiz
 
-Este es mi portfolio personal creado con Vue.js y TailwindCSS. La página muestra información sobre mí, mis proyectos, experiencia, formación y habilidades.
+Portfolio profesional desarrollado con Next.js 16, TypeScript y Tailwind CSS.
 
-## Características
+## 🚀 Características
 
-- Diseño moderno y profesional
-- Modo oscuro por defecto con temas de colores atractivos
-- Interfaz totalmente responsive
-- Animaciones suaves y transiciones elegantes
-- Secciones organizadas para presentar contenido de manera clara
+- ⚡ Next.js 16 con App Router
+- 🎨 Tailwind CSS
+- 📘 TypeScript
+- 🎭 Framer Motion para animaciones
+- 🎯 Lucide React para iconos
+- 🌙 Dark mode premium
+- ✨ Glassmorphism
+- 📱 Fully responsive
 
-## Tecnologías utilizadas
+## 📦 Instalación
 
-- Vue.js 3 (Composition API)
-- TailwindCSS
-- FontAwesome
-- Intersection Observer API para animaciones de scroll
-- Vue Router para navegación fluida
-
-## Estructura del proyecto
-
-```
-src/
-├── assets/           # Recursos estáticos (imágenes, estilos)
-├── components/       # Componentes Vue
-│   ├── home/         # Componentes de secciones principales
-│   ├── layout/       # Componentes de estructura (header, footer)
-│   └── ui/           # Componentes reutilizables
-├── data/             # Datos en formato JSON/JS
-├── router/           # Configuración de rutas
-├── views/            # Vistas principales
-├── App.vue           # Componente raíz
-└── main.js           # Punto de entrada
-```
-
-## Requisitos previos
-
-- Node.js (v14 o superior)
-- npm o yarn
-
-## Instalación
-
-1. Clonar este repositorio
-```bash
-git clone https://github.com/GabriLPDA22/portfolio.git
-cd portfolio
-```
-
-2. Instalar dependencias
 ```bash
 npm install
-# o
-yarn install
 ```
 
-3. Iniciar servidor de desarrollo
+## 🛠️ Desarrollo
+
 ```bash
-npm run serve
-# o
-yarn serve
+npm run dev
 ```
 
-4. Compilar para producción
+Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
+
+## 🏗️ Build
+
 ```bash
 npm run build
-# o
-yarn build
+npm start
 ```
 
-## Personalización
+## 📁 Estructura
 
-Para personalizar este portfolio con tu información:
+```
+mi-portafolio/
+├── app/              # App Router de Next.js
+├── components/       # Componentes React
+│   ├── ui/          # Componentes UI reutilizables
+│   └── sections/    # Secciones de la landing
+├── data/            # Datos (proyectos, experiencia, etc.)
+├── lib/             # Utilidades
+└── public/          # Assets estáticos
+    ├── img/        # Imágenes
+    └── videos/     # Videos
+```
 
-1. Modifica los archivos en la carpeta `src/data/` para actualizar:
-   - Proyectos
-   - Experiencia
-   - Educación
-   - Habilidades
+## 🎨 Próximas Features
 
-2. Reemplaza las imágenes en `public/img/`
+- [ ] Custom Cursor (inspirado en https://lnkd.in/e4-dnj24)
+- [ ] Theme Toggle (inspirado en theme-toggle.rdsx.dev)
+- [ ] Iconos animados (lucide-animated.com)
+- [ ] Tech Carousel
+- [ ] Animaciones de entrada sutiles
+- [ ] Sección de proyectos
+- [ ] Sección de servicios
+- [ ] Sección sobre mí
 
-3. Actualiza los enlaces de contacto en los componentes correspondientes
-
-## Despliegue
-
-Este proyecto está configurado para ser desplegado en cualquier servicio de hosting estático como:
-
-- GitHub Pages
-- Netlify
-- Vercel
-- Firebase Hosting
-
-## Licencia
-
-Este proyecto está bajo la licencia MIT.
-
----
-
-Creado por Gabriel Saiz - [gabrielcodes.dev](https://gabrielcodes.dev)
