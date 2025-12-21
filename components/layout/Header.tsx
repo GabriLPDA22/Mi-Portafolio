@@ -44,18 +44,18 @@ export default function Header() {
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 w-full transition-all duration-500 ${
+        className={`fixed inset-x-0 top-0 z-50 w-full max-w-full overflow-x-hidden transition-all duration-500 ${
           hasScrolled
             ? "border-b border-[var(--border-subtle)] bg-[var(--bg-primary)]/90 backdrop-blur-md"
             : "bg-transparent"
         }`}
       >
-        <div className="container-main">
-          <div className="flex h-[72px] items-center justify-between gap-2 sm:gap-4">
+        <div className="w-full px-3 sm:container-main sm:px-0">
+          <div className="flex h-[72px] items-center justify-between gap-1.5 sm:gap-4">
             {/* Logo */}
             <a
               href="/"
-              className="group relative flex items-center flex-shrink-0 min-w-0"
+              className="group relative flex items-center flex-shrink-0"
               aria-label="Gabriel Saiz - Desarrollador Full-Stack, Inicio"
               title="Gabriel Saiz — Full-Stack Developer"
             >
@@ -85,7 +85,7 @@ export default function Header() {
             </nav>
 
             {/* Mobile: Menu Button */}
-            <div className="flex items-center gap-1.5 md:hidden flex-shrink-0 min-w-0">
+            <div className="flex items-center gap-1 md:hidden flex-shrink-0">
               <LanguageToggle />
               <button
                 type="button"
