@@ -125,35 +125,9 @@ export default function Header() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-[var(--bg-primary)] md:hidden"
+            className="fixed inset-0 z-30 bg-[var(--bg-primary)] md:hidden pt-[90px]"
           >
-            {/* Close button */}
-            <div className="container-main">
-              <div className="flex h-[72px] items-center justify-end">
-                <button
-                  type="button"
-                  onClick={closeMenu}
-                  className="relative flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--border-visible)] bg-[var(--bg-card)]"
-                  aria-label="Cerrar menú"
-                >
-                  <svg
-                    className="h-5 w-5 text-[var(--text-primary)]"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={1.5}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            {/* Nav links */}
+            {/* Nav links - el botón X ya está en el header principal */}
             <nav className="container-main mt-8">
               <motion.ul
                 initial="closed"

@@ -103,7 +103,7 @@ export default function Home() {
   };
 
   return (
-    <>
+    <div className="w-full max-w-[100vw] overflow-x-hidden">
       {/* Structured Data para SEO */}
       <script
         type="application/ld+json"
@@ -119,7 +119,7 @@ export default function Home() {
       />
 
       <Header />
-      <main>
+      <main className="w-full max-w-[100vw] overflow-x-hidden">
         {/* Hero + Tech Stack */}
         <HeroSection />
         <TechCarousel />
@@ -140,6 +140,6 @@ export default function Home() {
       </main>
       <Footer />
       <ScrollToTop />
-    </>
+    </div>
   );
 }

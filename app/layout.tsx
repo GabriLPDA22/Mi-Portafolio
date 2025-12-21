@@ -128,10 +128,10 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${outfit.variable} ${inter.variable}`}
+      className={`${outfit.variable} ${inter.variable} overflow-x-hidden`}
       suppressHydrationWarning
     >
-      <body className="min-h-screen antialiased">
+      <body className="min-h-screen antialiased overflow-x-hidden max-w-[100vw]">
         <LocaleProvider>
           {children}
           <CookieBanner />

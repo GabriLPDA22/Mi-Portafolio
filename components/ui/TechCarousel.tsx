@@ -126,9 +126,9 @@ export default function TechCarousel() {
   ];
 
   return (
-    <section className="relative py-12 sm:py-16">
+    <section className="relative py-12 sm:py-16 w-full max-w-[100vw] overflow-x-hidden">
       {/* Container con overflow hidden */}
-      <div className="marquee-container group relative overflow-hidden">
+      <div className="marquee-container group relative overflow-hidden w-full">
         {/* Máscaras laterales - usando CSS variables */}
         <div className="carousel-fade-left pointer-events-none absolute inset-y-0 left-0 z-10 w-24 sm:w-32" />
         <div className="carousel-fade-right pointer-events-none absolute inset-y-0 right-0 z-10 w-24 sm:w-32" />

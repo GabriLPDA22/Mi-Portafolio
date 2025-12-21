@@ -20,7 +20,7 @@ export default function HeroSection() {
   const { t } = useLocale();
 
   return (
-    <section className="relative min-h-screen overflow-hidden">
+    <section className="relative min-h-screen overflow-hidden w-full max-w-[100vw]">
       {/* Content */}
       <div className="container-main relative flex min-h-screen flex-col items-center justify-center pb-16 pt-[calc(72px+2rem)]">
         <div className="w-full max-w-3xl text-center">
@@ -31,9 +31,9 @@ export default function HeroSection() {
             animate="visible"
             custom={0}
           >
-            <span className="inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-[13px] text-white/70 backdrop-blur-sm">
-              <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]" />
-              {t.hero.badge}
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 text-[12px] text-white/70 backdrop-blur-sm sm:gap-2.5 sm:px-4 sm:text-[13px]">
+              <span className="h-2 w-2 flex-shrink-0 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]" />
+              <span className="text-center">{t.hero.badge}</span>
             </span>
           </motion.div>
 
@@ -70,14 +70,14 @@ export default function HeroSection() {
           >
             <a
               href="#contacto"
-              className="inline-flex h-12 min-w-[180px] items-center justify-center rounded-full bg-[#8b5cf6] px-8 text-[15px] font-semibold text-white shadow-[0_0_0_1px_rgba(139,92,246,0.5)] transition-all duration-300 hover:bg-[#7c4fe4] hover:shadow-[0_4px_24px_rgba(139,92,246,0.35)]"
+              className="inline-flex h-12 w-full items-center justify-center rounded-full bg-[#8b5cf6] px-6 text-[14px] font-semibold text-white shadow-[0_0_0_1px_rgba(139,92,246,0.5)] transition-all duration-300 hover:bg-[#7c4fe4] hover:shadow-[0_4px_24px_rgba(139,92,246,0.35)] sm:w-auto sm:min-w-[180px] sm:px-8 sm:text-[15px]"
             >
               {t.hero.ctaPrimary}
             </a>
 
             <a
               href="#proyectos"
-              className="inline-flex h-12 min-w-[180px] items-center justify-center rounded-full border border-white/15 px-8 text-[15px] font-medium text-white/80 transition-all duration-300 hover:border-white/30 hover:bg-white/[0.04] hover:text-white"
+              className="inline-flex h-12 w-full items-center justify-center rounded-full border border-white/15 px-6 text-[14px] font-medium text-white/80 transition-all duration-300 hover:border-white/30 hover:bg-white/[0.04] hover:text-white sm:w-auto sm:min-w-[180px] sm:px-8 sm:text-[15px]"
             >
               {t.hero.ctaSecondary}
             </a>
