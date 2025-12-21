@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence, type Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import Image from "next/image";
 
 /* ============================================
@@ -47,15 +46,16 @@ const projects: Project[] = [
     chips: [".NET 9", "PostgreSQL", "AWS", "Stripe", "React Native", "Expo"],
     image: {
       src: "/img/mock_arch_iphone_15.png",
-      alt: "ARCH App - Vista de eventos",
+      alt: "ARCH App iOS - Aplicación móvil para comunidad de Oxford University desarrollada con React Native y Expo",
       type: "mockup",
     },
     cta: {
-      label: "Solicitar detalles",
-      href: "#contacto",
+      label: "Descargar en App Store",
+      href: "https://apps.apple.com/us/app/the-arch/id6753820007",
+      external: true,
     },
     secondaryCta: {
-      label: "Ver arquitectura",
+      label: "Solicitar detalles",
       href: "#contacto",
     },
   },
@@ -74,7 +74,7 @@ const projects: Project[] = [
     chips: ["Next.js", "Tailwind", "SEO", "Performance", "UI/UX"],
     image: {
       src: "/img/Huvegrym.webp",
-      alt: "Huvegrym - Escuela de danza",
+      alt: "Huvegrym - Sitio web de escuela de danza desarrollado con Next.js, optimizado para SEO y rendimiento",
       type: "photo",
     },
     cta: {
@@ -107,17 +107,17 @@ function ExternalLinkIcon({ className }: { className?: string }) {
   return (
     <svg
       className={className}
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth={2}
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-      />
-    </svg>
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                  />
+                </svg>
   );
 }
 
@@ -236,16 +236,16 @@ function ProjectContent({
                 <ExternalLinkIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
               )}
             </a>
-            {project.secondaryCta && (
-              <a
-                href={project.secondaryCta.href}
+          {project.secondaryCta && (
+            <a
+              href={project.secondaryCta.href}
                 className="inline-flex h-10 items-center justify-center rounded-lg border border-white/[0.1] px-5 text-[13px] font-medium text-white/70 transition-all duration-300 hover:border-white/[0.2] hover:bg-white/[0.03] hover:text-white"
-              >
+            >
                 {project.secondaryCta.label}
-              </a>
-            )}
-          </div>
+            </a>
+          )}
         </div>
+      </div>
       </div>
     </div>
   );
@@ -273,44 +273,27 @@ function MobileStack() {
 }
 
 /* ============================================
-   DESKTOP TABS
+   DESKTOP GRID (2 COLUMNS)
    ============================================ */
-function DesktopTabs() {
-  const [activeTab, setActiveTab] = useState(projects[0].id);
-
-  const activeProject = projects.find((p) => p.id === activeTab) || projects[0];
-
+function DesktopGrid() {
   return (
-    <div className="hidden lg:block">
-      {/* Tabs */}
-      <div className="mb-6 flex gap-2">
-        {projects.map((project) => (
-          <button
-            key={project.id}
-            onClick={() => setActiveTab(project.id)}
-            className={`rounded-lg border px-4 py-2 text-[13px] font-medium transition-all ${
-              activeTab === project.id
-                ? "border-[#8b5cf6]/50 bg-[#8b5cf6]/10 text-white"
-                : "border-white/[0.08] bg-white/[0.02] text-white/60 hover:border-white/[0.12] hover:text-white"
-            }`}
-          >
-            {project.title}
-          </button>
-        ))}
-      </div>
-
-      {/* Content */}
-      <AnimatePresence mode="wait">
+    <div className="hidden lg:grid lg:grid-cols-2 lg:gap-6">
+      {projects.map((project, index) => (
         <motion.div
-          key={activeTab}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.3 }}
+          key={project.id}
+          variants={fadeInUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{
+            duration: 0.6,
+            delay: index * 0.1,
+            ease: [0.25, 0.4, 0.25, 1],
+          }}
         >
-          <ProjectContent project={activeProject} />
+          <ProjectContent project={project} />
         </motion.div>
-      </AnimatePresence>
+      ))}
     </div>
   );
 }
@@ -344,8 +327,8 @@ export default function FeaturedProjects() {
         {/* Mobile Stack */}
         <MobileStack />
 
-        {/* Desktop Tabs */}
-        <DesktopTabs />
+        {/* Desktop Grid */}
+        <DesktopGrid />
       </div>
     </section>
   );

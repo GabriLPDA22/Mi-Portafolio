@@ -83,36 +83,61 @@ export default function ContactSection() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // Validation
     if (!formData.name || !formData.email || !formData.message) {
+      setStatus("error");
+      setErrorMessage("Por favor, completa todos los campos obligatorios.");
       return;
     }
 
-    // Build email body
-    const subject = encodeURIComponent("Contacto desde portfolio");
-    const bodyParts = [
-      `Nombre: ${formData.name}`,
-      `Email: ${formData.email}`,
-      "",
-      "Mensaje:",
-      formData.message,
-    ];
-    const body = encodeURIComponent(bodyParts.join("\n"));
+    setStatus("loading");
+    setErrorMessage(null);
 
-    // Open mailto link
-    const mailtoLink = `mailto:gsaiz.bajo@gmail.com?subject=${subject}&body=${body}`;
-    window.location.href = mailtoLink;
+    try {
+      // Get project label
+      const projectLabels: Record<string, string> = {
+        mobile: "App móvil",
+        web: "Aplicación web",
+        ecommerce: "E-commerce",
+        saas: "SaaS / Plataforma",
+        consulting: "Consultoría técnica",
+        other: "Otro",
+      };
 
-    // Reset form
-    setFormData({
-      name: "",
-      email: "",
-      message: "",
-      project: "",
-    });
+      // Send to Formspree
+      const response = await fetch("https://formspree.io/f/mrezlekq", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          project: formData.project ? projectLabels[formData.project] || formData.project : "",
+          message: formData.message,
+          _subject: "Contacto desde portfolio",
+        }),
+      });
+
+      if (response.ok) {
+        setStatus("success");
+        // Reset form
+        setFormData({
+          name: "",
+          email: "",
+          message: "",
+          project: "",
+        });
+      } else {
+        throw new Error("Error al enviar el formulario");
+      }
+    } catch (error) {
+      setStatus("error");
+      setErrorMessage("Hubo un error al enviar el mensaje. Por favor, intenta de nuevo o escríbeme directamente a gsaiz.bajo@gmail.com");
+    }
   };
 
   return (
@@ -271,7 +296,10 @@ export default function ContactSection() {
                     Gracias por contactar. Te responderé en menos de 24 horas.
                   </p>
                   <button
-                    onClick={() => setStatus("success")}
+                    onClick={() => {
+                      setStatus("idle");
+                      setErrorMessage(null);
+                    }}
                     className="mt-6 text-[13px] font-medium text-[#8b5cf6] transition-colors hover:text-[#a78bfa]"
                   >
                     Enviar otro mensaje

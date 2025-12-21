@@ -52,13 +52,14 @@ export default function Header() {
           <div className="flex h-[72px] items-center justify-between">
             {/* Logo */}
             <a
-              href="#"
+              href="/"
               className="group relative flex items-center"
-              aria-label="Gabriel Saiz - Inicio"
+              aria-label="Gabriel Saiz - Desarrollador Full-Stack, Inicio"
+              title="Gabriel Saiz — Full-Stack Developer"
             >
               <Image
                 src="/img/logo_gabriel_saiz_violet.png"
-                alt="Gabriel Saiz"
+                alt="Gabriel Saiz — Desarrollador Full-Stack freelance especializado en React Native y Next.js"
                 width={44}
                 height={44}
                 className="transition-all duration-300 group-hover:scale-105"
@@ -67,12 +68,13 @@ export default function Header() {
             </a>
 
             {/* Desktop Nav - Right aligned */}
-            <nav className="hidden items-center gap-6 md:flex">
+            <nav className="hidden items-center gap-6 md:flex" aria-label="Navegación principal">
               {NAV_ITEMS.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
                   className="text-[13px] font-medium text-[var(--text-tertiary)] transition-colors duration-200 hover:text-[var(--text-primary)]"
+                  aria-label={`Ir a sección ${item.label}`}
                 >
                   {item.label}
                 </a>

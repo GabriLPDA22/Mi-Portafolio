@@ -161,10 +161,8 @@ function ServiceCard({
 
   const handlePointerLeave = useCallback(() => {
     if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    if (cardRef.current) {
-      cardRef.current.style.setProperty("--spotlight-x", "50%");
-      cardRef.current.style.setProperty("--spotlight-y", "50%");
-    }
+    // No resetear la posición, solo dejar que el spotlight desaparezca suavemente
+    // El opacity ya se maneja con CSS (group-hover:opacity-100)
   }, []);
 
   const Icon = service.icon;
@@ -187,22 +185,12 @@ function ServiceCard({
         </div>
 
         {/* Title */}
-        <h3
-          className={`font-display font-semibold text-white mb-2 ${
-            service.featured && !isMobile ? "text-2xl lg:text-3xl" : "text-xl"
-          }`}
-        >
+        <h3 className="font-display font-semibold text-white mb-2 text-xl">
           {service.title}
         </h3>
 
         {/* Description */}
-        <p
-          className={`text-white/50 leading-relaxed mb-5 ${
-            service.featured && !isMobile
-              ? "text-[15px] lg:text-base max-w-md"
-              : "text-[14px]"
-          }`}
-        >
+        <p className="text-white/50 leading-relaxed mb-5 text-[14px]">
           {service.description}
         </p>
 
@@ -294,9 +282,7 @@ function ServiceCard({
       custom={index * 0.08}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
-      className={`service-card group relative overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-white/[0.15] hover:bg-white/[0.05] hover:shadow-[0_20px_50px_-12px_rgba(139,92,246,0.15)] lg:p-8 ${
-        service.featured ? "lg:col-span-7 lg:row-span-2" : "lg:col-span-5"
-      }`}
+      className="service-card group relative overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-white/[0.15] hover:bg-white/[0.05] hover:shadow-[0_20px_50px_-12px_rgba(139,92,246,0.15)] lg:p-8"
     >
       {cardContent}
     </motion.div>
@@ -394,11 +380,11 @@ function MobileCarousel() {
 }
 
 /* ============================================
-   DESKTOP GRID
+   DESKTOP GRID (2 COLUMNS)
    ============================================ */
 function DesktopGrid() {
   return (
-    <div className="hidden lg:grid lg:grid-cols-12 lg:gap-5 lg:auto-rows-fr">
+    <div className="hidden lg:grid lg:grid-cols-2 lg:gap-6">
       {services.map((service, index) => (
         <ServiceCard key={service.id} service={service} index={index} />
       ))}
