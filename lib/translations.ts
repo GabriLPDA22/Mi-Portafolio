@@ -260,6 +260,100 @@ export const translations = {
     footer: {
       copyright: 'Todos los derechos reservados.',
     },
+    // Cookies
+    cookies: {
+      message: 'Este sitio web utiliza cookies técnicas necesarias para su funcionamiento y para guardar tus preferencias de idioma. No utilizamos cookies de seguimiento ni publicidad.',
+      moreInfo: 'Más información en nuestra',
+      privacyPolicy: 'Política de Privacidad',
+      accept: 'Aceptar',
+      reject: 'Rechazar',
+    },
+    // Privacy Policy
+    privacy: {
+      title: 'Política de Privacidad',
+      lastUpdated: 'Última actualización',
+      sections: {
+        responsible: {
+          title: '1. Responsable del tratamiento',
+          description: 'El responsable del tratamiento de los datos personales es:',
+          name: 'Nombre',
+          email: 'Email',
+          website: 'Sitio web',
+        },
+        dataCollected: {
+          title: '2. Datos que recopilamos',
+          description: 'En este sitio web recopilamos los siguientes datos:',
+          contactForm: {
+            title: '2.1. Datos del formulario de contacto',
+            description: 'Cuando utilizas el formulario de contacto, recopilamos:',
+            items: ['Nombre', 'Dirección de correo electrónico', 'Mensaje', 'Tipo de proyecto (opcional)'],
+            note: 'Estos datos se envían a través de Formspree y se almacenan temporalmente para poder responder a tu consulta.',
+          },
+          cookies: {
+            title: '2.2. Cookies técnicas',
+            description: 'Utilizamos cookies técnicas necesarias para el funcionamiento del sitio:',
+            items: [
+              'cookie-consent: Almacena tu preferencia sobre el uso de cookies',
+              'locale: Almacena tu preferencia de idioma (español/inglés)',
+            ],
+            note: 'Estas cookies son necesarias y no requieren consentimiento según el RGPD, ya que son estrictamente necesarias para el funcionamiento del sitio.',
+          },
+        },
+        purpose: {
+          title: '3. Finalidad del tratamiento',
+          description: 'Los datos recopilados se utilizan exclusivamente para:',
+          items: [
+            'Responder a tus consultas enviadas a través del formulario de contacto',
+            'Mantener tus preferencias de idioma',
+            'Recordar tu consentimiento sobre el uso de cookies',
+          ],
+        },
+        legalBasis: {
+          title: '4. Base legal',
+          description: 'El tratamiento de tus datos se basa en:',
+          items: [
+            'Consentimiento: Para el formulario de contacto, basado en tu consentimiento explícito al enviar el formulario',
+            'Interés legítimo: Para las cookies técnicas necesarias para el funcionamiento del sitio',
+          ],
+        },
+        retention: {
+          title: '5. Conservación de datos',
+          description: 'Los datos del formulario de contacto se conservan durante el tiempo necesario para responder a tu consulta y, en su caso, durante los plazos legalmente establecidos.',
+          cookiesNote: 'Las cookies técnicas se conservan según su finalidad:',
+          cookieItems: ['Cookie de consentimiento: 1 año', 'Cookie de idioma: Persistente hasta que la elimines'],
+        },
+        rights: {
+          title: '6. Tus derechos',
+          description: 'Tienes derecho a:',
+          items: [
+            'Acceso: Obtener información sobre tus datos personales',
+            'Rectificación: Corregir datos inexactos o incompletos',
+            'Supresión: Solicitar la eliminación de tus datos',
+            'Oposición: Oponerte al tratamiento de tus datos',
+            'Portabilidad: Recibir tus datos en formato estructurado',
+            'Retirar el consentimiento: En cualquier momento',
+          ],
+          contact: 'Para ejercer estos derechos, puedes contactarme en:',
+        },
+        security: {
+          title: '7. Seguridad',
+          description: 'Implemento medidas técnicas y organizativas apropiadas para proteger tus datos personales contra el acceso no autorizado, la pérdida o la destrucción.',
+        },
+        thirdParty: {
+          title: '8. Cookies de terceros',
+          description: 'Este sitio web NO utiliza cookies de terceros para seguimiento, publicidad o análisis. Solo utilizamos cookies técnicas propias necesarias para el funcionamiento del sitio.',
+        },
+        changes: {
+          title: '9. Cambios en esta política',
+          description: 'Me reservo el derecho de modificar esta política de privacidad. Cualquier cambio será publicado en esta página con la fecha de actualización correspondiente.',
+        },
+        contact: {
+          title: '10. Contacto',
+          description: 'Si tienes preguntas sobre esta política de privacidad, puedes contactarme en:',
+        },
+      },
+      backHome: '← Volver al inicio',
+    },
   },
   en: {
     // Header
@@ -519,6 +613,100 @@ export const translations = {
     // Footer
     footer: {
       copyright: 'All rights reserved.',
+    },
+    // Cookies
+    cookies: {
+      message: 'This website uses necessary technical cookies for its operation and to save your language preferences. We do not use tracking or advertising cookies.',
+      moreInfo: 'More information in our',
+      privacyPolicy: 'Privacy Policy',
+      accept: 'Accept',
+      reject: 'Reject',
+    },
+    // Privacy Policy
+    privacy: {
+      title: 'Privacy Policy',
+      lastUpdated: 'Last updated',
+      sections: {
+        responsible: {
+          title: '1. Data Controller',
+          description: 'The data controller for personal data is:',
+          name: 'Name',
+          email: 'Email',
+          website: 'Website',
+        },
+        dataCollected: {
+          title: '2. Data We Collect',
+          description: 'This website collects the following data:',
+          contactForm: {
+            title: '2.1. Contact Form Data',
+            description: 'When you use the contact form, we collect:',
+            items: ['Name', 'Email address', 'Message', 'Project type (optional)'],
+            note: 'This data is sent through Formspree and stored temporarily to respond to your inquiry.',
+          },
+          cookies: {
+            title: '2.2. Technical Cookies',
+            description: 'We use technical cookies necessary for the site operation:',
+            items: [
+              'cookie-consent: Stores your preference regarding cookie usage',
+              'locale: Stores your language preference (Spanish/English)',
+            ],
+            note: 'These cookies are necessary and do not require consent under GDPR, as they are strictly necessary for the site operation.',
+          },
+        },
+        purpose: {
+          title: '3. Purpose of Processing',
+          description: 'The collected data is used exclusively for:',
+          items: [
+            'Responding to your inquiries sent through the contact form',
+            'Maintaining your language preferences',
+            'Remembering your consent regarding cookie usage',
+          ],
+        },
+        legalBasis: {
+          title: '4. Legal Basis',
+          description: 'The processing of your data is based on:',
+          items: [
+            'Consent: For the contact form, based on your explicit consent when submitting the form',
+            'Legitimate interest: For technical cookies necessary for the site operation',
+          ],
+        },
+        retention: {
+          title: '5. Data Retention',
+          description: 'Contact form data is retained for the time necessary to respond to your inquiry and, where applicable, for legally established periods.',
+          cookiesNote: 'Technical cookies are retained according to their purpose:',
+          cookieItems: ['Consent cookie: 1 year', 'Language cookie: Persistent until you delete it'],
+        },
+        rights: {
+          title: '6. Your Rights',
+          description: 'You have the right to:',
+          items: [
+            'Access: Obtain information about your personal data',
+            'Rectification: Correct inaccurate or incomplete data',
+            'Erasure: Request deletion of your data',
+            'Objection: Object to the processing of your data',
+            'Portability: Receive your data in structured format',
+            'Withdraw consent: At any time',
+          ],
+          contact: 'To exercise these rights, you can contact me at:',
+        },
+        security: {
+          title: '7. Security',
+          description: 'I implement appropriate technical and organizational measures to protect your personal data against unauthorized access, loss or destruction.',
+        },
+        thirdParty: {
+          title: '8. Third-Party Cookies',
+          description: 'This website does NOT use third-party cookies for tracking, advertising or analytics. We only use our own technical cookies necessary for the site operation.',
+        },
+        changes: {
+          title: '9. Changes to This Policy',
+          description: 'I reserve the right to modify this privacy policy. Any changes will be published on this page with the corresponding update date.',
+        },
+        contact: {
+          title: '10. Contact',
+          description: 'If you have questions about this privacy policy, you can contact me at:',
+        },
+      },
+      backHome: '← Back to home',
     },
   },
 } as const;

@@ -14,11 +14,11 @@ export default function LanguageToggle() {
   return (
     <button
       onClick={toggleLanguage}
-      className="relative flex h-9 items-center gap-2 rounded-lg border border-white/[0.08] bg-white/[0.02] px-3 text-[13px] font-medium text-white/70 transition-all duration-200 hover:border-white/[0.12] hover:bg-white/[0.04] hover:text-white"
+      className="relative flex h-9 items-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.02] px-2.5 text-[12px] font-medium text-white/70 transition-all duration-200 hover:border-white/[0.12] hover:bg-white/[0.04] hover:text-white flex-shrink-0"
       aria-label={`Change language to ${locale === 'es' ? 'English' : 'Español'}`}
       title={`Change to ${locale === 'es' ? 'English' : 'Español'}`}
     >
-      <Languages className="h-3.5 w-3.5" strokeWidth={1.5} />
+      <Languages className="h-3.5 w-3.5 flex-shrink-0" strokeWidth={1.5} />
       <AnimatePresence mode="wait">
         <motion.span
           key={locale}

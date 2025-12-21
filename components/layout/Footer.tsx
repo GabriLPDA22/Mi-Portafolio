@@ -29,9 +29,19 @@ export default function Footer() {
       <div className="container-main">
         <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
           {/* Copyright */}
-          <p className="text-[13px] text-white/40">
-            © {new Date().getFullYear()} Gabriel Saiz. {t.footer.copyright}
-          </p>
+          <div className="flex flex-col gap-2">
+            <p className="text-[13px] text-white/40">
+              © {new Date().getFullYear()} Gabriel Saiz. {t.footer.copyright}
+            </p>
+            <div className="flex gap-4 text-[12px] text-white/30">
+              <a
+                href="/privacidad"
+                className="hover:text-white/60 transition-colors"
+              >
+                Política de Privacidad
+              </a>
+            </div>
+          </div>
 
           {/* Social Links */}
           <div className="flex items-center gap-4">

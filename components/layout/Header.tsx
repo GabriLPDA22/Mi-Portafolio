@@ -44,27 +44,27 @@ export default function Header() {
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+        className={`fixed inset-x-0 top-0 z-50 w-full transition-all duration-500 ${
           hasScrolled
             ? "border-b border-[var(--border-subtle)] bg-[var(--bg-primary)]/90 backdrop-blur-md"
             : "bg-transparent"
         }`}
       >
         <div className="container-main">
-          <div className="flex h-[72px] items-center justify-between">
+          <div className="flex h-[72px] items-center justify-between gap-2 sm:gap-4">
             {/* Logo */}
             <a
               href="/"
-              className="group relative flex items-center"
+              className="group relative flex items-center flex-shrink-0 min-w-0"
               aria-label="Gabriel Saiz - Desarrollador Full-Stack, Inicio"
               title="Gabriel Saiz — Full-Stack Developer"
             >
               <Image
                 src="/img/logo_gabriel_saiz_violet.png"
                 alt="Gabriel Saiz — Desarrollador Full-Stack freelance especializado en React Native y Next.js"
-                width={44}
-                height={44}
-                className="transition-all duration-300 group-hover:scale-105"
+                width={40}
+                height={40}
+                className="transition-all duration-300 group-hover:scale-105 sm:w-11 sm:h-11"
                 priority
               />
             </a>
@@ -85,12 +85,12 @@ export default function Header() {
             </nav>
 
             {/* Mobile: Menu Button */}
-            <div className="flex items-center gap-3 md:hidden">
+            <div className="flex items-center gap-1.5 md:hidden flex-shrink-0 min-w-0">
               <LanguageToggle />
               <button
                 type="button"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="relative flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--border-visible)] bg-[var(--bg-card)] transition-all duration-200 hover:border-[var(--border-hover)] hover:bg-[var(--bg-card-hover)]"
+                className="relative flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl border border-[var(--border-visible)] bg-[var(--bg-card)] transition-all duration-200 hover:border-[var(--border-hover)] hover:bg-[var(--bg-card-hover)]"
                 aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
                 aria-expanded={isMenuOpen}
               >

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Outfit, Inter } from "next/font/google";
 import "./globals.css";
 import { LocaleProvider } from "@/contexts/LocaleContext";
+import CookieBanner from "@/components/ui/CookieBanner";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -133,6 +134,7 @@ export default function RootLayout({
       <body className="min-h-screen antialiased">
         <LocaleProvider>
           {children}
+          <CookieBanner />
         </LocaleProvider>
       </body>
     </html>
