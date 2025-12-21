@@ -9,9 +9,9 @@
   box-sizing: border-box;
 }
 
-/* Prevent horizontal overflow on mobile */
+/* Prevent horizontal overflow on mobile - exclude marquee elements */
 @media (max-width: 640px) {
-  * {
+  *:not(.marquee-track):not(.marquee-container *) {
     max-width: 100vw;
   }
   
