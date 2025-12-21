@@ -4,7 +4,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import type { Locale } from '@/lib/i18n';
 import { translations } from '@/lib/translations';
 
-type Translations = typeof translations.es;
+type Translations = typeof translations.es | typeof translations.en;
 
 interface LocaleContextType {
   locale: Locale;

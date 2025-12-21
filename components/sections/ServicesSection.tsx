@@ -345,8 +345,8 @@ export default function ServicesSection() {
     icon: iconMap[item.id],
     title: item.title,
     description: item.description,
-    bullets: item.bullets,
-    chips: item.chips,
+    bullets: [...item.bullets], // Convert readonly array to mutable
+    chips: [...item.chips], // Convert readonly array to mutable
     cta: {
       label: item.cta,
       href: ctaHrefMap[item.cta] || "#contacto",

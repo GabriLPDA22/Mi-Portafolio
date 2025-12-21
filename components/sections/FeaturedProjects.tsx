@@ -281,24 +281,25 @@ export default function FeaturedProjects() {
   const projects: Project[] = t.projects.items.map((item) => {
     const image = projectImages[item.id];
     const ctaHref = projectCtaHrefs[item.id]?.[item.cta] || "#";
-    const secondaryCtaHref = item.secondaryCta ? projectCtaHrefs[item.id]?.[item.secondaryCta] || "#contacto" : undefined;
+    const hasSecondaryCta = 'secondaryCta' in item && item.secondaryCta;
+    const secondaryCtaHref = hasSecondaryCta ? projectCtaHrefs[item.id]?.[item.secondaryCta as string] || "#contacto" : undefined;
 
     return {
       id: item.id,
       title: item.title,
       subtitle: item.subtitle,
       description: item.description,
-      bullets: item.bullets,
-      chips: item.chips,
+      bullets: [...item.bullets], // Convert readonly array to mutable
+      chips: [...item.chips], // Convert readonly array to mutable
       image,
       cta: {
         label: item.cta,
         href: ctaHref,
         external: ctaHref.startsWith("http"),
       },
-      secondaryCta: item.secondaryCta
+      secondaryCta: hasSecondaryCta
         ? {
-            label: item.secondaryCta,
+            label: item.secondaryCta as string,
             href: secondaryCtaHref || "#contacto",
           }
         : undefined,
