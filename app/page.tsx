@@ -70,6 +70,38 @@ export default function Home() {
     ],
   };
 
+  // Breadcrumbs structured data
+  const breadcrumbsData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Inicio",
+        item: "https://gabrielcodes.dev",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Servicios",
+        item: "https://gabrielcodes.dev/#servicios",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Proyectos",
+        item: "https://gabrielcodes.dev/#proyectos",
+      },
+      {
+        "@type": "ListItem",
+        position: 4,
+        name: "Contacto",
+        item: "https://gabrielcodes.dev/#contacto",
+      },
+    ],
+  };
+
   return (
     <>
       {/* Structured Data para SEO */}
@@ -80,6 +112,10 @@ export default function Home() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationData) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsData) }}
       />
 
       <Header />

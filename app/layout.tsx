@@ -26,22 +26,43 @@ export const metadata: Metadata = {
     template: "%s | Gabriel Saiz",
   },
   description:
-    "Desarrollador Full-Stack freelance especializado en React Native, Next.js y .NET. Desarrollo de aplicaciones móviles iOS/Android, web apps y dashboards. Transformo ideas en productos digitales en producción con foco en rendimiento y mantenibilidad.",
+    "Desarrollador Full-Stack freelance especializado en React Native, Next.js y .NET. Desarrollo de aplicaciones móviles iOS/Android, web apps y dashboards. Transformo ideas en productos digitales en producción. Consulta gratuita.",
   keywords: [
+    // Primary keywords
     "desarrollador full stack",
     "freelance developer",
+    "desarrollador freelance España",
+    "full stack developer",
+    "desarrollador React Native",
+    "desarrollador Next.js",
+    // Technologies
     "React Native",
     "Next.js",
+    "TypeScript",
+    ".NET",
+    "PostgreSQL",
+    "Expo",
+    "Node.js",
+    // Services
     "desarrollo móvil",
     "apps iOS",
     "apps Android",
     "desarrollo web",
-    "TypeScript",
-    ".NET",
-    "PostgreSQL",
-    "desarrollador freelance España",
     "desarrollo de aplicaciones",
-    "full stack developer",
+    "aplicaciones móviles",
+    "web apps",
+    "dashboards",
+    "APIs REST",
+    // Long-tail keywords
+    "desarrollador full stack freelance",
+    "desarrollador React Native freelance",
+    "desarrollador Next.js freelance",
+    "crear app móvil",
+    "desarrollo app iOS Android",
+    "desarrollador .NET freelance",
+    "desarrollo web moderno",
+    "full stack developer España",
+    "desarrollador freelance Zaragoza",
     "gabriel saiz",
   ],
   authors: [{ name: "Gabriel Saiz" }],
@@ -96,9 +117,7 @@ export const metadata: Metadata = {
     ],
   },
   verification: {
-    // Añade aquí tus códigos de verificación cuando los tengas
-    // google: "tu-codigo-google",
-    // yandex: "tu-codigo-yandex",
+    google: "tl7fbd-SUdovbuPNFSkybxDcu_TQs9maMuc0x9ar04c",
   },
 };
 
