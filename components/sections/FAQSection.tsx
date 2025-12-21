@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
+import { useLocale } from "@/contexts/LocaleContext";
 
 /* ============================================
    DATA
@@ -12,45 +13,6 @@ interface FAQItem {
   question: string;
   answer: string;
 }
-
-const faqs: FAQItem[] = [
-  {
-    id: "1",
-    question: "¿Cuánto tardas en entregar una primera versión?",
-    answer:
-      "Depende del alcance del proyecto. Una web corporativa puede estar lista en 2-4 semanas. Una aplicación móvil completa, entre 2-4 meses. Trabajo en sprints semanales, así que verás progreso constante desde el primer día. En la primera llamada te doy una estimación realista basada en tus necesidades específicas.",
-  },
-  {
-    id: "2",
-    question: "¿Trabajas con presupuestos cerrados o por iteraciones?",
-    answer:
-      "Ambos modelos funcionan. Para proyectos con alcance claro, trabajo con presupuesto cerrado y entregas por fases. Para proyectos más ágiles o en evolución, prefiero trabajar por iteraciones semanales con un presupuesto mensual. El objetivo es que tengas visibilidad y control en cada paso.",
-  },
-  {
-    id: "3",
-    question: "¿Incluyes diseño UI/UX?",
-    answer:
-      "Sí. No solo desarrollo, también diseño de interfaces. Trabajo con un enfoque de producto: primero entendemos el usuario y el objetivo, luego diseñamos la experiencia y finalmente desarrollamos. Si ya tienes un diseñador, me integro perfectamente con su trabajo.",
-  },
-  {
-    id: "4",
-    question: "¿Puedes mantener y escalar el proyecto?",
-    answer:
-      "Absolutamente. Ofrezco planes de mantenimiento mensual que incluyen actualizaciones de seguridad, pequeñas mejoras, monitorización y soporte prioritario. También puedo escalar la arquitectura cuando el proyecto crezca. El código que escribo está pensado para mantenerse y escalar a largo plazo.",
-  },
-  {
-    id: "5",
-    question: "¿Qué stack usas normalmente?",
-    answer:
-      "Frontend: Next.js, Vue.js, React Native. Backend: .NET 9, PostgreSQL, SignalR. Cloud: AWS. También Docker, TypeScript y las herramientas modernas que cada proyecto requiera. El stack lo elijo según las necesidades específicas, no por moda.",
-  },
-  {
-    id: "6",
-    question: "¿Cómo es el proceso de trabajo?",
-    answer:
-      "Empezamos con una llamada gratuita para entender tu proyecto y objetivos. Después preparo una propuesta con alcance, tiempos y presupuesto. Una vez aprobada, trabajo en sprints semanales con demos y feedback continuo. Mantengo comunicación constante y transparencia total durante todo el proceso hasta el lanzamiento.",
-  },
-];
 
 /* ============================================
    ANIMATIONS
@@ -157,6 +119,7 @@ function AccordionItem({
    MAIN SECTION
    ============================================ */
 export default function FAQSection() {
+  const { t } = useLocale();
   const [openItems, setOpenItems] = useState<Set<string>>(new Set());
 
   const toggleItem = (id: string) => {
@@ -170,6 +133,40 @@ export default function FAQSection() {
       return newSet;
     });
   };
+
+  // Build FAQs from translations
+  const faqs: FAQItem[] = [
+    {
+      id: "1",
+      question: t.faq.questions.timeline.q,
+      answer: t.faq.questions.timeline.a,
+    },
+    {
+      id: "2",
+      question: t.faq.questions.budget.q,
+      answer: t.faq.questions.budget.a,
+    },
+    {
+      id: "3",
+      question: t.faq.questions.design.q,
+      answer: t.faq.questions.design.a,
+    },
+    {
+      id: "4",
+      question: t.faq.questions.maintenance.q,
+      answer: t.faq.questions.maintenance.a,
+    },
+    {
+      id: "5",
+      question: t.faq.questions.stack.q,
+      answer: t.faq.questions.stack.a,
+    },
+    {
+      id: "6",
+      question: t.faq.questions.process.q,
+      answer: t.faq.questions.process.a,
+    },
+  ];
 
   // Split FAQs into two columns
   const midpoint = Math.ceil(faqs.length / 2);
@@ -188,13 +185,13 @@ export default function FAQSection() {
           className="mb-12 text-center lg:mb-16"
         >
           <p className="mb-3 text-[12px] font-semibold uppercase tracking-widest text-[#8b5cf6]">
-            FAQ
+            {t.faq.title}
           </p>
           <h2 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
-            ¿Alguna pregunta?
+            {t.faq.headline}
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/50 sm:text-lg">
-            Todo lo que necesitas saber antes de empezar. Si tienes más dudas,
+            {t.faq.subtitle}
             escríbeme.
           </p>
         </motion.div>

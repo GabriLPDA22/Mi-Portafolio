@@ -8,6 +8,7 @@ import AboutSection from "@/components/sections/AboutSection";
 import ResultsSection from "@/components/sections/ResultsSection";
 import FAQSection from "@/components/sections/FAQSection";
 import ContactSection from "@/components/sections/ContactSection";
+import ScrollToTop from "@/components/ui/ScrollToTop";
 
 export default function Home() {
   // Structured Data (JSON-LD) para SEO
@@ -102,6 +103,7 @@ export default function Home() {
         <ContactSection />
       </main>
       <Footer />
+      <ScrollToTop />
     </>
   );
 }

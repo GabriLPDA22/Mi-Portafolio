@@ -4,6 +4,7 @@ import { useState, useRef, useCallback } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Linkedin, Github, Instagram, Mail, Check, Sparkles } from "lucide-react";
 import Image from "next/image";
+import { useLocale } from "@/contexts/LocaleContext";
 
 /* ============================================
    ANIMATIONS
@@ -19,15 +20,6 @@ const fadeInUp: Variants = {
     },
   },
 };
-
-/* ============================================
-   DATA
-   ============================================ */
-const bullets = [
-  "Producto y rendimiento primero",
-  "Código mantenible y escalable",
-  "Comunicación clara y entregas continuas",
-];
 
 const socialLinks = [
   {
@@ -51,6 +43,7 @@ const socialLinks = [
    PHOTO WITH OVERLAY - DESKTOP
    ============================================ */
 function PhotoWithOverlayDesktop() {
+  const { t } = useLocale();
   const [isHovered, setIsHovered] = useState(false);
   const [glowPosition, setGlowPosition] = useState({ x: 50, y: 50 });
   const photoRef = useRef<HTMLDivElement>(null);
@@ -103,7 +96,7 @@ function PhotoWithOverlayDesktop() {
           >
             {/* Bullets */}
             <ul className="mb-4 space-y-2">
-              {bullets.map((bullet, i) => (
+              {t.about.bullets.map((bullet, i) => (
                 <motion.li
                   key={i}
                   initial={{ opacity: 0, x: -10 }}
@@ -132,7 +125,7 @@ function PhotoWithOverlayDesktop() {
               className="inline-flex w-fit items-center justify-center gap-2 rounded-full bg-[#8b5cf6] px-5 py-2.5 text-[13px] font-semibold text-white transition-all duration-300 hover:bg-[#7c4fe4] hover:shadow-lg hover:shadow-[#8b5cf6]/25"
             >
               <Mail className="h-3.5 w-3.5" />
-              Contactar
+              {t.about.cta}
             </motion.a>
           </div>
         </div>
@@ -152,6 +145,7 @@ function PhotoWithOverlayDesktop() {
    PHOTO WITH OVERLAY - MOBILE
    ============================================ */
 function PhotoWithOverlayMobile() {
+  const { t } = useLocale();
   const [isOpen, setIsOpen] = useState(false);
   const photoRef = useRef<HTMLDivElement>(null);
 
@@ -181,7 +175,7 @@ function PhotoWithOverlayMobile() {
           >
             {/* Bullets */}
             <ul className="mb-4 space-y-2">
-              {bullets.map((bullet, i) => (
+              {t.about.bullets.map((bullet, i) => (
                 <li
                   key={i}
                   className="flex items-center gap-2.5 text-[14px] text-white"
@@ -199,7 +193,7 @@ function PhotoWithOverlayMobile() {
               className="inline-flex w-fit items-center justify-center gap-2 rounded-full bg-[#8b5cf6] px-5 py-2.5 text-[13px] font-semibold text-white transition-all duration-300 active:bg-[#7c4fe4]"
             >
               <Mail className="h-3.5 w-3.5" />
-              Contactar
+              {t.about.cta}
             </a>
           </div>
         </div>
@@ -220,6 +214,8 @@ function PhotoWithOverlayMobile() {
    MAIN SECTION
    ============================================ */
 export default function AboutSection() {
+  const { t } = useLocale();
+
   return (
     <section id="sobre-mi" className="relative py-24 sm:py-32">
       <div className="container-main">
@@ -232,10 +228,10 @@ export default function AboutSection() {
           className="mb-12 text-center lg:mb-16"
         >
           <p className="mb-3 text-[12px] font-semibold uppercase tracking-widest text-[#8b5cf6]">
-            SOBRE MÍ
+            {t.about.title}
           </p>
           <h2 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
-            Full-Stack Developer
+            {t.about.headline}
           </h2>
         </motion.div>
 
@@ -278,14 +274,13 @@ export default function AboutSection() {
                 Gabriel Saiz
               </h3>
               <p className="text-[15px] text-white/60 sm:text-base">
-                Full-Stack Developer
+                {t.about.headline}
               </p>
             </div>
 
             {/* Subcopy */}
             <p className="mb-8 max-w-md text-[15px] leading-relaxed text-white/70 sm:text-base">
-              Construyo productos digitales en producción, con foco en rendimiento
-              y mantenibilidad.
+              {t.about.subtitle}
             </p>
 
             {/* Social Links */}

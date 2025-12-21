@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect, useCallback } from "react";
 import { Variants, motion } from "framer-motion";
+import { useLocale } from "@/contexts/LocaleContext";
 import {
   Smartphone,
   Globe,
@@ -25,91 +26,31 @@ interface Service {
   featured?: boolean;
 }
 
-const services: Service[] = [
-  {
-    id: "mobile",
-    icon: Smartphone,
-    title: "Apps móviles",
-    description:
-      "Aplicaciones nativas iOS y Android con una única base de código. Rendimiento nativo, desarrollo ágil.",
-    bullets: [
-      "React Native + Expo SDK",
-      "Push notifications & deep linking",
-      "Integración APIs nativas",
-      "App Store & Play Store",
-      "OTA updates",
-    ],
-    chips: ["React Native", "Expo", "TypeScript"],
-    cta: { label: "Cómo trabajo", href: "#proceso" },
-    featured: true,
-  },
-  {
-    id: "web",
-    icon: Globe,
-    title: "Web & dashboards",
-    description:
-      "Aplicaciones web modernas, SPAs y paneles admin con las mejores prácticas.",
-    bullets: [
-      "SSR, SSG e ISR optimizados",
-      "Dashboards interactivos",
-      "Autenticación y roles",
-    ],
-    chips: ["Next.js", "Vue.js", "Tailwind"],
-    cta: { label: "Ver ejemplos", href: "#proyectos" },
-  },
-  {
-    id: "backend",
-    icon: Server,
-    title: "Backend & APIs",
-    description:
-      "Arquitecturas escalables y APIs robustas. Clean Architecture y patrones enterprise.",
-    bullets: [
-      "APIs REST y tiempo real",
-      "Autenticación JWT/OAuth",
-      "Integración pagos (Stripe)",
-    ],
-    chips: [".NET 9", "PostgreSQL", "SignalR"],
-    cta: { label: "Solicitar info", href: "#contacto" },
-  },
-  {
-    id: "devops",
-    icon: Container,
-    title: "Infra & DevOps",
-    description:
-      "Despliegues automatizados, contenedores y cloud. Tu código en producción sin fricciones.",
-    bullets: ["CI/CD pipelines", "Contenedores Docker", "AWS / cloud setup"],
-    chips: ["Docker", "AWS", "GitHub Actions"],
-    cta: { label: "Hablemos", href: "#contacto" },
-  },
-  {
-    id: "performance",
-    icon: Gauge,
-    title: "UX & performance",
-    description:
-      "Optimización de Core Web Vitals, SEO técnico y experiencia de usuario que convierte.",
-    bullets: [
-      "Auditorías Lighthouse",
-      "Core Web Vitals",
-      "SEO técnico avanzado",
-    ],
-    chips: ["Lighthouse", "Web Vitals", "SEO"],
-    cta: { label: "Ver proceso", href: "#proceso" },
-  },
-  {
-    id: "maintenance",
-    icon: Wrench,
-    title: "Soporte & mantenimiento",
-    description:
-      "Tu producto siempre actualizado, seguro y funcionando. Respuesta rápida ante incidencias.",
-    bullets: [
-      "Monitorización 24/7",
-      "Updates de seguridad",
-      "Soporte prioritario",
-    ],
-    chips: ["SLA", "Monitoring", "Hotfixes"],
-    cta: { label: "Ver planes", href: "#contacto" },
-  },
-];
+// Icon mapping
+const iconMap: Record<string, React.ElementType> = {
+  mobile: Smartphone,
+  web: Globe,
+  backend: Server,
+  devops: Container,
+  performance: Gauge,
+  maintenance: Wrench,
+};
+
+// CTA href mapping
+const ctaHrefMap: Record<string, string> = {
+  "Cómo trabajo": "#proceso",
+  "How I work": "#proceso",
+  "Ver ejemplos": "#proyectos",
+  "See examples": "#proyectos",
+  "Solicitar info": "#contacto",
+  "Request info": "#contacto",
+  "Hablemos": "#contacto",
+  "Let's talk": "#contacto",
+  "Ver proceso": "#proceso",
+  "See process": "#proceso",
+  "Ver planes": "#contacto",
+  "See plans": "#contacto",
+};
 
 /* ============================================
    ANIMATIONS
@@ -292,7 +233,7 @@ function ServiceCard({
 /* ============================================
    MOBILE CAROUSEL
    ============================================ */
-function MobileCarousel() {
+function MobileCarousel({ services }: { services: Service[] }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
 
@@ -382,7 +323,7 @@ function MobileCarousel() {
 /* ============================================
    DESKTOP GRID (2 COLUMNS)
    ============================================ */
-function DesktopGrid() {
+function DesktopGrid({ services }: { services: Service[] }) {
   return (
     <div className="hidden lg:grid lg:grid-cols-2 lg:gap-6">
       {services.map((service, index) => (
@@ -396,6 +337,23 @@ function DesktopGrid() {
    MAIN SECTION
    ============================================ */
 export default function ServicesSection() {
+  const { t } = useLocale();
+
+  // Build services from translations
+  const services: Service[] = t.services.items.map((item) => ({
+    id: item.id,
+    icon: iconMap[item.id],
+    title: item.title,
+    description: item.description,
+    bullets: item.bullets,
+    chips: item.chips,
+    cta: {
+      label: item.cta,
+      href: ctaHrefMap[item.cta] || "#contacto",
+    },
+    featured: item.id === "mobile",
+  }));
+
   return (
     <section id="servicios" className="relative py-20 sm:py-28 lg:py-32">
       <div className="container-main">
@@ -409,22 +367,21 @@ export default function ServicesSection() {
           className="mb-12 max-w-2xl px-5 lg:mb-16 lg:px-0"
         >
           <p className="mb-3 text-[12px] font-semibold uppercase tracking-widest text-[#8b5cf6]">
-            Servicios
+            {t.services.title}
           </p>
           <h2 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
-            De la idea al producto
+            {t.services.headline}
           </h2>
           <p className="mt-4 text-base leading-relaxed text-white/50 sm:text-lg">
-            Diseño, desarrollo y despliegue. Todo lo que tu producto digital
-            necesita para destacar.
+            {t.services.subtitle}
           </p>
         </motion.div>
 
         {/* Mobile: Carousel */}
-        <MobileCarousel />
+        <MobileCarousel services={services} />
 
         {/* Desktop: Grid */}
-        <DesktopGrid />
+        <DesktopGrid services={services} />
       </div>
     </section>
   );

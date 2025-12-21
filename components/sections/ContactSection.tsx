@@ -13,6 +13,7 @@ import {
   AlertCircle,
   Loader2,
 } from "lucide-react";
+import { useLocale } from "@/contexts/LocaleContext";
 
 /* ============================================
    ANIMATIONS
@@ -67,6 +68,7 @@ interface FormData {
    MAIN COMPONENT
    ============================================ */
 export default function ContactSection() {
+  const { t } = useLocale();
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
@@ -89,7 +91,7 @@ export default function ContactSection() {
     // Validation
     if (!formData.name || !formData.email || !formData.message) {
       setStatus("error");
-      setErrorMessage("Por favor, completa todos los campos obligatorios.");
+      setErrorMessage(t.contact.form.error);
       return;
     }
 
@@ -99,12 +101,12 @@ export default function ContactSection() {
     try {
       // Get project label
       const projectLabels: Record<string, string> = {
-        mobile: "App móvil",
-        web: "Aplicación web",
-        ecommerce: "E-commerce",
-        saas: "SaaS / Plataforma",
-        consulting: "Consultoría técnica",
-        other: "Otro",
+        mobile: t.contact.form.projectOptions.mobile,
+        web: t.contact.form.projectOptions.web,
+        ecommerce: t.contact.form.projectOptions.ecommerce,
+        saas: t.contact.form.projectOptions.saas,
+        consulting: t.contact.form.projectOptions.consulting,
+        other: t.contact.form.projectOptions.other,
       };
 
       // Send to Formspree
@@ -157,29 +159,28 @@ export default function ContactSection() {
           className="mb-12 text-center lg:mb-16"
         >
           <p className="mb-3 text-[12px] font-semibold uppercase tracking-widest text-[#8b5cf6]">
-            Contacto
+            {t.contact.title}
           </p>
           <h2 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
-            ¿Hablamos?
+            {t.contact.headline}
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/50 sm:text-lg">
-            Cuéntame tu idea y te respondo en menos de 24h. La primera consulta
-            es siempre gratuita.
+            {t.contact.subtitle}
           </p>
 
           {/* Trust badges */}
           <div className="mt-8 flex flex-wrap items-center justify-center gap-6">
             <div className="flex items-center gap-2 text-[13px] text-white/40">
               <Clock className="h-4 w-4 text-[#8b5cf6]" />
-              <span>Respuesta &lt;24h</span>
+              <span>{t.contact.badges.response}</span>
             </div>
             <div className="flex items-center gap-2 text-[13px] text-white/40">
               <CheckCircle className="h-4 w-4 text-emerald-400" />
-              <span>Consulta inicial gratis</span>
+              <span>{t.contact.badges.free}</span>
             </div>
             <div className="flex items-center gap-2 text-[13px] text-white/40">
               <Mail className="h-4 w-4 text-[#8b5cf6]" />
-              <span>Sin compromiso</span>
+              <span>{t.contact.badges.noCommitment}</span>
             </div>
           </div>
         </motion.div>
@@ -195,25 +196,19 @@ export default function ContactSection() {
             className="lg:col-span-2"
           >
             <h3 className="mb-4 text-xl font-semibold text-white">
-              Hablemos de tu proyecto
+              {t.contact.form.title}
             </h3>
             <p className="mb-6 text-[15px] leading-relaxed text-white/50">
-              Ya sea una app móvil, una web o un sistema completo, estoy aquí
-              para ayudarte a convertir tu idea en realidad.
+              {t.contact.form.description}
             </p>
 
             <div className="space-y-4">
               <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
                 <p className="text-[13px] font-medium text-white">
-                  ¿Qué incluye la consulta inicial?
+                  {t.contact.form.includes}
                 </p>
                 <ul className="mt-3 space-y-2">
-                  {[
-                    "Análisis de tu idea o proyecto",
-                    "Recomendaciones técnicas",
-                    "Estimación de tiempos y costes",
-                    "Resolución de dudas",
-                  ].map((item, i) => (
+                  {t.contact.form.includesItems.map((item, i) => (
                     <li
                       key={i}
                       className="flex items-center gap-2 text-[13px] text-white/50"
@@ -228,7 +223,7 @@ export default function ContactSection() {
               {/* Direct email */}
               <div className="pt-4">
                 <p className="mb-2 text-[12px] text-white/40">
-                  ¿Prefieres email directo?
+                  {t.contact.form.directEmail}
                 </p>
                 <a
                   href="mailto:gsaiz.bajo@gmail.com"
@@ -241,7 +236,7 @@ export default function ContactSection() {
 
               {/* Social Links */}
               <div className="pt-6">
-                <p className="mb-3 text-[12px] text-white/40">Redes sociales</p>
+                <p className="mb-3 text-[12px] text-white/40">{t.contact.form.social}</p>
                 <div className="flex items-center gap-3">
                   <a
                     href="https://www.linkedin.com/in/gabriel-saiz-de-la-maza-bajo-140370184/"
@@ -290,10 +285,10 @@ export default function ContactSection() {
                     <CheckCircle className="h-8 w-8 text-emerald-400" />
                   </div>
                   <h3 className="mb-2 text-xl font-semibold text-white">
-                    ¡Mensaje enviado!
+                    {t.contact.form.success.title}
                   </h3>
                   <p className="text-[15px] text-white/50">
-                    Gracias por contactar. Te responderé en menos de 24 horas.
+                    {t.contact.form.success.message}
                   </p>
                   <button
                     onClick={() => {
@@ -302,7 +297,7 @@ export default function ContactSection() {
                     }}
                     className="mt-6 text-[13px] font-medium text-[#8b5cf6] transition-colors hover:text-[#a78bfa]"
                   >
-                    Enviar otro mensaje
+                    {t.contact.form.success.again}
                   </button>
                 </div>
               ) : (
@@ -314,7 +309,7 @@ export default function ContactSection() {
                         htmlFor="name"
                         className="mb-2 block text-[13px] font-medium text-white/70"
                       >
-                        Nombre *
+                        {t.contact.form.name}
                       </label>
                       <input
                         type="text"
@@ -324,7 +319,7 @@ export default function ContactSection() {
                         onChange={handleChange}
                         required
                         className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-[14px] text-white placeholder-white/30 outline-none transition-all focus:border-[#8b5cf6]/50 focus:ring-1 focus:ring-[#8b5cf6]/30"
-                        placeholder="Tu nombre"
+                        placeholder={t.contact.form.name}
                       />
                     </div>
                     <div>
@@ -332,7 +327,7 @@ export default function ContactSection() {
                         htmlFor="email"
                         className="mb-2 block text-[13px] font-medium text-white/70"
                       >
-                        Email *
+                        {t.contact.form.email}
                       </label>
                       <input
                         type="email"
@@ -353,7 +348,7 @@ export default function ContactSection() {
                       htmlFor="project"
                       className="mb-2 block text-[13px] font-medium text-white/70"
                     >
-                      Tipo de proyecto
+                      {t.contact.form.project}
                     </label>
                     <select
                       id="project"
@@ -363,25 +358,25 @@ export default function ContactSection() {
                       className="w-full appearance-none rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-[14px] text-white outline-none transition-all focus:border-[#8b5cf6]/50 focus:ring-1 focus:ring-[#8b5cf6]/30"
                     >
                       <option value="" className="bg-[#18181b]">
-                        Selecciona una opción
+                        {t.contact.form.projectOptions.select}
                       </option>
                       <option value="mobile" className="bg-[#18181b]">
-                        App móvil
+                        {t.contact.form.projectOptions.mobile}
                       </option>
                       <option value="web" className="bg-[#18181b]">
-                        Aplicación web
+                        {t.contact.form.projectOptions.web}
                       </option>
                       <option value="ecommerce" className="bg-[#18181b]">
-                        E-commerce
+                        {t.contact.form.projectOptions.ecommerce}
                       </option>
                       <option value="saas" className="bg-[#18181b]">
-                        SaaS / Plataforma
+                        {t.contact.form.projectOptions.saas}
                       </option>
                       <option value="consulting" className="bg-[#18181b]">
-                        Consultoría técnica
+                        {t.contact.form.projectOptions.consulting}
                       </option>
                       <option value="other" className="bg-[#18181b]">
-                        Otro
+                        {t.contact.form.projectOptions.other}
                       </option>
                     </select>
                   </div>
@@ -392,7 +387,7 @@ export default function ContactSection() {
                       htmlFor="message"
                       className="mb-2 block text-[13px] font-medium text-white/70"
                     >
-                      Cuéntame sobre tu proyecto *
+                      {t.contact.form.message}
                     </label>
                     <textarea
                       id="message"
@@ -402,7 +397,7 @@ export default function ContactSection() {
                       required
                       rows={5}
                       className="w-full resize-none rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-[14px] text-white placeholder-white/30 outline-none transition-all focus:border-[#8b5cf6]/50 focus:ring-1 focus:ring-[#8b5cf6]/30"
-                      placeholder="Describe brevemente tu idea, objetivos y timeline..."
+                      placeholder={t.contact.form.messagePlaceholder}
                     />
                   </div>
 
@@ -423,11 +418,11 @@ export default function ContactSection() {
                     {status === "loading" ? (
                       <>
                         <Loader2 className="h-4 w-4 animate-spin" />
-                        Enviando...
+                        {t.contact.form.sending}
                       </>
                     ) : (
                       <>
-                        Enviar mensaje
+                        {t.contact.form.send}
                         <Send className="h-4 w-4" />
                       </>
                     )}
@@ -435,7 +430,7 @@ export default function ContactSection() {
 
                   {/* Support message */}
                   <p className="text-center text-[12px] text-white/40">
-                    Si tienes problemas, puedes escribirme directamente a{" "}
+                    {t.contact.form.support}{" "}
                     <a
                       href="mailto:gsaiz.bajo@gmail.com"
                       className="font-medium text-[#8b5cf6] transition-colors hover:text-[#a78bfa]"

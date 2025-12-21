@@ -3,18 +3,20 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-
-const NAV_ITEMS = [
-  { label: "Servicios", href: "#servicios" },
-  { label: "Proyectos", href: "#proyectos" },
-  { label: "Proceso", href: "#proceso" },
-  { label: "Sobre mí", href: "#sobre-mi" },
-  { label: "Contacto", href: "#contacto" },
-];
+import { useLocale } from "@/contexts/LocaleContext";
+import LanguageToggle from "@/components/ui/LanguageToggle";
 
 export default function Header() {
+  const { t } = useLocale();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
+
+  const NAV_ITEMS = [
+    { label: t.nav.services, href: "#servicios" },
+    { label: t.nav.projects, href: "#proyectos" },
+    { label: t.nav.about, href: "#sobre-mi" },
+    { label: t.nav.contact, href: "#contacto" },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -68,7 +70,7 @@ export default function Header() {
             </a>
 
             {/* Desktop Nav - Right aligned */}
-            <nav className="hidden items-center gap-6 md:flex" aria-label="Navegación principal">
+            <nav className="hidden items-center gap-4 md:flex" aria-label="Navegación principal">
               {NAV_ITEMS.map((item) => (
                 <a
                   key={item.href}
@@ -79,10 +81,12 @@ export default function Header() {
                   {item.label}
                 </a>
               ))}
+              <LanguageToggle />
             </nav>
 
             {/* Mobile: Menu Button */}
             <div className="flex items-center gap-3 md:hidden">
+              <LanguageToggle />
               <button
                 type="button"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}

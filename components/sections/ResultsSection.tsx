@@ -7,6 +7,7 @@ import {
   Code2,
   Target,
 } from "lucide-react";
+import { useLocale } from "@/contexts/LocaleContext";
 
 /* ============================================
    DATA
@@ -17,33 +18,6 @@ interface WorkBlock {
   title: string;
   description: string;
 }
-
-const workBlocks: WorkBlock[] = [
-  {
-    id: "communication",
-    icon: MessageSquare,
-    title: "Comunicación clara",
-    description: "Hablamos claro desde el primer día. Feedback continuo y sin sorpresas.",
-  },
-  {
-    id: "iterations",
-    icon: Calendar,
-    title: "Iteraciones semanales",
-    description: "Avanzamos por entregas pequeñas y constantes, no proyectos eternos.",
-  },
-  {
-    id: "code",
-    icon: Code2,
-    title: "Código que se mantiene",
-    description: "Arquitectura limpia y decisiones pensadas para el largo plazo.",
-  },
-  {
-    id: "product",
-    icon: Target,
-    title: "Producto antes que features",
-    description: "No construyo por construir. Cada decisión tiene un porqué.",
-  },
-];
 
 /* ============================================
    ANIMATIONS
@@ -112,6 +86,35 @@ function WorkBlockCard({ block, index }: { block: WorkBlock; index: number }) {
    MAIN SECTION
    ============================================ */
 export default function ResultsSection() {
+  const { t } = useLocale();
+
+  const workBlocks: WorkBlock[] = [
+    {
+      id: "communication",
+      icon: MessageSquare,
+      title: t.results.items.communication.title,
+      description: t.results.items.communication.text,
+    },
+    {
+      id: "iterations",
+      icon: Calendar,
+      title: t.results.items.iterations.title,
+      description: t.results.items.iterations.text,
+    },
+    {
+      id: "code",
+      icon: Code2,
+      title: t.results.items.code.title,
+      description: t.results.items.code.text,
+    },
+    {
+      id: "product",
+      icon: Target,
+      title: t.results.items.product.title,
+      description: t.results.items.product.text,
+    },
+  ];
+
   return (
     <section id="resultados" className="relative py-24 sm:py-32">
       <div className="container-main">
@@ -123,12 +126,14 @@ export default function ResultsSection() {
           viewport={{ once: true, margin: "-100px" }}
           className="mb-12 text-center lg:mb-16"
         >
+          <p className="mb-3 text-[12px] font-semibold uppercase tracking-widest text-[#8b5cf6]">
+            {t.results.title}
+          </p>
           <h2 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
-            Cómo es trabajar conmigo
+            {t.results.headline}
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/50 sm:text-lg">
-            Sin promesas vacías. Trabajo claro, entregas reales y comunicación
-            directa.
+            {t.results.subtitle}
           </p>
         </motion.div>
 

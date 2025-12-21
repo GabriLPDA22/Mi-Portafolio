@@ -2,6 +2,7 @@
 
 import { motion, type Variants } from "framer-motion";
 import Image from "next/image";
+import { useLocale } from "@/contexts/LocaleContext";
 
 /* ============================================
    DATA
@@ -29,61 +30,33 @@ interface Project {
   };
 }
 
-const projects: Project[] = [
-  {
-    id: "arch",
-    title: "ARCH",
-    subtitle: "Plataforma de comunidad para Oxford University",
-    description:
-      "App iOS completa con backend escalable y panel de administración.",
-    bullets: [
-      "App iOS con React Native + Expo",
-      "Tickets digitales con Apple Wallet",
-      "Chat en tiempo real (SignalR)",
-      "Pagos y suscripciones (Stripe)",
-      "Panel admin y moderación cloud",
-    ],
-    chips: [".NET 9", "PostgreSQL", "AWS", "Stripe", "React Native", "Expo"],
-    image: {
-      src: "/img/mock_arch_iphone_15.png",
-      alt: "ARCH App iOS - Aplicación móvil para comunidad de Oxford University desarrollada con React Native y Expo",
-      type: "mockup",
-    },
-    cta: {
-      label: "Descargar en App Store",
-      href: "https://apps.apple.com/us/app/the-arch/id6753820007",
-      external: true,
-    },
-    secondaryCta: {
-      label: "Solicitar detalles",
-      href: "#contacto",
-    },
+// Image configuration (static, not translated)
+const projectImages: Record<string, { src: string; alt: string; type: "mockup" | "photo" }> = {
+  arch: {
+    src: "/img/mock_arch_iphone_15.png",
+    alt: "ARCH App iOS - Aplicación móvil para comunidad de Oxford University desarrollada con React Native y Expo",
+    type: "mockup",
   },
-  {
-    id: "huvegrym",
-    title: "Huvegrym",
-    subtitle: "Web para escuela de danza",
-    description: "Optimizada para SEO y rendimiento (Core Web Vitals).",
-    bullets: [
-      "Diseño y desarrollo web moderno",
-      "Mobile-first y responsive",
-      "Core Web Vitals optimizados",
-      "SEO técnico avanzado",
-      "Formularios de contacto",
-    ],
-    chips: ["Next.js", "Tailwind", "SEO", "Performance", "UI/UX"],
-    image: {
-      src: "/img/Huvegrym.webp",
-      alt: "Huvegrym - Sitio web de escuela de danza desarrollado con Next.js, optimizado para SEO y rendimiento",
-      type: "photo",
-    },
-    cta: {
-      label: "Ver sitio web",
-      href: "https://huvegrym.es/",
-      external: true,
-    },
+  huvegrym: {
+    src: "/img/Huvegrym.webp",
+    alt: "Huvegrym - Sitio web de escuela de danza desarrollado con Next.js, optimizado para SEO y rendimiento",
+    type: "photo",
   },
-];
+};
+
+// CTA href mapping (static URLs)
+const projectCtaHrefs: Record<string, Record<string, string>> = {
+  arch: {
+    "Descargar en App Store": "https://apps.apple.com/us/app/the-arch/id6753820007",
+    "Download on App Store": "https://apps.apple.com/us/app/the-arch/id6753820007",
+    "Solicitar detalles": "#contacto",
+    "Request details": "#contacto",
+  },
+  huvegrym: {
+    "Ver sitio web": "https://huvegrym.es",
+    "View website": "https://huvegrym.es",
+  },
+};
 
 /* ============================================
    ANIMATIONS
@@ -254,7 +227,7 @@ function ProjectContent({
 /* ============================================
    MOBILE STACK
    ============================================ */
-function MobileStack() {
+function MobileStack({ projects }: { projects: Project[] }) {
   return (
     <div className="space-y-6 lg:hidden">
       {projects.map((project) => (
@@ -275,7 +248,7 @@ function MobileStack() {
 /* ============================================
    DESKTOP GRID (2 COLUMNS)
    ============================================ */
-function DesktopGrid() {
+function DesktopGrid({ projects }: { projects: Project[] }) {
   return (
     <div className="hidden lg:grid lg:grid-cols-2 lg:gap-6">
       {projects.map((project, index) => (
@@ -302,6 +275,36 @@ function DesktopGrid() {
    MAIN SECTION
    ============================================ */
 export default function FeaturedProjects() {
+  const { t } = useLocale();
+
+  // Build projects from translations
+  const projects: Project[] = t.projects.items.map((item) => {
+    const image = projectImages[item.id];
+    const ctaHref = projectCtaHrefs[item.id]?.[item.cta] || "#";
+    const secondaryCtaHref = item.secondaryCta ? projectCtaHrefs[item.id]?.[item.secondaryCta] || "#contacto" : undefined;
+
+    return {
+      id: item.id,
+      title: item.title,
+      subtitle: item.subtitle,
+      description: item.description,
+      bullets: item.bullets,
+      chips: item.chips,
+      image,
+      cta: {
+        label: item.cta,
+        href: ctaHref,
+        external: ctaHref.startsWith("http"),
+      },
+      secondaryCta: item.secondaryCta
+        ? {
+            label: item.secondaryCta,
+            href: secondaryCtaHref || "#contacto",
+          }
+        : undefined,
+    };
+  });
+
   return (
     <section id="proyectos" className="relative py-24 sm:py-32">
       <div className="container-main">
@@ -314,21 +317,21 @@ export default function FeaturedProjects() {
           className="mb-12 text-center lg:mb-16"
         >
           <p className="mb-3 text-[12px] font-semibold uppercase tracking-widest text-[#8b5cf6]">
-            Proyectos
+            {t.projects.title}
           </p>
           <h2 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
-            Proyectos destacados
+            {t.projects.headline}
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/50 sm:text-lg">
-            Aplicaciones reales en producción. Diseño, desarrollo y despliegue.
+            {t.projects.subtitle}
           </p>
         </motion.div>
 
         {/* Mobile Stack */}
-        <MobileStack />
+        <MobileStack projects={projects} />
 
         {/* Desktop Grid */}
-        <DesktopGrid />
+        <DesktopGrid projects={projects} />
       </div>
     </section>
   );

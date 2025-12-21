@@ -1,6 +1,7 @@
 "use client";
 
 import { Github, Linkedin, Instagram } from "lucide-react";
+import { useLocale } from "@/contexts/LocaleContext";
 
 const socialLinks = [
   {
@@ -21,14 +22,15 @@ const socialLinks = [
 ];
 
 export default function Footer() {
+  const { t } = useLocale();
+
   return (
     <footer className="border-t border-white/[0.06] py-8">
       <div className="container-main">
         <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
           {/* Copyright */}
           <p className="text-[13px] text-white/40">
-            © {new Date().getFullYear()} Gabriel Saiz. Todos los derechos
-            reservados.
+            © {new Date().getFullYear()} Gabriel Saiz. {t.footer.copyright}
           </p>
 
           {/* Social Links */}
