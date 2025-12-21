@@ -50,8 +50,8 @@ export default function Header() {
             : "bg-transparent"
         }`}
       >
-        <div className="w-full px-3 sm:container-main sm:px-0">
-          <div className="flex h-[72px] items-center justify-between gap-1.5 sm:gap-4">
+        <div className="container-main">
+          <div className="flex h-[72px] items-center justify-between gap-2 sm:gap-4">
             {/* Logo */}
             <a
               href="/"
