@@ -163,47 +163,52 @@ function WebVisual() {
 }
 
 function BackendVisual() {
+  const nodes = [
+    { x: "18%", y: "25%", label: "REST" },
+    { x: "82%", y: "25%", label: "SQL"  },
+    { x: "18%", y: "75%", label: "Cache"},
+    { x: "82%", y: "75%", label: "Auth" },
+  ];
+  const lines = [
+    { x1: "18%", y1: "25%", x2: "50%", y2: "50%" },
+    { x1: "82%", y1: "25%", x2: "50%", y2: "50%" },
+    { x1: "18%", y1: "75%", x2: "50%", y2: "50%" },
+    { x1: "82%", y1: "75%", x2: "50%", y2: "50%" },
+  ];
   return (
-    <div className="flex h-full w-full items-center justify-center">
-      <div className="relative h-[78%] w-[72%] max-h-[120px] max-w-[190px] min-h-[76px] min-w-[130px]">
-        {/* Lines SVG */}
-        <svg className="absolute inset-0 h-full w-full overflow-visible">
-          {[
-            { x1: "18%", y1: "20%", x2: "46%", y2: "50%" },
-            { x1: "82%", y1: "20%", x2: "54%", y2: "50%" },
-            { x1: "18%", y1: "82%", x2: "46%", y2: "60%" },
-            { x1: "82%", y1: "82%", x2: "54%", y2: "60%" },
-          ].map((line, i) => (
-            <line
-              key={i}
-              x1={line.x1} y1={line.y1}
-              x2={line.x2} y2={line.y2}
-              stroke="rgba(139, 92, 246, 0.28)"
-              strokeWidth="1"
-              strokeDasharray="3 3"
-            />
-          ))}
-        </svg>
-        {/* Center */}
-        <div className="absolute left-1/2 top-1/2 z-10 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-xl border border-[#8b5cf6]/35 bg-[#8b5cf6]/12">
-          <Server className="h-4 w-4 text-[#8b5cf6]" strokeWidth={1.5} />
-        </div>
-        {/* Nodes */}
-        {[
-          { x: "2%", y: "8%", label: "REST" },
-          { x: "72%", y: "8%", label: "SQL" },
-          { x: "2%", y: "72%", label: "Cache" },
-          { x: "72%", y: "72%", label: "Auth" },
-        ].map((node) => (
-          <div
-            key={node.label}
-            className="absolute flex h-7 w-[42px] items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.05] text-[8px] font-semibold text-white/50"
-            style={{ left: node.x, top: node.y }}
-          >
-            {node.label}
-          </div>
+    <div className="relative h-full w-full">
+      {/* Glow central */}
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-16 w-16 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#8b5cf6]/15 blur-2xl" />
+
+      {/* Líneas SVG — ocupan todo el área */}
+      <svg className="absolute inset-0 h-full w-full">
+        {lines.map((l, i) => (
+          <line
+            key={i}
+            x1={l.x1} y1={l.y1}
+            x2={l.x2} y2={l.y2}
+            stroke="rgba(139,92,246,0.3)"
+            strokeWidth="1"
+            strokeDasharray="4 4"
+          />
         ))}
+      </svg>
+
+      {/* Icono central */}
+      <div className="absolute left-1/2 top-1/2 z-10 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-xl border border-[#8b5cf6]/40 bg-[#8b5cf6]/15">
+        <Server className="h-4 w-4 text-[#8b5cf6]" strokeWidth={1.5} />
       </div>
+
+      {/* Nodos — centrados en su posición */}
+      {nodes.map((node) => (
+        <div
+          key={node.label}
+          className="absolute z-10 flex h-7 min-w-[42px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-lg border border-white/[0.09] bg-white/[0.05] px-2 text-[8px] font-semibold text-white/55"
+          style={{ left: node.x, top: node.y }}
+        >
+          {node.label}
+        </div>
+      ))}
     </div>
   );
 }
