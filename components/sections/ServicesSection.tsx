@@ -57,7 +57,7 @@ const fadeInUp = {
 function MobileVisual() {
   return (
     <div className="relative flex h-full w-full items-center justify-center overflow-hidden">
-      <div className="absolute h-40 w-40 rounded-full bg-[#8b5cf6]/15 blur-3xl" />
+      <div className="absolute h-40 w-40 rounded-full bg-[#8b5cf6]/15 blur-2xl" />
       {/* Back screen */}
       <div
         className="absolute rounded-[14px] border border-white/[0.08] bg-[#1a1a2e] shadow-lg"
@@ -389,7 +389,7 @@ function BentoCard({
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
       className={[
-        "service-card group relative overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.025] backdrop-blur-xl",
+        "service-card group relative overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.025] sm:backdrop-blur-xl",
         "transition-all duration-300 hover:border-white/[0.13] hover:bg-white/[0.04]",
         "hover:shadow-[0_20px_50px_-12px_rgba(139,92,246,0.12)]",
         className,
@@ -499,7 +499,7 @@ function MobileCarousel({ services }: { services: Service[] }) {
   return (
     <div className="lg:hidden px-5">
       {/* Card — altura fija para que no salte al cambiar de tarjeta */}
-      <div className="relative flex flex-col overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.025] backdrop-blur-xl" style={{ height: "430px" }}>
+      <div className="relative flex flex-col overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.025]" style={{ height: "430px" }}>
         <AnimatePresence custom={direction} mode="wait">
           <motion.div
             key={current}

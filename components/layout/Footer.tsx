@@ -34,11 +34,11 @@ export default function Footer() {
               © {new Date().getFullYear()} Gabriel Saiz. {t.footer.copyright}
             </p>
             <div className="flex gap-4 text-[12px] text-white/30">
-              <a
-                href="/privacidad"
-                className="hover:text-white/60 transition-colors"
-              >
+              <a href="/privacidad" className="hover:text-white/60 transition-colors">
                 Política de Privacidad
+              </a>
+              <a href="/aviso-legal" className="hover:text-white/60 transition-colors">
+                Aviso Legal
               </a>
             </div>
           </div>

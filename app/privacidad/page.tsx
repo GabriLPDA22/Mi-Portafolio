@@ -8,132 +8,158 @@ import { useLocale } from "@/contexts/LocaleContext";
 export default function PrivacyPage() {
   const { t } = useLocale();
   const p = t.privacy.sections;
+
   return (
     <>
       <Header />
-      <div className="min-h-screen bg-[#0B0D10] pt-24 pb-32">
-        <div className="container-main max-w-4xl">
-          <div className="prose prose-invert prose-lg max-w-none">
-            <h1 className="text-4xl font-bold text-white mb-8">{t.privacy.title}</h1>
-            <p className="text-white/60 mb-6">
-              {t.privacy.lastUpdated}: {new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}
+      <main className="min-h-screen pt-24 pb-32">
+        <div className="container-main max-w-3xl">
+
+          {/* Back link */}
+          <Link
+            href="/"
+            className="mb-10 inline-flex items-center text-[13px] text-white/40 transition-colors hover:text-white/70"
+          >
+            {t.privacy.backHome}
+          </Link>
+
+          {/* Header */}
+          <div className="mb-12 border-b border-white/[0.07] pb-8">
+            <p className="mb-3 text-[12px] font-semibold uppercase tracking-widest text-[#8b5cf6]">Legal</p>
+            <h1 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              {t.privacy.title}
+            </h1>
+            <p className="mt-3 text-[13px] text-white/35">
+              {t.privacy.lastUpdated}:{" "}
+              {new Date().toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric" })}
             </p>
+          </div>
 
-            <section className="mb-12">
-              <h2 className="text-2xl font-semibold text-white mb-4">{p.responsible.title}</h2>
-              <p className="text-white/80 leading-relaxed mb-4">{p.responsible.description}</p>
-              <ul className="text-white/80 list-disc list-inside space-y-2 mb-4">
-                <li><strong>{p.responsible.name}:</strong> Gabriel Saiz</li>
-                <li><strong>{p.responsible.email}:</strong> gsaiz.bajo@gmail.com</li>
-                <li><strong>{p.responsible.website}:</strong> gabrielcodes.dev</li>
-              </ul>
-            </section>
+          {/* Sections */}
+          <div className="space-y-10">
 
-            <section className="mb-12">
-              <h2 className="text-2xl font-semibold text-white mb-4">{p.dataCollected.title}</h2>
-              <p className="text-white/80 leading-relaxed mb-4">{p.dataCollected.description}</p>
-              
-              <h3 className="text-xl font-semibold text-white mb-3">{p.dataCollected.contactForm.title}</h3>
-              <p className="text-white/80 leading-relaxed mb-4">{p.dataCollected.contactForm.description}</p>
-              <ul className="text-white/80 list-disc list-inside space-y-2 mb-4">
-                {p.dataCollected.contactForm.items.map((item, i) => (
-                  <li key={i}>{item}</li>
-                ))}
+            {/* 1. Responsable */}
+            <Section title={p.responsible.title}>
+              <p>{p.responsible.description}</p>
+              <ul className="mt-3 space-y-1">
+                <li><span className="text-white/60">{p.responsible.name}:</span> Gabriel Saiz</li>
+                <li><span className="text-white/60">{p.responsible.email}:</span>{" "}
+                  <a href="mailto:gsaiz.bajo@gmail.com" className="text-[#8b5cf6] hover:text-[#a78bfa] transition-colors">
+                    gsaiz.bajo@gmail.com
+                  </a>
+                </li>
+                <li><span className="text-white/60">{p.responsible.website}:</span> gabrielcodes.dev</li>
               </ul>
-              <p className="text-white/80 leading-relaxed mb-4">{p.dataCollected.contactForm.note}</p>
+            </Section>
 
-              <h3 className="text-xl font-semibold text-white mb-3">{p.dataCollected.cookies.title}</h3>
-              <p className="text-white/80 leading-relaxed mb-4">{p.dataCollected.cookies.description}</p>
-              <ul className="text-white/80 list-disc list-inside space-y-2 mb-4">
-                {p.dataCollected.cookies.items.map((item, i) => (
-                  <li key={i}>{item}</li>
-                ))}
-              </ul>
-              <p className="text-white/80 leading-relaxed mb-4">{p.dataCollected.cookies.note}</p>
-            </section>
+            {/* 2. Datos */}
+            <Section title={p.dataCollected.title}>
+              <p>{p.dataCollected.description}</p>
+              <SubSection title={p.dataCollected.contactForm.title}>
+                <p>{p.dataCollected.contactForm.description}</p>
+                <BulletList items={p.dataCollected.contactForm.items} />
+                <p className="mt-3">{p.dataCollected.contactForm.note}</p>
+              </SubSection>
+              <SubSection title={p.dataCollected.cookies.title}>
+                <p>{p.dataCollected.cookies.description}</p>
+                <BulletList items={p.dataCollected.cookies.items} />
+                <p className="mt-3">{p.dataCollected.cookies.note}</p>
+              </SubSection>
+            </Section>
 
-            <section className="mb-12">
-              <h2 className="text-2xl font-semibold text-white mb-4">{p.purpose.title}</h2>
-              <p className="text-white/80 leading-relaxed mb-4">{p.purpose.description}</p>
-              <ul className="text-white/80 list-disc list-inside space-y-2 mb-4">
-                {p.purpose.items.map((item, i) => (
-                  <li key={i}>{item}</li>
-                ))}
-              </ul>
-            </section>
+            {/* 3. Finalidad */}
+            <Section title={p.purpose.title}>
+              <p>{p.purpose.description}</p>
+              <BulletList items={p.purpose.items} />
+            </Section>
 
-            <section className="mb-12">
-              <h2 className="text-2xl font-semibold text-white mb-4">{p.legalBasis.title}</h2>
-              <p className="text-white/80 leading-relaxed mb-4">{p.legalBasis.description}</p>
-              <ul className="text-white/80 list-disc list-inside space-y-2 mb-4">
-                {p.legalBasis.items.map((item, i) => (
-                  <li key={i}>{item}</li>
-                ))}
-              </ul>
-            </section>
+            {/* 4. Base legal */}
+            <Section title={p.legalBasis.title}>
+              <p>{p.legalBasis.description}</p>
+              <BulletList items={p.legalBasis.items} />
+            </Section>
 
-            <section className="mb-12">
-              <h2 className="text-2xl font-semibold text-white mb-4">{p.retention.title}</h2>
-              <p className="text-white/80 leading-relaxed mb-4">{p.retention.description}</p>
-              <p className="text-white/80 leading-relaxed mb-4">{p.retention.cookiesNote}</p>
-              <ul className="text-white/80 list-disc list-inside space-y-2 mb-4">
-                {p.retention.cookieItems.map((item, i) => (
-                  <li key={i}>{item}</li>
-                ))}
-              </ul>
-            </section>
+            {/* 5. Conservación */}
+            <Section title={p.retention.title}>
+              <p>{p.retention.description}</p>
+              <p className="mt-3">{p.retention.cookiesNote}</p>
+              <BulletList items={p.retention.cookieItems} />
+            </Section>
 
-            <section className="mb-12">
-              <h2 className="text-2xl font-semibold text-white mb-4">{p.rights.title}</h2>
-              <p className="text-white/80 leading-relaxed mb-4">{p.rights.description}</p>
-              <ul className="text-white/80 list-disc list-inside space-y-2 mb-4">
-                {p.rights.items.map((item, i) => (
-                  <li key={i}>{item}</li>
-                ))}
-              </ul>
-              <p className="text-white/80 leading-relaxed mb-4">
-                {p.rights.contact} <a href="mailto:gsaiz.bajo@gmail.com" className="text-[#8b5cf6] hover:underline">gsaiz.bajo@gmail.com</a>
+            {/* 6. Derechos */}
+            <Section title={p.rights.title}>
+              <p>{p.rights.description}</p>
+              <BulletList items={p.rights.items} />
+              <p className="mt-3">
+                {p.rights.contact}{" "}
+                <a href="mailto:gsaiz.bajo@gmail.com" className="text-[#8b5cf6] hover:text-[#a78bfa] transition-colors">
+                  gsaiz.bajo@gmail.com
+                </a>
               </p>
-            </section>
+            </Section>
 
-            <section className="mb-12">
-              <h2 className="text-2xl font-semibold text-white mb-4">{p.security.title}</h2>
-              <p className="text-white/80 leading-relaxed mb-4">{p.security.description}</p>
-            </section>
+            {/* 7. Seguridad */}
+            <Section title={p.security.title}>
+              <p>{p.security.description}</p>
+            </Section>
 
-            <section className="mb-12">
-              <h2 className="text-2xl font-semibold text-white mb-4">{p.thirdParty.title}</h2>
-              <p className="text-white/80 leading-relaxed mb-4">
-                <strong>{p.thirdParty.description}</strong>
+            {/* 8. Terceros */}
+            <Section title={p.thirdParty.title}>
+              <p>{p.thirdParty.description}</p>
+            </Section>
+
+            {/* 9. Cambios */}
+            <Section title={p.changes.title}>
+              <p>{p.changes.description}</p>
+            </Section>
+
+            {/* 10. Contacto */}
+            <Section title={p.contact.title}>
+              <p>{p.contact.description}</p>
+              <p className="mt-3">
+                <span className="text-white/60">Email:</span>{" "}
+                <a href="mailto:gsaiz.bajo@gmail.com" className="text-[#8b5cf6] hover:text-[#a78bfa] transition-colors">
+                  gsaiz.bajo@gmail.com
+                </a>
               </p>
-            </section>
+            </Section>
 
-            <section className="mb-12">
-              <h2 className="text-2xl font-semibold text-white mb-4">{p.changes.title}</h2>
-              <p className="text-white/80 leading-relaxed mb-4">{p.changes.description}</p>
-            </section>
-
-            <section className="mb-12">
-              <h2 className="text-2xl font-semibold text-white mb-4">{p.contact.title}</h2>
-              <p className="text-white/80 leading-relaxed mb-4">{p.contact.description}</p>
-              <p className="text-white/80 leading-relaxed mb-4">
-                <strong>Email:</strong> <a href="mailto:gsaiz.bajo@gmail.com" className="text-[#8b5cf6] hover:underline">gsaiz.bajo@gmail.com</a>
-              </p>
-            </section>
-
-            <div className="mt-12 pt-8 border-t border-white/10">
-              <Link
-                href="/"
-                className="inline-flex items-center gap-2 text-[#8b5cf6] hover:text-[#a78bfa] transition-colors"
-              >
-                {t.privacy.backHome}
-              </Link>
-            </div>
           </div>
         </div>
-      </div>
+      </main>
       <Footer />
     </>
   );
 }
 
+/* ─── Helpers ─────────────────────────────────────────────── */
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <section className="rounded-2xl border border-white/[0.07] bg-white/[0.025] p-6 sm:p-8">
+      <h2 className="mb-4 font-display text-lg font-semibold text-white sm:text-xl">{title}</h2>
+      <div className="space-y-2 text-[14px] leading-relaxed text-white/55">{children}</div>
+    </section>
+  );
+}
+
+function SubSection({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="mt-5 border-t border-white/[0.05] pt-4">
+      <h3 className="mb-2 text-[14px] font-semibold text-white/80">{title}</h3>
+      <div className="space-y-2 text-[14px] leading-relaxed text-white/55">{children}</div>
+    </div>
+  );
+}
+
+function BulletList({ items }: { items: readonly string[] }) {
+  return (
+    <ul className="mt-2 space-y-1.5">
+      {items.map((item, i) => (
+        <li key={i} className="flex items-start gap-2.5 text-[14px] text-white/55">
+          <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-[#8b5cf6]/60" />
+          {item}
+        </li>
+      ))}
+    </ul>
+  );
+}

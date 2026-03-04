@@ -354,6 +354,68 @@ export const translations = {
       },
       backHome: '← Volver al inicio',
     },
+    legalNotice: {
+      title: 'Aviso Legal',
+      backHome: '← Volver al inicio',
+      sections: {
+        identity: {
+          title: '1. Identificación del titular',
+          intro: 'En cumplimiento de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE), se facilitan los siguientes datos de identificación:',
+          name: 'Nombre',
+          nameValue: 'Gabriel Saiz de la Maza Bajo',
+          email: 'Email de contacto',
+          emailValue: 'gsaiz.bajo@gmail.com',
+          website: 'Sitio web',
+          websiteValue: 'gabrielcodes.dev',
+          activity: 'Actividad',
+          activityValue: 'Desarrollador Full-Stack freelance',
+        },
+        purpose: {
+          title: '2. Objeto y ámbito de aplicación',
+          description: 'El presente Aviso Legal regula el acceso y uso del sitio web gabrielcodes.dev, a través del cual Gabriel Saiz ofrece información sobre sus servicios de desarrollo de software y aplicaciones. El acceso y/o uso de este sitio web atribuye la condición de usuario, que acepta, desde dicho acceso y/o uso, las condiciones de uso recogidas en este aviso.',
+        },
+        terms: {
+          title: '3. Condiciones de uso',
+          description: 'El usuario se compromete a hacer un uso adecuado de los contenidos y servicios ofrecidos a través de este sitio web. Queda prohibido:',
+          items: [
+            'Usar los contenidos con fines ilícitos, contrarios a la moral o al orden público.',
+            'Reproducir, distribuir o modificar los contenidos sin autorización expresa.',
+            'Realizar acciones que puedan dañar, inutilizar o sobrecargar el sitio web.',
+            'Introducir o difundir malware, virus o cualquier código malicioso.',
+          ],
+        },
+        ip: {
+          title: '4. Propiedad intelectual e industrial',
+          description: 'Todos los contenidos del sitio web (textos, imágenes, código fuente, diseño y logotipos) son propiedad de Gabriel Saiz o dispone de licencia para su uso. Quedan reservados todos los derechos de propiedad intelectual e industrial. Queda expresamente prohibida la reproducción total o parcial de los contenidos sin autorización previa y por escrito.',
+        },
+        liability: {
+          title: '5. Exclusión de responsabilidad',
+          description: 'Gabriel Saiz no se hace responsable de los daños y perjuicios que pudieran derivarse de:',
+          items: [
+            'La interrupción del funcionamiento o falta de disponibilidad del sitio web por causas ajenas.',
+            'La existencia de errores u omisiones en los contenidos.',
+            'El uso indebido del sitio web por parte del usuario.',
+            'Los contenidos de sitios web de terceros a los que se pueda acceder mediante enlace.',
+          ],
+        },
+        links: {
+          title: '6. Política de enlaces',
+          description: 'El sitio web puede contener enlaces a páginas de terceros (GitHub, LinkedIn, App Store, etc.). Estos enlaces se ofrecen únicamente a título informativo. Gabriel Saiz no controla ni se responsabiliza de los contenidos, políticas de privacidad o prácticas de dichos sitios.',
+        },
+        law: {
+          title: '7. Legislación aplicable y jurisdicción',
+          description: 'El presente Aviso Legal se rige por la normativa española vigente. Para la resolución de cualquier controversia derivada del acceso o uso de este sitio web, las partes se someten a los Juzgados y Tribunales de España, con renuncia expresa a cualquier otro fuero que pudiera corresponderles.',
+        },
+        changes: {
+          title: '8. Modificaciones',
+          description: 'Gabriel Saiz se reserva el derecho de modificar el presente Aviso Legal para adaptarlo a novedades legislativas, jurisprudenciales o de práctica empresarial. Los cambios entrarán en vigor desde su publicación en el sitio web.',
+        },
+        contact: {
+          title: '9. Contacto',
+          description: 'Para cualquier consulta relacionada con este Aviso Legal, puedes contactar a través de:',
+        },
+      },
+    },
   },
   en: {
     // Header
@@ -707,6 +769,68 @@ export const translations = {
         },
       },
       backHome: '← Back to home',
+    },
+    legalNotice: {
+      title: 'Legal Notice',
+      backHome: '← Back to home',
+      sections: {
+        identity: {
+          title: '1. Owner Identification',
+          intro: 'In compliance with Spanish Law 34/2002 on Information Society Services (LSSI-CE), the following identification details are provided:',
+          name: 'Name',
+          nameValue: 'Gabriel Saiz de la Maza Bajo',
+          email: 'Contact email',
+          emailValue: 'gsaiz.bajo@gmail.com',
+          website: 'Website',
+          websiteValue: 'gabrielcodes.dev',
+          activity: 'Activity',
+          activityValue: 'Freelance Full-Stack Developer',
+        },
+        purpose: {
+          title: '2. Purpose and Scope',
+          description: 'This Legal Notice governs access to and use of the website gabrielcodes.dev, through which Gabriel Saiz provides information about software development services. Accessing and/or using this website assigns the status of user, who accepts these terms from the moment of access.',
+        },
+        terms: {
+          title: '3. Terms of Use',
+          description: 'The user agrees to make appropriate use of the content and services offered through this website. The following are prohibited:',
+          items: [
+            'Using content for illegal purposes, contrary to morality or public order.',
+            'Reproducing, distributing or modifying content without express authorisation.',
+            'Actions that could damage, disable or overload the website.',
+            'Introducing or spreading malware, viruses or any malicious code.',
+          ],
+        },
+        ip: {
+          title: '4. Intellectual and Industrial Property',
+          description: 'All website content (texts, images, source code, design and logos) is owned by Gabriel Saiz or used under licence. All intellectual and industrial property rights are reserved. Total or partial reproduction of content without prior written authorisation is expressly prohibited.',
+        },
+        liability: {
+          title: '5. Limitation of Liability',
+          description: 'Gabriel Saiz is not liable for damages that may arise from:',
+          items: [
+            'Interruption of service or unavailability of the website due to external causes.',
+            'Errors or omissions in the content.',
+            'Misuse of the website by the user.',
+            'Content on third-party websites accessible via links.',
+          ],
+        },
+        links: {
+          title: '6. Links Policy',
+          description: 'The website may contain links to third-party pages (GitHub, LinkedIn, App Store, etc.). These links are provided for informational purposes only. Gabriel Saiz does not control or accept responsibility for the content, privacy policies or practices of those sites.',
+        },
+        law: {
+          title: '7. Applicable Law and Jurisdiction',
+          description: 'This Legal Notice is governed by current Spanish law. For the resolution of any dispute arising from access to or use of this website, the parties submit to the Courts and Tribunals of Spain, expressly waiving any other jurisdiction that may apply.',
+        },
+        changes: {
+          title: '8. Modifications',
+          description: 'Gabriel Saiz reserves the right to modify this Legal Notice to adapt it to legislative, jurisprudential or business practice changes. Changes will take effect from their publication on the website.',
+        },
+        contact: {
+          title: '9. Contact',
+          description: 'For any enquiries related to this Legal Notice, you can get in touch via:',
+        },
+      },
     },
   },
 } as const;

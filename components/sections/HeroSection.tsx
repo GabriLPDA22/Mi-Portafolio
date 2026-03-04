@@ -1,20 +1,6 @@
 "use client";
 
-import { Variant, Variants, motion } from "framer-motion";
 import { useLocale } from "@/contexts/LocaleContext";
-
-const fadeInUp = {
-  hidden: { opacity: 0, y: 24 },
-  visible: (delay: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      delay,
-      ease: [0.25, 0.4, 0.25, 1],
-    },
-  }) as unknown as Variant,
-};
 
 export default function HeroSection() {
   const { t } = useLocale();
@@ -54,12 +40,7 @@ export default function HeroSection() {
       <div className="container-main relative flex min-h-screen flex-col items-center justify-center pb-16 pt-[calc(72px+2rem)]">
         <div className="w-full max-w-3xl text-center">
           {/* Badge */}
-          <motion.div
-            variants={fadeInUp as unknown as Variants}
-            initial="hidden"
-            animate="visible"
-            custom={0}
-          >
+          <div className="hero-fade-in" style={{ animationDelay: "0ms" }}>
             <span className="inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.04] px-1.5 py-1 text-[12px] text-white/65 backdrop-blur-sm sm:text-[13px]">
               <span className="rounded-full bg-[#8b5cf6] px-2.5 py-0.5 text-[11px] font-semibold text-white shadow-[0_0_10px_rgba(139,92,246,0.5)] sm:text-[12px]">
                 Nuevo
@@ -80,38 +61,29 @@ export default function HeroSection() {
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </span>
-          </motion.div>
+          </div>
 
           {/* H1 */}
-          <motion.h1
-            variants={fadeInUp as unknown as Variants}
-            initial="hidden"
-            animate="visible"
-            custom={0.1}
-            className="mt-8 font-display text-[clamp(2.5rem,8vw,4.5rem)] font-semibold leading-[1.08] tracking-[-0.02em] text-white"
+          <h1
+            className="hero-fade-in mt-8 font-display text-[clamp(2.5rem,8vw,4.5rem)] font-semibold leading-[1.08] tracking-[-0.02em] text-white"
+            style={{ animationDelay: "100ms" }}
           >
             {t.hero.title}{" "}
             <span className="text-gradient">{t.hero.titleAccent}</span>
-          </motion.h1>
+          </h1>
 
           {/* Subheadline */}
-          <motion.p
-            variants={fadeInUp as unknown as Variants}
-            initial="hidden"
-            animate="visible"
-            custom={0.2}
-            className="mx-auto mt-6 max-w-xl text-pretty text-base leading-relaxed text-white/55 sm:text-lg sm:leading-relaxed"
+          <p
+            className="hero-fade-in mx-auto mt-6 max-w-xl text-pretty text-base leading-relaxed text-white/55 sm:text-lg sm:leading-relaxed"
+            style={{ animationDelay: "200ms" }}
           >
             {t.hero.subtitle}
-          </motion.p>
+          </p>
 
           {/* CTAs */}
-          <motion.div
-            variants={fadeInUp as unknown as Variants}
-            initial="hidden"
-            animate="visible"
-            custom={0.3}
-            className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-5"
+          <div
+            className="hero-fade-in mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-5"
+            style={{ animationDelay: "300ms" }}
           >
             <a
               href="#contacto"
@@ -126,18 +98,15 @@ export default function HeroSection() {
             >
               {t.hero.ctaSecondary}
             </a>
-          </motion.div>
+          </div>
 
           {/* Proof line */}
-          <motion.p
-            variants={fadeInUp as unknown as Variants}
-            initial="hidden"
-            animate="visible"
-            custom={0.4}
-            className="mt-14 text-[13px] tracking-wide text-white/35"
+          <p
+            className="hero-fade-in mt-14 text-[13px] tracking-wide text-white/35"
+            style={{ animationDelay: "400ms" }}
           >
             {t.hero.proof}
-          </motion.p>
+          </p>
         </div>
       </div>
     </section>

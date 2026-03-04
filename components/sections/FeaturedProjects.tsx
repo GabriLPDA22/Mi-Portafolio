@@ -33,7 +33,7 @@ interface Project {
 // Image configuration (static, not translated)
 const projectImages: Record<string, { src: string; alt: string; type: "mockup" | "photo" }> = {
   arch: {
-    src: "/img/mock_arch_iphone_15.png",
+    src: "/img/mock_arch_iphone_15.webp",
     alt: "ARCH App iOS - Aplicación móvil para comunidad de Oxford University desarrollada con React Native y Expo",
     type: "mockup",
   },
@@ -105,7 +105,7 @@ function ProjectContent({
   isMobile?: boolean;
 }) {
   return (
-    <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] backdrop-blur-xl transition-all duration-300 hover:border-white/[0.12] hover:bg-white/[0.04] hover:shadow-lg hover:shadow-[#8b5cf6]/10 lg:min-h-[360px]">
+    <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] sm:backdrop-blur-xl transition-all duration-300 hover:border-white/[0.12] hover:bg-white/[0.04] hover:shadow-lg hover:shadow-[#8b5cf6]/10 lg:min-h-[360px]">
       <div className="relative z-10 flex h-full flex-col lg:flex-row">
         {/* Image Section */}
         <div
@@ -118,7 +118,7 @@ function ProjectContent({
           {project.image.type === "mockup" ? (
             <>
               {/* Glow behind mockup */}
-              <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+              <div className="pointer-events-none absolute inset-0 hidden items-center justify-center sm:flex">
                 <div className="h-[280px] w-[180px] rounded-full bg-[#8b5cf6]/10 blur-[60px]" />
               </div>
               {/* Mockup */}
@@ -229,14 +229,14 @@ function ProjectContent({
 /* ============================================
    MOBILE CARD
    ============================================ */
-function MobileProjectCard({ project }: { project: Project }) {
+function MobileProjectCard({ project, priority = false }: { project: Project; priority?: boolean }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] backdrop-blur-xl">
+    <div className="overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] sm:backdrop-blur-xl">
       {/* Image area — altura fija y compacta */}
       <div className="relative h-52 w-full overflow-hidden border-b border-white/[0.06] bg-white/[0.015]">
         {project.image.type === "mockup" ? (
           <>
-            <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+            <div className="pointer-events-none absolute inset-0 hidden items-center justify-center sm:flex">
               <div className="h-[220px] w-[160px] rounded-full bg-[#8b5cf6]/10 blur-[50px]" />
             </div>
             <div className="absolute inset-0 flex items-end justify-center pb-0">
@@ -245,6 +245,7 @@ function MobileProjectCard({ project }: { project: Project }) {
                 alt={project.image.alt}
                 width={130}
                 height={266}
+                priority={priority}
                 className="object-contain drop-shadow-2xl"
                 style={{ maxHeight: "210px", width: "auto" }}
               />
@@ -349,7 +350,7 @@ function MobileStack({ projects }: { projects: Project[] }) {
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.6, delay: index * 0.1, ease: [0.25, 0.4, 0.25, 1] }}
         >
-          <MobileProjectCard project={project} />
+          <MobileProjectCard project={project} priority={index === 0} />
         </motion.div>
       ))}
     </div>
