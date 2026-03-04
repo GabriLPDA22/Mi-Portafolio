@@ -105,7 +105,7 @@ function ProjectContent({
   isMobile?: boolean;
 }) {
   return (
-    <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] backdrop-blur-xl transition-all duration-300 hover:border-white/[0.12] hover:bg-white/[0.04] hover:shadow-lg hover:shadow-[#8b5cf6]/10">
+    <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] backdrop-blur-xl transition-all duration-300 hover:border-white/[0.12] hover:bg-white/[0.04] hover:shadow-lg hover:shadow-[#8b5cf6]/10 lg:min-h-[360px]">
       <div className="relative z-10 flex h-full flex-col lg:flex-row">
         {/* Image Section */}
         <div
@@ -155,15 +155,16 @@ function ProjectContent({
         </div>
 
         {/* Content Section */}
-        <div className="flex flex-1 flex-col justify-center p-6 sm:p-8 lg:p-10">
+        <div className="flex flex-1 flex-col justify-start p-6 sm:p-8 lg:p-10">
           {/* Header */}
-          <div className="mb-1 flex flex-wrap items-center gap-3">
-            <h3 className="font-display text-2xl font-semibold text-white sm:text-3xl">
-              {project.title}
-            </h3>
-            <span className="rounded-full bg-emerald-500/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-emerald-400">
+          <div className="mb-4">
+            <span className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-emerald-400">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
               En producción
             </span>
+            <h3 className="mt-2 font-display text-2xl font-semibold text-white sm:text-3xl">
+              {project.title}
+            </h3>
           </div>
 
           <p className="mb-1 text-[15px] text-white/60">{project.subtitle}</p>
@@ -171,8 +172,8 @@ function ProjectContent({
             {project.description}
           </p>
 
-          {/* Bullets - máximo 4-5 */}
-          <ul className="mb-6 flex-1 space-y-2">
+          {/* Bullets */}
+          <ul className="mb-6 space-y-2">
             {project.bullets.slice(0, 4).map((bullet, i) => (
               <li
                 key={i}
@@ -184,41 +185,150 @@ function ProjectContent({
             ))}
           </ul>
 
-          {/* Chips */}
-          <div className="mb-6 flex flex-wrap gap-1.5">
-            {project.chips.slice(0, 6).map((chip) => (
-              <span
-                key={chip}
-                className="rounded-md border border-white/[0.06] bg-white/[0.03] px-2 py-0.5 text-[10px] font-medium text-white/45"
-              >
-                {chip}
-              </span>
-            ))}
-          </div>
+          {/* Chips + CTAs — siempre al fondo */}
+          <div className="mt-auto">
+            <div className="mb-4 flex flex-wrap gap-1.5">
+              {project.chips.slice(0, 6).map((chip) => (
+                <span
+                  key={chip}
+                  className="rounded-md border border-white/[0.06] bg-white/[0.03] px-2 py-0.5 text-[10px] font-medium text-white/45"
+                >
+                  {chip}
+                </span>
+              ))}
+            </div>
 
-          {/* CTAs */}
-          <div className="flex flex-wrap items-center gap-3">
-            <a
-              href={project.cta.href}
-              target={project.cta.external ? "_blank" : undefined}
-              rel={project.cta.external ? "noopener noreferrer" : undefined}
-              className="group/btn inline-flex h-10 items-center justify-center gap-1.5 rounded-lg bg-[#8b5cf6] px-5 text-[13px] font-semibold text-white transition-all duration-300 hover:bg-[#7c4fe4] hover:shadow-lg hover:shadow-[#8b5cf6]/25"
-            >
-              {project.cta.label}
-              {project.cta.external && (
-                <ExternalLinkIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+            <div className="flex flex-wrap items-center gap-3">
+              <a
+                href={project.cta.href}
+                target={project.cta.external ? "_blank" : undefined}
+                rel={project.cta.external ? "noopener noreferrer" : undefined}
+                className="group/btn inline-flex h-10 items-center justify-center gap-1.5 rounded-lg bg-[#8b5cf6] px-5 text-[13px] font-semibold text-white transition-all duration-300 hover:bg-[#7c4fe4] hover:shadow-lg hover:shadow-[#8b5cf6]/25"
+              >
+                {project.cta.label}
+                {project.cta.external && (
+                  <ExternalLinkIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+                )}
+              </a>
+              {project.secondaryCta && (
+                <a
+                  href={project.secondaryCta.href}
+                  className="inline-flex h-10 items-center justify-center rounded-lg border border-white/[0.1] px-5 text-[13px] font-medium text-white/70 transition-all duration-300 hover:border-white/[0.2] hover:bg-white/[0.03] hover:text-white"
+                >
+                  {project.secondaryCta.label}
+                </a>
               )}
-            </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ============================================
+   MOBILE CARD
+   ============================================ */
+function MobileProjectCard({ project }: { project: Project }) {
+  return (
+    <div className="overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] backdrop-blur-xl">
+      {/* Image area — altura fija y compacta */}
+      <div className="relative h-52 w-full overflow-hidden border-b border-white/[0.06] bg-white/[0.015]">
+        {project.image.type === "mockup" ? (
+          <>
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+              <div className="h-[220px] w-[160px] rounded-full bg-[#8b5cf6]/10 blur-[50px]" />
+            </div>
+            <div className="absolute inset-0 flex items-end justify-center pb-0">
+              <Image
+                src={project.image.src}
+                alt={project.image.alt}
+                width={130}
+                height={266}
+                className="object-contain drop-shadow-2xl"
+                style={{ maxHeight: "210px", width: "auto" }}
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            <Image
+              src={project.image.src}
+              alt={project.image.alt}
+              fill
+              className="object-cover brightness-[0.85]"
+              sizes="100vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
+            <div className="absolute bottom-3 left-4">
+              <span className="inline-flex items-center gap-2 rounded-full bg-black/50 px-3 py-1.5 text-[11px] font-medium text-white backdrop-blur-md">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.6)]" />
+                En producción · huvegrym.es
+              </span>
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* Content */}
+      <div className="p-5">
+        {/* Badge */}
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-emerald-400">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+          En producción
+        </span>
+
+        {/* Title */}
+        <h3 className="mt-2 mb-0.5 font-display text-[22px] font-semibold text-white">
+          {project.title}
+        </h3>
+        <p className="mb-0.5 text-[14px] text-white/60">{project.subtitle}</p>
+        <p className="mb-4 text-[12px] leading-relaxed text-white/40">{project.description}</p>
+
+        {/* Bullets */}
+        <ul className="mb-4 space-y-2">
+          {project.bullets.slice(0, 4).map((bullet, i) => (
+            <li key={i} className="flex items-start gap-2.5 text-[13px] text-white/50">
+              <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-[#8b5cf6]/60" />
+              {bullet}
+            </li>
+          ))}
+        </ul>
+
+        {/* Chips */}
+        <div className="mb-5 flex flex-wrap gap-1.5">
+          {project.chips.slice(0, 6).map((chip) => (
+            <span
+              key={chip}
+              className="rounded-md border border-white/[0.06] bg-white/[0.03] px-2 py-0.5 text-[10px] font-medium text-white/45"
+            >
+              {chip}
+            </span>
+          ))}
+        </div>
+
+        {/* CTAs — full width en móvil */}
+        <div className="flex flex-col gap-2.5">
+          <a
+            href={project.cta.href}
+            target={project.cta.external ? "_blank" : undefined}
+            rel={project.cta.external ? "noopener noreferrer" : undefined}
+            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#8b5cf6] text-[14px] font-semibold text-white transition-all hover:bg-[#7c4fe4] hover:shadow-lg hover:shadow-[#8b5cf6]/25"
+          >
+            {project.cta.label}
+            {project.cta.external && (
+              <ExternalLinkIcon className="h-3.5 w-3.5" />
+            )}
+          </a>
           {project.secondaryCta && (
             <a
               href={project.secondaryCta.href}
-                className="inline-flex h-10 items-center justify-center rounded-lg border border-white/[0.1] px-5 text-[13px] font-medium text-white/70 transition-all duration-300 hover:border-white/[0.2] hover:bg-white/[0.03] hover:text-white"
+              className="inline-flex h-11 w-full items-center justify-center rounded-xl border border-white/[0.1] text-[14px] font-medium text-white/70 transition-all hover:border-white/[0.2] hover:bg-white/[0.03] hover:text-white"
             >
-                {project.secondaryCta.label}
+              {project.secondaryCta.label}
             </a>
           )}
         </div>
-      </div>
       </div>
     </div>
   );
@@ -229,16 +339,17 @@ function ProjectContent({
    ============================================ */
 function MobileStack({ projects }: { projects: Project[] }) {
   return (
-    <div className="space-y-6 lg:hidden">
-      {projects.map((project) => (
+    <div className="space-y-5 lg:hidden">
+      {projects.map((project, index) => (
         <motion.div
           key={project.id}
           variants={fadeInUp}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6, delay: index * 0.1, ease: [0.25, 0.4, 0.25, 1] }}
         >
-          <ProjectContent project={project} isMobile />
+          <MobileProjectCard project={project} />
         </motion.div>
       ))}
     </div>

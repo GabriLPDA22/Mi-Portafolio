@@ -20,7 +20,36 @@ export default function HeroSection() {
   const { t } = useLocale();
 
   return (
-    <section className="relative min-h-screen overflow-hidden w-full max-w-[100vw]">
+    <section className="relative isolate min-h-screen overflow-hidden w-full max-w-[100vw]">
+      {/* Mosaic / checkerboard background */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10"
+        style={{
+          backgroundImage:
+            "repeating-conic-gradient(rgba(255,255,255,0.015) 0% 25%, transparent 0% 50%)",
+          backgroundSize: "48px 48px",
+        }}
+      />
+      {/* Subtle center glow */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10"
+        style={{
+          background:
+            "radial-gradient(ellipse 65% 55% at 50% 45%, rgba(139,92,246,0.07) 0%, transparent 70%)",
+        }}
+      />
+      {/* Edge fade */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10"
+        style={{
+          background:
+            "linear-gradient(to bottom, #0a0a0b 0%, transparent 28%, transparent 68%, #0a0a0b 100%), linear-gradient(to right, #0a0a0b 0%, transparent 15%, transparent 85%, #0a0a0b 100%)",
+        }}
+      />
+
       {/* Content */}
       <div className="container-main relative flex min-h-screen flex-col items-center justify-center pb-16 pt-[calc(72px+2rem)]">
         <div className="w-full max-w-3xl text-center">
@@ -31,9 +60,25 @@ export default function HeroSection() {
             animate="visible"
             custom={0}
           >
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 text-[12px] text-white/70 backdrop-blur-sm sm:gap-2.5 sm:px-4 sm:text-[13px]">
-              <span className="h-2 w-2 flex-shrink-0 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]" />
-              <span className="text-center">{t.hero.badge}</span>
+            <span className="inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.04] px-1.5 py-1 text-[12px] text-white/65 backdrop-blur-sm sm:text-[13px]">
+              <span className="rounded-full bg-[#8b5cf6] px-2.5 py-0.5 text-[11px] font-semibold text-white shadow-[0_0_10px_rgba(139,92,246,0.5)] sm:text-[12px]">
+                Nuevo
+              </span>
+              <span className="pr-1">{t.hero.badge}</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="13"
+                height="13"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="mr-1 opacity-60"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
             </span>
           </motion.div>
 
