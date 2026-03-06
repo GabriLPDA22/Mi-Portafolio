@@ -137,7 +137,7 @@ function MobileCarousel() {
         <motion.div
           initial={{ opacity: 1 }}
           animate={{ opacity: hasScrolled ? 0 : 1 }}
-          className="mb-4 flex items-center gap-2 px-5 text-[12px] text-white/40"
+          className="mb-4 flex items-center gap-2 px-5 text-[12px] text-white/60"
         >
           <span>Desliza →</span>
         </motion.div>

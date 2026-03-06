@@ -92,7 +92,7 @@ export default function PricingSection() {
                 </div>
 
                 {/* Description */}
-                <p className="mb-5 text-[13px] leading-relaxed text-white/45 border-b border-white/[0.06] pb-5">
+                <p className="mb-5 text-[13px] leading-relaxed text-white/60 border-b border-white/[0.06] pb-5">
                   {item.description}
                 </p>
 

@@ -132,7 +132,7 @@ export default function ResultsSection() {
           <h2 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
             {t.results.headline}
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/50 sm:text-lg">
+          <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/65 sm:text-lg">
             {t.results.subtitle}
           </p>
         </motion.div>

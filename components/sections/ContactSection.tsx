@@ -164,7 +164,7 @@ export default function ContactSection() {
           <h2 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
             {t.contact.headline}
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/50 sm:text-lg">
+          <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/65 sm:text-lg">
             {t.contact.subtitle}
           </p>
 
@@ -198,7 +198,7 @@ export default function ContactSection() {
             <h3 className="mb-4 text-xl font-semibold text-white">
               {t.contact.form.title}
             </h3>
-            <p className="mb-6 text-[15px] leading-relaxed text-white/50">
+            <p className="mb-6 text-[15px] leading-relaxed text-white/65">
               {t.contact.form.description}
             </p>
 
@@ -211,7 +211,7 @@ export default function ContactSection() {
                   {t.contact.form.includesItems.map((item, i) => (
                     <li
                       key={i}
-                      className="flex items-center gap-2 text-[13px] text-white/50"
+                      className="flex items-center gap-2 text-[13px] text-white/65"
                     >
                       <CheckCircle className="h-3.5 w-3.5 text-emerald-400" />
                       {item}
@@ -287,7 +287,7 @@ export default function ContactSection() {
                   <h3 className="mb-2 text-xl font-semibold text-white">
                     {t.contact.form.success.title}
                   </h3>
-                  <p className="text-[15px] text-white/50">
+                  <p className="text-[15px] text-white/65">
                     {t.contact.form.success.message}
                   </p>
                   <button

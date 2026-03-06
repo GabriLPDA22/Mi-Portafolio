@@ -432,7 +432,7 @@ function BentoCard({
             {service.chips.map((chip) => (
               <span
                 key={chip}
-                className="rounded-md border border-white/[0.07] bg-white/[0.04] px-2 py-0.5 text-[10px] font-medium text-white/45"
+                className="rounded-md border border-white/[0.07] bg-white/[0.04] px-2 py-0.5 text-[10px] font-medium text-white/60"
               >
                 {chip}
               </span>
@@ -538,7 +538,7 @@ function MobileCarousel({ services }: { services: Service[] }) {
                   {service.chips.map((chip) => (
                     <span
                       key={chip}
-                      className="rounded-md border border-white/[0.07] bg-white/[0.04] px-2.5 py-1 text-[11px] font-medium text-white/45"
+                      className="rounded-md border border-white/[0.07] bg-white/[0.04] px-2.5 py-1 text-[11px] font-medium text-white/60"
                     >
                       {chip}
                     </span>

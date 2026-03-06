@@ -63,9 +63,9 @@ export default function Header() {
               <Image
                 src="/img/logo_gabriel_saiz_violet.webp"
                 alt="Gabriel Saiz — Desarrollador Full-Stack freelance especializado en React Native y Next.js"
-                width={40}
+                width={48}
                 height={40}
-                className="transition-all duration-300 group-hover:scale-105 sm:w-11 sm:h-11"
+                className="transition-all duration-300 group-hover:scale-105 sm:w-[53px] sm:h-[44px]"
                 priority
               />
             </a>

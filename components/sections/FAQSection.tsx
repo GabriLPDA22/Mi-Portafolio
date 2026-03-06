@@ -105,7 +105,7 @@ function AccordionItem({
             transition={{ duration: 0.3, ease: [0.25, 0.4, 0.25, 1] }}
             className="overflow-hidden"
           >
-            <p className="pb-5 pr-10 text-[14px] leading-relaxed text-white/50 sm:text-[15px]">
+            <p className="pb-5 pr-10 text-[14px] leading-relaxed text-white/65 sm:text-[15px]">
               {item.answer}
             </p>
           </motion.div>
@@ -190,7 +190,7 @@ export default function FAQSection() {
           <h2 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
             {t.faq.headline}
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/50 sm:text-lg">
+          <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/65 sm:text-lg">
             {t.faq.subtitle}
             escríbeme.
           </p>

@@ -105,7 +105,7 @@ export default function HeroSection() {
 
           {/* Proof line */}
           <p
-            className="hero-fade-in mt-14 text-[13px] tracking-wide text-white/35"
+            className="hero-fade-in mt-14 text-[13px] tracking-wide text-white/55"
             style={{ animationDelay: "400ms" }}
           >
             {t.hero.proof}

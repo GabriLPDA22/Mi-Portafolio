@@ -172,7 +172,7 @@ function ProjectContent({ project }: { project: Project }) {
             {project.chips.slice(0, 6).map((chip) => (
               <span
                 key={chip}
-                className="rounded-md border border-white/[0.06] bg-white/[0.03] px-2 py-0.5 text-[10px] font-medium text-white/45"
+                className="rounded-md border border-white/[0.06] bg-white/[0.03] px-2 py-0.5 text-[10px] font-medium text-white/60"
               >
                 {chip}
               </span>
@@ -281,7 +281,7 @@ function MobileProjectCard({ project, priority = false }: { project: Project; pr
           {project.chips.slice(0, 6).map((chip) => (
             <span
               key={chip}
-              className="rounded-md border border-white/[0.06] bg-white/[0.03] px-2 py-0.5 text-[10px] font-medium text-white/45"
+              className="rounded-md border border-white/[0.06] bg-white/[0.03] px-2 py-0.5 text-[10px] font-medium text-white/60"
             >
               {chip}
             </span>
