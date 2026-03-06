@@ -1,15 +1,30 @@
+import dynamic from "next/dynamic";
 import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
 import HeroSection from "@/components/sections/HeroSection";
-import TechCarousel from "@/components/ui/TechCarousel";
-import ServicesSection from "@/components/sections/ServicesSection";
-import PricingSection from "@/components/sections/PricingSection";
-import FeaturedProjects from "@/components/sections/FeaturedProjects";
-import AboutSection from "@/components/sections/AboutSection";
-import ResultsSection from "@/components/sections/ResultsSection";
-import FAQSection from "@/components/sections/FAQSection";
-import ContactSection from "@/components/sections/ContactSection";
-import ScrollToTop from "@/components/ui/ScrollToTop";
+
+// Secciones bajo el fold — cargadas en chunks separados para reducir TBT móvil
+const TechCarousel = dynamic(() => import("@/components/ui/TechCarousel"));
+const ServicesSection = dynamic(
+  () => import("@/components/sections/ServicesSection")
+);
+const PricingSection = dynamic(
+  () => import("@/components/sections/PricingSection")
+);
+const FeaturedProjects = dynamic(
+  () => import("@/components/sections/FeaturedProjects")
+);
+const AboutSection = dynamic(
+  () => import("@/components/sections/AboutSection")
+);
+const ResultsSection = dynamic(
+  () => import("@/components/sections/ResultsSection")
+);
+const FAQSection = dynamic(() => import("@/components/sections/FAQSection"));
+const ContactSection = dynamic(
+  () => import("@/components/sections/ContactSection")
+);
+const Footer = dynamic(() => import("@/components/layout/Footer"));
+const ScrollToTop = dynamic(() => import("@/components/ui/ScrollToTop"));
 
 export default function Home() {
   // Structured Data (JSON-LD) para SEO

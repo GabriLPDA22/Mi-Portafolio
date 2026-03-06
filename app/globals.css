@@ -422,6 +422,15 @@ button:focus-visible {
   }
 }
 
+/* LanguageToggle fade — reemplaza framer-motion para no incluirlo en el bundle inicial */
+@keyframes fadeLocale {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-locale {
+  animation: fadeLocale 0.2s ease both;
+}
+
 /* ============================================
    MOBILE PERFORMANCE: reduce GPU-heavy effects
    ============================================ */

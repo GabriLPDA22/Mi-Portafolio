@@ -2,7 +2,6 @@
 
 import { useLocale } from '@/contexts/LocaleContext';
 import { Languages } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 
 export default function LanguageToggle() {
   const { locale, setLocale } = useLocale();
@@ -19,18 +18,12 @@ export default function LanguageToggle() {
       title={`Change to ${locale === 'es' ? 'English' : 'Español'}`}
     >
       <Languages className="h-3 w-3 flex-shrink-0 sm:h-3.5 sm:w-3.5" strokeWidth={1.5} />
-      <AnimatePresence mode="wait">
-        <motion.span
-          key={locale}
-          initial={{ opacity: 0, y: -4 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 4 }}
-          transition={{ duration: 0.2 }}
-          className="uppercase tracking-wide whitespace-nowrap"
-        >
-          {locale}
-        </motion.span>
-      </AnimatePresence>
+      <span
+        key={locale}
+        className="animate-fade-locale uppercase tracking-wide whitespace-nowrap"
+      >
+        {locale}
+      </span>
     </button>
   );
 }

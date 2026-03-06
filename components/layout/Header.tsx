@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useLocale } from "@/contexts/LocaleContext";
 import LanguageToggle from "@/components/ui/LanguageToggle";
@@ -118,55 +117,37 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Mobile Menu Fullscreen */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-30 bg-[var(--bg-primary)] md:hidden pt-[90px]"
-          >
-            {/* Nav links - el botón X ya está en el header principal */}
-            <nav className="container-main mt-8">
-              <motion.ul
-                initial="closed"
-                animate="open"
-                exit="closed"
-                variants={{
-                  open: {
-                    transition: { staggerChildren: 0.06, delayChildren: 0.1 },
-                  },
-                  closed: {
-                    transition: { staggerChildren: 0.04, staggerDirection: -1 },
-                  },
-                }}
-                className="flex flex-col items-end gap-3"
+      {/* Mobile Menu Fullscreen — animado con CSS para no incluir framer-motion en el bundle inicial */}
+      <div
+        className={`fixed inset-0 z-30 bg-[var(--bg-primary)] pt-[90px] md:hidden transition-opacity duration-300 ${
+          isMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+        aria-hidden={!isMenuOpen}
+      >
+        <nav className="container-main mt-8">
+          <ul className="flex flex-col items-end gap-3">
+            {NAV_ITEMS.map((item, i) => (
+              <li
+                key={item.href}
+                className={`transition-all duration-300 ${
+                  isMenuOpen
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 translate-x-8"
+                }`}
+                style={{ transitionDelay: isMenuOpen ? `${i * 60 + 100}ms` : "0ms" }}
               >
-                {NAV_ITEMS.map((item) => (
-                  <motion.li
-                    key={item.href}
-                    variants={{
-                      open: { opacity: 1, x: 0 },
-                      closed: { opacity: 0, x: 30 },
-                    }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <a
-                      href={item.href}
-                      onClick={closeMenu}
-                      className="block font-display text-4xl font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]"
-                    >
-                      {item.label}
-                    </a>
-                  </motion.li>
-                ))}
-              </motion.ul>
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                <a
+                  href={item.href}
+                  onClick={closeMenu}
+                  className="block font-display text-4xl font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
     </>
   );
 }
