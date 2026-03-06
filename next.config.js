@@ -4,6 +4,12 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  // Comprimir assets de texto
+  compress: true,
+  // Minimizar polyfills para navegadores modernos
+  experimental: {
+    optimizePackageImports: ["lucide-react", "framer-motion"],
+  },
 };
 
 module.exports = nextConfig;

@@ -5,6 +5,7 @@ export const translations = {
     // Header
     nav: {
       services: 'Servicios',
+      pricing: 'Tarifas',
       projects: 'Proyectos',
       process: 'Proceso',
       about: 'Sobre mí',
@@ -13,12 +14,13 @@ export const translations = {
     // Hero
     hero: {
       badge: 'Disponible para nuevos proyectos',
-      title: 'Transformo ideas en',
-      titleAccent: 'productos digitales',
-      subtitle: 'Full Stack Developer especializado en crear aplicaciones web y móviles de alto rendimiento. De la idea al producto en semanas, no meses.',
+      name: 'Gabriel Saiz',
+      title: 'Desarrollador freelance',
+      titleAccent: 'Full-Stack',
+      subtitle: 'Desarrollador móvil freelance especializado en React Native, Next.js y .NET. Creo apps iOS/Android, webs y dashboards de principio a fin. De la idea al producto en semanas, no meses.',
       ctaPrimary: 'Reservar llamada',
       ctaSecondary: 'Ver proyectos',
-      proof: 'Respuesta <24h · Entregas iterativas · Código mantenible',
+      proof: 'Respuesta <24h · Consulta inicial gratis · Presupuesto sin compromiso',
     },
     // Services
     services: {
@@ -136,7 +138,7 @@ export const translations = {
             'SEO técnico avanzado',
             'Formularios de contacto',
           ],
-          chips: ['Next.js', 'Tailwind', 'SEO', 'Performance', 'UI/UX'],
+          chips: ['HTML', 'CSS', 'JavaScript', 'SEO', 'UI/UX'],
           cta: 'Ver sitio web',
         },
       ],
@@ -152,6 +154,80 @@ export const translations = {
         'Comunicación clara y entregas continuas',
       ],
       cta: 'Contactar',
+    },
+    // Pricing
+    pricing: {
+      title: 'TARIFAS',
+      headline: 'Precios claros, sin sorpresas',
+      subtitle: 'Cada proyecto es diferente. Estas son las tarifas orientativas de desarrollador freelance full-stack.',
+      note: '* Precios orientativos. El presupuesto final depende del alcance. Primera consulta siempre gratis.',
+      cta: 'Solicitar presupuesto gratuito',
+      items: [
+        {
+          id: 'mobile',
+          name: 'App Móvil',
+          price: 'Desde 2.500€',
+          period: 'proyecto',
+          description: 'Aplicación iOS y Android con React Native. Incluye diseño, desarrollo y publicación en stores.',
+          features: [
+            'iOS + Android (una sola base de código)',
+            'Diseño UI/UX incluido',
+            'Integración con tu backend o API propia',
+            'Publicación en App Store y Play Store',
+            '1 mes de soporte post-lanzamiento',
+          ],
+          highlight: false,
+          badge: '',
+        },
+        {
+          id: 'web',
+          name: 'Web / Dashboard',
+          price: 'Desde 1.500€',
+          period: 'proyecto',
+          description: 'Web corporativa, landing page o panel de administración con Next.js. Rápida, optimizada para SEO y mobile-first.',
+          features: [
+            'Diseño moderno y responsive',
+            'SEO técnico desde el primer día',
+            'Core Web Vitals optimizados',
+            'CMS o panel de gestión incluido',
+            '1 mes de soporte post-lanzamiento',
+          ],
+          highlight: true,
+          badge: 'Más solicitado',
+        },
+        {
+          id: 'fullstack',
+          name: 'Proyecto Full-Stack',
+          price: 'Desde 4.500€',
+          period: 'proyecto',
+          description: 'Solución completa: app móvil + web + backend + API. Todo desarrollado y coordinado por un solo profesional.',
+          features: [
+            'App móvil iOS/Android',
+            'Panel web o dashboard',
+            'Backend y API REST',
+            'Base de datos y cloud',
+            'Documentación y mantenimiento',
+          ],
+          highlight: false,
+          badge: '',
+        },
+        {
+          id: 'maintenance',
+          name: 'Mantenimiento',
+          price: 'Desde 300€',
+          period: 'mes',
+          description: 'Mantenimiento y evolución continua de tu producto. Actualizaciones, mejoras y soporte prioritario.',
+          features: [
+            'Actualizaciones de seguridad',
+            'Nuevas features mensuales',
+            'Soporte prioritario <24h',
+            'Monitorización y alertas',
+            'Informes mensuales de estado',
+          ],
+          highlight: false,
+          badge: '',
+        },
+      ],
     },
     // Results
     results: {
@@ -421,6 +497,7 @@ export const translations = {
     // Header
     nav: {
       services: 'Services',
+      pricing: 'Rates',
       projects: 'Projects',
       process: 'Process',
       about: 'About',
@@ -429,12 +506,13 @@ export const translations = {
     // Hero
     hero: {
       badge: 'Available for new projects',
-      title: 'I transform ideas into',
-      titleAccent: 'digital products',
-      subtitle: 'Full Stack Developer specialized in creating high-performance web and mobile applications. From idea to product in weeks, not months.',
+      name: 'Gabriel Saiz',
+      title: 'Freelance',
+      titleAccent: 'Full-Stack Developer',
+      subtitle: 'Freelance mobile developer specialized in React Native, Next.js and .NET. I build iOS/Android apps, webs and dashboards end-to-end. From idea to product in weeks, not months.',
       ctaPrimary: 'Book a call',
       ctaSecondary: 'View projects',
-      proof: 'Response <24h · Iterative deliveries · Maintainable code',
+      proof: 'Response <24h · Free first consultation · No commitment quote',
     },
     // Services
     services: {
@@ -552,7 +630,7 @@ export const translations = {
             'Advanced technical SEO',
             'Contact forms',
           ],
-          chips: ['Next.js', 'Tailwind', 'SEO', 'Performance', 'UI/UX'],
+          chips: ['HTML', 'CSS', 'JavaScript', 'SEO', 'UI/UX'],
           cta: 'View website',
         },
       ],
@@ -568,6 +646,80 @@ export const translations = {
         'Clear communication and continuous deliveries',
       ],
       cta: 'Contact',
+    },
+    // Pricing
+    pricing: {
+      title: 'RATES',
+      headline: 'Clear prices, no surprises',
+      subtitle: 'Every project is different. These are indicative freelance full-stack developer rates.',
+      note: '* Indicative prices. Final quote depends on scope. First consultation always free.',
+      cta: 'Get a free quote',
+      items: [
+        {
+          id: 'mobile',
+          name: 'Mobile App',
+          price: 'From €2,500',
+          period: 'project',
+          description: 'iOS and Android app with React Native. Includes design, development and store submission.',
+          features: [
+            'iOS + Android (single codebase)',
+            'UI/UX design included',
+            'Backend or API integration',
+            'App Store & Play Store submission',
+            '1 month post-launch support',
+          ],
+          highlight: false,
+          badge: '',
+        },
+        {
+          id: 'web',
+          name: 'Web / Dashboard',
+          price: 'From €1,500',
+          period: 'project',
+          description: 'Corporate website, landing page or admin panel with Next.js. Fast, SEO-optimized and mobile-first.',
+          features: [
+            'Modern responsive design',
+            'Technical SEO from day one',
+            'Core Web Vitals optimized',
+            'CMS or management panel',
+            '1 month post-launch support',
+          ],
+          highlight: true,
+          badge: 'Most requested',
+        },
+        {
+          id: 'fullstack',
+          name: 'Full-Stack Project',
+          price: 'From €4,500',
+          period: 'project',
+          description: 'Complete solution: mobile app + web + backend + API. All developed and coordinated by one professional.',
+          features: [
+            'iOS/Android mobile app',
+            'Web panel or dashboard',
+            'Backend and REST API',
+            'Database and cloud setup',
+            'Documentation and maintenance',
+          ],
+          highlight: false,
+          badge: '',
+        },
+        {
+          id: 'maintenance',
+          name: 'Maintenance',
+          price: 'From €300',
+          period: 'month',
+          description: 'Ongoing maintenance and evolution of your product. Updates, improvements and priority support.',
+          features: [
+            'Security updates',
+            'Monthly new features',
+            'Priority support <24h',
+            'Monitoring and alerts',
+            'Monthly status reports',
+          ],
+          highlight: false,
+          badge: '',
+        },
+      ],
     },
     // Results
     results: {

@@ -532,8 +532,8 @@ function MobileCarousel({ services }: { services: Service[] }) {
                 {service.description}
               </p>
 
-              {/* Footer: chips + next arrow — siempre al fondo */}
-              <div className="mt-auto flex items-end justify-between gap-3 pt-4">
+              {/* Footer: chips */}
+              <div className="mt-auto pt-4">
                 <div className="flex flex-wrap gap-1.5">
                   {service.chips.map((chip) => (
                     <span
@@ -544,17 +544,6 @@ function MobileCarousel({ services }: { services: Service[] }) {
                     </span>
                   ))}
                 </div>
-
-                {/* CTA arrow — next card button */}
-                <button
-                  onClick={next}
-                  aria-label="Next"
-                  className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-[#8b5cf6] text-white shadow-[0_4px_20px_rgba(139,92,246,0.4)] transition-transform duration-150 active:scale-90"
-                >
-                  <svg className="h-4 w-4 translate-x-px" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
               </div>
             </div>
           </motion.div>
@@ -571,10 +560,10 @@ function MobileCarousel({ services }: { services: Service[] }) {
               onClick={() => goTo(i, i > current ? 1 : -1)}
               aria-label={`Go to service ${i + 1}`}
               className={[
-                "rounded-full transition-all duration-300",
+                "h-2 w-2 rounded-full transition-[background-color,opacity,transform] duration-300",
                 i === current
-                  ? "h-2 w-5 bg-[#8b5cf6]"
-                  : "h-2 w-2 bg-white/20 hover:bg-white/35",
+                  ? "bg-[#8b5cf6] scale-x-[2.5] origin-center"
+                  : "bg-white/20",
               ].join(" ")}
             />
           ))}

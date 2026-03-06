@@ -68,6 +68,9 @@ export default function HeroSection() {
             className="hero-fade-in mt-8 font-display text-[clamp(2.5rem,8vw,4.5rem)] font-semibold leading-[1.08] tracking-[-0.02em] text-white"
             style={{ animationDelay: "100ms" }}
           >
+            <span className="block text-[clamp(1.1rem,3vw,1.6rem)] font-medium tracking-wide text-white/50 mb-2">
+              {t.hero.name}
+            </span>
             {t.hero.title}{" "}
             <span className="text-gradient">{t.hero.titleAccent}</span>
           </h1>

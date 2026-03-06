@@ -95,130 +95,110 @@ function ExternalLinkIcon({ className }: { className?: string }) {
 }
 
 /* ============================================
-   PROJECT CONTENT
+   PROJECT CONTENT (desktop vertical layout)
    ============================================ */
-function ProjectContent({
-  project,
-  isMobile = false,
-}: {
-  project: Project;
-  isMobile?: boolean;
-}) {
+function ProjectContent({ project }: { project: Project }) {
   return (
-    <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] sm:backdrop-blur-xl transition-all duration-300 hover:border-white/[0.12] hover:bg-white/[0.04] hover:shadow-lg hover:shadow-[#8b5cf6]/10 lg:min-h-[360px]">
-      <div className="relative z-10 flex h-full flex-col lg:flex-row">
-        {/* Image Section */}
-        <div
-          className={`relative flex items-center justify-center ${
-            project.image.type === "mockup"
-              ? "p-6 sm:p-8 lg:w-[42%] lg:p-10"
-              : "lg:w-[42%]"
-          }`}
-        >
-          {project.image.type === "mockup" ? (
-            <>
-              {/* Glow behind mockup */}
-              <div className="pointer-events-none absolute inset-0 hidden items-center justify-center sm:flex">
-                <div className="h-[280px] w-[180px] rounded-full bg-[#8b5cf6]/10 blur-[60px]" />
-              </div>
-              {/* Mockup */}
-              <div className="relative z-10 w-[180px] sm:w-[200px] lg:w-[220px]">
-                <Image
-                  src={project.image.src}
-                  alt={project.image.alt}
-                  width={220}
-                  height={450}
-                  className="drop-shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]"
-                  sizes="(max-width: 640px) 180px, (max-width: 1024px) 200px, 220px"
-                />
-              </div>
-            </>
-          ) : (
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-2xl lg:absolute lg:inset-0 lg:aspect-auto lg:rounded-l-2xl lg:rounded-tr-none">
-              <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/30 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-black/20" />
+    <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] transition-all duration-300 hover:border-white/[0.12] hover:bg-white/[0.04] hover:shadow-lg hover:shadow-[#8b5cf6]/10">
+
+      {/* ── Image area — height fija para que ambas columnas arranquen igual ── */}
+      <div className="relative h-[240px] flex-shrink-0 overflow-hidden border-b border-white/[0.06] bg-white/[0.015]">
+        {project.image.type === "mockup" ? (
+          <>
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+              <div className="h-[240px] w-[180px] rounded-full bg-[#8b5cf6]/10 blur-[70px]" />
+            </div>
+            <div className="absolute inset-0 flex items-end justify-center">
               <Image
                 src={project.image.src}
                 alt={project.image.alt}
-                fill
-                className="object-cover brightness-[0.92] transition-transform duration-500 group-hover:scale-[1.02]"
-                sizes="(max-width: 1024px) 100vw, 42vw"
+                width={160}
+                height={327}
+                className="drop-shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]"
+                style={{ maxHeight: "230px", width: "auto", objectFit: "contain" }}
+                sizes="50vw"
               />
-              {/* Badge on photo */}
-              <div className="absolute bottom-4 left-4 z-20">
-                <span className="inline-flex items-center gap-2 rounded-full bg-black/50 px-3 py-1.5 text-[11px] font-medium text-white backdrop-blur-md">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.6)]" />
-                  En producción · huvegrym.es
-                </span>
-              </div>
             </div>
-          )}
+          </>
+        ) : (
+          <>
+            <Image
+              src={project.image.src}
+              alt={project.image.alt}
+              fill
+              className="object-cover brightness-[0.85] transition-transform duration-500 group-hover:scale-[1.02]"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
+            <div className="absolute bottom-4 left-4 z-10">
+              <span className="inline-flex items-center gap-2 rounded-full bg-black/50 px-3 py-1.5 text-[11px] font-medium text-white backdrop-blur-md">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.6)]" />
+                En producción · huvegrym.es
+              </span>
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* ── Content ── */}
+      <div className="flex flex-1 flex-col p-6 sm:p-8">
+        {/* Badge + title */}
+        <div className="mb-4">
+          <span className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-emerald-400">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+            En producción
+          </span>
+          <h3 className="mt-2 font-display text-2xl font-semibold text-white sm:text-3xl">
+            {project.title}
+          </h3>
         </div>
 
-        {/* Content Section */}
-        <div className="flex flex-1 flex-col justify-start p-6 sm:p-8 lg:p-10">
-          {/* Header */}
-          <div className="mb-4">
-            <span className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-emerald-400">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              En producción
-            </span>
-            <h3 className="mt-2 font-display text-2xl font-semibold text-white sm:text-3xl">
-              {project.title}
-            </h3>
+        <p className="mb-1 text-[15px] text-white/60">{project.subtitle}</p>
+        <p className="mb-5 text-[13px] text-white/40">{project.description}</p>
+
+        {/* Bullets */}
+        <ul className="mb-6 space-y-2">
+          {project.bullets.slice(0, 4).map((bullet, i) => (
+            <li key={i} className="flex items-start gap-2.5 text-[13px] text-white/50">
+              <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-[#8b5cf6]/60" />
+              {bullet}
+            </li>
+          ))}
+        </ul>
+
+        {/* Chips + CTAs — pegados al fondo */}
+        <div className="mt-auto">
+          <div className="mb-4 flex flex-wrap gap-1.5">
+            {project.chips.slice(0, 6).map((chip) => (
+              <span
+                key={chip}
+                className="rounded-md border border-white/[0.06] bg-white/[0.03] px-2 py-0.5 text-[10px] font-medium text-white/45"
+              >
+                {chip}
+              </span>
+            ))}
           </div>
 
-          <p className="mb-1 text-[15px] text-white/60">{project.subtitle}</p>
-          <p className="mb-5 text-[13px] text-white/40">
-            {project.description}
-          </p>
-
-          {/* Bullets */}
-          <ul className="mb-6 space-y-2">
-            {project.bullets.slice(0, 4).map((bullet, i) => (
-              <li
-                key={i}
-                className="flex items-start gap-2.5 text-[13px] text-white/50"
-              >
-                <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-[#8b5cf6]/60" />
-                {bullet}
-              </li>
-            ))}
-          </ul>
-
-          {/* Chips + CTAs — siempre al fondo */}
-          <div className="mt-auto">
-            <div className="mb-4 flex flex-wrap gap-1.5">
-              {project.chips.slice(0, 6).map((chip) => (
-                <span
-                  key={chip}
-                  className="rounded-md border border-white/[0.06] bg-white/[0.03] px-2 py-0.5 text-[10px] font-medium text-white/45"
-                >
-                  {chip}
-                </span>
-              ))}
-            </div>
-
-            <div className="flex flex-wrap items-center gap-3">
-              <a
-                href={project.cta.href}
-                target={project.cta.external ? "_blank" : undefined}
-                rel={project.cta.external ? "noopener noreferrer" : undefined}
-                className="group/btn inline-flex h-10 items-center justify-center gap-1.5 rounded-lg bg-[#8b5cf6] px-5 text-[13px] font-semibold text-white transition-all duration-300 hover:bg-[#7c4fe4] hover:shadow-lg hover:shadow-[#8b5cf6]/25"
-              >
-                {project.cta.label}
-                {project.cta.external && (
-                  <ExternalLinkIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
-                )}
-              </a>
-              {project.secondaryCta && (
-                <a
-                  href={project.secondaryCta.href}
-                  className="inline-flex h-10 items-center justify-center rounded-lg border border-white/[0.1] px-5 text-[13px] font-medium text-white/70 transition-all duration-300 hover:border-white/[0.2] hover:bg-white/[0.03] hover:text-white"
-                >
-                  {project.secondaryCta.label}
-                </a>
+          <div className="flex flex-wrap items-center gap-3">
+            <a
+              href={project.cta.href}
+              target={project.cta.external ? "_blank" : undefined}
+              rel={project.cta.external ? "noopener noreferrer" : undefined}
+              className="group/btn inline-flex h-10 items-center justify-center gap-1.5 rounded-lg bg-[#8b5cf6] px-5 text-[13px] font-semibold text-white transition-all duration-300 hover:bg-[#7c4fe4] hover:shadow-lg hover:shadow-[#8b5cf6]/25"
+            >
+              {project.cta.label}
+              {project.cta.external && (
+                <ExternalLinkIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
               )}
-            </div>
+            </a>
+            {project.secondaryCta && (
+              <a
+                href={project.secondaryCta.href}
+                className="inline-flex h-10 items-center justify-center rounded-lg border border-white/[0.1] px-5 text-[13px] font-medium text-white/70 transition-all duration-300 hover:border-white/[0.2] hover:bg-white/[0.03] hover:text-white"
+              >
+                {project.secondaryCta.label}
+              </a>
+            )}
           </div>
         </div>
       </div>

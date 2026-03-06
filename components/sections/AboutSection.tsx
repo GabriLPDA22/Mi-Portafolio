@@ -85,7 +85,7 @@ function PhotoWithOverlayDesktop() {
             fill
             className="object-cover transition-all duration-300 ease-out group-hover:scale-[1.03] group-hover:rotate-[0.5deg]"
             sizes="(max-width: 1024px) 100vw, 400px"
-            priority
+            loading="lazy"
           />
 
           {/* Overlay - appears on hover */}
@@ -164,7 +164,7 @@ function PhotoWithOverlayMobile() {
             fill
             className="object-cover"
             sizes="100vw"
-            priority
+            loading="lazy"
           />
 
           {/* Overlay - appears on tap */}

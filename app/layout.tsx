@@ -23,19 +23,24 @@ const siteUrl = "https://gabrielcodes.dev";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Gabriel Saiz — Freelance Full-Stack Developer | Desarrollo Web y Apps Móviles",
+    default: "Gabriel Saiz — Desarrollador Freelance Full-Stack | Apps Móviles y Web",
     template: "%s | Gabriel Saiz",
   },
   description:
-    "Desarrollador Full-Stack freelance especializado en React Native, Next.js y .NET. Desarrollo de aplicaciones móviles iOS/Android, web apps y dashboards. Transformo ideas en productos digitales en producción. Consulta gratuita.",
+    "Desarrollador Full-Stack freelance especializado en React Native, Next.js y .NET. Apps móviles iOS/Android, webs y dashboards desde 2.500€. Presupuesto sin compromiso en 24h.",
   keywords: [
     // Primary keywords
-    "desarrollador full stack",
-    "freelance developer",
+    "desarrollador full stack freelance",
     "desarrollador freelance España",
-    "full stack developer",
-    "desarrollador React Native",
-    "desarrollador Next.js",
+    "desarrollador móvil freelance",
+    "full stack developer freelance",
+    "desarrollador React Native freelance",
+    "desarrollador Next.js freelance",
+    // Tarifas (keywords con impresiones)
+    "fullstack freelance tarifas",
+    "desarrollador freelance tarifas",
+    "precio desarrollador freelance",
+    "cuánto cuesta desarrollador freelance",
     // Technologies
     "React Native",
     "Next.js",
@@ -54,10 +59,7 @@ export const metadata: Metadata = {
     "web apps",
     "dashboards",
     "APIs REST",
-    // Long-tail keywords
-    "desarrollador full stack freelance",
-    "desarrollador React Native freelance",
-    "desarrollador Next.js freelance",
+    // Long-tail
     "crear app móvil",
     "desarrollo app iOS Android",
     "desarrollador .NET freelance",
@@ -65,6 +67,7 @@ export const metadata: Metadata = {
     "full stack developer España",
     "desarrollador freelance Zaragoza",
     "gabriel saiz",
+    "gabriel saiz desarrollador",
   ],
   authors: [{ name: "Gabriel Saiz" }],
   creator: "Gabriel Saiz",
@@ -85,9 +88,9 @@ export const metadata: Metadata = {
     locale: "es_ES",
     url: siteUrl,
     siteName: "Gabriel Saiz — Portfolio",
-    title: "Gabriel Saiz — Freelance Full-Stack Developer",
+    title: "Gabriel Saiz — Desarrollador Freelance Full-Stack | Apps Móviles y Web",
     description:
-      "Desarrollador Full-Stack freelance especializado en React Native, Next.js y .NET. Desarrollo de aplicaciones móviles, web apps y dashboards con foco en rendimiento.",
+      "Apps móviles iOS/Android, webs y dashboards hechos a medida. Especialista en React Native, Next.js y .NET. Presupuesto gratis en 24h.",
     images: [
       {
         url: `${siteUrl}/img/og-image.jpg`,
@@ -99,9 +102,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Gabriel Saiz — Freelance Full-Stack Developer",
+    title: "Gabriel Saiz — Desarrollador Freelance Full-Stack",
     description:
-      "Desarrollador Full-Stack freelance especializado en React Native, Next.js y .NET. Desarrollo de aplicaciones móviles y web apps.",
+      "Apps móviles iOS/Android, webs y dashboards a medida. React Native, Next.js y .NET. Presupuesto gratis en 24h.",
     images: [`${siteUrl}/img/og-image.jpg`],
   },
   alternates: {
@@ -109,13 +112,14 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/icon.png", type: "image/png" },
+      { url: "/icon.png", type: "image/png", sizes: "any" },
       { url: "/icon.png", type: "image/png", sizes: "32x32" },
       { url: "/icon.png", type: "image/png", sizes: "16x16" },
     ],
     apple: [
-      { url: "/icon.png", type: "image/png" },
+      { url: "/icon.png", type: "image/png", sizes: "180x180" },
     ],
+    shortcut: "/icon.png",
   },
   verification: {
     google: "tl7fbd-SUdovbuPNFSkybxDcu_TQs9maMuc0x9ar04c",
@@ -131,6 +135,10 @@ export default function RootLayout({
       className={`${outfit.variable} ${inter.variable} overflow-x-hidden`}
       suppressHydrationWarning
     >
+      <head>
+        <meta name="theme-color" content="#8b5cf6" />
+        <meta name="color-scheme" content="dark" />
+      </head>
       <body className="min-h-screen antialiased overflow-x-hidden max-w-[100vw]">
         <LocaleProvider>
           {children}

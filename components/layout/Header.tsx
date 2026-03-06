@@ -13,6 +13,7 @@ export default function Header() {
 
   const NAV_ITEMS = [
     { label: t.nav.services, href: "#servicios" },
+    { label: t.nav.pricing, href: "#tarifas" },
     { label: t.nav.projects, href: "#proyectos" },
     { label: t.nav.about, href: "#sobre-mi" },
     { label: t.nav.contact, href: "#contacto" },
@@ -60,7 +61,7 @@ export default function Header() {
               title="Gabriel Saiz — Full-Stack Developer"
             >
               <Image
-                src="/img/logo_gabriel_saiz_violet.png"
+                src="/img/logo_gabriel_saiz_violet.webp"
                 alt="Gabriel Saiz — Desarrollador Full-Stack freelance especializado en React Native y Next.js"
                 width={40}
                 height={40}
