@@ -9,6 +9,7 @@ export const translations = {
       projects: 'Proyectos',
       process: 'Proceso',
       about: 'Sobre mí',
+      comments: 'Comentarios',
       contact: 'Contacto',
     },
     // Hero
@@ -300,6 +301,21 @@ export const translations = {
         },
       },
     },
+    // Comments
+    comments: {
+      tag: 'Comentarios',
+      headline: 'Lo que dicen',
+      subtitle: 'Opiniones reales de personas reales.',
+      empty: 'Aún no hay comentarios. ¡Sé el primero!',
+      loginPrompt: 'Inicia sesión para comentar',
+      loginBtn: 'Continuar con Google',
+      logout: 'Cerrar sesión',
+      placeholder: '¿Qué te parece el portfolio?',
+      submit: 'Publicar',
+      submitting: 'Publicando...',
+      successTitle: '¡Comentario publicado!',
+      verified: '✓ Google',
+    },
     // Contact
     contact: {
       title: 'CONTACTO',
@@ -516,6 +532,7 @@ export const translations = {
       projects: 'Projects',
       process: 'Process',
       about: 'About',
+      comments: 'Comments',
       contact: 'Contact',
     },
     // Hero
@@ -806,6 +823,21 @@ export const translations = {
           a: 'We start with a call to understand your project. I send you a clear proposal with scope, timeline and budget. If it fits, we start with weekly iterations. Constant communication and regular deliveries.',
         },
       },
+    },
+    // Comments
+    comments: {
+      tag: 'Comments',
+      headline: 'What they say',
+      subtitle: 'Real opinions from real people.',
+      empty: 'No comments yet. Be the first!',
+      loginPrompt: 'Sign in to comment',
+      loginBtn: 'Continue with Google',
+      logout: 'Sign out',
+      placeholder: 'What do you think of the portfolio?',
+      submit: 'Publish',
+      submitting: 'Publishing...',
+      successTitle: 'Comment published!',
+      verified: '✓ Google',
     },
     // Contact
     contact: {

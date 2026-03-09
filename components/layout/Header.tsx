@@ -15,6 +15,7 @@ export default function Header() {
     { label: t.nav.pricing, href: "#tarifas" },
     { label: t.nav.projects, href: "#proyectos" },
     { label: t.nav.about, href: "#sobre-mi" },
+    { label: t.nav.comments, href: "#comentarios" },
     { label: t.nav.contact, href: "#contacto" },
   ];
 

@@ -23,6 +23,7 @@ const FAQSection = dynamic(() => import("@/components/sections/FAQSection"));
 const ContactSection = dynamic(
   () => import("@/components/sections/ContactSection")
 );
+const Comments = dynamic(() => import("@/components/sections/Comments"));
 const Footer = dynamic(() => import("@/components/layout/Footer"));
 const ScrollToTop = dynamic(() => import("@/components/ui/ScrollToTop"));
 
@@ -361,6 +362,9 @@ export default function Home() {
 
         {/* Pre-contact: FAQ */}
         <FAQSection />
+
+        {/* Comments */}
+        <Comments />
 
         {/* Contact */}
         <ContactSection />

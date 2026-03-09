@@ -1,0 +1,298 @@
+"use client";
+
+import { useEffect, useState, useTransition } from "react";
+import { createClient } from "@/lib/supabase/client";
+import { useLocale } from "@/contexts/LocaleContext";
+import type { User } from "@supabase/supabase-js";
+import { motion, AnimatePresence } from "framer-motion";
+
+interface Comment {
+  id: string;
+  user_name: string;
+  user_avatar: string | null;
+  message: string;
+  created_at: string;
+}
+
+const CAROUSEL_THRESHOLD = 5;
+
+function timeAgo(dateStr: string): string {
+  const diff = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
+  if (diff < 60) return "ahora mismo";
+  if (diff < 3600) return `hace ${Math.floor(diff / 60)} min`;
+  if (diff < 86400) return `hace ${Math.floor(diff / 3600)} h`;
+  if (diff < 604800) return `hace ${Math.floor(diff / 86400)} d`;
+  return new Date(dateStr).toLocaleDateString("es-ES", { day: "numeric", month: "short" });
+}
+
+function Avatar({ name, src, size = "md" }: { name: string; src: string | null; size?: "sm" | "md" }) {
+  const cls = size === "sm" ? "h-8 w-8 text-xs" : "h-10 w-10 text-sm";
+  if (src) {
+    return <img src={src} alt={name} className={`${cls} rounded-full object-cover ring-2 ring-white/10 flex-shrink-0`} referrerPolicy="no-referrer" />;
+  }
+  return (
+    <div className={`${cls} flex items-center justify-center rounded-full bg-gradient-to-br from-[#8b5cf6] to-[#6d28d9] font-bold text-white ring-2 ring-white/10 flex-shrink-0`}>
+      {name.charAt(0).toUpperCase()}
+    </div>
+  );
+}
+
+function CommentCard({ comment, index, verified }: { comment: Comment; index: number; verified: string }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.08, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      className="group relative flex flex-col gap-5 overflow-hidden rounded-2xl border border-white/[0.06] bg-[#111113] px-6 py-5 transition-all duration-300 hover:border-[#8b5cf6]/20 hover:bg-[#18181b]"
+    >
+      {/* Top accent line */}
+      <div className="absolute left-0 top-0 h-[2px] w-full bg-gradient-to-r from-[#8b5cf6]/0 via-[#8b5cf6]/40 to-[#8b5cf6]/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+      {/* Message */}
+      <p className="flex-1 text-[15px] leading-relaxed text-white/60">
+        {comment.message}
+      </p>
+
+      {/* Divider */}
+      <div className="h-px w-full bg-white/[0.05]" />
+
+      {/* Author */}
+      <div className="flex items-center gap-3">
+        <Avatar name={comment.user_name} src={comment.user_avatar} size="sm" />
+        <div className="min-w-0 flex-1">
+          <p className="text-sm font-semibold text-white/80">{comment.user_name}</p>
+          <p className="text-[11px] text-white/30">{timeAgo(comment.created_at)}</p>
+        </div>
+        <span className="text-[10px] font-medium tracking-wide text-[#8b5cf6]/50">{tc.verified}</span>
+      </div>
+    </motion.div>
+  );
+}
+
+function MarqueeTrack({ comments, verified }: { comments: Comment[]; verified: string }) {
+  const items = [...comments, ...comments];
+  return (
+    <div
+      className="relative overflow-hidden"
+      style={{
+        maskImage: "linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)",
+        WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)",
+      }}
+    >
+      <div className="flex gap-4 animate-marquee w-max py-2">
+        {items.map((c, i) => (
+          <div key={`${c.id}-${i}`} className="w-64 sm:w-72 flex-shrink-0 flex flex-col gap-4 rounded-2xl border border-white/[0.06] bg-[#111113] px-5 py-5">
+            <p className="text-sm leading-relaxed text-white/60 line-clamp-3">{c.message}</p>
+            <div className="h-px w-full bg-white/[0.05]" />
+            <div className="flex items-center gap-2.5">
+              <Avatar name={c.user_name} src={c.user_avatar} size="sm" />
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold text-white/80">{c.user_name}</p>
+                <p className="text-[11px] text-white/30">{timeAgo(c.created_at)}</p>
+              </div>
+              <span className="text-[10px] text-[#8b5cf6]/50">{verified}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default function Comments() {
+  const supabase = createClient();
+  const { t } = useLocale();
+  const tc = t.comments;
+  const [user, setUser] = useState<User | null>(null);
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [message, setMessage] = useState("");
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    const init = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+      await loadComments();
+      setLoading(false);
+    };
+    init();
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
+      setUser(session?.user ?? null);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
+  async function loadComments() {
+    const { data } = await supabase
+      .from("comments")
+      .select("*")
+      .order("created_at", { ascending: false });
+    if (data) setComments(data);
+  }
+
+  async function handleLogin() {
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: `${window.location.origin}/auth/callback` },
+    });
+  }
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!message.trim() || !user) return;
+    setError(null);
+    startTransition(async () => {
+      const { error } = await supabase.from("comments").insert({
+        user_id: user.id,
+        user_name: user.user_metadata?.full_name ?? user.email ?? "Anónimo",
+        user_avatar: user.user_metadata?.avatar_url ?? null,
+        message: message.trim(),
+      });
+      if (error) {
+        setError("No se pudo enviar el comentario. Inténtalo de nuevo.");
+      } else {
+        setMessage("");
+        setSubmitted(true);
+        await loadComments();
+        setTimeout(() => setSubmitted(false), 3000);
+      }
+    });
+  }
+
+  const useCarousel = comments.length >= CAROUSEL_THRESHOLD;
+
+  return (
+    <section id="comentarios" className="relative py-24 md:py-32">
+      <div className="absolute top-0 left-1/2 h-px w-[60%] -translate-x-1/2 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+      <div className="mx-auto max-w-4xl px-6">
+        {/* Header */}
+        <div className="mb-14 text-center">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-[#8b5cf6]/70">
+            {tc.tag}
+          </p>
+          <h2 className="font-display text-3xl font-semibold text-white sm:text-4xl">
+            {tc.headline}
+          </h2>
+          <p className="mt-3 text-sm text-white/35">
+            {tc.subtitle}
+          </p>
+        </div>
+
+        {/* Comments display */}
+        {loading ? (
+          <div className="mb-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-36 animate-pulse rounded-2xl bg-white/[0.03]" />
+            ))}
+          </div>
+        ) : comments.length === 0 ? (
+          <p className="mb-14 text-center text-sm text-white/20">
+            {tc.empty}
+          </p>
+        ) : useCarousel ? (
+          <div className="mb-14">
+            <MarqueeTrack comments={comments} verified={tc.verified} />
+          </div>
+        ) : (
+          <div className={`mb-14 grid gap-4 ${
+            comments.length === 1
+              ? "grid-cols-1 max-w-sm mx-auto"
+              : comments.length === 2
+              ? "grid-cols-1 sm:grid-cols-2 max-w-2xl mx-auto"
+              : comments.length === 3
+              ? "grid-cols-1 sm:grid-cols-3"
+              : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-2"
+          }`}>
+            {comments.map((c, i) => (
+              <CommentCard key={c.id} comment={c} index={i} verified={tc.verified} />
+            ))}
+          </div>
+        )}
+
+        {/* Auth + Form */}
+        <div className="mx-auto max-w-lg">
+          <div className="mb-5 flex items-center justify-between rounded-2xl border border-white/[0.07] bg-white/[0.02] px-5 py-3.5">
+            {user ? (
+              <div className="flex items-center gap-3">
+                <Avatar name={user.user_metadata?.full_name ?? "U"} src={user.user_metadata?.avatar_url ?? null} size="sm" />
+                <span className="text-sm text-white/60">{user.user_metadata?.full_name ?? user.email}</span>
+              </div>
+            ) : (
+            <span className="text-sm text-white/35">{tc.loginPrompt}</span>
+          )}
+          {user ? (
+            <button
+              onClick={() => supabase.auth.signOut()}
+              className="cursor-pointer text-xs text-white/25 transition hover:text-white/50"
+            >
+              {tc.logout}
+            </button>
+          ) : (
+            <button
+              onClick={handleLogin}
+              className="flex cursor-pointer items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-medium text-white/80 transition hover:border-white/20 hover:bg-white/[0.07]"
+            >
+              <GoogleIcon />
+              {tc.loginBtn}
+            </button>
+          )}
+          </div>
+
+          {user && (
+            <AnimatePresence mode="wait">
+              {submitted ? (
+                <motion.div
+                  key="ok"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="flex flex-col items-center gap-2 rounded-2xl border border-emerald-500/20 bg-emerald-500/5 py-8 text-center"
+                >
+                  <span className="text-2xl">✓</span>
+                  <p className="text-sm font-medium text-emerald-400">{tc.successTitle}</p>
+                </motion.div>
+              ) : (
+                <motion.form key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} onSubmit={handleSubmit}>
+                  <textarea
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder={tc.placeholder}
+                    rows={3}
+                    maxLength={500}
+                    className="w-full resize-none rounded-2xl border border-white/[0.07] bg-white/[0.03] px-4 py-3.5 text-sm text-white/80 placeholder-white/20 outline-none transition focus:border-[#8b5cf6]/40 focus:ring-1 focus:ring-[#8b5cf6]/20"
+                  />
+                  <div className="mt-2.5 flex items-center justify-between">
+                    <span className="text-xs text-white/20">{message.length}/500</span>
+                    <button
+                      type="submit"
+                      disabled={isPending || !message.trim()}
+                      className="cursor-pointer rounded-xl bg-[#8b5cf6] px-5 py-2 text-sm font-medium text-white transition hover:bg-[#7c3aed] disabled:cursor-not-allowed disabled:opacity-40"
+                    >
+                      {isPending ? tc.submitting : tc.submit}
+                    </button>
+                  </div>
+                  {error && <p className="mt-2 text-xs text-red-400">{error}</p>}
+                </motion.form>
+              )}
+            </AnimatePresence>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function GoogleIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+    </svg>
+  );
+}

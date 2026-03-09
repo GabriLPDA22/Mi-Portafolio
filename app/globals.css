@@ -396,6 +396,32 @@ button:focus-visible {
 }
 
 /* ============================================
+   MARQUEE (Comments carousel)
+   ============================================ */
+@keyframes marquee {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+@media (max-width: 640px) {
+  .animate-marquee {
+    animation-duration: 20s;
+    will-change: auto;
+  }
+}
+
+/* ============================================
    HERO CSS ANIMATIONS (sin dependencia de JS)
    ============================================ */
 @keyframes heroFadeInUp {
