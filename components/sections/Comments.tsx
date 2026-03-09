@@ -63,7 +63,7 @@ function CommentCard({ comment, index, verified }: { comment: Comment; index: nu
           <p className="text-sm font-semibold text-white/80">{comment.user_name}</p>
           <p className="text-[11px] text-white/30">{timeAgo(comment.created_at)}</p>
         </div>
-        <span className="text-[10px] font-medium tracking-wide text-[#8b5cf6]/50">{tc.verified}</span>
+        <span className="text-[10px] font-medium tracking-wide text-[#8b5cf6]/50">{verified}</span>
       </div>
     </motion.div>
   );
