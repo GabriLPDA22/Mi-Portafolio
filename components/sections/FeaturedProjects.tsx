@@ -42,6 +42,11 @@ const projectImages: Record<string, { src: string; alt: string; type: "mockup" |
     alt: "Huvegrym - Sitio web de escuela de danza desarrollado con Next.js, optimizado para SEO y rendimiento",
     type: "photo",
   },
+  "tarot-divinidad": {
+    src: "/img/divinidad000.png",
+    alt: "Tarot Divinidad 000 - Web con sistema de reservas vía Calendly y WhatsApp desarrollada con Astro",
+    type: "photo",
+  },
 };
 
 // CTA href mapping (static URLs)
@@ -55,6 +60,10 @@ const projectCtaHrefs: Record<string, Record<string, string>> = {
   huvegrym: {
     "Ver sitio web": "https://huvegrym.es",
     "View website": "https://huvegrym.es",
+  },
+  "tarot-divinidad": {
+    "Ver sitio web": "https://divinidad000.com",
+    "View website": "https://divinidad000.com",
   },
 };
 
@@ -133,7 +142,7 @@ function ProjectContent({ project }: { project: Project }) {
             <div className="absolute bottom-4 left-4 z-10">
               <span className="inline-flex items-center gap-2 rounded-full bg-black/50 px-3 py-1.5 text-[11px] font-medium text-white backdrop-blur-md">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.6)]" />
-                En producción · huvegrym.es
+                En producción · {project.cta.href.replace(/^https?:\/\//, "")}
               </span>
             </div>
           </>
@@ -244,7 +253,7 @@ function MobileProjectCard({ project, priority = false }: { project: Project; pr
             <div className="absolute bottom-3 left-4">
               <span className="inline-flex items-center gap-2 rounded-full bg-black/50 px-3 py-1.5 text-[11px] font-medium text-white backdrop-blur-md">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.6)]" />
-                En producción · huvegrym.es
+                En producción · {project.cta.href.replace(/^https?:\/\//, "")}
               </span>
             </div>
           </>
