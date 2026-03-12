@@ -1,6 +1,34 @@
 @import "tailwindcss";
 
 /* ============================================
+   @property — non-inheriting CSS variables
+   Prevents style recalculation on child elements
+   ============================================ */
+@property --mouse-x {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 50%;
+}
+
+@property --mouse-y {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 50%;
+}
+
+@property --spotlight-x {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 50%;
+}
+
+@property --spotlight-y {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 50%;
+}
+
+/* ============================================
    GLOBAL OVERFLOW PREVENTION
    ============================================ */
 *,
@@ -394,6 +422,56 @@ button:focus-visible {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* ============================================
+   TECH CAROUSEL (TechCarousel marquee-scroll)
+   ============================================ */
+.marquee-track {
+  animation: marquee-scroll 120s linear infinite;
+}
+
+.marquee-container:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-16.666%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+/* ============================================
+   CUSTOM CURSOR — spotlight & cursor hiding
+   ============================================ */
+[data-spotlight] {
+  position: relative;
+  overflow: hidden;
+}
+
+[data-spotlight]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    400px circle at var(--spotlight-x, 50%) var(--spotlight-y, 50%),
+    rgba(139, 92, 246, 0.1),
+    transparent 50%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+[data-spotlight]:hover::before {
+  opacity: 1;
+}
+
 
 /* ============================================
    MARQUEE (Comments carousel)

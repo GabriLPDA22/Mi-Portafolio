@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { m, type Variants } from "framer-motion";
 import { Check } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 
@@ -31,7 +31,7 @@ export default function PricingSection() {
 
       <div className="container-main">
         {/* Header */}
-        <motion.div
+        <m.div
           variants={fadeInUp}
           initial="hidden"
           whileInView="visible"
@@ -47,12 +47,12 @@ export default function PricingSection() {
           <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/50 sm:text-lg">
             {t.pricing.subtitle}
           </p>
-        </motion.div>
+        </m.div>
 
         {/* Cards grid — subgrid en lg para alinear secciones entre tarjetas */}
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-4 lg:gap-y-0 lg:[grid-template-rows:auto_auto_1fr_auto]">
           {t.pricing.items.map((item, index) => (
-            <motion.div
+            <m.div
               key={item.id}
               variants={fadeInUp}
               initial="hidden"
@@ -128,12 +128,12 @@ export default function PricingSection() {
                   {t.pricing.cta}
                 </a>
               </div>
-            </motion.div>
+            </m.div>
           ))}
         </div>
 
         {/* Note */}
-        <motion.p
+        <m.p
           variants={fadeInUp}
           initial="hidden"
           whileInView="visible"
@@ -141,7 +141,7 @@ export default function PricingSection() {
           className="mt-8 text-center text-[12px] text-white/30"
         >
           {t.pricing.note}
-        </motion.p>
+        </m.p>
       </div>
     </section>
   );

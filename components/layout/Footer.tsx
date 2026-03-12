@@ -1,6 +1,7 @@
 "use client";
 
 import { Github, Linkedin, Instagram } from "lucide-react";
+import Link from "next/link";
 import { useLocale } from "@/contexts/LocaleContext";
 
 const socialLinks = [
@@ -34,12 +35,12 @@ export default function Footer() {
               © {new Date().getFullYear()} Gabriel Saiz. {t.footer.copyright}
             </p>
             <div className="flex gap-4 text-[12px] text-white/50">
-              <a href="/privacidad" className="hover:text-white transition-colors">
+              <Link href="/privacidad" className="hover:text-white transition-colors">
                 Política de Privacidad
-              </a>
-              <a href="/aviso-legal" className="hover:text-white transition-colors">
+              </Link>
+              <Link href="/aviso-legal" className="hover:text-white transition-colors">
                 Aviso Legal
-              </a>
+              </Link>
             </div>
           </div>
 

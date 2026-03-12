@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { m, type Variants } from "framer-motion";
 import Image from "next/image";
 import { useLocale } from "@/contexts/LocaleContext";
 
@@ -167,8 +167,8 @@ function ProjectContent({ project }: { project: Project }) {
 
         {/* Bullets */}
         <ul className="mb-6 space-y-2">
-          {project.bullets.slice(0, 4).map((bullet, i) => (
-            <li key={i} className="flex items-start gap-2.5 text-[13px] text-white/50">
+          {project.bullets.slice(0, 4).map((bullet) => (
+            <li key={bullet} className="flex items-start gap-2.5 text-[13px] text-white/50">
               <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-[#8b5cf6]/60" />
               {bullet}
             </li>
@@ -277,8 +277,8 @@ function MobileProjectCard({ project, priority = false }: { project: Project; pr
 
         {/* Bullets */}
         <ul className="mb-4 space-y-2">
-          {project.bullets.slice(0, 4).map((bullet, i) => (
-            <li key={i} className="flex items-start gap-2.5 text-[13px] text-white/50">
+          {project.bullets.slice(0, 4).map((bullet) => (
+            <li key={bullet} className="flex items-start gap-2.5 text-[13px] text-white/50">
               <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-[#8b5cf6]/60" />
               {bullet}
             </li>
@@ -331,7 +331,7 @@ function MobileStack({ projects }: { projects: Project[] }) {
   return (
     <div className="space-y-5 lg:hidden">
       {projects.map((project, index) => (
-        <motion.div
+        <m.div
           key={project.id}
           variants={fadeInUp}
           initial="hidden"
@@ -340,7 +340,7 @@ function MobileStack({ projects }: { projects: Project[] }) {
           transition={{ duration: 0.6, delay: index * 0.1, ease: [0.25, 0.4, 0.25, 1] }}
         >
           <MobileProjectCard project={project} priority={index === 0} />
-        </motion.div>
+        </m.div>
       ))}
     </div>
   );
@@ -353,7 +353,7 @@ function DesktopGrid({ projects }: { projects: Project[] }) {
   return (
     <div className="hidden lg:grid lg:grid-cols-2 lg:gap-6">
       {projects.map((project, index) => (
-        <motion.div
+        <m.div
           key={project.id}
           variants={fadeInUp}
           initial="hidden"
@@ -366,7 +366,7 @@ function DesktopGrid({ projects }: { projects: Project[] }) {
           }}
         >
           <ProjectContent project={project} />
-        </motion.div>
+        </m.div>
       ))}
     </div>
   );
@@ -411,7 +411,7 @@ export default function FeaturedProjects() {
     <section id="proyectos" className="relative py-24 sm:py-32">
       <div className="container-main">
         {/* Header */}
-        <motion.div
+        <m.div
           variants={fadeInUp}
           initial="hidden"
           whileInView="visible"
@@ -427,7 +427,7 @@ export default function FeaturedProjects() {
           <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/50 sm:text-lg">
             {t.projects.subtitle}
           </p>
-        </motion.div>
+        </m.div>
 
         {/* Mobile Stack */}
         <MobileStack projects={projects} />

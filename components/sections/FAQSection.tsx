@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence, type Variants } from "framer-motion";
+import { m, AnimatePresence, type Variants } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 
@@ -53,7 +53,7 @@ function AccordionItem({
   onToggle: () => void;
 }) {
   return (
-    <motion.div
+    <m.div
       variants={fadeInUp}
       className="border-b border-white/[0.06] last:border-b-0"
     >
@@ -83,7 +83,7 @@ function AccordionItem({
               : "bg-white/[0.05] text-white/40 group-hover:bg-white/[0.08] group-hover:text-white/60"
           }`}
         >
-          <motion.div
+          <m.div
             animate={{ rotate: isOpen ? 45 : 0 }}
             transition={{ duration: 0.2 }}
           >
@@ -92,13 +92,13 @@ function AccordionItem({
             ) : (
               <Plus className="h-3.5 w-3.5" strokeWidth={2} />
             )}
-          </motion.div>
+          </m.div>
         </span>
       </button>
 
       <AnimatePresence initial={false}>
         {isOpen && (
-          <motion.div
+          <m.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -108,10 +108,10 @@ function AccordionItem({
             <p className="pb-5 pr-10 text-[14px] leading-relaxed text-white/65 sm:text-[15px]">
               {item.answer}
             </p>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -177,7 +177,7 @@ export default function FAQSection() {
     <section id="faq" className="relative py-24 sm:py-32">
       <div className="container-main">
         {/* Header */}
-        <motion.div
+        <m.div
           variants={fadeInUp}
           initial="hidden"
           whileInView="visible"
@@ -194,12 +194,12 @@ export default function FAQSection() {
             {t.faq.subtitle}
             escríbeme.
           </p>
-        </motion.div>
+        </m.div>
 
         {/* FAQ Grid - 2 columns on desktop */}
         <div className="mx-auto max-w-4xl">
           {/* Mobile: Single column */}
-          <motion.div
+          <m.div
             variants={staggerContainer}
             initial="hidden"
             whileInView="visible"
@@ -214,12 +214,12 @@ export default function FAQSection() {
                 onToggle={() => toggleItem(item.id)}
               />
             ))}
-          </motion.div>
+          </m.div>
 
           {/* Desktop: Two columns */}
           <div className="hidden gap-6 lg:grid lg:grid-cols-2">
             {/* Left column */}
-            <motion.div
+            <m.div
               variants={staggerContainer}
               initial="hidden"
               whileInView="visible"
@@ -234,10 +234,10 @@ export default function FAQSection() {
                   onToggle={() => toggleItem(item.id)}
                 />
               ))}
-            </motion.div>
+            </m.div>
 
             {/* Right column */}
-            <motion.div
+            <m.div
               variants={staggerContainer}
               initial="hidden"
               whileInView="visible"
@@ -252,12 +252,12 @@ export default function FAQSection() {
                   onToggle={() => toggleItem(item.id)}
                 />
               ))}
-            </motion.div>
+            </m.div>
           </div>
         </div>
 
         {/* CTA */}
-        <motion.div
+        <m.div
           variants={fadeInUp}
           initial="hidden"
           whileInView="visible"
@@ -286,7 +286,7 @@ export default function FAQSection() {
               />
             </svg>
           </a>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

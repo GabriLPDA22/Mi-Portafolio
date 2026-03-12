@@ -154,8 +154,8 @@ function SubSection({ title, children }: { title: string; children: React.ReactN
 function BulletList({ items }: { items: readonly string[] }) {
   return (
     <ul className="mt-2 space-y-1.5">
-      {items.map((item, i) => (
-        <li key={i} className="flex items-start gap-2.5 text-[14px] text-white/55">
+      {items.map((item) => (
+        <li key={item} className="flex items-start gap-2.5 text-[14px] text-white/55">
           <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-[#8b5cf6]/60" />
           {item}
         </li>

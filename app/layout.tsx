@@ -3,7 +3,7 @@ import { Outfit, Inter } from "next/font/google";
 import "./globals.css";
 import { LocaleProvider } from "@/contexts/LocaleContext";
 import CookieBanner from "@/components/ui/CookieBanner";
-
+import { MotionProvider } from "@/components/providers/MotionProvider";
 const outfit = Outfit({
   subsets: ["latin"],
   display: "swap",
@@ -141,8 +141,10 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen antialiased overflow-x-hidden max-w-[100vw]">
         <LocaleProvider>
-          {children}
-          <CookieBanner />
+          <MotionProvider>
+            {children}
+            <CookieBanner />
+          </MotionProvider>
         </LocaleProvider>
       </body>
     </html>

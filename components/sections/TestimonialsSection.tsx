@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect, useCallback } from "react";
-import { motion, type Variants } from "framer-motion";
+import { m, type Variants } from "framer-motion";
 import { Quote } from "lucide-react";
 
 /* ============================================
@@ -106,7 +106,7 @@ function TestimonialCard({
     );
   }
 
-  return <motion.div variants={fadeInUp}>{content}</motion.div>;
+  return <m.div variants={fadeInUp}>{content}</m.div>;
 }
 
 /* ============================================
@@ -134,13 +134,13 @@ function MobileCarousel() {
     <div className="relative lg:hidden">
       {/* Hint - desaparece al hacer scroll */}
       {!hasScrolled && (
-        <motion.div
+        <m.div
           initial={{ opacity: 1 }}
           animate={{ opacity: hasScrolled ? 0 : 1 }}
           className="mb-4 flex items-center gap-2 px-5 text-[12px] text-white/60"
         >
           <span>Desliza →</span>
-        </motion.div>
+        </m.div>
       )}
 
       {/* Carousel */}
@@ -172,7 +172,7 @@ function MobileCarousel() {
    ============================================ */
 function DesktopGrid() {
   return (
-    <motion.div
+    <m.div
       variants={staggerContainer}
       initial="hidden"
       whileInView="visible"
@@ -182,7 +182,7 @@ function DesktopGrid() {
       {testimonials.map((testimonial) => (
         <TestimonialCard key={testimonial.id} testimonial={testimonial} />
       ))}
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -194,7 +194,7 @@ export default function TestimonialsSection() {
     <section id="testimonios" className="relative py-24 sm:py-32">
       <div className="container-main">
         {/* Header */}
-        <motion.div
+        <m.div
           variants={fadeInUp}
           initial="hidden"
           whileInView="visible"
@@ -210,7 +210,7 @@ export default function TestimonialsSection() {
           <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/50 sm:text-lg">
             Feedback de clientes y colaboraciones reales.
           </p>
-        </motion.div>
+        </m.div>
 
         {/* Mobile Carousel */}
         <MobileCarousel />

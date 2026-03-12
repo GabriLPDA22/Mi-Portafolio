@@ -1,17 +1,58 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useReducer, useTransition } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useLocale } from "@/contexts/LocaleContext";
 import type { User } from "@supabase/supabase-js";
-import { motion, AnimatePresence } from "framer-motion";
-
+import { m, AnimatePresence } from "framer-motion";
 interface Comment {
   id: string;
   user_name: string;
   user_avatar: string | null;
   message: string;
   created_at: string;
+}
+
+type CommentsState = {
+  user: User | null;
+  comments: Comment[];
+  message: string;
+  error: string | null;
+  loading: boolean;
+  submitted: boolean;
+};
+
+type CommentsAction =
+  | { type: "INIT_DONE"; user: User | null; comments: Comment[] }
+  | { type: "SET_USER"; user: User | null }
+  | { type: "SET_COMMENTS"; comments: Comment[] }
+  | { type: "SET_MESSAGE"; message: string }
+  | { type: "SET_ERROR"; error: string | null }
+  | { type: "SUBMIT_SUCCESS" }
+  | { type: "SUBMIT_ERROR"; error: string }
+  | { type: "RESET_SUBMITTED" };
+
+function commentsReducer(state: CommentsState, action: CommentsAction): CommentsState {
+  switch (action.type) {
+    case "INIT_DONE":
+      return { ...state, user: action.user, comments: action.comments, loading: false };
+    case "SET_USER":
+      return { ...state, user: action.user };
+    case "SET_COMMENTS":
+      return { ...state, comments: action.comments };
+    case "SET_MESSAGE":
+      return { ...state, message: action.message };
+    case "SET_ERROR":
+      return { ...state, error: action.error };
+    case "SUBMIT_SUCCESS":
+      return { ...state, message: "", submitted: true, error: null };
+    case "SUBMIT_ERROR":
+      return { ...state, error: action.error };
+    case "RESET_SUBMITTED":
+      return { ...state, submitted: false };
+    default:
+      return state;
+  }
 }
 
 const CAROUSEL_THRESHOLD = 5;
@@ -27,8 +68,19 @@ function timeAgo(dateStr: string): string {
 
 function Avatar({ name, src, size = "md" }: { name: string; src: string | null; size?: "sm" | "md" }) {
   const cls = size === "sm" ? "h-8 w-8 text-xs" : "h-10 w-10 text-sm";
+  const dim = size === "sm" ? 32 : 40;
   if (src) {
-    return <img src={src} alt={name} className={`${cls} rounded-full object-cover ring-2 ring-white/10 flex-shrink-0`} referrerPolicy="no-referrer" />;
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={src}
+        alt={name}
+        width={dim}
+        height={dim}
+        referrerPolicy="no-referrer"
+        className={`${cls} rounded-full object-cover ring-2 ring-white/10 flex-shrink-0`}
+      />
+    );
   }
   return (
     <div className={`${cls} flex items-center justify-center rounded-full bg-gradient-to-br from-[#8b5cf6] to-[#6d28d9] font-bold text-white ring-2 ring-white/10 flex-shrink-0`}>
@@ -39,7 +91,7 @@ function Avatar({ name, src, size = "md" }: { name: string; src: string | null; 
 
 function CommentCard({ comment, index, verified }: { comment: Comment; index: number; verified: string }) {
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.08, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
@@ -65,12 +117,15 @@ function CommentCard({ comment, index, verified }: { comment: Comment; index: nu
         </div>
         <span className="text-[10px] font-medium tracking-wide text-[#8b5cf6]/50">{verified}</span>
       </div>
-    </motion.div>
+    </m.div>
   );
 }
 
 function MarqueeTrack({ comments, verified }: { comments: Comment[]; verified: string }) {
-  const items = [...comments, ...comments];
+  const items = [
+    ...comments.map((c) => ({ ...c, _key: `orig-${c.id}` })),
+    ...comments.map((c) => ({ ...c, _key: `clone-${c.id}` })),
+  ];
   return (
     <div
       className="relative overflow-hidden"
@@ -80,8 +135,8 @@ function MarqueeTrack({ comments, verified }: { comments: Comment[]; verified: s
       }}
     >
       <div className="flex gap-4 animate-marquee w-max py-2">
-        {items.map((c, i) => (
-          <div key={`${c.id}-${i}`} className="w-64 sm:w-72 flex-shrink-0 flex flex-col gap-4 rounded-2xl border border-white/[0.06] bg-[#111113] px-5 py-5">
+        {items.map((c) => (
+          <div key={c._key} className="w-64 sm:w-72 flex-shrink-0 flex flex-col gap-4 rounded-2xl border border-white/[0.06] bg-[#111113] px-5 py-5">
             <p className="text-sm leading-relaxed text-white/60 line-clamp-3">{c.message}</p>
             <div className="h-px w-full bg-white/[0.05]" />
             <div className="flex items-center gap-2.5">
@@ -103,24 +158,28 @@ export default function Comments() {
   const supabase = createClient();
   const { t } = useLocale();
   const tc = t.comments;
-  const [user, setUser] = useState<User | null>(null);
-  const [comments, setComments] = useState<Comment[]>([]);
-  const [message, setMessage] = useState("");
   const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [submitted, setSubmitted] = useState(false);
+  const [state, dispatch] = useReducer(commentsReducer, {
+    user: null,
+    comments: [],
+    message: "",
+    error: null,
+    loading: true,
+    submitted: false,
+  });
 
   useEffect(() => {
     const init = async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
-      await loadComments();
-      setLoading(false);
+      const { data } = await supabase
+        .from("comments")
+        .select("*")
+        .order("created_at", { ascending: false });
+      dispatch({ type: "INIT_DONE", user, comments: data ?? [] });
     };
     init();
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
-      setUser(session?.user ?? null);
+      dispatch({ type: "SET_USER", user: session?.user ?? null });
     });
     return () => subscription.unsubscribe();
   }, []);
@@ -130,7 +189,7 @@ export default function Comments() {
       .from("comments")
       .select("*")
       .order("created_at", { ascending: false });
-    if (data) setComments(data);
+    if (data) dispatch({ type: "SET_COMMENTS", comments: data });
   }
 
   async function handleLogin() {
@@ -142,27 +201,26 @@ export default function Comments() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!message.trim() || !user) return;
-    setError(null);
+    if (!state.message.trim() || !state.user) return;
+    dispatch({ type: "SET_ERROR", error: null });
     startTransition(async () => {
       const { error } = await supabase.from("comments").insert({
-        user_id: user.id,
-        user_name: user.user_metadata?.full_name ?? user.email ?? "Anónimo",
-        user_avatar: user.user_metadata?.avatar_url ?? null,
-        message: message.trim(),
+        user_id: state.user!.id,
+        user_name: state.user!.user_metadata?.full_name ?? state.user!.email ?? "Anónimo",
+        user_avatar: state.user!.user_metadata?.avatar_url ?? null,
+        message: state.message.trim(),
       });
       if (error) {
-        setError("No se pudo enviar el comentario. Inténtalo de nuevo.");
+        dispatch({ type: "SUBMIT_ERROR", error: "No se pudo enviar el comentario. Inténtalo de nuevo." });
       } else {
-        setMessage("");
-        setSubmitted(true);
+        dispatch({ type: "SUBMIT_SUCCESS" });
         await loadComments();
-        setTimeout(() => setSubmitted(false), 3000);
+        setTimeout(() => dispatch({ type: "RESET_SUBMITTED" }), 3000);
       }
     });
   }
 
-  const useCarousel = comments.length >= CAROUSEL_THRESHOLD;
+  const useCarousel = state.comments.length >= CAROUSEL_THRESHOLD;
 
   return (
     <section id="comentarios" className="relative py-24 md:py-32">
@@ -183,31 +241,31 @@ export default function Comments() {
         </div>
 
         {/* Comments display */}
-        {loading ? (
+        {state.loading ? (
           <div className="mb-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="h-36 animate-pulse rounded-2xl bg-white/[0.03]" />
+            {[1, 2, 3].map((num) => (
+              <div key={num} className="h-36 animate-pulse rounded-2xl bg-white/[0.03]" />
             ))}
           </div>
-        ) : comments.length === 0 ? (
+        ) : state.comments.length === 0 ? (
           <p className="mb-14 text-center text-sm text-white/20">
             {tc.empty}
           </p>
         ) : useCarousel ? (
           <div className="mb-14">
-            <MarqueeTrack comments={comments} verified={tc.verified} />
+            <MarqueeTrack comments={state.comments} verified={tc.verified} />
           </div>
         ) : (
           <div className={`mb-14 grid gap-4 ${
-            comments.length === 1
+            state.comments.length === 1
               ? "grid-cols-1 max-w-sm mx-auto"
-              : comments.length === 2
+              : state.comments.length === 2
               ? "grid-cols-1 sm:grid-cols-2 max-w-2xl mx-auto"
-              : comments.length === 3
+              : state.comments.length === 3
               ? "grid-cols-1 sm:grid-cols-3"
               : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-2"
           }`}>
-            {comments.map((c, i) => (
+            {state.comments.map((c, i) => (
               <CommentCard key={c.id} comment={c} index={i} verified={tc.verified} />
             ))}
           </div>
@@ -216,15 +274,15 @@ export default function Comments() {
         {/* Auth + Form */}
         <div className="mx-auto max-w-lg">
           <div className="mb-5 flex items-center justify-between rounded-2xl border border-white/[0.07] bg-white/[0.02] px-5 py-3.5">
-            {user ? (
+            {state.user ? (
               <div className="flex items-center gap-3">
-                <Avatar name={user.user_metadata?.full_name ?? "U"} src={user.user_metadata?.avatar_url ?? null} size="sm" />
-                <span className="text-sm text-white/60">{user.user_metadata?.full_name ?? user.email}</span>
+                <Avatar name={state.user.user_metadata?.full_name ?? "U"} src={state.user.user_metadata?.avatar_url ?? null} size="sm" />
+                <span className="text-sm text-white/60">{state.user.user_metadata?.full_name ?? state.user.email}</span>
               </div>
             ) : (
             <span className="text-sm text-white/35">{tc.loginPrompt}</span>
           )}
-          {user ? (
+          {state.user ? (
             <button
               onClick={() => supabase.auth.signOut()}
               className="cursor-pointer text-xs text-white/25 transition hover:text-white/50"
@@ -242,10 +300,10 @@ export default function Comments() {
           )}
           </div>
 
-          {user && (
+          {state.user && (
             <AnimatePresence mode="wait">
-              {submitted ? (
-                <motion.div
+              {state.submitted ? (
+                <m.div
                   key="ok"
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -254,29 +312,29 @@ export default function Comments() {
                 >
                   <span className="text-2xl">✓</span>
                   <p className="text-sm font-medium text-emerald-400">{tc.successTitle}</p>
-                </motion.div>
+                </m.div>
               ) : (
-                <motion.form key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} onSubmit={handleSubmit}>
+                <m.form key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} onSubmit={handleSubmit}>
                   <textarea
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
+                    value={state.message}
+                    onChange={(e) => dispatch({ type: "SET_MESSAGE", message: e.target.value })}
                     placeholder={tc.placeholder}
                     rows={3}
                     maxLength={500}
                     className="w-full resize-none rounded-2xl border border-white/[0.07] bg-white/[0.03] px-4 py-3.5 text-sm text-white/80 placeholder-white/20 outline-none transition focus:border-[#8b5cf6]/40 focus:ring-1 focus:ring-[#8b5cf6]/20"
                   />
                   <div className="mt-2.5 flex items-center justify-between">
-                    <span className="text-xs text-white/20">{message.length}/500</span>
+                    <span className="text-xs text-white/20">{state.message.length}/500</span>
                     <button
                       type="submit"
-                      disabled={isPending || !message.trim()}
+                      disabled={isPending || !state.message.trim()}
                       className="cursor-pointer rounded-xl bg-[#8b5cf6] px-5 py-2 text-sm font-medium text-white transition hover:bg-[#7c3aed] disabled:cursor-not-allowed disabled:opacity-40"
                     >
                       {isPending ? tc.submitting : tc.submit}
                     </button>
                   </div>
-                  {error && <p className="mt-2 text-xs text-red-400">{error}</p>}
-                </motion.form>
+                  {state.error && <p className="mt-2 text-xs text-red-400">{state.error}</p>}
+                </m.form>
               )}
             </AnimatePresence>
           )}

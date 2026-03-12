@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
-import { motion, type Variants } from "framer-motion";
+import { m, type Variants } from "framer-motion";
 import { Linkedin, Github, Instagram, Mail, Check, Sparkles } from "lucide-react";
 import Image from "next/image";
 import { useLocale } from "@/contexts/LocaleContext";
@@ -97,8 +97,8 @@ function PhotoWithOverlayDesktop() {
             {/* Bullets */}
             <ul className="mb-4 space-y-2">
               {t.about.bullets.map((bullet, i) => (
-                <motion.li
-                  key={i}
+                <m.li
+                  key={bullet}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{
                     opacity: isHovered ? 1 : 0,
@@ -109,12 +109,12 @@ function PhotoWithOverlayDesktop() {
                 >
                   <Check className="h-3.5 w-3.5 flex-shrink-0 text-[#8b5cf6]" />
                   {bullet}
-                </motion.li>
+                </m.li>
               ))}
             </ul>
 
             {/* CTA */}
-            <motion.a
+            <m.a
               href="#contacto"
               initial={{ opacity: 0, y: 10 }}
               animate={{
@@ -126,7 +126,7 @@ function PhotoWithOverlayDesktop() {
             >
               <Mail className="h-3.5 w-3.5" />
               {t.about.cta}
-            </motion.a>
+            </m.a>
           </div>
         </div>
       </div>
@@ -153,7 +153,10 @@ function PhotoWithOverlayMobile() {
     <div ref={photoRef} className="relative">
       {/* Photo Container */}
       <div
+        role="button"
+        tabIndex={0}
         onClick={() => setIsOpen(!isOpen)}
+        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setIsOpen(!isOpen); } }}
         className="group relative cursor-pointer overflow-hidden rounded-[28px] border border-white/[0.08] bg-white/[0.02] p-1 shadow-lg transition-all duration-300 active:scale-[0.98]"
       >
         {/* Photo */}
@@ -175,9 +178,9 @@ function PhotoWithOverlayMobile() {
           >
             {/* Bullets */}
             <ul className="mb-4 space-y-2">
-              {t.about.bullets.map((bullet, i) => (
+              {t.about.bullets.map((bullet) => (
                 <li
-                  key={i}
+                  key={bullet}
                   className="flex items-center gap-2.5 text-[14px] text-white"
                 >
                   <Check className="h-3.5 w-3.5 flex-shrink-0 text-[#8b5cf6]" />
@@ -220,7 +223,7 @@ export default function AboutSection() {
     <section id="sobre-mi" className="relative py-24 sm:py-32">
       <div className="container-main">
         {/* Header */}
-        <motion.div
+        <m.div
           variants={fadeInUp}
           initial="hidden"
           whileInView="visible"
@@ -233,12 +236,12 @@ export default function AboutSection() {
           <h2 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
             {t.about.headline}
           </h2>
-        </motion.div>
+        </m.div>
 
         {/* Content - 2 columns desktop, centered mobile */}
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
           {/* Photo - Desktop */}
-          <motion.div
+          <m.div
             variants={fadeInUp}
             initial="hidden"
             whileInView="visible"
@@ -246,10 +249,10 @@ export default function AboutSection() {
             className="hidden lg:block"
           >
             <PhotoWithOverlayDesktop />
-          </motion.div>
+          </m.div>
 
           {/* Photo - Mobile */}
-          <motion.div
+          <m.div
             variants={fadeInUp}
             initial="hidden"
             whileInView="visible"
@@ -257,10 +260,10 @@ export default function AboutSection() {
             className="mx-auto w-full max-w-sm lg:hidden"
           >
             <PhotoWithOverlayMobile />
-          </motion.div>
+          </m.div>
 
           {/* Text Content */}
-          <motion.div
+          <m.div
             variants={fadeInUp}
             initial="hidden"
             whileInView="visible"
@@ -301,7 +304,7 @@ export default function AboutSection() {
                 );
               })}
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>

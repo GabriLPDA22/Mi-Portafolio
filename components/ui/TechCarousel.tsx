@@ -115,15 +115,9 @@ const technologies = [
 ];
 
 export default function TechCarousel() {
-  // Duplicamos 6 veces para un loop infinito perfecto sin saltos
-  const items = [
-    ...technologies,
-    ...technologies,
-    ...technologies,
-    ...technologies,
-    ...technologies,
-    ...technologies,
-  ];
+  const items = Array.from({ length: 6 }, (_, rep) =>
+    technologies.map((tech) => ({ ...tech, _key: `${rep}-${tech.name}` }))
+  ).flat();
 
   return (
     <section className="relative py-12 sm:py-16 w-full max-w-[100vw] overflow-x-hidden">
@@ -135,9 +129,9 @@ export default function TechCarousel() {
 
         {/* Track animado */}
         <div className="marquee-track flex w-fit">
-          {items.map((tech, index) => (
+          {items.map((tech) => (
             <div
-              key={`${tech.name}-${index}`}
+              key={tech._key}
               className="flex flex-shrink-0 items-center gap-3 px-6 text-[var(--text-muted)] transition-all duration-300 hover:text-[var(--text-primary)] sm:px-8"
             >
               <span className="flex h-5 w-5 items-center justify-center opacity-70 transition-opacity duration-300 hover:opacity-100 sm:h-6 sm:w-6">
@@ -151,30 +145,6 @@ export default function TechCarousel() {
         </div>
       </div>
 
-      <style jsx global>{`
-        .marquee-track {
-          animation: marquee-scroll 120s linear infinite;
-        }
-
-        .marquee-container:hover .marquee-track {
-          animation-play-state: paused;
-        }
-
-        @keyframes marquee-scroll {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-16.666%);
-          }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .marquee-track {
-            animation: none;
-          }
-        }
-      `}</style>
     </section>
   );
 }

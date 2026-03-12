@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useLocale } from "@/contexts/LocaleContext";
 import LanguageToggle from "@/components/ui/LanguageToggle";
 
@@ -54,7 +55,7 @@ export default function Header() {
         <div className="container-main">
           <div className="flex h-[72px] items-center justify-between gap-2 sm:gap-4">
             {/* Logo */}
-            <a
+            <Link
               href="/"
               className="group relative flex items-center flex-shrink-0"
               aria-label="Gabriel Saiz - Desarrollador Full-Stack, Inicio"
@@ -68,7 +69,7 @@ export default function Header() {
                 className="transition-all duration-300 group-hover:scale-105 sm:w-[53px] sm:h-[44px]"
                 priority
               />
-            </a>
+            </Link>
 
             {/* Desktop Nav - Right aligned */}
             <nav className="hidden items-center gap-4 md:flex" aria-label="Navegación principal">

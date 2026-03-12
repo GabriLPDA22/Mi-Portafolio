@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { m, type Variants } from "framer-motion";
 import {
   MessageSquare,
   Calendar,
@@ -52,7 +52,7 @@ function WorkBlockCard({ block, index }: { block: WorkBlock; index: number }) {
   const Icon = block.icon;
 
   return (
-    <motion.div
+    <m.div
       variants={fadeInUp}
       transition={{
         duration: 0.6,
@@ -78,7 +78,7 @@ function WorkBlockCard({ block, index }: { block: WorkBlock; index: number }) {
       <p className="text-[14px] leading-relaxed text-white/60 sm:text-[15px]">
         {block.description}
       </p>
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -119,7 +119,7 @@ export default function ResultsSection() {
     <section id="resultados" className="relative py-24 sm:py-32">
       <div className="container-main">
         {/* Header */}
-        <motion.div
+        <m.div
           variants={fadeInUp}
           initial="hidden"
           whileInView="visible"
@@ -135,10 +135,10 @@ export default function ResultsSection() {
           <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/65 sm:text-lg">
             {t.results.subtitle}
           </p>
-        </motion.div>
+        </m.div>
 
         {/* Work Blocks - Grid 4 columns desktop, stack mobile */}
-        <motion.div
+        <m.div
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
@@ -148,7 +148,7 @@ export default function ResultsSection() {
           {workBlocks.map((block, index) => (
             <WorkBlockCard key={block.id} block={block} index={index} />
           ))}
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

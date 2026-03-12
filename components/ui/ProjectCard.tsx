@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useCallback } from "react";
-import { motion, Variant, Variants } from "framer-motion";
+import { m, Variant, Variants } from "framer-motion";
 
 interface ProjectCardProps {
   children: React.ReactNode;
@@ -28,49 +28,40 @@ export default function ProjectCard({
   delay = 0,
 }: ProjectCardProps) {
   const cardRef = useRef<HTMLElement>(null);
-  const rafRef = useRef<number | null>(null);
+  const spotlightRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
-    if (rafRef.current) {
-      cancelAnimationFrame(rafRef.current);
-    }
-
-    rafRef.current = requestAnimationFrame(() => {
-      if (!cardRef.current) return;
-
-      const rect = cardRef.current.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      cardRef.current.style.setProperty("--mouse-x", `${x}px`);
-      cardRef.current.style.setProperty("--mouse-y", `${y}px`);
-    });
+    if (!cardRef.current || !spotlightRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    spotlightRef.current.style.background = `radial-gradient(350px circle at ${x}px ${y}px, rgba(139,92,246,0.12), transparent 40%)`;
   }, []);
 
   const handleMouseLeave = useCallback(() => {
-    if (rafRef.current) {
-      cancelAnimationFrame(rafRef.current);
-    }
-    // Reset to center when mouse leaves
-    if (cardRef.current) {
-      cardRef.current.style.setProperty("--mouse-x", "50%");
-      cardRef.current.style.setProperty("--mouse-y", "50%");
+    if (spotlightRef.current) {
+      spotlightRef.current.style.background = "";
     }
   }, []);
 
   return (
-    <motion.article
+    <m.article
       ref={cardRef}
       variants={fadeInUp as unknown as Variants}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       custom={delay}
-      className={`project-card ${className}`}
+      className={`project-card group ${className}`}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
+      <div
+        ref={spotlightRef}
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0 rounded-[inherit] opacity-0 transition-opacity duration-400 group-hover:opacity-100"
+      />
       <div className="project-card-content">{children}</div>
-    </motion.article>
+    </m.article>
   );
 }

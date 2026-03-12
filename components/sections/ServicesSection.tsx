@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useCallback } from "react";
-import { Variants, motion, AnimatePresence } from "framer-motion";
+import { Variants, m, AnimatePresence } from "framer-motion";
 import { useLocale } from "@/contexts/LocaleContext";
 import { Smartphone, Globe, Server, Container, Gauge, Wrench } from "lucide-react";
 
@@ -109,8 +109,8 @@ function MobileVisual() {
         </svg>
       </div>
       <div className="absolute flex gap-1" style={{ bottom: "26%", left: "37%", zIndex: 9 }}>
-        {[0, 1, 2].map((i) => (
-          <div key={i} className="h-1 w-1 rounded-full bg-white/25" />
+        {["dot-a", "dot-b", "dot-c"].map((dot) => (
+          <div key={dot} className="h-1 w-1 rounded-full bg-white/25" />
         ))}
       </div>
     </div>
@@ -142,16 +142,23 @@ function WebVisual() {
           </div>
           {/* Bar chart */}
           <div className="flex h-10 items-end gap-1">
-            {[35, 55, 42, 78, 58, 92, 68].map((h, i) => (
+            {[
+              { h: 35, highlight: false },
+              { h: 55, highlight: false },
+              { h: 42, highlight: false },
+              { h: 78, highlight: false },
+              { h: 58, highlight: false },
+              { h: 92, highlight: true },
+              { h: 68, highlight: false },
+            ].map((bar) => (
               <div
-                key={i}
+                key={`bar-${bar.h}-${bar.highlight}`}
                 className="flex-1 rounded-t-sm transition-all"
                 style={{
-                  height: `${h}%`,
-                  background:
-                    i === 5
-                      ? "linear-gradient(to top, #8b5cf6, #a78bfa)"
-                      : "rgba(139, 92, 246, 0.22)",
+                  height: `${bar.h}%`,
+                  background: bar.highlight
+                    ? "linear-gradient(to top, #8b5cf6, #a78bfa)"
+                    : "rgba(139, 92, 246, 0.22)",
                 }}
               />
             ))}
@@ -182,9 +189,9 @@ function BackendVisual() {
 
       {/* Líneas SVG — ocupan todo el área */}
       <svg className="absolute inset-0 h-full w-full">
-        {lines.map((l, i) => (
+        {lines.map((l) => (
           <line
-            key={i}
+            key={`${l.x1},${l.y1}`}
             x1={l.x1} y1={l.y1}
             x2={l.x2} y2={l.y2}
             stroke="rgba(139,92,246,0.3)"
@@ -360,26 +367,26 @@ function BentoCard({
   className?: string;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const rafRef = useRef<number | null>(null);
+  const spotlightRef = useRef<HTMLDivElement>(null);
   const Icon = service.icon;
   const Visual = visualMap[service.id];
 
   const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
-    if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    rafRef.current = requestAnimationFrame(() => {
-      if (!cardRef.current) return;
-      const rect = cardRef.current.getBoundingClientRect();
-      cardRef.current.style.setProperty("--spotlight-x", `${e.clientX - rect.left}px`);
-      cardRef.current.style.setProperty("--spotlight-y", `${e.clientY - rect.top}px`);
-    });
+    if (!cardRef.current || !spotlightRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    spotlightRef.current.style.background = `radial-gradient(400px circle at ${x}px ${y}px, rgba(139,92,246,0.12), transparent 40%)`;
   }, []);
 
   const handlePointerLeave = useCallback(() => {
-    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    if (spotlightRef.current) {
+      spotlightRef.current.style.background = "";
+    }
   }, []);
 
   return (
-    <motion.div
+    <m.div
       ref={cardRef}
       variants={fadeInUp as unknown as Variants}
       initial="hidden"
@@ -396,7 +403,7 @@ function BentoCard({
       ].join(" ")}
     >
       {/* Spotlight */}
-      <div className="service-card-spotlight pointer-events-none absolute inset-0 z-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      <div ref={spotlightRef} aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
       {/* Visual area */}
       <div
@@ -453,7 +460,7 @@ function BentoCard({
           </a>
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -501,7 +508,7 @@ function MobileCarousel({ services }: { services: Service[] }) {
       {/* Card — altura fija para que no salte al cambiar de tarjeta */}
       <div className="relative flex flex-col overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.025]" style={{ height: "430px" }}>
         <AnimatePresence custom={direction} mode="wait">
-          <motion.div
+          <m.div
             key={current}
             custom={direction}
             variants={slideVariants as unknown as Variants}
@@ -546,7 +553,7 @@ function MobileCarousel({ services }: { services: Service[] }) {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </AnimatePresence>
       </div>
 
@@ -554,9 +561,9 @@ function MobileCarousel({ services }: { services: Service[] }) {
       <div className="mt-4 flex items-center justify-between px-1">
         {/* Progress dots */}
         <div className="flex items-center gap-1.5">
-          {services.map((_, i) => (
+          {services.map((service, i) => (
             <button
-              key={i}
+              key={service.id}
               onClick={() => goTo(i, i > current ? 1 : -1)}
               aria-label={`Go to service ${i + 1}`}
               className={[
@@ -646,7 +653,7 @@ export default function ServicesSection() {
     <section id="servicios" className="relative py-20 sm:py-28 lg:py-32">
       <div className="container-main">
         {/* Header */}
-        <motion.div
+        <m.div
           variants={fadeInUp as unknown as Variants}
           initial="hidden"
           whileInView="visible"
@@ -663,7 +670,7 @@ export default function ServicesSection() {
           <p className="mt-4 text-base leading-relaxed text-white/50 sm:text-lg">
             {t.services.subtitle}
           </p>
-        </motion.div>
+        </m.div>
 
         {/* Mobile: Carousel */}
         <MobileCarousel services={services} />
