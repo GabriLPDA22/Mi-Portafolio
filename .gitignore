@@ -34,3 +34,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Python (skill scripts)
+__pycache__/
+*.py[cod]
+
