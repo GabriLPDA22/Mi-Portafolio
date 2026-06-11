@@ -75,7 +75,7 @@ export default function Preloader() {
     };
   }, []);
 
-  // Bloquear scroll mientras carga + pausar animaciones del hero hasta el reveal
+  // Bloquear scroll mientras carga
   useEffect(() => {
     const root = document.documentElement;
     if (phase === "loading") {
@@ -84,12 +84,10 @@ export default function Preloader() {
     } else {
       root.style.overflow = "";
       document.body.style.overflow = "";
-      root.classList.remove("preloader-active");
     }
     return () => {
       root.style.overflow = "";
       document.body.style.overflow = "";
-      root.classList.remove("preloader-active");
     };
   }, [phase]);
 
@@ -110,7 +108,11 @@ export default function Preloader() {
         id="site-preloader"
         aria-hidden="true"
         suppressHydrationWarning
-        className={`fixed inset-0 z-[100] flex items-center justify-center bg-noir transition-transform duration-[850ms] ease-[cubic-bezier(0.76,0,0.24,1)] ${
+        // 99% de opacidad (visualmente idéntico al noir sólido): evita el
+        // occlusion culling de Chrome para que el hero pinte debajo y el LCP
+        // se registre en el primer render, no al terminar el preloader.
+        style={{ backgroundColor: "rgb(6 6 7 / 0.99)" }}
+        className={`fixed inset-0 z-[100] flex items-center justify-center transition-transform duration-[850ms] ease-[cubic-bezier(0.76,0,0.24,1)] ${
           phase === "exit" ? "-translate-y-full" : ""
         }`}
       >
@@ -140,11 +142,11 @@ export default function Preloader() {
       </div>
 
       {/* Se ejecuta antes del paint: oculta el loader en visitas repetidas
-          (o con reduced motion) y pausa el hero mientras el loader es visible */}
+          (o con reduced motion) para evitar flashes */}
       <script
         dangerouslySetInnerHTML={{
           __html:
-            "try{if(sessionStorage.getItem('gs-preloader')==='1'||matchMedia('(prefers-reduced-motion: reduce)').matches){var p=document.getElementById('site-preloader');if(p)p.style.display='none'}else{document.documentElement.classList.add('preloader-active')}}catch(e){}",
+            "try{if(sessionStorage.getItem('gs-preloader')==='1'||matchMedia('(prefers-reduced-motion: reduce)').matches){var p=document.getElementById('site-preloader');if(p)p.style.display='none'}}catch(e){}",
         }}
       />
     </>

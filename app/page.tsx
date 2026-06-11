@@ -33,7 +33,9 @@ const FAQSection = dynamic(() => import("@/components/sections/FAQSection"));
 const ContactSection = dynamic(
   () => import("@/components/sections/ContactSection")
 );
-const Comments = dynamic(() => import("@/components/sections/Comments"));
+const LazyComments = dynamic(
+  () => import("@/components/sections/LazyComments")
+);
 const Footer = dynamic(() => import("@/components/layout/Footer"));
 const ScrollToTop = dynamic(() => import("@/components/ui/ScrollToTop"));
 
@@ -73,8 +75,9 @@ export default function Home() {
         {/* Pre-contact: FAQ */}
         <FAQSection />
 
-        {/* Comments */}
-        <Comments />
+        {/* Comments — carga diferida: el bundle de Supabase solo se descarga
+            cuando el usuario se acerca a la sección */}
+        <LazyComments />
 
         {/* Contact */}
         <ContactSection />

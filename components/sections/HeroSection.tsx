@@ -39,22 +39,17 @@ export default function HeroSection() {
             {t.hero.name}
           </p>
 
-          {/* Headline */}
-          <h1
-            className="hero-fade-in mt-4 font-display text-[clamp(2.6rem,11vw,6.5rem)] font-bold leading-[0.98] tracking-[-0.03em] text-ink"
-            style={{ animationDelay: "180ms" }}
-          >
+          {/* Headline — sin fade-in: es el elemento LCP y debe pintar
+              en el primer frame para que Lighthouse lo registre pronto */}
+          <h1 className="mt-4 font-display text-[clamp(2.6rem,11vw,6.5rem)] font-bold leading-[0.98] tracking-[-0.03em] text-ink">
             <span className="block">{t.hero.title}</span>
             <span className="text-gradient block italic">
               {t.hero.titleAccent}
             </span>
           </h1>
 
-          {/* Subheadline */}
-          <p
-            className="hero-fade-in mx-auto mt-7 max-w-xl text-pretty text-[15px] leading-relaxed text-ink/60 sm:text-lg"
-            style={{ animationDelay: "280ms" }}
-          >
+          {/* Subheadline — sin fade-in: candidato a LCP junto con el h1 */}
+          <p className="mx-auto mt-7 max-w-xl text-pretty text-[15px] leading-relaxed text-ink/60 sm:text-lg">
             {t.hero.subtitle}
           </p>
 

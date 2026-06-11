@@ -337,8 +337,10 @@ textarea:focus-visible {
    HERO — CSS entry animations (no JS needed)
    ============================================ */
 @keyframes heroRise {
+  /* 0.01 en vez de 0: con opacity 0 Chrome nunca emite el candidato a LCP
+     (el fade va por el compositor) y el LCP se registra tardísimo */
   from {
-    opacity: 0;
+    opacity: 0.01;
     transform: translateY(28px);
   }
   to {
@@ -371,11 +373,6 @@ textarea:focus-visible {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-/* Mientras el preloader está visible, el hero espera para animar su entrada */
-.preloader-active .hero-fade-in {
-  animation-play-state: paused;
 }
 
 @keyframes pulse-dot {
