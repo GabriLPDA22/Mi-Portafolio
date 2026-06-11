@@ -1,7 +1,7 @@
 "use client";
 
 import { m, type Variants } from "framer-motion";
-import { Clock, CheckCircle, Mail } from "lucide-react";
+import { Clock, CheckCircle, Sparkles } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import ContactInfoPanel from "./contact/ContactInfoPanel";
 import ContactForm from "./contact/ContactForm";
@@ -11,7 +11,7 @@ const fadeInUp: Variants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: [0.25, 0.4, 0.25, 1] },
+    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
@@ -19,9 +19,11 @@ export default function ContactSection() {
   const { t } = useLocale();
 
   return (
-    <section id="contacto" className="relative py-24 sm:py-32">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute bottom-0 left-1/2 h-[400px] w-[800px] -translate-x-1/2 rounded-full bg-[#8b5cf6]/5 blur-[120px]" />
+    <section id="contacto" className="relative scroll-mt-24 py-20 sm:py-28">
+      {/* Aurora background */}
+      <div aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden">
+        <div className="aurora aurora-animate bottom-[-10%] left-1/2 h-[45vh] w-[90vw] -translate-x-1/2 bg-acid/[0.07]" />
+        <div className="aurora aurora-animate-slow right-[-10%] top-[10%] h-[30vh] w-[40vw] bg-[#6d5dfc]/15" />
       </div>
 
       <div className="container-main relative">
@@ -32,33 +34,37 @@ export default function ContactSection() {
           viewport={{ once: true, margin: "-100px" }}
           className="mb-12 text-center lg:mb-16"
         >
-          <p className="mb-3 text-[12px] font-semibold uppercase tracking-widest text-[#8b5cf6]">
+          <p className="mb-4 flex items-center justify-center gap-3 font-display text-[12px] font-semibold uppercase tracking-[0.3em] text-acid">
+            <span className="text-ink/30">[08]</span>
             {t.contact.title}
           </p>
-          <h2 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
-            {t.contact.headline}
+          <h2 className="font-display text-[clamp(2.6rem,9vw,5.5rem)] font-bold leading-[0.98] tracking-[-0.03em] text-ink">
+            {t.contact.headline.replace("?", "")}
+            <span className="text-gradient italic">?</span>
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/65 sm:text-lg">
+          <p className="mx-auto mt-6 max-w-xl text-[15px] leading-relaxed text-ink/60 sm:text-lg">
             {t.contact.subtitle}
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-6">
-            <div className="flex items-center gap-2 text-[13px] text-white/40">
-              <Clock className="h-4 w-4 text-[#8b5cf6]" />
-              <span>{t.contact.badges.response}</span>
-            </div>
-            <div className="flex items-center gap-2 text-[13px] text-white/40">
-              <CheckCircle className="h-4 w-4 text-emerald-400" />
-              <span>{t.contact.badges.free}</span>
-            </div>
-            <div className="flex items-center gap-2 text-[13px] text-white/40">
-              <Mail className="h-4 w-4 text-[#8b5cf6]" />
-              <span>{t.contact.badges.noCommitment}</span>
-            </div>
+          {/* Badges */}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            {[
+              { icon: Clock, label: t.contact.badges.response },
+              { icon: CheckCircle, label: t.contact.badges.free },
+              { icon: Sparkles, label: t.contact.badges.noCommitment },
+            ].map(({ icon: Icon, label }) => (
+              <span
+                key={label}
+                className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-1.5 text-[12px] font-medium text-ink/65"
+              >
+                <Icon className="h-3.5 w-3.5 text-acid" strokeWidth={2} />
+                {label}
+              </span>
+            ))}
           </div>
         </m.div>
 
-        <div className="mx-auto grid max-w-5xl gap-12 lg:grid-cols-5 lg:gap-16">
+        <div className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-5 lg:gap-14">
           <ContactInfoPanel />
           <ContactForm />
         </div>

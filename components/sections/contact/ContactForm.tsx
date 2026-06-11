@@ -2,13 +2,7 @@
 
 import { useState } from "react";
 import { m, type Variants } from "framer-motion";
-import {
-  Send,
-  CheckCircle,
-  Mail,
-  AlertCircle,
-  Loader2,
-} from "lucide-react";
+import { Send, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 
 const fadeInRight: Variants = {
@@ -16,7 +10,7 @@ const fadeInRight: Variants = {
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.6, ease: [0.25, 0.4, 0.25, 1] },
+    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
@@ -29,10 +23,15 @@ interface FormData {
 
 const EMPTY_FORM: FormData = { name: "", email: "", message: "", project: "" };
 
+const inputClasses =
+  "w-full rounded-2xl border border-white/[0.09] bg-white/[0.03] px-4 py-3.5 text-[14px] text-ink placeholder-white/25 outline-none transition-all duration-300 focus:border-acid/50 focus:bg-white/[0.05] focus:ring-1 focus:ring-acid/25";
+
 export default function ContactForm() {
   const { t } = useLocale();
   const [formData, setFormData] = useState<FormData>(EMPTY_FORM);
-  const [status, setStatus] = useState<"idle" | "success" | "error" | "loading">("idle");
+  const [status, setStatus] = useState<"idle" | "success" | "error" | "loading">(
+    "idle"
+  );
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleChange = (
@@ -105,21 +104,27 @@ export default function ContactForm() {
       viewport={{ once: true, margin: "-80px" }}
       className="lg:col-span-3"
     >
-      <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 backdrop-blur-xl sm:p-8">
+      <div className="relative overflow-hidden rounded-3xl border border-white/[0.09] bg-white/[0.025] p-6 backdrop-blur-xl sm:p-8">
+        {/* Acento superior */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-acid/50 to-transparent"
+        />
+
         {status === "success" ? (
           <div className="py-12 text-center">
-            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/10">
-              <CheckCircle className="h-8 w-8 text-emerald-400" />
+            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-acid/15">
+              <CheckCircle className="h-8 w-8 text-acid" />
             </div>
-            <h3 className="mb-2 text-xl font-semibold text-white">
+            <h3 className="mb-2 font-display text-xl font-semibold text-ink">
               {t.contact.form.success.title}
             </h3>
-            <p className="text-[15px] text-white/65">
+            <p className="text-[15px] text-ink/65">
               {t.contact.form.success.message}
             </p>
             <button
               onClick={handleReset}
-              className="mt-6 text-[13px] font-medium text-[#8b5cf6] transition-colors hover:text-[#a78bfa]"
+              className="mt-6 text-[13px] font-semibold text-acid transition-colors hover:text-acid-light"
             >
               {t.contact.form.success.again}
             </button>
@@ -130,7 +135,7 @@ export default function ContactForm() {
               <div>
                 <label
                   htmlFor="name"
-                  className="mb-2 block text-[13px] font-medium text-white/70"
+                  className="mb-2 block text-[13px] font-medium text-ink/70"
                 >
                   {t.contact.form.name}
                 </label>
@@ -141,14 +146,14 @@ export default function ContactForm() {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-[14px] text-white placeholder-white/30 outline-none transition-all focus:border-[#8b5cf6]/50 focus:ring-1 focus:ring-[#8b5cf6]/30"
+                  className={inputClasses}
                   placeholder={t.contact.form.name}
                 />
               </div>
               <div>
                 <label
                   htmlFor="email"
-                  className="mb-2 block text-[13px] font-medium text-white/70"
+                  className="mb-2 block text-[13px] font-medium text-ink/70"
                 >
                   {t.contact.form.email}
                 </label>
@@ -159,7 +164,7 @@ export default function ContactForm() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-[14px] text-white placeholder-white/30 outline-none transition-all focus:border-[#8b5cf6]/50 focus:ring-1 focus:ring-[#8b5cf6]/30"
+                  className={inputClasses}
                   placeholder="tu@email.com"
                 />
               </div>
@@ -168,7 +173,7 @@ export default function ContactForm() {
             <div>
               <label
                 htmlFor="project"
-                className="mb-2 block text-[13px] font-medium text-white/70"
+                className="mb-2 block text-[13px] font-medium text-ink/70"
               >
                 {t.contact.form.project}
               </label>
@@ -179,27 +184,27 @@ export default function ContactForm() {
                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                   setFormData({ ...formData, project: e.target.value })
                 }
-                className="w-full appearance-none rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-[14px] text-white outline-none transition-all focus:border-[#8b5cf6]/50 focus:ring-1 focus:ring-[#8b5cf6]/30"
+                className={`${inputClasses} appearance-none`}
               >
-                <option value="" className="bg-[#18181b]">
+                <option value="" className="bg-noir-elevated">
                   {t.contact.form.projectOptions.select}
                 </option>
-                <option value="mobile" className="bg-[#18181b]">
+                <option value="mobile" className="bg-noir-elevated">
                   {t.contact.form.projectOptions.mobile}
                 </option>
-                <option value="web" className="bg-[#18181b]">
+                <option value="web" className="bg-noir-elevated">
                   {t.contact.form.projectOptions.web}
                 </option>
-                <option value="ecommerce" className="bg-[#18181b]">
+                <option value="ecommerce" className="bg-noir-elevated">
                   {t.contact.form.projectOptions.ecommerce}
                 </option>
-                <option value="saas" className="bg-[#18181b]">
+                <option value="saas" className="bg-noir-elevated">
                   {t.contact.form.projectOptions.saas}
                 </option>
-                <option value="consulting" className="bg-[#18181b]">
+                <option value="consulting" className="bg-noir-elevated">
                   {t.contact.form.projectOptions.consulting}
                 </option>
-                <option value="other" className="bg-[#18181b]">
+                <option value="other" className="bg-noir-elevated">
                   {t.contact.form.projectOptions.other}
                 </option>
               </select>
@@ -208,7 +213,7 @@ export default function ContactForm() {
             <div>
               <label
                 htmlFor="message"
-                className="mb-2 block text-[13px] font-medium text-white/70"
+                className="mb-2 block text-[13px] font-medium text-ink/70"
               >
                 {t.contact.form.message}
               </label>
@@ -219,13 +224,13 @@ export default function ContactForm() {
                 onChange={handleChange}
                 required
                 rows={5}
-                className="w-full resize-none rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-[14px] text-white placeholder-white/30 outline-none transition-all focus:border-[#8b5cf6]/50 focus:ring-1 focus:ring-[#8b5cf6]/30"
+                className={`${inputClasses} resize-none`}
                 placeholder={t.contact.form.messagePlaceholder}
               />
             </div>
 
             {status === "error" && errorMessage && (
-              <div className="flex items-center gap-2 rounded-lg bg-red-500/10 px-4 py-3 text-[13px] text-red-400">
+              <div className="flex items-center gap-2 rounded-2xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-[13px] text-red-400">
                 <AlertCircle className="h-4 w-4 flex-shrink-0" />
                 {errorMessage}
               </div>
@@ -234,7 +239,7 @@ export default function ContactForm() {
             <button
               type="submit"
               disabled={status === "loading"}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#8b5cf6] px-6 py-3.5 text-[14px] font-semibold text-white transition-all duration-300 hover:bg-[#7c4fe4] hover:shadow-lg hover:shadow-[#8b5cf6]/25 disabled:cursor-not-allowed disabled:opacity-50"
+              className="btn-shine flex h-13 w-full items-center justify-center gap-2 rounded-full bg-acid px-6 text-[15px] font-bold text-noir transition-all duration-300 hover:bg-acid-light hover:shadow-[0_8px_40px_-8px_rgba(204,245,63,0.5)] disabled:cursor-not-allowed disabled:opacity-50"
             >
               {status === "loading" ? (
                 <>
@@ -244,16 +249,16 @@ export default function ContactForm() {
               ) : (
                 <>
                   {t.contact.form.send}
-                  <Send className="h-4 w-4" />
+                  <Send className="h-4 w-4" strokeWidth={2.2} />
                 </>
               )}
             </button>
 
-            <p className="text-center text-[12px] text-white/40">
+            <p className="text-center text-[12px] text-ink/40">
               {t.contact.form.support}{" "}
               <a
                 href="mailto:gsaiz.bajo@gmail.com"
-                className="font-medium text-[#8b5cf6] transition-colors hover:text-[#a78bfa]"
+                className="font-semibold text-acid transition-colors hover:text-acid-light"
               >
                 gsaiz.bajo@gmail.com
               </a>

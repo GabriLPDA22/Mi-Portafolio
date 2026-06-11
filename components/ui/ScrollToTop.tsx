@@ -9,12 +9,7 @@ export default function ScrollToTop() {
 
   useEffect(() => {
     const toggleVisibility = () => {
-      // Show button when page is scrolled down 400px
-      if (window.scrollY > 400) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
+      setIsVisible(window.scrollY > 400);
     };
 
     window.addEventListener("scroll", toggleVisibility, { passive: true });
@@ -22,10 +17,7 @@ export default function ScrollToTop() {
   }, []);
 
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -37,14 +29,16 @@ export default function ScrollToTop() {
           exit={{ opacity: 0, scale: 0.8, y: 20 }}
           transition={{ duration: 0.2, ease: "easeOut" }}
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-40 flex h-12 w-12 items-center justify-center rounded-full border border-white/[0.12] bg-white/[0.05] backdrop-blur-md transition-all duration-300 hover:border-[#8b5cf6]/50 hover:bg-[#8b5cf6]/10 hover:shadow-lg hover:shadow-[#8b5cf6]/20 active:scale-95"
+          className="glass fixed bottom-6 right-6 z-40 flex h-12 w-12 items-center justify-center rounded-full border border-white/[0.12] transition-all duration-300 hover:border-acid hover:bg-acid hover:text-noir hover:shadow-[0_0_30px_-6px_rgba(204,245,63,0.5)] active:scale-95 sm:bottom-8 sm:right-8"
           aria-label="Volver arriba"
           title="Volver arriba"
         >
-          <ArrowUp className="h-5 w-5 text-white transition-colors duration-300" strokeWidth={2} />
+          <ArrowUp
+            className="h-5 w-5 text-current transition-colors duration-300"
+            strokeWidth={2}
+          />
         </m.button>
       )}
     </AnimatePresence>
   );
 }
-

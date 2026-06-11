@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useLocale } from "@/contexts/LocaleContext";
 import LanguageToggle from "@/components/ui/LanguageToggle";
@@ -17,7 +16,6 @@ export default function Header() {
     { label: t.nav.projects, href: "#proyectos" },
     { label: t.nav.about, href: "#sobre-mi" },
     { label: t.nav.comments, href: "#comentarios" },
-    { label: t.nav.contact, href: "#contacto" },
   ];
 
   useEffect(() => {
@@ -45,71 +43,78 @@ export default function Header() {
 
   return (
     <>
-      <header
-        className={`fixed inset-x-0 top-0 z-50 w-full max-w-full overflow-x-hidden transition-all duration-500 ${
-          hasScrolled
-            ? "border-b border-[var(--border-subtle)] bg-[var(--bg-primary)]/90 backdrop-blur-md"
-            : "bg-transparent"
-        }`}
-      >
+      <header className="fixed inset-x-0 top-0 z-50 w-full">
         <div className="container-main">
-          <div className="flex h-[72px] items-center justify-between gap-2 sm:gap-4">
-            {/* Logo */}
+          <div
+            className={`mt-3 flex items-center justify-between gap-2 rounded-full border px-4 py-2.5 transition-all duration-500 sm:mt-4 sm:px-5 ${
+              hasScrolled
+                ? "glass border-white/10 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.7)]"
+                : "border-transparent bg-transparent"
+            }`}
+          >
+            {/* Wordmark */}
             <Link
               href="/"
-              className="group relative flex items-center flex-shrink-0"
+              onClick={closeMenu}
+              className="group flex items-baseline font-display text-lg font-bold tracking-tight text-ink"
               aria-label="Gabriel Saiz - Desarrollador Full-Stack, Inicio"
               title="Gabriel Saiz — Full-Stack Developer"
             >
-              <Image
-                src="/img/logo_gabriel_saiz_violet.webp"
-                alt="Gabriel Saiz — Desarrollador Full-Stack freelance especializado en React Native y Next.js"
-                width={48}
-                height={40}
-                className="transition-all duration-300 group-hover:scale-105 sm:w-[53px] sm:h-[44px]"
-                priority
-              />
+              gabriel
+              <span className="text-acid transition-transform duration-300 group-hover:-translate-y-0.5">
+                .
+              </span>
+              <span className="text-ink/50">codes</span>
             </Link>
 
-            {/* Desktop Nav - Right aligned */}
-            <nav className="hidden items-center gap-4 md:flex" aria-label="Navegación principal">
+            {/* Desktop nav */}
+            <nav
+              className="hidden items-center gap-1 md:flex"
+              aria-label="Navegación principal"
+            >
               {NAV_ITEMS.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
-                  className="text-[13px] font-medium text-[var(--text-tertiary)] transition-colors duration-200 hover:text-[var(--text-primary)]"
-                  aria-label={`Ir a sección ${item.label}`}
+                  className="rounded-full px-3.5 py-1.5 text-[13px] font-medium text-ink/60 transition-all duration-200 hover:bg-white/[0.06] hover:text-ink"
                 >
                   {item.label}
                 </a>
               ))}
+              <div className="mx-2 h-4 w-px bg-white/10" />
               <LanguageToggle />
+              <a
+                href="#contacto"
+                className="btn-shine ml-2 inline-flex h-9 items-center justify-center rounded-full bg-acid px-5 text-[13px] font-bold text-noir transition-all duration-300 hover:bg-acid-light hover:shadow-[0_0_24px_rgba(204,245,63,0.35)]"
+              >
+                {t.nav.contact}
+              </a>
             </nav>
 
-            {/* Mobile: Menu Button */}
-            <div className="flex items-center gap-1 md:hidden flex-shrink-0">
+            {/* Mobile controls */}
+            <div className="flex items-center gap-2 md:hidden">
               <LanguageToggle />
               <button
                 type="button"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="relative flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl border border-[var(--border-visible)] bg-[var(--bg-card)] transition-all duration-200 hover:border-[var(--border-hover)] hover:bg-[var(--bg-card-hover)]"
+                className="relative z-50 flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] transition-colors duration-200 hover:border-acid/40"
                 aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
                 aria-expanded={isMenuOpen}
               >
-                <div className="flex w-5 flex-col items-center gap-[5px]">
+                <div className="flex w-4 flex-col items-center gap-[5px]">
                   <span
-                    className={`h-[1.5px] w-full origin-center rounded-full bg-[var(--text-primary)] transition-all duration-300 ${
-                      isMenuOpen ? "translate-y-[6.5px] rotate-45" : ""
+                    className={`h-[1.5px] w-full origin-center rounded-full bg-ink transition-all duration-300 ${
+                      isMenuOpen ? "translate-y-[6.5px] rotate-45 bg-acid" : ""
                     }`}
                   />
                   <span
-                    className={`h-[1.5px] w-full rounded-full bg-[var(--text-primary)] transition-all duration-300 ${
+                    className={`h-[1.5px] w-full rounded-full bg-ink transition-all duration-300 ${
                       isMenuOpen ? "scale-0 opacity-0" : ""
                     }`}
                   />
                   <span
-                    className={`h-[1.5px] w-full origin-center rounded-full bg-[var(--text-primary)] transition-all duration-300 ${
-                      isMenuOpen ? "-translate-y-[6.5px] -rotate-45" : ""
+                    className={`h-[1.5px] w-full origin-center rounded-full bg-ink transition-all duration-300 ${
+                      isMenuOpen ? "-translate-y-[6.5px] -rotate-45 bg-acid" : ""
                     }`}
                   />
                 </div>
@@ -119,36 +124,58 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Mobile Menu Fullscreen — animado con CSS para no incluir framer-motion en el bundle inicial */}
+      {/* Mobile fullscreen menu */}
       <div
-        className={`fixed inset-0 z-30 bg-[var(--bg-primary)] pt-[90px] md:hidden transition-opacity duration-300 ${
-          isMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        className={`fixed inset-0 z-40 flex flex-col bg-noir/[0.98] pt-28 backdrop-blur-xl transition-opacity duration-300 md:hidden ${
+          isMenuOpen
+            ? "pointer-events-auto opacity-100"
+            : "pointer-events-none opacity-0"
         }`}
         aria-hidden={!isMenuOpen}
       >
-        <nav className="container-main mt-8">
-          <ul className="flex flex-col items-end gap-3">
-            {NAV_ITEMS.map((item, i) => (
-              <li
-                key={item.href}
-                className={`transition-all duration-300 ${
-                  isMenuOpen
-                    ? "opacity-100 translate-x-0"
-                    : "opacity-0 translate-x-8"
-                }`}
-                style={{ transitionDelay: isMenuOpen ? `${i * 60 + 100}ms` : "0ms" }}
-              >
-                <a
-                  href={item.href}
-                  onClick={closeMenu}
-                  className="block font-display text-4xl font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]"
+        <nav className="container-main flex-1">
+          <ul className="flex flex-col gap-1">
+            {[...NAV_ITEMS, { label: t.nav.contact, href: "#contacto" }].map(
+              (item, i) => (
+                <li
+                  key={item.href}
+                  className={`border-b border-white/[0.06] transition-all duration-500 ${
+                    isMenuOpen
+                      ? "translate-y-0 opacity-100"
+                      : "translate-y-6 opacity-0"
+                  }`}
+                  style={{
+                    transitionDelay: isMenuOpen ? `${i * 60 + 100}ms` : "0ms",
+                  }}
                 >
-                  {item.label}
-                </a>
-              </li>
-            ))}
+                  <a
+                    href={item.href}
+                    onClick={closeMenu}
+                    className="group flex items-baseline justify-between py-4"
+                  >
+                    <span className="font-display text-4xl font-semibold tracking-tight text-ink transition-colors group-hover:text-acid">
+                      {item.label}
+                    </span>
+                    <span className="font-display text-sm text-acid/60">
+                      0{i + 1}
+                    </span>
+                  </a>
+                </li>
+              )
+            )}
           </ul>
         </nav>
+
+        <div
+          className={`container-main pb-10 transition-all duration-500 ${
+            isMenuOpen ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
+          }`}
+          style={{ transitionDelay: isMenuOpen ? "500ms" : "0ms" }}
+        >
+          <p className="text-[12px] uppercase tracking-[0.2em] text-ink/40">
+            gsaiz.bajo@gmail.com
+          </p>
+        </div>
       </div>
     </>
   );

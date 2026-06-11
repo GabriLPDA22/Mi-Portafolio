@@ -25,7 +25,7 @@ export default function AvisoLegalContent() {
 
           {/* Header */}
           <div className="mb-12 border-b border-white/[0.07] pb-8">
-            <p className="mb-3 text-[12px] font-semibold uppercase tracking-widest text-[#8b5cf6]">Legal</p>
+            <p className="mb-3 text-[12px] font-semibold uppercase tracking-widest text-acid">Legal</p>
             <h1 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl">
               {t.legalNotice.title}
             </h1>
@@ -47,7 +47,7 @@ export default function AvisoLegalContent() {
                 </li>
                 <li className="flex gap-2">
                   <span className="min-w-[130px] text-white/60">{s.identity.email}:</span>
-                  <a href="mailto:gsaiz.bajo@gmail.com" className="text-[#8b5cf6] hover:text-[#a78bfa] transition-colors">
+                  <a href="mailto:gsaiz.bajo@gmail.com" className="text-acid hover:text-acid-light transition-colors">
                     {s.identity.emailValue}
                   </a>
                 </li>
@@ -104,7 +104,7 @@ export default function AvisoLegalContent() {
               <p>{s.contact.description}</p>
               <p className="mt-3">
                 <span className="text-white/60">Email:</span>{" "}
-                <a href="mailto:gsaiz.bajo@gmail.com" className="text-[#8b5cf6] hover:text-[#a78bfa] transition-colors">
+                <a href="mailto:gsaiz.bajo@gmail.com" className="text-acid hover:text-acid-light transition-colors">
                   gsaiz.bajo@gmail.com
                 </a>
               </p>
@@ -133,7 +133,7 @@ function BulletList({ items }: { items: readonly string[] }) {
     <ul className="mt-2 space-y-1.5">
       {items.map((item) => (
         <li key={item} className="flex items-start gap-2.5 text-[14px] text-white/55">
-          <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-[#8b5cf6]/60" />
+          <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-acid/60" />
           {item}
         </li>
       ))}
