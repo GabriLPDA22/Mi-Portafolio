@@ -108,11 +108,7 @@ export default function Preloader() {
         id="site-preloader"
         aria-hidden="true"
         suppressHydrationWarning
-        // 99% de opacidad (visualmente idéntico al noir sólido): evita el
-        // occlusion culling de Chrome para que el hero pinte debajo y el LCP
-        // se registre en el primer render, no al terminar el preloader.
-        style={{ backgroundColor: "rgb(6 6 7 / 0.99)" }}
-        className={`fixed inset-0 z-[100] flex items-center justify-center transition-transform duration-[850ms] ease-[cubic-bezier(0.76,0,0.24,1)] ${
+        className={`fixed inset-0 z-[100] flex items-center justify-center bg-noir transition-transform duration-[850ms] ease-[cubic-bezier(0.76,0,0.24,1)] ${
           phase === "exit" ? "-translate-y-full" : ""
         }`}
       >
