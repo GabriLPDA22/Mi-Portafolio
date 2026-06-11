@@ -100,17 +100,6 @@ export default function HeroSection() {
           </p>
         </div>
       </div>
-
-      {/* Scroll hint */}
-      <div
-        aria-hidden="true"
-        className="hero-fade-in pointer-events-none absolute bottom-8 left-1/2 hidden -translate-x-1/2 sm:block"
-        style={{ animationDelay: "600ms" }}
-      >
-        <div className="scroll-hint flex h-10 w-6 items-start justify-center rounded-full border border-white/15 pt-2">
-          <span className="h-2 w-1 rounded-full bg-acid" />
-        </div>
-      </div>
     </section>
   );
 }

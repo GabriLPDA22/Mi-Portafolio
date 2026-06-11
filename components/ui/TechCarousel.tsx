@@ -153,7 +153,7 @@ export default function TechCarousel() {
       className="relative w-full max-w-[100vw] overflow-x-hidden py-14 sm:py-20"
     >
       {/* Label */}
-      <p className="mb-8 text-center font-display text-[11px] font-medium uppercase tracking-[0.4em] text-ink/35 sm:text-[12px]">
+      <p className="mb-8 text-center font-display text-[13px] font-bold uppercase tracking-[0.4em] text-acid sm:text-[14px]">
         Stack
       </p>
 

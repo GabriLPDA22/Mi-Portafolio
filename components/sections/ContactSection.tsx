@@ -34,13 +34,11 @@ export default function ContactSection() {
           viewport={{ once: true, margin: "-100px" }}
           className="mb-12 text-center lg:mb-16"
         >
-          <p className="mb-4 flex items-center justify-center gap-3 font-display text-[12px] font-semibold uppercase tracking-[0.3em] text-acid">
-            <span className="text-ink/30">[08]</span>
+          <p className="mb-4 flex items-center justify-center gap-3 font-display text-[13px] font-bold uppercase tracking-[0.3em] text-acid sm:text-[14px]">
             {t.contact.title}
           </p>
           <h2 className="font-display text-[clamp(2.6rem,9vw,5.5rem)] font-bold leading-[0.98] tracking-[-0.03em] text-ink">
-            {t.contact.headline.replace("?", "")}
-            <span className="text-gradient italic">?</span>
+            {t.contact.headline}
           </h2>
           <p className="mx-auto mt-6 max-w-xl text-[15px] leading-relaxed text-ink/60 sm:text-lg">
             {t.contact.subtitle}

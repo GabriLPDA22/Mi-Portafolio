@@ -12,7 +12,6 @@ const fadeInUp: Variants = {
 };
 
 interface SectionHeadingProps {
-  index: string;
   tag: string;
   headline: string;
   subtitle?: string;
@@ -20,7 +19,6 @@ interface SectionHeadingProps {
 }
 
 export default function SectionHeading({
-  index,
   tag,
   headline,
   subtitle,
@@ -37,14 +35,13 @@ export default function SectionHeading({
       className={`mb-12 lg:mb-16 ${isCenter ? "text-center" : "text-left"}`}
     >
       <p
-        className={`mb-4 flex items-center gap-3 font-display text-[12px] font-semibold uppercase tracking-[0.3em] text-acid ${
+        className={`mb-4 flex items-center gap-3 font-display text-[13px] font-bold uppercase tracking-[0.3em] text-acid sm:text-[14px] ${
           isCenter ? "justify-center" : ""
         }`}
       >
-        <span className="text-ink/30">[{index}]</span>
         {tag}
       </p>
-      <h2 className="font-display text-[clamp(2rem,6vw,3.5rem)] font-bold leading-[1.05] tracking-[-0.02em] text-ink">
+      <h2 className="font-display text-[clamp(2.2rem,6.5vw,4rem)] font-bold leading-[1.04] tracking-[-0.02em] text-ink">
         {headline}
       </h2>
       {subtitle && (

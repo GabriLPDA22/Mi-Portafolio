@@ -276,7 +276,6 @@ export default function Comments() {
     <section id="comentarios" className="relative scroll-mt-24 py-20 sm:py-28">
       <div className="container-main max-w-4xl">
         <SectionHeading
-          index="07"
           tag={tc.tag}
           headline={tc.headline}
           subtitle={tc.subtitle}

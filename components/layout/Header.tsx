@@ -29,12 +29,18 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
+    // El scroll vive en <html> (tiene overflow-x: hidden en globals.css),
+    // así que bloquear solo <body> no impide el scroll de la página.
+    const root = document.documentElement;
     if (isMenuOpen) {
+      root.style.overflow = "hidden";
       document.body.style.overflow = "hidden";
     } else {
+      root.style.overflow = "";
       document.body.style.overflow = "";
     }
     return () => {
+      root.style.overflow = "";
       document.body.style.overflow = "";
     };
   }, [isMenuOpen]);
@@ -67,9 +73,9 @@ export default function Header() {
               <span className="text-ink/50">codes</span>
             </Link>
 
-            {/* Desktop nav */}
+            {/* Desktop nav — solo en lg+: en tablet no cabe sin romperse */}
             <nav
-              className="hidden items-center gap-1 md:flex"
+              className="hidden items-center gap-1 lg:flex"
               aria-label="Navegación principal"
             >
               {NAV_ITEMS.map((item) => (
@@ -91,8 +97,8 @@ export default function Header() {
               </a>
             </nav>
 
-            {/* Mobile controls */}
-            <div className="flex items-center gap-2 md:hidden">
+            {/* Mobile/tablet controls */}
+            <div className="flex items-center gap-2 lg:hidden">
               <LanguageToggle />
               <button
                 type="button"
@@ -124,9 +130,9 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Mobile fullscreen menu */}
+      {/* Mobile/tablet fullscreen menu */}
       <div
-        className={`fixed inset-0 z-40 flex flex-col bg-noir/[0.98] pt-28 backdrop-blur-xl transition-opacity duration-300 md:hidden ${
+        className={`fixed inset-0 z-40 flex flex-col bg-noir/[0.98] pt-28 backdrop-blur-xl transition-opacity duration-300 lg:hidden ${
           isMenuOpen
             ? "pointer-events-auto opacity-100"
             : "pointer-events-none opacity-0"
@@ -172,9 +178,16 @@ export default function Header() {
           }`}
           style={{ transitionDelay: isMenuOpen ? "500ms" : "0ms" }}
         >
-          <p className="text-[12px] uppercase tracking-[0.2em] text-ink/40">
+          <a
+            href="mailto:gsaiz.bajo@gmail.com"
+            onClick={closeMenu}
+            className="inline-flex items-center gap-2 text-[13px] tracking-[0.08em] text-ink/50 transition-colors hover:text-acid"
+          >
+            <span className="text-[11px] uppercase tracking-[0.2em] text-ink/35">
+              Email
+            </span>
             gsaiz.bajo@gmail.com
-          </p>
+          </a>
         </div>
       </div>
     </>

@@ -29,7 +29,7 @@ const staggerContainer: Variants = {
   },
 };
 
-function WorkBlockCard({ block, index }: { block: WorkBlock; index: number }) {
+function WorkBlockCard({ block }: { block: WorkBlock }) {
   const Icon = block.icon;
 
   return (
@@ -38,13 +38,6 @@ function WorkBlockCard({ block, index }: { block: WorkBlock; index: number }) {
       className="card-acid group relative overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.025] p-6 sm:p-8"
     >
       {/* Número fantasma gigante */}
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute -right-2 -top-6 font-display text-[6rem] font-bold leading-none text-white/[0.04] transition-colors duration-500 group-hover:text-acid/[0.07]"
-      >
-        0{index + 1}
-      </span>
-
       <div className="relative">
         {/* Icon */}
         <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.04] text-ink/70 transition-all duration-300 group-hover:border-acid/40 group-hover:text-acid">
@@ -96,7 +89,6 @@ export default function ResultsSection() {
     <section id="resultados" className="relative scroll-mt-24 py-20 sm:py-28">
       <div className="container-main">
         <SectionHeading
-          index="05"
           tag={t.results.title}
           headline={t.results.headline}
           subtitle={t.results.subtitle}
@@ -109,8 +101,8 @@ export default function ResultsSection() {
           viewport={{ once: true, margin: "-80px" }}
           className="grid gap-4 sm:grid-cols-2 lg:gap-5"
         >
-          {workBlocks.map((block, index) => (
-            <WorkBlockCard key={block.id} block={block} index={index} />
+          {workBlocks.map((block) => (
+            <WorkBlockCard key={block.id} block={block} />
           ))}
         </m.div>
       </div>

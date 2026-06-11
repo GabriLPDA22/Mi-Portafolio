@@ -77,16 +77,6 @@ export default function Footer() {
           </div>
         </div>
       </div>
-
-      {/* Wordmark gigante */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none select-none overflow-hidden"
-      >
-        <p className="text-stroke -mb-[0.23em] whitespace-nowrap text-center font-display text-[clamp(3.5rem,14vw,12rem)] font-bold uppercase leading-none tracking-tight">
-          Gabriel Saiz
-        </p>
-      </div>
     </footer>
   );
 }

@@ -43,13 +43,12 @@ export default function ServicesSection() {
     <section id="servicios" className="relative scroll-mt-24 py-20 sm:py-28">
       <div className="container-main">
         <SectionHeading
-          index="01"
           tag={t.services.title}
           headline={t.services.headline}
           subtitle={t.services.subtitle}
         />
 
-        {/* Bento grid: la primera card ocupa 2 columnas en lg */}
+        {/* Grid uniforme sin huérfanas: 1 col móvil · 2 cols tablet · 3 cols desktop */}
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
           {t.services.items.map((service, i) => {
             const Icon = serviceIcons[service.id] ?? Monitor;
@@ -63,9 +62,7 @@ export default function ServicesSection() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: "-60px" }}
-                className={`card-acid group relative flex flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.025] p-6 sm:p-7 ${
-                  isFeature ? "sm:col-span-2" : ""
-                }`}
+                className="card-acid group relative flex flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.025] p-6 sm:p-7"
               >
                 {/* Glow de fondo en la card destacada */}
                 {isFeature && (
@@ -80,9 +77,6 @@ export default function ServicesSection() {
                   <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.04] text-ink/70 transition-all duration-300 group-hover:border-acid/40 group-hover:text-acid">
                     <Icon className="h-5 w-5" strokeWidth={1.7} />
                   </div>
-                  <span className="font-display text-sm font-semibold text-ink/25 transition-colors duration-300 group-hover:text-acid/60">
-                    0{i + 1}
-                  </span>
                 </div>
 
                 {/* Title + description */}
@@ -92,21 +86,6 @@ export default function ServicesSection() {
                 <p className="mb-5 text-[14px] leading-relaxed text-ink/55">
                   {service.description}
                 </p>
-
-                {/* Bullets (solo en la destacada para mantener el bento compacto) */}
-                {isFeature && (
-                  <ul className="mb-5 grid gap-2 sm:grid-cols-2">
-                    {service.bullets.map((bullet) => (
-                      <li
-                        key={bullet}
-                        className="flex items-center gap-2.5 text-[13px] text-ink/60"
-                      >
-                        <span className="h-1 w-1 flex-shrink-0 rounded-full bg-acid" />
-                        {bullet}
-                      </li>
-                    ))}
-                  </ul>
-                )}
 
                 {/* Chips + CTA */}
                 <div className="mt-auto flex items-end justify-between gap-3">

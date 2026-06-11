@@ -26,14 +26,14 @@ export default function PricingSection() {
 
       <div className="container-main">
         <SectionHeading
-          index="02"
           tag={t.pricing.title}
           headline={t.pricing.headline}
           subtitle={t.pricing.subtitle}
         />
 
-        {/* Cards — subgrid en lg para alinear secciones entre tarjetas */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-4 lg:gap-y-0 lg:[grid-template-rows:auto_auto_1fr_auto]">
+        {/* Cards — 5 planes sin huecos:
+            móvil 1 col · tablet 2 cols (mantenimiento ancho) · desktop 3 cols (full-stack ancho) */}
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
           {t.pricing.items.map((item, index) => (
             <m.div
               key={item.id}
@@ -43,28 +43,27 @@ export default function PricingSection() {
               viewport={{ once: true, margin: "-60px" }}
               transition={{ delay: index * 0.08 }}
               className={[
-                "card-acid relative overflow-hidden rounded-3xl border",
-                "lg:grid lg:[grid-template-rows:subgrid] lg:[grid-row:span_4]",
+                "card-acid relative flex flex-col overflow-hidden rounded-3xl border",
+                item.id === "fullstack" ? "lg:col-span-2" : "",
+                item.id === "maintenance" ? "sm:col-span-2 lg:col-span-1" : "",
                 item.highlight
                   ? "border-acid/40 bg-acid/[0.05]"
                   : "border-white/[0.08] bg-white/[0.025]",
               ].join(" ")}
             >
-              {/* Badge */}
-              {item.badge && (
-                <div className="absolute right-4 top-4 z-10">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-acid px-3 py-1 text-[11px] font-bold text-noir shadow-[0_0_18px_rgba(204,245,63,0.4)]">
-                    <Sparkles className="h-3 w-3" />
-                    {item.badge}
-                  </span>
-                </div>
-              )}
-
-              {/* Nombre + precio */}
+              {/* Nombre + badge + precio */}
               <div className="px-6 pb-0 pt-7">
-                <p className="font-display text-[12px] font-semibold uppercase tracking-[0.2em] text-ink/55">
-                  {item.name}
-                </p>
+                <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1.5">
+                  <p className="font-display text-[12px] font-semibold uppercase tracking-[0.2em] text-ink/55">
+                    {item.name}
+                  </p>
+                  {item.badge && (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-acid px-2.5 py-0.5 text-[10px] font-bold text-noir shadow-[0_0_18px_rgba(204,245,63,0.35)]">
+                      <Sparkles className="h-3 w-3" />
+                      {item.badge}
+                    </span>
+                  )}
+                </div>
                 <div className="mb-5 mt-3">
                   <span
                     className={`font-display text-[2rem] font-bold tracking-tight ${
@@ -73,9 +72,11 @@ export default function PricingSection() {
                   >
                     {item.price}
                   </span>
-                  <span className="ml-1.5 text-[13px] text-ink/50">
-                    / {item.period}
-                  </span>
+                  {(item.period === "mes" || item.period === "month") && (
+                    <span className="ml-1.5 text-[13px] text-ink/50">
+                      / {item.period}
+                    </span>
+                  )}
                 </div>
               </div>
 
@@ -86,8 +87,18 @@ export default function PricingSection() {
                 </p>
               </div>
 
-              {/* Features */}
-              <ul className="space-y-2.5 px-6 pt-5">
+              {/* Features — en cards anchas, dos columnas */}
+              <ul
+                className={[
+                  "space-y-2.5 px-6 pt-5",
+                  item.id === "fullstack"
+                    ? "lg:grid lg:grid-cols-2 lg:gap-x-8 lg:gap-y-2.5 lg:space-y-0"
+                    : "",
+                  item.id === "maintenance"
+                    ? "sm:grid sm:grid-cols-2 sm:gap-x-8 sm:gap-y-2.5 sm:space-y-0 lg:block lg:space-y-2.5"
+                    : "",
+                ].join(" ")}
+              >
                 {item.features.map((feature) => (
                   <li key={feature} className="flex items-start gap-2.5">
                     <Check
@@ -102,7 +113,7 @@ export default function PricingSection() {
               </ul>
 
               {/* CTA */}
-              <div className="px-6 pb-7 pt-6">
+              <div className="mt-auto px-6 pb-7 pt-6">
                 <a
                   href="#contacto"
                   className={[

@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import Header from "@/components/layout/Header";
 import HeroSection from "@/components/sections/HeroSection";
+import Preloader from "@/components/ui/Preloader";
 import JsonLd from "@/components/JsonLd";
 import {
   personData,
@@ -53,6 +54,7 @@ export default function Home() {
     <div className="w-full max-w-[100vw] overflow-x-hidden">
       <JsonLd data={allStructuredData} />
 
+      <Preloader />
       <Header />
       <main className="w-full max-w-[100vw] overflow-x-hidden">
         {/* Hero + Tech Stack */}

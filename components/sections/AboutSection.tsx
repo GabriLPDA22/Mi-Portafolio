@@ -44,7 +44,7 @@ export default function AboutSection() {
       </div>
 
       <div className="container-main">
-        <SectionHeading index="04" tag={t.about.title} headline={t.about.headline} />
+        <SectionHeading tag={t.about.title} headline={t.about.headline} />
 
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           {/* ── Foto ── */}

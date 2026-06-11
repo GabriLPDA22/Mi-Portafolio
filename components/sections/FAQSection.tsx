@@ -113,7 +113,6 @@ export default function FAQSection() {
     <section id="faq" className="relative scroll-mt-24 py-20 sm:py-28">
       <div className="container-main max-w-3xl">
         <SectionHeading
-          index="06"
           tag={t.faq.title}
           headline={t.faq.headline}
           subtitle={t.faq.subtitle}

@@ -38,7 +38,7 @@ const projectImages: Record<
   { src: string; alt: string; type: "mockup" | "photo" }
 > = {
   arch: {
-    src: "/img/mock_arch_iphone_15.webp",
+    src: "/img/Arch.webp",
     alt: "ARCH App iOS - Aplicación móvil para comunidad de Oxford University desarrollada con React Native y Expo",
     type: "mockup",
   },
@@ -118,11 +118,11 @@ function ProjectCard({
                 <Image
                   src={project.image.src}
                   alt={project.image.alt}
-                  width={200}
-                  height={409}
+                  width={473}
+                  height={1024}
                   priority={index === 0}
-                  className="object-contain drop-shadow-2xl transition-transform duration-700 group-hover:-translate-y-2"
-                  style={{ maxHeight: "92%", width: "auto" }}
+                  className="rounded-t-2xl object-contain drop-shadow-2xl transition-transform duration-700 group-hover:-translate-y-2"
+                  style={{ maxHeight: "94%", width: "auto" }}
                   sizes="(max-width: 1024px) 60vw, 30vw"
                 />
               </div>
@@ -151,14 +151,6 @@ function ProjectCard({
 
         {/* ── Contenido ── */}
         <div className="relative flex flex-col p-6 sm:p-8 lg:p-10 lg:[direction:ltr]">
-          {/* Número fantasma */}
-          <span
-            aria-hidden="true"
-            className="pointer-events-none absolute -top-4 right-2 font-display text-[7rem] font-bold leading-none text-white/[0.04] transition-colors duration-500 group-hover:text-acid/[0.06]"
-          >
-            0{index + 1}
-          </span>
-
           <h3 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
             {project.title}
           </h3>
@@ -266,7 +258,6 @@ export default function FeaturedProjects() {
     <section id="proyectos" className="relative scroll-mt-24 py-20 sm:py-28">
       <div className="container-main">
         <SectionHeading
-          index="03"
           tag={t.projects.title}
           headline={t.projects.headline}
           subtitle={t.projects.subtitle}
