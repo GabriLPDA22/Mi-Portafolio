@@ -25,7 +25,7 @@ export default function PrivacidadContent() {
 
           {/* Header */}
           <div className="mb-12 border-b border-white/[0.07] pb-8">
-            <p className="mb-3 text-[12px] font-semibold uppercase tracking-widest text-[#8b5cf6]">Legal</p>
+            <p className="mb-3 text-[12px] font-semibold uppercase tracking-widest text-acid">Legal</p>
             <h1 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl">
               {t.privacy.title}
             </h1>
@@ -44,7 +44,7 @@ export default function PrivacidadContent() {
               <ul className="mt-3 space-y-1">
                 <li><span className="text-white/60">{p.responsible.name}:</span> Gabriel Saiz</li>
                 <li><span className="text-white/60">{p.responsible.email}:</span>{" "}
-                  <a href="mailto:gsaiz.bajo@gmail.com" className="text-[#8b5cf6] hover:text-[#a78bfa] transition-colors">
+                  <a href="mailto:gsaiz.bajo@gmail.com" className="text-acid hover:text-acid-light transition-colors">
                     gsaiz.bajo@gmail.com
                   </a>
                 </li>
@@ -92,7 +92,7 @@ export default function PrivacidadContent() {
               <BulletList items={p.rights.items} />
               <p className="mt-3">
                 {p.rights.contact}{" "}
-                <a href="mailto:gsaiz.bajo@gmail.com" className="text-[#8b5cf6] hover:text-[#a78bfa] transition-colors">
+                <a href="mailto:gsaiz.bajo@gmail.com" className="text-acid hover:text-acid-light transition-colors">
                   gsaiz.bajo@gmail.com
                 </a>
               </p>
@@ -118,7 +118,7 @@ export default function PrivacidadContent() {
               <p>{p.contact.description}</p>
               <p className="mt-3">
                 <span className="text-white/60">Email:</span>{" "}
-                <a href="mailto:gsaiz.bajo@gmail.com" className="text-[#8b5cf6] hover:text-[#a78bfa] transition-colors">
+                <a href="mailto:gsaiz.bajo@gmail.com" className="text-acid hover:text-acid-light transition-colors">
                   gsaiz.bajo@gmail.com
                 </a>
               </p>
@@ -156,7 +156,7 @@ function BulletList({ items }: { items: readonly string[] }) {
     <ul className="mt-2 space-y-1.5">
       {items.map((item) => (
         <li key={item} className="flex items-start gap-2.5 text-[14px] text-white/55">
-          <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-[#8b5cf6]/60" />
+          <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-acid/60" />
           {item}
         </li>
       ))}

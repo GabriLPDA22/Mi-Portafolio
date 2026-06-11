@@ -114,37 +114,53 @@ const technologies = [
   },
 ];
 
-export default function TechCarousel() {
-  const items = Array.from({ length: 6 }, (_, rep) =>
+function TechPill({ tech }: { tech: (typeof technologies)[number] }) {
+  return (
+    <div className="group mx-2 flex flex-shrink-0 items-center gap-2.5 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 transition-all duration-300 hover:border-acid/50 hover:bg-acid/[0.06] sm:mx-2.5 sm:gap-3 sm:px-5 sm:py-2.5">
+      <span className="flex h-4 w-4 items-center justify-center text-ink/50 transition-colors duration-300 group-hover:text-acid sm:h-5 sm:w-5">
+        {tech.icon}
+      </span>
+      <span className="whitespace-nowrap text-[12px] font-medium text-ink/60 transition-colors duration-300 group-hover:text-ink sm:text-[14px]">
+        {tech.name}
+      </span>
+    </div>
+  );
+}
+
+function MarqueeRow({ reverse = false }: { reverse?: boolean }) {
+  // Dos copias idénticas: la animación recorre el 50% del track para un loop perfecto
+  const items = Array.from({ length: 2 }, (_, rep) =>
     technologies.map((tech) => ({ ...tech, _key: `${rep}-${tech.name}` }))
   ).flat();
 
   return (
-    <section className="relative py-12 sm:py-16 w-full max-w-[100vw] overflow-x-hidden">
-      {/* Container con overflow hidden */}
-      <div className="marquee-container group relative overflow-hidden w-full">
-        {/* Máscaras laterales - usando CSS variables */}
-        <div className="carousel-fade-left pointer-events-none absolute inset-y-0 left-0 z-10 w-24 sm:w-32" />
-        <div className="carousel-fade-right pointer-events-none absolute inset-y-0 right-0 z-10 w-24 sm:w-32" />
+    <div
+      className={`flex w-fit ${
+        reverse ? "marquee-track-right" : "marquee-track-left"
+      }`}
+    >
+      {items.map((tech) => (
+        <TechPill key={tech._key} tech={tech} />
+      ))}
+    </div>
+  );
+}
 
-        {/* Track animado */}
-        <div className="marquee-track flex w-fit">
-          {items.map((tech) => (
-            <div
-              key={tech._key}
-              className="flex flex-shrink-0 items-center gap-3 px-6 text-[var(--text-muted)] transition-all duration-300 hover:text-[var(--text-primary)] sm:px-8"
-            >
-              <span className="flex h-5 w-5 items-center justify-center opacity-70 transition-opacity duration-300 hover:opacity-100 sm:h-6 sm:w-6">
-                {tech.icon}
-              </span>
-              <span className="text-[13px] font-medium sm:text-[15px]">
-                {tech.name}
-              </span>
-            </div>
-          ))}
-        </div>
+export default function TechCarousel() {
+  return (
+    <section
+      aria-label="Tecnologías"
+      className="relative w-full max-w-[100vw] overflow-x-hidden py-14 sm:py-20"
+    >
+      {/* Label */}
+      <p className="mb-8 text-center font-display text-[11px] font-medium uppercase tracking-[0.4em] text-ink/35 sm:text-[12px]">
+        Stack
+      </p>
+
+      <div className="marquee-container marquee-mask relative flex w-full flex-col gap-3.5 overflow-hidden sm:gap-4">
+        <MarqueeRow />
+        <MarqueeRow reverse />
       </div>
-
     </section>
   );
 }

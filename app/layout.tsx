@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Outfit, Inter } from "next/font/google";
+import { Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
 import { LocaleProvider } from "@/contexts/LocaleContext";
 import CookieBanner from "@/components/ui/CookieBanner";
 import { MotionProvider } from "@/components/providers/MotionProvider";
-const outfit = Outfit({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-display",
+  variable: "--font-grotesk",
   weight: ["400", "500", "600", "700"],
 });
 
@@ -132,11 +132,11 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${outfit.variable} ${inter.variable} overflow-x-hidden`}
+      className={`${spaceGrotesk.variable} ${inter.variable} overflow-x-hidden`}
       suppressHydrationWarning
     >
       <head>
-        <meta name="theme-color" content="#8b5cf6" />
+        <meta name="theme-color" content="#060607" />
         <meta name="color-scheme" content="dark" />
       </head>
       <body className="min-h-screen antialiased overflow-x-hidden max-w-[100vw]">

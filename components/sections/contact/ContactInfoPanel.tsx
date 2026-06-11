@@ -1,7 +1,7 @@
 "use client";
 
 import { m, type Variants } from "framer-motion";
-import { CheckCircle, Mail, Linkedin, Github, Instagram } from "lucide-react";
+import { Check, Mail, Linkedin, Github, Instagram } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 
 const fadeInLeft: Variants = {
@@ -9,9 +9,27 @@ const fadeInLeft: Variants = {
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.6, ease: [0.25, 0.4, 0.25, 1] },
+    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
   },
 };
+
+const socialLinks = [
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/gabriel-saiz-de-la-maza-bajo-140370184/",
+    icon: Linkedin,
+  },
+  {
+    label: "GitHub",
+    href: "https://github.com/GabriLPDA22",
+    icon: Github,
+  },
+  {
+    label: "Instagram",
+    href: "https://instagram.com/saiz_gabriel",
+    icon: Instagram,
+  },
+];
 
 export default function ContactInfoPanel() {
   const { t } = useLocale();
@@ -24,74 +42,66 @@ export default function ContactInfoPanel() {
       viewport={{ once: true, margin: "-80px" }}
       className="lg:col-span-2"
     >
-      <h3 className="mb-4 text-xl font-semibold text-white">
+      <h3 className="font-display text-xl font-semibold tracking-tight text-ink sm:text-2xl">
         {t.contact.form.title}
       </h3>
-      <p className="mb-6 text-[15px] leading-relaxed text-white/65">
+      <p className="mt-3 text-[15px] leading-relaxed text-ink/60">
         {t.contact.form.description}
       </p>
 
-      <div className="space-y-4">
-        <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
-          <p className="text-[13px] font-medium text-white">
+      <div className="mt-7 space-y-5">
+        {/* Qué incluye */}
+        <div className="rounded-3xl border border-white/[0.08] bg-white/[0.025] p-5 sm:p-6">
+          <p className="font-display text-[13px] font-semibold text-ink">
             {t.contact.form.includes}
           </p>
-          <ul className="mt-3 space-y-2">
+          <ul className="mt-4 space-y-2.5">
             {t.contact.form.includesItems.map((item) => (
               <li
                 key={item}
-                className="flex items-center gap-2 text-[13px] text-white/65"
+                className="flex items-center gap-3 text-[13.5px] text-ink/65"
               >
-                <CheckCircle className="h-3.5 w-3.5 text-emerald-400" />
+                <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-acid/15">
+                  <Check className="h-3 w-3 text-acid" strokeWidth={3} />
+                </span>
                 {item}
               </li>
             ))}
           </ul>
         </div>
 
-        <div className="pt-4">
-          <p className="mb-2 text-[12px] text-white/40">
+        {/* Email directo */}
+        <div className="pt-2">
+          <p className="mb-2 text-[12px] uppercase tracking-[0.15em] text-ink/40">
             {t.contact.form.directEmail}
           </p>
           <a
             href="mailto:gsaiz.bajo@gmail.com"
-            className="inline-flex items-center gap-2 text-[14px] font-medium text-[#8b5cf6] transition-colors hover:text-[#a78bfa]"
+            className="inline-flex items-center gap-2 text-[15px] font-semibold text-acid transition-colors hover:text-acid-light"
           >
-            <Mail className="h-4 w-4" />
+            <Mail className="h-4 w-4" strokeWidth={2} />
             gsaiz.bajo@gmail.com
           </a>
         </div>
 
-        <div className="pt-6">
-          <p className="mb-3 text-[12px] text-white/40">{t.contact.form.social}</p>
-          <div className="flex items-center gap-3">
-            <a
-              href="https://www.linkedin.com/in/gabriel-saiz-de-la-maza-bajo-140370184/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.02] text-white/60 transition-all duration-300 hover:border-white/[0.12] hover:bg-white/[0.04] hover:text-white"
-              aria-label="LinkedIn"
-            >
-              <Linkedin className="h-4 w-4" strokeWidth={1.5} />
-            </a>
-            <a
-              href="https://github.com/GabriLPDA22"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.02] text-white/60 transition-all duration-300 hover:border-white/[0.12] hover:bg-white/[0.04] hover:text-white"
-              aria-label="GitHub"
-            >
-              <Github className="h-4 w-4" strokeWidth={1.5} />
-            </a>
-            <a
-              href="https://instagram.com/saiz_gabriel"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.02] text-white/60 transition-all duration-300 hover:border-white/[0.12] hover:bg-white/[0.04] hover:text-white"
-              aria-label="Instagram"
-            >
-              <Instagram className="h-4 w-4" strokeWidth={1.5} />
-            </a>
+        {/* Redes */}
+        <div className="pt-3">
+          <p className="mb-3 text-[12px] uppercase tracking-[0.15em] text-ink/40">
+            {t.contact.form.social}
+          </p>
+          <div className="flex items-center gap-2.5">
+            {socialLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/[0.1] bg-white/[0.03] text-ink/60 transition-all duration-300 hover:border-acid/50 hover:bg-acid/10 hover:text-acid"
+                aria-label={link.label}
+              >
+                <link.icon className="h-4 w-4" strokeWidth={1.7} />
+              </a>
+            ))}
           </div>
         </div>
       </div>

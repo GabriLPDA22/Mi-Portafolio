@@ -1,17 +1,10 @@
 "use client";
 
 import { m, type Variants } from "framer-motion";
-import {
-  MessageSquare,
-  Calendar,
-  Code2,
-  Target,
-} from "lucide-react";
+import { MessageSquare, Repeat, Code2, Target } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
+import SectionHeading from "@/components/ui/SectionHeading";
 
-/* ============================================
-   DATA
-   ============================================ */
 interface WorkBlock {
   id: string;
   icon: React.ElementType;
@@ -19,18 +12,12 @@ interface WorkBlock {
   description: string;
 }
 
-/* ============================================
-   ANIMATIONS
-   ============================================ */
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: {
-      duration: 0.6,
-      ease: [0.25, 0.4, 0.25, 1],
-    },
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
@@ -38,53 +25,43 @@ const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.1,
-    },
+    transition: { staggerChildren: 0.1, delayChildren: 0.1 },
   },
 };
 
-/* ============================================
-   WORK BLOCK CARD
-   ============================================ */
 function WorkBlockCard({ block, index }: { block: WorkBlock; index: number }) {
   const Icon = block.icon;
 
   return (
     <m.div
       variants={fadeInUp}
-      transition={{
-        duration: 0.6,
-        delay: index * 0.1,
-        ease: [0.25, 0.4, 0.25, 1],
-      }}
-      className="group relative flex flex-col rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-white/[0.12] hover:bg-white/[0.04] hover:shadow-lg hover:shadow-[#8b5cf6]/10 sm:p-8"
+      className="card-acid group relative overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.025] p-6 sm:p-8"
     >
-      {/* Icon */}
-      <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-[#8b5cf6]/10 transition-all duration-300 group-hover:bg-[#8b5cf6]/20">
-        <Icon
-          className="h-5 w-5 text-[#8b5cf6] transition-transform duration-300 group-hover:rotate-[-6deg]"
-          strokeWidth={1.5}
-        />
+      {/* Número fantasma gigante */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-2 -top-6 font-display text-[6rem] font-bold leading-none text-white/[0.04] transition-colors duration-500 group-hover:text-acid/[0.07]"
+      >
+        0{index + 1}
+      </span>
+
+      <div className="relative">
+        {/* Icon */}
+        <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.04] text-ink/70 transition-all duration-300 group-hover:border-acid/40 group-hover:text-acid">
+          <Icon className="h-5 w-5" strokeWidth={1.7} />
+        </div>
+
+        <h3 className="mb-2 font-display text-lg font-semibold tracking-tight text-ink">
+          {block.title}
+        </h3>
+        <p className="text-[14px] leading-relaxed text-ink/55 sm:text-[15px]">
+          {block.description}
+        </p>
       </div>
-
-      {/* Title */}
-      <h3 className="mb-2 font-display text-lg font-semibold text-white">
-        {block.title}
-      </h3>
-
-      {/* Description */}
-      <p className="text-[14px] leading-relaxed text-white/60 sm:text-[15px]">
-        {block.description}
-      </p>
     </m.div>
   );
 }
 
-/* ============================================
-   MAIN SECTION
-   ============================================ */
 export default function ResultsSection() {
   const { t } = useLocale();
 
@@ -97,7 +74,7 @@ export default function ResultsSection() {
     },
     {
       id: "iterations",
-      icon: Calendar,
+      icon: Repeat,
       title: t.results.items.iterations.title,
       description: t.results.items.iterations.text,
     },
@@ -116,34 +93,21 @@ export default function ResultsSection() {
   ];
 
   return (
-    <section id="resultados" className="relative py-24 sm:py-32">
+    <section id="resultados" className="relative scroll-mt-24 py-20 sm:py-28">
       <div className="container-main">
-        {/* Header */}
-        <m.div
-          variants={fadeInUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="mb-12 text-center lg:mb-16"
-        >
-          <p className="mb-3 text-[12px] font-semibold uppercase tracking-widest text-[#8b5cf6]">
-            {t.results.title}
-          </p>
-          <h2 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
-            {t.results.headline}
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/65 sm:text-lg">
-            {t.results.subtitle}
-          </p>
-        </m.div>
+        <SectionHeading
+          index="05"
+          tag={t.results.title}
+          headline={t.results.headline}
+          subtitle={t.results.subtitle}
+        />
 
-        {/* Work Blocks - Grid 4 columns desktop, stack mobile */}
         <m.div
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
-          className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4"
+          className="grid gap-4 sm:grid-cols-2 lg:gap-5"
         >
           {workBlocks.map((block, index) => (
             <WorkBlockCard key={block.id} block={block} index={index} />
