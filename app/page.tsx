@@ -26,6 +26,9 @@ const FeaturedProjects = dynamic(
 const AboutSection = dynamic(
   () => import("@/components/sections/AboutSection")
 );
+const ExperienceSection = dynamic(
+  () => import("@/components/sections/ExperienceSection")
+);
 const ResultsSection = dynamic(
   () => import("@/components/sections/ResultsSection")
 );
@@ -68,8 +71,9 @@ export default function Home() {
         <PricingSection />
         <FeaturedProjects />
 
-        {/* About + Results */}
+        {/* About + Experience + Results */}
         <AboutSection />
+        <ExperienceSection />
         <ResultsSection />
 
         {/* Pre-contact: FAQ */}

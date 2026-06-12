@@ -14,7 +14,6 @@ export const translations = {
     },
     // Hero
     hero: {
-      badge: 'Disponible para nuevos proyectos',
       name: 'Gabriel Saiz',
       title: 'Desarrollador freelance',
       titleAccent: 'Full-Stack',
@@ -162,7 +161,8 @@ export const translations = {
     // About
     about: {
       title: 'SOBRE MÍ',
-      headline: 'Full-Stack Developer',
+      headline: 'Quién hay detrás del código',
+      role: 'Desarrollador web y móvil',
       subtitle: 'Construyo productos digitales en producción, con foco en rendimiento y mantenibilidad.',
       bullets: [
         'Producto y negocio primero',
@@ -171,11 +171,64 @@ export const translations = {
       ],
       cta: 'Contactar',
     },
+    // Experience
+    experience: {
+      title: 'TRAYECTORIA',
+      headline: 'Experiencia real, en producción',
+      subtitle: 'Apps publicadas en las stores, clientes reales y pipelines que despliegan solos. Esto es lo que he construido hasta ahora.',
+      items: [
+        {
+          id: 'deveco',
+          role: 'Publicación de apps & CI/CD',
+          company: 'Deveco.it',
+          url: 'https://deveco.it/es/',
+          period: '2026',
+          location: 'Zaragoza',
+          description: 'Colaboración con el equipo de Deveco.it para llevar 4 aplicaciones móviles a App Store y Google Play.',
+          bullets: [
+            '2 apps en React Native publicadas con Expo (EAS)',
+            '2 apps en Flutter publicadas con Codemagic',
+            'CI/CD totalmente automatizado: cada build sube sola a App Store Connect y Google Play Console',
+          ],
+          chips: ['Expo EAS', 'Flutter', 'Codemagic', 'CI/CD'],
+        },
+        {
+          id: 'freelance',
+          role: 'Desarrollador Web & Mobile',
+          company: 'Freelance',
+          period: '2025 — Actualidad',
+          location: 'Zaragoza · Remoto',
+          description: 'Desarrollo end-to-end de productos digitales para clientes: de la idea a la publicación en stores.',
+          bullets: [
+            'App social multiplataforma (React Native + Expo) publicada en App Store y Google Play',
+            'Suscripciones premium con Stripe y compras in-app en iOS',
+            'Mensajería en tiempo real con SignalR y backend .NET 8 + PostgreSQL en producción',
+            'Panel de administración en Vue 3 + TypeScript e integración con Apple Wallet',
+          ],
+          chips: ['React Native', '.NET 8', 'Stripe', 'SignalR', 'Vue 3'],
+        },
+        {
+          id: 'golive',
+          role: 'Desarrollador Web',
+          company: 'GOLIVE Services',
+          url: 'https://www.onegolive.com/',
+          period: '2024 — 2025',
+          location: 'Zaragoza',
+          description: 'Formación dual desarrollando y manteniendo proyectos web para clientes en producción.',
+          bullets: [
+            'Proyectos web end-to-end con PHP y Symfony, de requisitos a despliegue',
+            'Mantenimiento y evolución de sitios WordPress y Joomla en producción',
+            'Despliegue y administración de infraestructura en AWS: instancias, dominios y SSL',
+          ],
+          chips: ['Symfony', 'WordPress', 'AWS'],
+        },
+      ],
+    },
     // Pricing
     pricing: {
       title: 'TARIFAS',
       headline: 'Precios claros, sin sorpresas',
-      subtitle: 'Cada proyecto es diferente. Estas son las tarifas orientativas de desarrollador freelance full-stack.',
+      subtitle: 'Cada proyecto es diferente. Estas son mis tarifas orientativas como desarrollador freelance.',
       note: '* Precios orientativos para alcance base. Presupuesto cerrado y sin sorpresas tras la primera consulta (gratuita).',
       cta: 'Solicitar presupuesto gratuito',
       items: [
@@ -228,7 +281,7 @@ export const translations = {
         },
         {
           id: 'fullstack',
-          name: 'Proyecto Full-Stack',
+          name: 'Proyecto Llave en Mano',
           price: 'Desde 9.500€',
           period: 'proyecto',
           description: 'Solución completa: app móvil + dashboard + backend + API. Todo coordinado por un solo profesional, con descuento por paquete.',
@@ -553,7 +606,6 @@ export const translations = {
     },
     // Hero
     hero: {
-      badge: 'Available for new projects',
       name: 'Gabriel Saiz',
       title: 'Freelance',
       titleAccent: 'Full-Stack Developer',
@@ -701,7 +753,8 @@ export const translations = {
     // About
     about: {
       title: 'ABOUT ME',
-      headline: 'Full-Stack Developer',
+      headline: 'Who is behind the code',
+      role: 'Web & Mobile Developer',
       subtitle: 'I build digital products in production, focused on performance and maintainability.',
       bullets: [
         'Product and business first',
@@ -710,11 +763,64 @@ export const translations = {
       ],
       cta: 'Contact',
     },
+    // Experience
+    experience: {
+      title: 'TRACK RECORD',
+      headline: 'Real experience, in production',
+      subtitle: 'Apps live on the stores, real clients and pipelines that ship on their own. This is what I have built so far.',
+      items: [
+        {
+          id: 'deveco',
+          role: 'App publishing & CI/CD',
+          company: 'Deveco.it',
+          url: 'https://deveco.it/es/',
+          period: '2026',
+          location: 'Zaragoza, Spain',
+          description: 'Collaboration with the Deveco.it team to ship 4 mobile apps to the App Store and Google Play.',
+          bullets: [
+            '2 React Native apps published with Expo (EAS)',
+            '2 Flutter apps published with Codemagic',
+            'Fully automated CI/CD: every build uploads itself to App Store Connect and Google Play Console',
+          ],
+          chips: ['Expo EAS', 'Flutter', 'Codemagic', 'CI/CD'],
+        },
+        {
+          id: 'freelance',
+          role: 'Web & Mobile Developer',
+          company: 'Freelance',
+          period: '2025 — Present',
+          location: 'Zaragoza · Remote',
+          description: 'End-to-end development of digital products for clients: from idea to store release.',
+          bullets: [
+            'Cross-platform social app (React Native + Expo) live on the App Store and Google Play',
+            'Premium subscriptions with Stripe and iOS in-app purchases',
+            'Real-time messaging with SignalR and a .NET 8 + PostgreSQL backend in production',
+            'Admin panel in Vue 3 + TypeScript and Apple Wallet integration',
+          ],
+          chips: ['React Native', '.NET 8', 'Stripe', 'SignalR', 'Vue 3'],
+        },
+        {
+          id: 'golive',
+          role: 'Web Developer',
+          company: 'GOLIVE Services',
+          url: 'https://www.onegolive.com/',
+          period: '2024 — 2025',
+          location: 'Zaragoza, Spain',
+          description: 'Dual vocational training building and maintaining web projects for clients in production.',
+          bullets: [
+            'End-to-end web projects with PHP and Symfony, from requirements to deployment',
+            'Maintenance and evolution of WordPress and Joomla sites in production',
+            'AWS infrastructure deployment and management: instances, domains and SSL',
+          ],
+          chips: ['Symfony', 'WordPress', 'AWS'],
+        },
+      ],
+    },
     // Pricing
     pricing: {
       title: 'RATES',
       headline: 'Clear prices, no surprises',
-      subtitle: 'Every project is different. These are indicative freelance full-stack developer rates.',
+      subtitle: 'Every project is different. These are my indicative rates as a freelance developer.',
       note: '* Indicative prices for base scope. Fixed quote with no surprises after the first (free) consultation.',
       cta: 'Get a free quote',
       items: [
@@ -767,7 +873,7 @@ export const translations = {
         },
         {
           id: 'fullstack',
-          name: 'Full-Stack Project',
+          name: 'End-to-End Project',
           price: 'From €9,500',
           period: 'project',
           description: 'Complete solution: mobile app + dashboard + backend + API. All coordinated by one professional, with a bundle discount.',

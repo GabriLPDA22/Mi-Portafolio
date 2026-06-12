@@ -72,7 +72,7 @@ export default function AboutSection() {
 
             {/* Sticker badge */}
             <div className="absolute -right-3 -top-3 rotate-6 rounded-full bg-acid px-4 py-2 font-display text-[12px] font-bold text-noir shadow-[0_8px_30px_-6px_rgba(204,245,63,0.5)] sm:-right-5">
-              Full-Stack ✦
+              End-to-End ✦
             </div>
           </m.div>
 
@@ -89,7 +89,7 @@ export default function AboutSection() {
               Gabriel Saiz
             </h3>
             <p className="mt-2 text-[15px] font-medium text-acid">
-              {t.about.headline}
+              {t.about.role}
             </p>
 
             <p className="mt-5 max-w-md text-[15px] leading-relaxed text-ink/60 sm:text-base">

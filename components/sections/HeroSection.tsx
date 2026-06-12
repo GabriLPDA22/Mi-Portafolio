@@ -23,18 +23,10 @@ export default function HeroSection() {
       {/* Content */}
       <div className="container-main relative flex flex-1 flex-col items-center justify-center pb-24 pt-32 sm:pb-28">
         <div className="w-full max-w-4xl text-center">
-          {/* Availability badge */}
-          <div className="hero-fade-in" style={{ animationDelay: "0ms" }}>
-            <span className="inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.04] px-4 py-1.5 text-[12px] font-medium text-ink/70 backdrop-blur-sm sm:text-[13px]">
-              <span className="pulse-dot h-2 w-2 rounded-full bg-acid" />
-              {t.hero.badge}
-            </span>
-          </div>
-
           {/* Name */}
           <p
-            className="hero-fade-in mt-10 font-display text-[13px] font-medium uppercase tracking-[0.35em] text-ink/50 sm:text-sm"
-            style={{ animationDelay: "100ms" }}
+            className="hero-fade-in font-display text-[13px] font-medium uppercase tracking-[0.35em] text-ink/50 sm:text-sm"
+            style={{ animationDelay: "0ms" }}
           >
             {t.hero.name}
           </p>
