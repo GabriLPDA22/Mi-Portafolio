@@ -1,21 +1,31 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Inter } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { LocaleProvider } from "@/contexts/LocaleContext";
 import CookieBanner from "@/components/ui/CookieBanner";
 import { MotionProvider } from "@/components/providers/MotionProvider";
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
+
+// Fuentes auto-alojadas: sin peticiones a Google Fonts (mejor FCP/LCP en móvil
+// y builds offline). Los .woff2 viven en app/fonts.
+const spaceGrotesk = localFont({
+  src: [
+    { path: "./fonts/SpaceGrotesk-400.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/SpaceGrotesk-500.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/SpaceGrotesk-600.woff2", weight: "600", style: "normal" },
+    { path: "./fonts/SpaceGrotesk-700.woff2", weight: "700", style: "normal" },
+  ],
   display: "swap",
   variable: "--font-grotesk",
-  weight: ["400", "500", "600", "700"],
 });
 
-const inter = Inter({
-  subsets: ["latin"],
+const inter = localFont({
+  src: [
+    { path: "./fonts/Inter-400.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/Inter-500.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/Inter-600.woff2", weight: "600", style: "normal" },
+  ],
   display: "swap",
   variable: "--font-inter",
-  weight: ["400", "500", "600"],
 });
 
 const siteUrl = "https://gabrielcodes.dev";
