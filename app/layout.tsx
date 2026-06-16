@@ -96,7 +96,7 @@ export const metadata: Metadata = {
         url: `${siteUrl}/img/og-image.jpg`,
         width: 1200,
         height: 630,
-        alt: "Gabriel Saiz — Full-Stack Developer",
+        alt: "Gabriel Saiz — Desarrollador freelance web y móvil",
       },
     ],
   },

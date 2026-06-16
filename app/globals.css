@@ -46,6 +46,9 @@
   --border-visible: rgba(255, 255, 255, 0.11);
   --border-hover: rgba(255, 255, 255, 0.2);
 
+  /* Carousel edge fade */
+  --carousel-fade-from: #060607;
+
   /* Radius */
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
@@ -256,23 +259,33 @@ textarea:focus-visible {
 }
 
 /* ============================================
-   MARQUEES — tech carousel + comments
+   MARQUEES — tech stack + comments
    ============================================ */
-@keyframes marquee-left {
+.carousel-fade-left {
+  background: linear-gradient(to right, var(--carousel-fade-from), transparent);
+}
+
+.carousel-fade-right {
+  background: linear-gradient(to left, var(--carousel-fade-from), transparent);
+}
+
+.marquee-track {
+  animation: marquee-scroll 120s linear infinite;
+  will-change: transform;
+}
+
+@keyframes marquee-scroll {
   0% {
-    transform: translate3d(0, 0, 0);
+    transform: translateX(0);
   }
   100% {
-    transform: translate3d(-50%, 0, 0);
+    transform: translateX(-16.666%);
   }
 }
 
-@keyframes marquee-right {
-  0% {
-    transform: translate3d(-50%, 0, 0);
-  }
-  100% {
-    transform: translate3d(0, 0, 0);
+@media (max-width: 640px) {
+  .marquee-track {
+    animation-duration: 80s;
   }
 }
 
@@ -291,21 +304,6 @@ textarea:focus-visible {
     black 88%,
     transparent 100%
   );
-}
-
-.marquee-track-left {
-  animation: marquee-left 48s linear infinite;
-  will-change: transform;
-}
-
-.marquee-track-right {
-  animation: marquee-right 56s linear infinite;
-  will-change: transform;
-}
-
-.marquee-container:hover .marquee-track-left,
-.marquee-container:hover .marquee-track-right {
-  animation-play-state: paused;
 }
 
 /* Comments marquee */
@@ -496,9 +494,8 @@ textarea:focus-visible {
     transition-duration: 0.01ms !important;
   }
 
-  .marquee-track-left,
-  .marquee-track-right,
   .animate-marquee,
+  .marquee-track,
   .aurora-animate,
   .aurora-animate-slow,
   .scroll-hint,
@@ -516,4 +513,6 @@ textarea:focus-visible {
     transform: none;
   }
 }
+
+
 

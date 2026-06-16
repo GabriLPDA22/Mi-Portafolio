@@ -1,142 +1,82 @@
 "use client";
 
-import Link from "next/link";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+import LegalPageShell from "@/components/legal/LegalPageShell";
+import {
+  LegalBulletList,
+  LegalContactBlock,
+  LegalEmailLink,
+  LegalKeyValueList,
+  LegalSection,
+} from "@/components/legal/LegalBlocks";
 import { useLocale } from "@/contexts/LocaleContext";
 
 export default function AvisoLegalContent() {
   const { t } = useLocale();
   const s = t.legalNotice.sections;
 
+  const sections = [
+    { id: "identity", title: s.identity.title },
+    { id: "purpose", title: s.purpose.title },
+    { id: "terms", title: s.terms.title },
+    { id: "ip", title: s.ip.title },
+    { id: "liability", title: s.liability.title },
+    { id: "links", title: s.links.title },
+    { id: "law", title: s.law.title },
+    { id: "changes", title: s.changes.title },
+    { id: "contact", title: s.contact.title },
+  ];
+
   return (
-    <>
-      <Header />
-      <main className="min-h-screen pt-24 pb-32">
-        <div className="container-main max-w-3xl">
+    <LegalPageShell
+      title={t.legalNotice.title}
+      lastUpdatedLabel={t.legalNotice.lastUpdated}
+      sections={sections}
+    >
+      <LegalSection id="identity" title={s.identity.title}>
+        <p>{s.identity.intro}</p>
+        <LegalKeyValueList
+          items={[
+            { label: s.identity.name, value: s.identity.nameValue },
+            { label: s.identity.email, value: <LegalEmailLink /> },
+            { label: s.identity.website, value: s.identity.websiteValue },
+            { label: s.identity.activity, value: s.identity.activityValue },
+          ]}
+        />
+      </LegalSection>
 
-          {/* Back link */}
-          <Link
-            href="/"
-            className="mb-10 inline-flex items-center text-[13px] text-white/40 transition-colors hover:text-white/70"
-          >
-            {t.legalNotice.backHome}
-          </Link>
+      <LegalSection id="purpose" title={s.purpose.title}>
+        <p>{s.purpose.description}</p>
+      </LegalSection>
 
-          {/* Header */}
-          <div className="mb-12 border-b border-white/[0.07] pb-8">
-            <p className="mb-3 text-[12px] font-semibold uppercase tracking-widest text-acid">Legal</p>
-            <h1 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              {t.legalNotice.title}
-            </h1>
-            <p className="mt-3 text-[13px] text-white/35">
-              {new Date().toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric" })}
-            </p>
-          </div>
+      <LegalSection id="terms" title={s.terms.title}>
+        <p>{s.terms.description}</p>
+        <LegalBulletList items={s.terms.items} />
+      </LegalSection>
 
-          {/* Sections */}
-          <div className="space-y-6">
+      <LegalSection id="ip" title={s.ip.title}>
+        <p>{s.ip.description}</p>
+      </LegalSection>
 
-            {/* 1. Identificación */}
-            <Section title={s.identity.title}>
-              <p>{s.identity.intro}</p>
-              <ul className="mt-3 space-y-1.5">
-                <li className="flex gap-2">
-                  <span className="min-w-[130px] text-white/60">{s.identity.name}:</span>
-                  <span>{s.identity.nameValue}</span>
-                </li>
-                <li className="flex gap-2">
-                  <span className="min-w-[130px] text-white/60">{s.identity.email}:</span>
-                  <a href="mailto:gsaiz.bajo@gmail.com" className="text-acid hover:text-acid-light transition-colors">
-                    {s.identity.emailValue}
-                  </a>
-                </li>
-                <li className="flex gap-2">
-                  <span className="min-w-[130px] text-white/60">{s.identity.website}:</span>
-                  <span>{s.identity.websiteValue}</span>
-                </li>
-                <li className="flex gap-2">
-                  <span className="min-w-[130px] text-white/60">{s.identity.activity}:</span>
-                  <span>{s.identity.activityValue}</span>
-                </li>
-              </ul>
-            </Section>
+      <LegalSection id="liability" title={s.liability.title}>
+        <p>{s.liability.description}</p>
+        <LegalBulletList items={s.liability.items} />
+      </LegalSection>
 
-            {/* 2. Objeto */}
-            <Section title={s.purpose.title}>
-              <p>{s.purpose.description}</p>
-            </Section>
+      <LegalSection id="links" title={s.links.title}>
+        <p>{s.links.description}</p>
+      </LegalSection>
 
-            {/* 3. Condiciones de uso */}
-            <Section title={s.terms.title}>
-              <p>{s.terms.description}</p>
-              <BulletList items={s.terms.items} />
-            </Section>
+      <LegalSection id="law" title={s.law.title}>
+        <p>{s.law.description}</p>
+      </LegalSection>
 
-            {/* 4. Propiedad intelectual */}
-            <Section title={s.ip.title}>
-              <p>{s.ip.description}</p>
-            </Section>
+      <LegalSection id="changes" title={s.changes.title}>
+        <p>{s.changes.description}</p>
+      </LegalSection>
 
-            {/* 5. Exclusión de responsabilidad */}
-            <Section title={s.liability.title}>
-              <p>{s.liability.description}</p>
-              <BulletList items={s.liability.items} />
-            </Section>
-
-            {/* 6. Política de enlaces */}
-            <Section title={s.links.title}>
-              <p>{s.links.description}</p>
-            </Section>
-
-            {/* 7. Legislación aplicable */}
-            <Section title={s.law.title}>
-              <p>{s.law.description}</p>
-            </Section>
-
-            {/* 8. Modificaciones */}
-            <Section title={s.changes.title}>
-              <p>{s.changes.description}</p>
-            </Section>
-
-            {/* 9. Contacto */}
-            <Section title={s.contact.title}>
-              <p>{s.contact.description}</p>
-              <p className="mt-3">
-                <span className="text-white/60">Email:</span>{" "}
-                <a href="mailto:gsaiz.bajo@gmail.com" className="text-acid hover:text-acid-light transition-colors">
-                  gsaiz.bajo@gmail.com
-                </a>
-              </p>
-            </Section>
-
-          </div>
-        </div>
-      </main>
-      <Footer />
-    </>
-  );
-}
-
-/* ─── Helpers ─────────────────────────────────────────────── */
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <section className="rounded-2xl border border-white/[0.07] bg-white/[0.025] p-6 sm:p-8">
-      <h2 className="mb-4 font-display text-lg font-semibold text-white sm:text-xl">{title}</h2>
-      <div className="space-y-2 text-[14px] leading-relaxed text-white/55">{children}</div>
-    </section>
-  );
-}
-
-function BulletList({ items }: { items: readonly string[] }) {
-  return (
-    <ul className="mt-2 space-y-1.5">
-      {items.map((item) => (
-        <li key={item} className="flex items-start gap-2.5 text-[14px] text-white/55">
-          <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-acid/60" />
-          {item}
-        </li>
-      ))}
-    </ul>
+      <LegalSection id="contact" title={s.contact.title}>
+        <LegalContactBlock description={s.contact.description} />
+      </LegalSection>
+    </LegalPageShell>
   );
 }

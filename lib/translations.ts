@@ -444,6 +444,16 @@ export const translations = {
       accept: 'Aceptar',
       reject: 'Rechazar',
     },
+    // Legal hub (shared layout)
+    legalHub: {
+      title: 'Legal',
+      description:
+        'Información legal sobre el sitio gabrielcodes.dev: privacidad, aviso legal y condiciones de uso.',
+      documents: 'Documentos legales',
+      onThisPage: 'En esta página',
+      privacy: 'Política de Privacidad',
+      legalNotice: 'Aviso Legal',
+    },
     // Privacy Policy
     privacy: {
       title: 'Política de Privacidad',
@@ -532,7 +542,7 @@ export const translations = {
     },
     legalNotice: {
       title: 'Aviso Legal',
-      backHome: '← Volver al inicio',
+      lastUpdated: 'Última actualización',
       sections: {
         identity: {
           title: '1. Identificación del titular',
@@ -1036,6 +1046,16 @@ export const translations = {
       accept: 'Accept',
       reject: 'Reject',
     },
+    // Legal hub (shared layout)
+    legalHub: {
+      title: 'Legal',
+      description:
+        'Legal information about gabrielcodes.dev: privacy, legal notice and terms of use.',
+      documents: 'Legal documents',
+      onThisPage: 'On this page',
+      privacy: 'Privacy Policy',
+      legalNotice: 'Legal Notice',
+    },
     // Privacy Policy
     privacy: {
       title: 'Privacy Policy',
@@ -1124,7 +1144,7 @@ export const translations = {
     },
     legalNotice: {
       title: 'Legal Notice',
-      backHome: '← Back to home',
+      lastUpdated: 'Last updated',
       sections: {
         identity: {
           title: '1. Owner Identification',

@@ -13,7 +13,9 @@ import {
 } from "@/lib/structured-data";
 
 // Secciones bajo el fold — cargadas en chunks separados para reducir TBT móvil
-const TechCarousel = dynamic(() => import("@/components/ui/TechCarousel"));
+const TechCarousel = dynamic(
+  () => import("@/components/ui/TechCarouselLoader")
+);
 const ServicesSection = dynamic(
   () => import("@/components/sections/ServicesSection")
 );

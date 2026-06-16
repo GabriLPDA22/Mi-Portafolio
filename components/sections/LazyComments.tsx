@@ -3,7 +3,31 @@
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 
-const Comments = dynamic(() => import("./Comments"));
+function CommentsSkeleton() {
+  return (
+    <section
+      aria-label="Comentarios"
+      className="relative scroll-mt-24 py-20 sm:py-28"
+    >
+      <div className="container-main max-w-4xl">
+        <div className="mb-12 h-24 animate-pulse rounded-2xl bg-white/[0.03]" />
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {[1, 2, 3].map((n) => (
+            <div
+              key={n}
+              className="h-36 animate-pulse rounded-3xl bg-white/[0.03]"
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const Comments = dynamic(() => import("./Comments"), {
+  ssr: false,
+  loading: () => <CommentsSkeleton />,
+});
 
 /**
  * Monta la sección de comentarios solo cuando el usuario se acerca a ella.
@@ -33,10 +57,13 @@ export default function LazyComments() {
     return () => io.disconnect();
   }, []);
 
-  // El ancla #comentarios vive en el wrapper hasta que monta la sección real
   return (
     <div ref={ref} id={show ? undefined : "comentarios"} className="scroll-mt-24">
-      {show ? <Comments /> : <div className="min-h-[480px]" aria-hidden="true" />}
+      {show ? (
+        <Comments />
+      ) : (
+        <div className="min-h-[480px]" aria-hidden="true" />
+      )}
     </div>
   );
 }
