@@ -11,11 +11,11 @@ export default function Header() {
   const [hasScrolled, setHasScrolled] = useState(false);
 
   const NAV_ITEMS = [
-    { label: t.nav.services, href: "#servicios" },
-    { label: t.nav.pricing, href: "#tarifas" },
-    { label: t.nav.projects, href: "#proyectos" },
-    { label: t.nav.about, href: "#sobre-mi" },
-    { label: t.nav.comments, href: "#comentarios" },
+    { label: t.nav.services, href: "/#servicios" },
+    { label: t.nav.pricing, href: "/#tarifas" },
+    { label: t.nav.projects, href: "/#proyectos" },
+    { label: t.nav.about, href: "/#sobre-mi" },
+    { label: t.nav.comments, href: "/#comentarios" },
   ];
 
   useEffect(() => {
@@ -90,7 +90,7 @@ export default function Header() {
               <div className="mx-2 h-4 w-px bg-white/10" />
               <LanguageToggle />
               <a
-                href="#contacto"
+                href="/#contacto"
                 className="btn-shine ml-2 inline-flex h-9 items-center justify-center rounded-full bg-acid px-5 text-[13px] font-bold text-noir transition-all duration-300 hover:bg-acid-light hover:shadow-[0_0_24px_rgba(204,245,63,0.35)]"
               >
                 {t.nav.contact}
@@ -141,7 +141,7 @@ export default function Header() {
       >
         <nav className="container-main flex-1">
           <ul className="flex flex-col gap-1">
-            {[...NAV_ITEMS, { label: t.nav.contact, href: "#contacto" }].map(
+            {[...NAV_ITEMS, { label: t.nav.contact, href: "/#contacto" }].map(
               (item, i) => (
                 <li
                   key={item.href}

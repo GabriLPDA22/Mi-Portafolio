@@ -31,7 +31,7 @@ export default function Footer() {
         {/* CTA + socials */}
         <div className="flex flex-col items-start justify-between gap-8 pb-14 sm:flex-row sm:items-center">
           <a
-            href="#contacto"
+            href="/#contacto"
             className="group flex items-center gap-3 font-display text-2xl font-bold tracking-tight text-ink transition-colors hover:text-acid sm:text-3xl"
           >
             {t.contact.headline}
