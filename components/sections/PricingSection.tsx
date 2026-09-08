@@ -4,6 +4,7 @@ import { m, type Variants } from "framer-motion";
 import { Check, Sparkles } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import SectionHeading from "@/components/ui/SectionHeading";
+import { useScrollScrub } from "@/hooks/useScrollScrub";
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -16,12 +17,20 @@ const fadeInUp: Variants = {
 
 export default function PricingSection() {
   const { t } = useLocale();
+  const scopeRef = useScrollScrub({
+    ".section-head-gsap": { y: -24, x: -12, mobileX: -6 },
+    ".price-card-gsap": { y: 26, scale: 0.97 },
+  });
 
   return (
-    <section id="tarifas" className="relative scroll-mt-24 py-20 sm:py-28">
+    <section
+      ref={scopeRef}
+      id="tarifas"
+      className="relative scroll-mt-24 py-20 sm:py-28"
+    >
       {/* Background glow */}
       <div aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="aurora aurora-animate-slow bottom-[-20%] left-1/2 h-[40vh] w-[80vw] -translate-x-1/2 bg-[#6d5dfc]/10" />
+        <div className="aurora aurora-animate-slow bottom-[-20%] left-1/2 h-[40vh] w-[80vw] -translate-x-1/2 bg-acid/[0.06]" />
       </div>
 
       <div className="container-main">
@@ -43,7 +52,7 @@ export default function PricingSection() {
               viewport={{ once: true, margin: "-60px" }}
               transition={{ delay: index * 0.08 }}
               className={[
-                "card-acid relative flex flex-col overflow-hidden rounded-3xl border",
+                "price-card-gsap card-acid relative flex flex-col overflow-hidden rounded-3xl border",
                 item.id === "fullstack" ? "lg:col-span-2" : "",
                 item.id === "maintenance" ? "sm:col-span-2 lg:col-span-1" : "",
                 item.highlight
@@ -58,7 +67,7 @@ export default function PricingSection() {
                     {item.name}
                   </p>
                   {item.badge && (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-acid px-2.5 py-0.5 text-[10px] font-bold text-noir shadow-[0_0_18px_rgba(204,245,63,0.35)]">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-acid px-2.5 py-0.5 text-[10px] font-bold text-noir shadow-[0_0_18px_rgba(240,180,41,0.35)]">
                       <Sparkles className="h-3 w-3" />
                       {item.badge}
                     </span>
@@ -119,7 +128,7 @@ export default function PricingSection() {
                   className={[
                     "btn-shine inline-flex h-11 w-full items-center justify-center rounded-full text-[13px] font-semibold transition-all duration-300",
                     item.highlight
-                      ? "bg-acid text-noir hover:bg-acid-light hover:shadow-[0_8px_30px_-6px_rgba(204,245,63,0.5)]"
+                      ? "bg-acid text-noir hover:bg-acid-light hover:shadow-[0_8px_30px_-6px_rgba(240,180,41,0.5)]"
                       : "border border-white/[0.12] bg-white/[0.04] text-ink/75 hover:border-acid/50 hover:text-acid",
                   ].join(" ")}
                 >

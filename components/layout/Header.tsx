@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useLocale } from "@/contexts/LocaleContext";
 import LanguageToggle from "@/components/ui/LanguageToggle";
+import BrandMark from "@/components/ui/BrandMark";
 
 export default function Header() {
   const { t } = useLocale();
@@ -12,10 +13,11 @@ export default function Header() {
 
   const NAV_ITEMS = [
     { label: t.nav.services, href: "/#servicios" },
-    { label: t.nav.pricing, href: "/#tarifas" },
     { label: t.nav.projects, href: "/#proyectos" },
+    { label: t.nav.pricing, href: "/#tarifas" },
+    { label: t.nav.process, href: "/#resultados" },
     { label: t.nav.about, href: "/#sobre-mi" },
-    { label: t.nav.comments, href: "/#comentarios" },
+    // { label: t.nav.comments, href: "/#comentarios" },
   ];
 
   useEffect(() => {
@@ -62,15 +64,16 @@ export default function Header() {
             <Link
               href="/"
               onClick={closeMenu}
-              className="group flex items-baseline font-display text-lg font-bold tracking-tight text-ink"
+              className="group flex items-center gap-2.5 font-display text-lg font-bold tracking-tight text-ink"
               aria-label="Gabriel Saiz - Desarrollador Full-Stack, Inicio"
               title="Gabriel Saiz — Full-Stack Developer"
             >
-              gabriel
-              <span className="text-acid transition-transform duration-300 group-hover:-translate-y-0.5">
-                .
+              <BrandMark className="h-7 w-7 shrink-0 text-ink transition-transform duration-300 group-hover:scale-105" />
+              <span>
+                gabriel
+                <span className="text-acid">.</span>
+                <span className="text-ink/50">codes</span>
               </span>
-              <span className="text-ink/50">codes</span>
             </Link>
 
             {/* Desktop nav — solo en lg+: en tablet no cabe sin romperse */}
@@ -91,7 +94,7 @@ export default function Header() {
               <LanguageToggle />
               <a
                 href="/#contacto"
-                className="btn-shine ml-2 inline-flex h-9 items-center justify-center rounded-full bg-acid px-5 text-[13px] font-bold text-noir transition-all duration-300 hover:bg-acid-light hover:shadow-[0_0_24px_rgba(204,245,63,0.35)]"
+                className="btn-arrow ml-2 h-9 px-4 text-[13px]"
               >
                 {t.nav.contact}
               </a>

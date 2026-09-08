@@ -4,9 +4,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Comprimir assets de texto
+  // Evita el overlay "layout router" al entrar por 127.0.0.1 vs localhost
+  allowedDevOrigins: ["127.0.0.1", "localhost"],
   compress: true,
-  // Minimizar polyfills para navegadores modernos
   experimental: {
     optimizePackageImports: ["lucide-react", "framer-motion"],
   },

@@ -5,6 +5,7 @@ import { m, AnimatePresence, type Variants } from "framer-motion";
 import { Plus } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import SectionHeading from "@/components/ui/SectionHeading";
+import { useScrollScrub } from "@/hooks/useScrollScrub";
 
 interface FAQItem {
   id: string;
@@ -43,7 +44,7 @@ function AccordionItem({
   return (
     <m.div
       variants={fadeInUp}
-      className={`overflow-hidden rounded-2xl border transition-colors duration-300 ${
+      className={`faq-item-gsap overflow-hidden rounded-2xl border transition-colors duration-300 ${
         isOpen
           ? "border-acid/30 bg-acid/[0.04]"
           : "border-white/[0.07] bg-white/[0.02] hover:border-white/[0.14]"
@@ -104,13 +105,21 @@ function AccordionItem({
 export default function FAQSection() {
   const { t } = useLocale();
   const [openId, setOpenId] = useState<string | null>("timeline");
+  const scopeRef = useScrollScrub({
+    ".section-head-gsap": { y: -22, x: -10, mobileX: -5 },
+    ".faq-item-gsap": { y: 18 },
+  });
 
   const items: FAQItem[] = Object.entries(t.faq.questions).map(
     ([id, { q, a }]) => ({ id, question: q, answer: a })
   );
 
   return (
-    <section id="faq" className="relative scroll-mt-24 py-20 sm:py-28">
+    <section
+      ref={scopeRef}
+      id="faq"
+      className="relative scroll-mt-24 py-20 sm:py-28"
+    >
       <div className="container-main max-w-3xl">
         <SectionHeading
           tag={t.faq.title}

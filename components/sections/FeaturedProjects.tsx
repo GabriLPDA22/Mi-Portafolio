@@ -1,14 +1,12 @@
 "use client";
 
-import { m, type Variants } from "framer-motion";
+import { useRef } from "react";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
-import SectionHeading from "@/components/ui/SectionHeading";
+import { useProjectsStack } from "@/hooks/useProjectsStack";
+import { SplitTitle } from "@/components/motion/Entry";
 
-/* ============================================
-   DATA
-   ============================================ */
 interface Project {
   id: string;
   title: string;
@@ -32,7 +30,6 @@ interface Project {
   };
 }
 
-// Image configuration (static, not translated)
 const projectImages: Record<
   string,
   { src: string; alt: string; type: "mockup" | "photo" }
@@ -54,11 +51,12 @@ const projectImages: Record<
   },
 };
 
-// CTA href mapping (static URLs)
 const projectCtaHrefs: Record<string, Record<string, string>> = {
   arch: {
-    "Descargar en App Store": "https://apps.apple.com/us/app/the-arch/id6753820007",
-    "Download on App Store": "https://apps.apple.com/us/app/the-arch/id6753820007",
+    "Descargar en App Store":
+      "https://apps.apple.com/us/app/the-arch/id6753820007",
+    "Download on App Store":
+      "https://apps.apple.com/us/app/the-arch/id6753820007",
     "Solicitar detalles": "#contacto",
     "Request details": "#contacto",
   },
@@ -72,101 +70,102 @@ const projectCtaHrefs: Record<string, Record<string, string>> = {
   },
 };
 
-const fadeInUp: Variants = {
-  hidden: { opacity: 0, y: 36 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
-  },
-};
+function ProjectVisual({
+  project,
+}: {
+  project: Project;
+}) {
+  if (project.image.type === "mockup") {
+    return (
+      <div className="relative flex h-[38%] w-full items-center justify-center xl:h-[70%] xl:w-[55%]">
+        <div className="relative aspect-[9/19] h-full min-w-[12rem]">
+          <Image
+            src={project.image.src}
+            alt={project.image.alt}
+            fill
+            className="rounded-[1.6rem] object-contain drop-shadow-[0_24px_60px_rgba(0,0,0,0.55)]"
+            sizes="(max-width: 1280px) 55vw, 32vw"
+          />
+        </div>
+      </div>
+    );
+  }
 
-/* ============================================
-   PROJECT CARD — imagen y texto alternados en lg
-   ============================================ */
-function ProjectCard({
+  const objectPos =
+    project.id === "huvegrym"
+      ? "object-[center_30%]"
+      : project.id === "tarot-divinidad"
+        ? "object-[center_20%]"
+        : "object-center";
+
+  return (
+    <div className="relative h-[36%] w-full overflow-hidden rounded-2xl border border-white/12 xl:h-[72%] xl:w-[55%]">
+      <Image
+        src={project.image.src}
+        alt={project.image.alt}
+        fill
+        className={`object-cover transition-transform duration-700 hover:scale-105 ${objectPos}`}
+        sizes="(max-width: 1280px) 100vw, 55vw"
+      />
+    </div>
+  );
+}
+
+function ProjectPanel({
   project,
   index,
+  isLast,
 }: {
   project: Project;
   index: number;
+  isLast: boolean;
 }) {
-  const reversed = index % 2 === 1;
+  const odd = index % 2 === 1;
 
   return (
-    <m.article
-      variants={fadeInUp}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-60px" }}
-      className="card-acid group relative overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.02]"
+    <div
+      className="project-card relative flex h-svh items-center overflow-hidden bg-noir pt-4 xl:h-[calc(100svh-5.25rem)] xl:pt-0"
+      style={{ zIndex: index + 1 }}
     >
-      <div
-        className={`grid lg:grid-cols-2 ${
-          reversed ? "lg:[direction:rtl]" : ""
-        }`}
+      {index > 0 && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-0 top-[-3.5rem] z-20 h-16 w-full bg-gradient-to-t from-noir via-noir to-transparent xl:top-[-1.5rem] xl:h-8"
+        />
+      )}
+
+      <article
+        className={`project-card-content mx-auto flex h-full w-full max-w-[var(--container-max)] flex-col-reverse items-start justify-end gap-6 px-5 will-change-transform sm:px-6 xl:flex-row xl:items-center xl:gap-16 xl:px-8 ${
+          odd ? "xl:flex-row-reverse" : ""
+        } ${isLast ? "pb-10 pt-8" : "py-8"}`}
       >
-        {/* ── Imagen ── */}
-        <div className="relative h-64 overflow-hidden border-b border-white/[0.06] sm:h-80 lg:h-auto lg:min-h-[420px] lg:border-b-0 lg:[direction:ltr]">
-          {project.image.type === "mockup" ? (
-            <>
-              <div
-                aria-hidden="true"
-                className="aurora left-1/2 top-1/2 h-56 w-44 -translate-x-1/2 -translate-y-1/2 bg-acid/15"
-              />
-              <div className="absolute inset-0 flex items-end justify-center">
-                <Image
-                  src={project.image.src}
-                  alt={project.image.alt}
-                  width={473}
-                  height={1024}
-                  priority={index === 0}
-                  className="rounded-t-2xl object-contain drop-shadow-2xl transition-transform duration-700 group-hover:-translate-y-2"
-                  style={{ maxHeight: "94%", width: "auto" }}
-                  sizes="(max-width: 1024px) 60vw, 30vw"
-                />
-              </div>
-            </>
-          ) : (
-            <>
-              <Image
-                src={project.image.src}
-                alt={project.image.alt}
-                fill
-                className="object-cover brightness-[0.85] transition-transform duration-700 group-hover:scale-[1.04]"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-noir/70 via-transparent to-transparent" />
-            </>
-          )}
-
-          {/* Status badge */}
-          <div className="absolute left-4 top-4 z-10">
-            <span className="glass inline-flex items-center gap-2 rounded-full border border-white/10 px-3 py-1.5 text-[11px] font-semibold text-ink">
-              <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-acid" />
-              En producción
-            </span>
+        <div className="flex w-full flex-col justify-center gap-4 xl:w-[45%] xl:gap-7">
+          <div className="flex flex-col gap-4 xl:gap-6">
+            <h3 className="font-display text-2xl font-semibold tracking-tight text-ink xl:text-4xl">
+              {project.title}
+            </h3>
+            <div className="flex flex-wrap gap-2 xl:gap-3">
+              {project.chips.map((chip) => (
+                <span
+                  key={chip}
+                  className="rounded-full border border-white/15 bg-noir px-3 py-1 text-[11px] text-ink/70 xl:text-sm"
+                >
+                  {chip}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* ── Contenido ── */}
-        <div className="relative flex flex-col p-6 sm:p-8 lg:p-10 lg:[direction:ltr]">
-          <h3 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-            {project.title}
-          </h3>
-          <p className="mt-2 text-[15px] font-medium text-acid/90">
-            {project.subtitle}
-          </p>
-          <p className="mt-3 text-[14px] leading-relaxed text-ink/55">
+          <p className="max-w-xl text-[14px] leading-relaxed text-ink/60 xl:text-lg">
+            <span className="font-medium text-ink/85">{project.subtitle}. </span>
             {project.description}
           </p>
 
-          {/* Bullets */}
-          <ul className="mt-6 space-y-2.5">
+          <ul className="hidden space-y-2 xl:block">
             {project.bullets.slice(0, 4).map((bullet) => (
               <li
                 key={bullet}
-                className="flex items-start gap-3 text-[13.5px] text-ink/60"
+                className="flex items-start gap-3 text-[13px] text-ink/50 xl:text-[15px]"
               >
                 <span className="mt-[7px] h-1 w-1 flex-shrink-0 rounded-full bg-acid" />
                 {bullet}
@@ -174,61 +173,45 @@ function ProjectCard({
             ))}
           </ul>
 
-          {/* Chips */}
-          <div className="mt-6 flex flex-wrap gap-1.5">
-            {project.chips.slice(0, 6).map((chip) => (
-              <span
-                key={chip}
-                className="rounded-full border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 text-[11px] font-medium text-ink/55"
-              >
-                {chip}
-              </span>
-            ))}
-          </div>
-
-          {/* CTAs */}
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="mt-1 flex flex-wrap items-center gap-3">
             <a
               href={project.cta.href}
               target={project.cta.external ? "_blank" : undefined}
               rel={project.cta.external ? "noopener noreferrer" : undefined}
-              className="btn-shine group/btn inline-flex h-12 items-center justify-center gap-2 rounded-full bg-acid px-7 text-[14px] font-bold text-noir transition-all duration-300 hover:bg-acid-light hover:shadow-[0_8px_30px_-6px_rgba(204,245,63,0.5)]"
+              className="group inline-flex w-fit items-center gap-3 rounded-full border border-white/20 py-1.5 pl-5 pr-1.5 text-[14px] font-medium text-ink transition-colors hover:border-acid hover:text-acid xl:text-base"
             >
               {project.cta.label}
-              {project.cta.external && (
-                <ArrowUpRight
-                  className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5"
-                  strokeWidth={2.2}
-                />
-              )}
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-ink text-noir transition-transform duration-300 group-hover:rotate-45">
+                <ArrowUpRight className="h-4 w-4" strokeWidth={2.4} />
+              </span>
             </a>
             {project.secondaryCta && (
               <a
                 href={project.secondaryCta.href}
-                className="inline-flex h-12 items-center justify-center rounded-full border border-white/[0.12] px-7 text-[14px] font-medium text-ink/70 transition-all duration-300 hover:border-acid/50 hover:text-acid"
+                className="text-[13px] text-ink/45 underline-offset-4 transition-colors hover:text-acid hover:underline"
               >
                 {project.secondaryCta.label}
               </a>
             )}
           </div>
         </div>
-      </div>
-    </m.article>
+
+        <ProjectVisual project={project} />
+      </article>
+    </div>
   );
 }
 
-/* ============================================
-   MAIN SECTION
-   ============================================ */
 export default function FeaturedProjects() {
   const { t } = useLocale();
+  const stackRef = useRef<HTMLDivElement>(null);
+  useProjectsStack(stackRef);
 
-  // Build projects from translations
   const projects: Project[] = t.projects.items.map((item) => {
     const image = projectImages[item.id];
     const ctaHref = projectCtaHrefs[item.id]?.[item.cta] || "#";
-    const hasSecondaryCta = "secondaryCta" in item && item.secondaryCta;
-    const secondaryCtaHref = hasSecondaryCta
+    const hasSecondary = "secondaryCta" in item && item.secondaryCta;
+    const secondaryHref = hasSecondary
       ? projectCtaHrefs[item.id]?.[item.secondaryCta as string] || "#contacto"
       : undefined;
 
@@ -245,30 +228,39 @@ export default function FeaturedProjects() {
         href: ctaHref,
         external: ctaHref.startsWith("http"),
       },
-      secondaryCta: hasSecondaryCta
+      secondaryCta: hasSecondary
         ? {
             label: item.secondaryCta as string,
-            href: secondaryCtaHref || "#contacto",
+            href: secondaryHref || "#contacto",
           }
         : undefined,
     };
   });
 
   return (
-    <section id="proyectos" className="relative scroll-mt-24 py-20 sm:py-28">
+    <section id="proyectos" className="relative scroll-mt-24 pt-16 xl:pt-10">
       <div className="container-main">
-        <SectionHeading
-          tag={t.projects.title}
-          headline={t.projects.headline}
-          subtitle={t.projects.subtitle}
-        />
-
-        <div className="flex flex-col gap-6 lg:gap-8">
-          {projects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
-          ))}
+        <div className="mb-4 flex xl:mb-2 xl:gap-20">
+          <div className="hidden xl:block xl:w-[60%]" />
+          <h2 className="font-code text-3xl tracking-tight text-ink xl:w-full xl:text-5xl">
+            ../
+            <SplitTitle text={t.projects.title.toLowerCase()} play="view" />
+          </h2>
         </div>
       </div>
+
+      <div ref={stackRef} className="projects-stack">
+        {projects.map((project, index) => (
+          <ProjectPanel
+            key={project.id}
+            project={project}
+            index={index}
+            isLast={index === projects.length - 1}
+          />
+        ))}
+      </div>
+
+      <div aria-hidden="true" className="relative z-[20] h-16 bg-noir xl:h-24" />
     </section>
   );
 }

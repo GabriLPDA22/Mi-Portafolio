@@ -4,6 +4,7 @@ import { m, type Variants } from "framer-motion";
 import { MessageSquare, Repeat, Code2, Target } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import SectionHeading from "@/components/ui/SectionHeading";
+import { useScrollScrub } from "@/hooks/useScrollScrub";
 
 interface WorkBlock {
   id: string;
@@ -35,7 +36,7 @@ function WorkBlockCard({ block }: { block: WorkBlock }) {
   return (
     <m.div
       variants={fadeInUp}
-      className="card-acid group relative overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.025] p-6 sm:p-8"
+      className="result-card-gsap card-acid group relative overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.025] p-6 sm:p-8"
     >
       {/* Número fantasma gigante */}
       <div className="relative">
@@ -57,6 +58,10 @@ function WorkBlockCard({ block }: { block: WorkBlock }) {
 
 export default function ResultsSection() {
   const { t } = useLocale();
+  const scopeRef = useScrollScrub({
+    ".section-head-gsap": { y: -24, x: -14, mobileX: -6 },
+    ".result-card-gsap": { y: 28, scale: 0.96 },
+  });
 
   const workBlocks: WorkBlock[] = [
     {
@@ -86,7 +91,11 @@ export default function ResultsSection() {
   ];
 
   return (
-    <section id="resultados" className="relative scroll-mt-24 py-20 sm:py-28">
+    <section
+      ref={scopeRef}
+      id="resultados"
+      className="relative scroll-mt-24 py-20 sm:py-28"
+    >
       <div className="container-main">
         <SectionHeading
           tag={t.results.title}

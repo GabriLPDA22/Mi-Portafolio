@@ -98,17 +98,18 @@ export default function ContactForm() {
 
   return (
     <m.div
+      id="contacto-form"
       variants={fadeInRight}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-80px" }}
-      className="lg:col-span-3"
+      className="relative"
     >
-      <div className="relative overflow-hidden rounded-3xl border border-white/[0.09] bg-white/[0.025] p-6 backdrop-blur-xl sm:p-8">
-        {/* Acento superior */}
+      <div className="relative max-sm:bg-transparent sm:overflow-hidden sm:rounded-3xl sm:border sm:border-white/[0.09] sm:bg-white/[0.025] sm:p-8 sm:backdrop-blur-xl">
+        {/* Acento superior — solo desktop/caja */}
         <div
           aria-hidden="true"
-          className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-acid/50 to-transparent"
+          className="absolute inset-x-0 top-0 hidden h-px bg-gradient-to-r from-transparent via-acid/50 to-transparent sm:block"
         />
 
         {status === "success" ? (
@@ -239,7 +240,7 @@ export default function ContactForm() {
             <button
               type="submit"
               disabled={status === "loading"}
-              className="btn-shine flex h-13 w-full items-center justify-center gap-2 rounded-full bg-acid px-6 text-[15px] font-bold text-noir transition-all duration-300 hover:bg-acid-light hover:shadow-[0_8px_40px_-8px_rgba(204,245,63,0.5)] disabled:cursor-not-allowed disabled:opacity-50"
+              className="btn-shine flex h-13 w-full items-center justify-center gap-2 rounded-full bg-acid px-6 text-[15px] font-bold text-noir transition-all duration-300 hover:bg-acid-light hover:shadow-[0_8px_40px_-8px_rgba(240,180,41,0.5)] disabled:cursor-not-allowed disabled:opacity-50"
             >
               {status === "loading" ? (
                 <>

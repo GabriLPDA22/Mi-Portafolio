@@ -13,9 +13,6 @@ import {
 } from "@/lib/structured-data";
 
 // Secciones bajo el fold — cargadas en chunks separados para reducir TBT móvil
-const TechCarousel = dynamic(
-  () => import("@/components/ui/TechCarouselLoader")
-);
 const ServicesSection = dynamic(
   () => import("@/components/sections/ServicesSection")
 );
@@ -38,10 +35,10 @@ const FAQSection = dynamic(() => import("@/components/sections/FAQSection"));
 const ContactSection = dynamic(
   () => import("@/components/sections/ContactSection")
 );
-const LazyComments = dynamic(
-  () => import("@/components/sections/LazyComments")
-);
-const Footer = dynamic(() => import("@/components/layout/Footer"));
+// Comentarios desactivados temporalmente — descomentar para recuperar
+// const LazyComments = dynamic(
+//   () => import("@/components/sections/LazyComments")
+// );
 const ScrollToTop = dynamic(() => import("@/components/ui/ScrollToTop"));
 
 export default function Home() {
@@ -58,37 +55,32 @@ export default function Home() {
   };
 
   return (
-    <div className="w-full max-w-[100vw] overflow-x-hidden">
+    <div className="w-full max-w-[100vw]">
       <JsonLd data={allStructuredData} />
 
       <Preloader />
       <Header />
-      <main className="w-full max-w-[100vw] overflow-x-hidden">
-        {/* Hero + Tech Stack */}
+      <main className="w-full max-w-[100vw]">
         <HeroSection />
-        <TechCarousel />
 
-        {/* Services + Pricing + Projects */}
-        <ServicesSection />
-        <PricingSection />
+        {/* En móvil, services sube por encima del cierre fijado de about */}
+        <div className="relative isolate">
+          <AboutSection />
+          <ServicesSection />
+        </div>
+
         <FeaturedProjects />
-
-        {/* About + Experience + Results */}
-        <AboutSection />
         <ExperienceSection />
         <ResultsSection />
-
-        {/* Pre-contact: FAQ */}
+        <PricingSection />
         <FAQSection />
 
-        {/* Comments — carga diferida: el bundle de Supabase solo se descarga
-            cuando el usuario se acerca a la sección */}
+        {/* Comentarios ocultos — descomentar para recuperar
         <LazyComments />
+        */}
 
-        {/* Contact */}
         <ContactSection />
       </main>
-      <Footer />
       <ScrollToTop />
     </div>
   );

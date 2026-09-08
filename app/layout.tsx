@@ -1,12 +1,27 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Caveat, Nunito } from "next/font/google";
 import "./globals.css";
 import { LocaleProvider } from "@/contexts/LocaleContext";
 import CookieBanner from "@/components/ui/CookieBanner";
 import { MotionProvider } from "@/components/providers/MotionProvider";
 
-// Fuentes auto-alojadas: sin peticiones a Google Fonts (mejor FCP/LCP en móvil
-// y builds offline). Los .woff2 viven en app/fonts.
+// Soft rounded display — encaja con el retrato anime / golden-hour
+const nunito = Nunito({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-nunito",
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+// Manuscrita como los pósters del estudio ("Good Vibes Only")
+const caveat = Caveat({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-caveat",
+  weight: ["500", "600", "700"],
+});
+
 const spaceGrotesk = localFont({
   src: [
     { path: "./fonts/SpaceGrotesk-400.woff2", weight: "400", style: "normal" },
@@ -122,13 +137,11 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
       { url: "/favicon.ico", sizes: "any" },
-      { url: "/icon.png", type: "image/png", sizes: "32x32" },
-      { url: "/icon.png", type: "image/png", sizes: "16x16" },
+      { url: "/icon.png", type: "image/png", sizes: "512x512" },
     ],
-    apple: [
-      { url: "/icon.png", type: "image/png", sizes: "180x180" },
-    ],
+    apple: [{ url: "/apple-touch-icon.png", type: "image/png", sizes: "180x180" }],
     shortcut: "/favicon.ico",
   },
   verification: {
@@ -142,11 +155,11 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${spaceGrotesk.variable} ${inter.variable} overflow-x-hidden`}
+      className={`${nunito.variable} ${caveat.variable} ${spaceGrotesk.variable} ${inter.variable} overflow-x-hidden`}
       suppressHydrationWarning
     >
       <head>
-        <meta name="theme-color" content="#060607" />
+        <meta name="theme-color" content="#120e0b" />
         <meta name="color-scheme" content="dark" />
       </head>
       <body className="min-h-screen antialiased overflow-x-hidden max-w-[100vw]">

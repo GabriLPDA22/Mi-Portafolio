@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useLocale } from "@/contexts/LocaleContext";
+import { dispatchIntroReady } from "@/hooks/useIntroReady";
 
 const WORDS: Record<string, string[]> = {
   es: ["imagina", "piensa", "diseña", "programa", "itera", "pule", "lanza"],
@@ -39,6 +40,7 @@ export default function Preloader() {
 
     if (skip) {
       setPhase("done");
+      dispatchIntroReady();
       return;
     }
 
@@ -62,7 +64,10 @@ export default function Preloader() {
         } catch {
           // sin sessionStorage el loader simplemente se repetirá
         }
-        exitTimer = setTimeout(() => setPhase("exit"), EXIT_DELAY_MS);
+        exitTimer = setTimeout(() => {
+          setPhase("exit");
+          dispatchIntroReady();
+        }, EXIT_DELAY_MS);
         doneTimer = setTimeout(() => setPhase("done"), EXIT_DELAY_MS + EXIT_MS);
       }
     };

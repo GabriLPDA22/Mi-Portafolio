@@ -1,82 +1,113 @@
 "use client";
 
-import { Github, Linkedin, Instagram, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { useLocale } from "@/contexts/LocaleContext";
+import SocialPills from "@/components/ui/SocialPills";
+import { useScrollScrub } from "@/hooks/useScrollScrub";
 
-const socialLinks = [
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/in/gabriel-saiz-de-la-maza-bajo-140370184/",
-    icon: Linkedin,
-  },
-  {
-    label: "GitHub",
-    href: "https://github.com/GabriLPDA22",
-    icon: Github,
-  },
-  {
-    label: "Instagram",
-    href: "https://instagram.com/saiz_gabriel",
-    icon: Instagram,
-  },
-];
-
-export default function Footer() {
+export default function Footer({ overlay = false }: { overlay?: boolean }) {
   const { t } = useLocale();
+  const scopeRef = useScrollScrub({
+    ".footer-watermark-gsap": { y: 20, scale: 1.03 },
+  });
 
-  return (
-    <footer className="relative overflow-hidden border-t border-white/[0.06] pt-14">
-      <div className="container-main">
-        {/* CTA + socials */}
-        <div className="flex flex-col items-start justify-between gap-8 pb-14 sm:flex-row sm:items-center">
-          <a
-            href="/#contacto"
-            className="group flex items-center gap-3 font-display text-2xl font-bold tracking-tight text-ink transition-colors hover:text-acid sm:text-3xl"
+  const routes = [
+    { href: "/", label: "Inicio" },
+    { href: "/#sobre-mi", label: t.nav.about },
+    { href: "/#servicios", label: t.nav.services },
+    { href: "/#proyectos", label: t.nav.projects },
+    { href: "/#tarifas", label: t.nav.pricing },
+    { href: "/#contacto", label: t.nav.contact },
+  ];
+
+  const links = (
+    <>
+      <nav className="flex max-w-xs flex-wrap justify-center gap-x-8 gap-y-3 sm:max-w-none">
+        {routes.map((route) => (
+          <Link
+            key={route.href}
+            href={route.href}
+            className="text-base text-ink/55 transition-colors hover:text-ink xl:text-lg"
           >
-            {t.contact.headline}
-            <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.12] transition-all duration-300 group-hover:border-acid group-hover:bg-acid group-hover:text-noir sm:h-12 sm:w-12">
-              <ArrowUpRight className="h-5 w-5" strokeWidth={2} />
-            </span>
-          </a>
+            {route.label}
+          </Link>
+        ))}
+      </nav>
 
-          <div className="flex items-center gap-2.5">
-            {socialLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.02] text-ink/55 transition-all duration-300 hover:border-acid/50 hover:bg-acid/10 hover:text-acid"
-                aria-label={link.label}
-              >
-                <link.icon className="h-4 w-4" strokeWidth={1.7} />
-              </a>
-            ))}
-          </div>
-        </div>
+      <SocialPills compact />
 
-        {/* Bottom bar */}
-        <div className="flex flex-col items-center justify-between gap-4 border-t border-white/[0.06] py-6 sm:flex-row">
-          <p className="text-[12.5px] text-ink/45">
-            © {new Date().getFullYear()} Gabriel Saiz. {t.footer.copyright}
-          </p>
-          <div className="flex gap-5 text-[12px] text-ink/45">
-            <Link
-              href="/privacidad"
-              className="transition-colors hover:text-acid"
-            >
-              Política de Privacidad
-            </Link>
-            <Link
-              href="/aviso-legal"
-              className="transition-colors hover:text-acid"
-            >
-              Aviso Legal
-            </Link>
-          </div>
+      <div className="flex flex-col items-center gap-4 text-[12.5px] text-ink/40 sm:flex-row sm:gap-8">
+        <p>
+          © {new Date().getFullYear()} Gabriel Saiz. {t.footer.copyright}
+        </p>
+        <div className="flex gap-5">
+          <Link href="/privacidad" className="hover:text-acid">
+            Política de Privacidad
+          </Link>
+          <Link href="/aviso-legal" className="hover:text-acid">
+            Aviso Legal
+          </Link>
         </div>
       </div>
+    </>
+  );
+
+  if (overlay) {
+    return (
+      <footer
+        ref={scopeRef}
+        className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden"
+      >
+        {/* Hueco superior: el form se ve detrás del corte */}
+        <div
+          aria-hidden="true"
+          className="min-h-[36svh] flex-1 sm:min-h-[42svh]"
+        />
+
+        {/* Móvil: panel sólido con diagonal; desktop: degradado suave */}
+        <div
+          className="relative z-10 pb-14 pt-14 sm:bg-gradient-to-t sm:from-noir sm:via-noir/92 sm:to-transparent sm:pb-20 sm:pt-28 xl:pt-36 max-sm:bg-noir max-sm:pt-20 max-sm:[clip-path:polygon(0_2.5rem,100%_0,100%_100%,0_100%)]"
+        >
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-10 bg-ink/[0.06] max-sm:[clip-path:polygon(0_100%,100%_0,100%_12%,0_100%)] sm:hidden"
+          />
+
+          <div className="container-main relative z-10 flex flex-col items-center gap-7 sm:gap-8 xl:gap-12">
+            {links}
+          </div>
+
+          <p
+            aria-hidden="true"
+            className="footer-watermark-gsap pointer-events-none relative z-0 -mb-6 mt-8 bg-gradient-to-t from-noir from-20% to-transparent text-center font-code text-[clamp(4rem,16vw,14rem)] font-extrabold leading-none text-ink/[0.08] sm:mt-10 xl:-mb-10"
+          >
+            Developer
+          </p>
+        </div>
+      </footer>
+    );
+  }
+
+  return (
+    <footer
+      ref={scopeRef}
+      className="relative overflow-hidden border-t border-white/[0.06] pt-16 xl:pt-24"
+    >
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-ink/[0.05] [clip-path:polygon(0_72%,100%_0,100%_4%,0_82%)] xl:h-28"
+      />
+
+      <div className="container-main relative z-10 flex flex-col items-center gap-8 pb-14 xl:gap-12 xl:pb-20">
+        {links}
+      </div>
+
+      <p
+        aria-hidden="true"
+        className="footer-watermark-gsap pointer-events-none relative z-0 -mb-6 bg-gradient-to-t from-noir from-15% to-transparent text-center font-code text-[clamp(4rem,14vw,14rem)] font-extrabold leading-none text-ink/[0.06] xl:-mb-10"
+      >
+        Developer
+      </p>
     </footer>
   );
 }

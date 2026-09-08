@@ -19,7 +19,7 @@ export default function AuthCallbackPage() {
       } catch (e) {
         console.error("Auth callback exception:", e);
       } finally {
-        window.location.replace("/#comentarios");
+        window.location.replace("/#contacto");
       }
     };
 

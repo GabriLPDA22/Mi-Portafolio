@@ -109,8 +109,8 @@ export default function TechCarousel() {
       aria-label="Tecnologías"
       className="relative w-full max-w-[100vw] overflow-x-hidden py-14 sm:py-20"
     >
-      <p className="mb-8 text-center font-display text-[13px] font-bold uppercase tracking-[0.4em] text-acid sm:text-[14px]">
-        Stack
+      <p className="mb-8 text-center font-code text-sm text-ink/45 xl:text-base">
+        ../stack
       </p>
 
       <div className="marquee-container relative w-full overflow-hidden">

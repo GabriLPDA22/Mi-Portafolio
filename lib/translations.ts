@@ -17,16 +17,23 @@ export const translations = {
       name: 'Gabriel Saiz',
       title: 'Desarrollador freelance',
       titleAccent: 'Full-Stack',
-      subtitle: 'Desarrollador móvil freelance especializado en React Native, Next.js y .NET. Creo apps iOS/Android, webs y dashboards de principio a fin. De la idea al producto en semanas, no meses.',
+      lineOne: 'Full-Stack',
+      lineTwo: 'Developer',
+      headline: 'Construyo apps y webs listas para producción.',
+      availability: 'Disponible para proyectos',
+      subtitle: 'Apps, webs y backends de principio a fin: de la idea al producto en semanas, no meses.',
       ctaPrimary: 'Reservar llamada',
       ctaSecondary: 'Ver proyectos',
       proof: 'Respuesta <24h · Consulta inicial gratis · Presupuesto sin compromiso',
+      vibeQuote: 'Un mejor yo cada día',
+      vibeAlt: 'Good vibes only',
     },
     // Services
     services: {
       title: 'SERVICIOS',
       headline: 'Lo que puedo hacer por ti',
       subtitle: 'Desarrollo completo de principio a fin, con foco en producto y rendimiento.',
+      ribbon: 'APPS MÓVILES  ·  WEB & DASHBOARDS  ·  BACKEND  ·  INFRA & DEVOPS  ·  UX & PERFORMANCE  ·  SOPORTE',
       items: [
         {
           id: 'mobile',
@@ -164,6 +171,7 @@ export const translations = {
       headline: 'Quién hay detrás del código',
       role: 'Desarrollador web y móvil',
       subtitle: 'Construyo productos digitales en producción, con foco en rendimiento y mantenibilidad.',
+      favorites: 'Parte del stack que utilizo en proyectos reales',
       bullets: [
         'Producto y negocio primero',
         'Código mantenible y limpio',
@@ -389,6 +397,7 @@ export const translations = {
     contact: {
       title: 'CONTACTO',
       headline: '¿Hablamos?',
+      role: 'Full-Stack Developer',
       subtitle: 'Cuéntame tu idea y te respondo en menos de 24h. La primera consulta es siempre gratuita.',
       badges: {
         response: 'Respuesta <24h',
@@ -619,16 +628,23 @@ export const translations = {
       name: 'Gabriel Saiz',
       title: 'Freelance',
       titleAccent: 'Full-Stack Developer',
-      subtitle: 'Freelance mobile developer specialized in React Native, Next.js and .NET. I build iOS/Android apps, webs and dashboards end-to-end. From idea to product in weeks, not months.',
+      lineOne: 'Full-Stack',
+      lineTwo: 'Developer',
+      headline: 'I build apps and websites ready for production.',
+      availability: 'Open for projects',
+      subtitle: 'Apps, webs and backends end to end: from idea to product in weeks, not months.',
       ctaPrimary: 'Book a call',
       ctaSecondary: 'View projects',
       proof: 'Response <24h · Free first consultation · No commitment quote',
+      vibeQuote: 'A better me every day',
+      vibeAlt: 'Good vibes only',
     },
     // Services
     services: {
       title: 'SERVICES',
       headline: 'What I can do for you',
       subtitle: 'End-to-end development, focused on product and performance.',
+      ribbon: 'MOBILE APPS  ·  WEB & DASHBOARDS  ·  BACKEND  ·  INFRA & DEVOPS  ·  UX & PERFORMANCE  ·  SUPPORT',
       items: [
         {
           id: 'mobile',
@@ -766,6 +782,7 @@ export const translations = {
       headline: 'Who is behind the code',
       role: 'Web & Mobile Developer',
       subtitle: 'I build digital products in production, focused on performance and maintainability.',
+      favorites: 'Part of the stack I use in real projects',
       bullets: [
         'Product and business first',
         'Maintainable and clean code',
@@ -991,6 +1008,7 @@ export const translations = {
     contact: {
       title: 'CONTACT',
       headline: "Let's talk?",
+      role: 'Full-Stack Developer',
       subtitle: "Tell me your idea and I'll respond in less than 24h. The first consultation is always free.",
       badges: {
         response: 'Response <24h',

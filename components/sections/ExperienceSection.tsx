@@ -4,6 +4,7 @@ import { m, type Variants } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import SectionHeading from "@/components/ui/SectionHeading";
+import { useScrollScrub } from "@/hooks/useScrollScrub";
 
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -16,12 +17,22 @@ const fadeInUp: Variants = {
 
 export default function ExperienceSection() {
   const { t } = useLocale();
+  const scopeRef = useScrollScrub({
+    ".section-head-gsap": { y: -28, x: -18, mobileX: -8 },
+    ".exp-item-gsap": { y: 22 },
+  });
 
   return (
-    <section id="trayectoria" className="relative scroll-mt-24 py-20 sm:py-28">
-      {/* Background glow */}
-      <div aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="aurora aurora-animate-slow right-[-10%] top-[10%] h-[35vh] w-[50vw] bg-[#6d5dfc]/10" />
+    <section
+      ref={scopeRef}
+      id="trayectoria"
+      className="relative z-10 scroll-mt-24 bg-noir/40 py-20 sm:py-28 xl:bg-transparent"
+    >
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 overflow-hidden"
+      >
+        <div className="aurora aurora-animate-slow right-[-10%] top-[10%] h-[35vh] w-[50vw] bg-acid/[0.06]" />
       </div>
 
       <div className="container-main">
@@ -31,22 +42,27 @@ export default function ExperienceSection() {
           subtitle={t.experience.subtitle}
         />
 
-        <div className="mx-auto max-w-3xl">
-          <ol className="relative space-y-12 before:absolute before:bottom-2 before:left-[7px] before:top-2 before:w-px before:bg-gradient-to-b before:from-acid/50 before:via-white/10 before:to-transparent">
-            {t.experience.items.map((item, index) => (
-              <m.li
-                key={item.id}
-                variants={fadeInUp}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ delay: index * 0.06 }}
-                className="relative pl-10 sm:pl-12"
-              >
-                <span className="absolute left-0 top-[5px] flex h-[15px] w-[15px] items-center justify-center rounded-full border border-acid/40 bg-noir">
-                  <span className="h-[5px] w-[5px] rounded-full bg-acid" />
-                </span>
+        <ol className="divide-y divide-white/[0.07] border-y border-white/[0.07]">
+          {t.experience.items.map((item, index) => (
+            <m.li
+              key={item.id}
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ delay: index * 0.06 }}
+              className="exp-item-gsap grid gap-4 py-10 sm:grid-cols-[minmax(0,14rem)_1fr] sm:gap-10 lg:grid-cols-[minmax(0,18rem)_1fr]"
+            >
+              <div>
+                <p className="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+                  {item.period}
+                </p>
+                <p className="mt-2 text-[12px] font-medium uppercase tracking-[0.18em] text-ink/40">
+                  {item.location}
+                </p>
+              </div>
 
+              <div>
                 <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                   <h3 className="font-display text-xl font-bold tracking-tight text-ink sm:text-2xl">
                     {item.role}
@@ -70,10 +86,6 @@ export default function ExperienceSection() {
                     </span>
                   )}
                 </div>
-
-                <p className="mt-1.5 text-[11.5px] font-medium uppercase tracking-[0.18em] text-ink/40">
-                  {item.period} · {item.location}
-                </p>
 
                 <p className="mt-3.5 max-w-xl text-[14px] leading-relaxed text-ink/55">
                   {item.description}
@@ -101,10 +113,10 @@ export default function ExperienceSection() {
                     </span>
                   ))}
                 </div>
-              </m.li>
-            ))}
-          </ol>
-        </div>
+              </div>
+            </m.li>
+          ))}
+        </ol>
       </div>
     </section>
   );

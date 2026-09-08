@@ -1,145 +1,221 @@
 "use client";
 
-import { m, type Variants } from "framer-motion";
-import { Linkedin, Github, Instagram, Mail, Check } from "lucide-react";
+import { ArrowUpRight, Github } from "lucide-react";
 import Image from "next/image";
 import { useLocale } from "@/contexts/LocaleContext";
-import SectionHeading from "@/components/ui/SectionHeading";
+import { SplitTitle } from "@/components/motion/Entry";
+import ScriptQuote from "@/components/ui/ScriptQuote";
+import { useScrollScrub } from "@/hooks/useScrollScrub";
+import { usePinnedSectionExit } from "@/hooks/usePinnedSectionExit";
 
-const fadeInUp: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
-  },
+const techGroups = {
+  es: [
+    {
+      id: "front",
+      label: "Apps móviles",
+      items: "React Native / Expo / Flutter / TypeScript",
+      anim: "left" as const,
+      gsap: "front-gsap",
+    },
+    {
+      id: "styles",
+      label: "Web",
+      items: "Next.js / Vue / WordPress",
+      anim: "right" as const,
+      gsap: "styles-gsap",
+    },
+    {
+      id: "back",
+      label: "Backend",
+      items: ".NET / PostgreSQL / SignalR / Symfony",
+      anim: "left" as const,
+      gsap: "back-gsap",
+    },
+    {
+      id: "tools",
+      label: "Despliegue e integraciones",
+      items: "AWS / Expo EAS / Codemagic / Stripe",
+      anim: "right" as const,
+      gsap: "tools-gsap",
+    },
+  ],
+  en: [
+    {
+      id: "front",
+      label: "Mobile apps",
+      items: "React Native / Expo / Flutter / TypeScript",
+      anim: "left" as const,
+      gsap: "front-gsap",
+    },
+    {
+      id: "styles",
+      label: "Web",
+      items: "Next.js / Vue / WordPress",
+      anim: "right" as const,
+      gsap: "styles-gsap",
+    },
+    {
+      id: "back",
+      label: "Backend",
+      items: ".NET / PostgreSQL / SignalR / Symfony",
+      anim: "left" as const,
+      gsap: "back-gsap",
+    },
+    {
+      id: "tools",
+      label: "Deployment & integrations",
+      items: "AWS / Expo EAS / Codemagic / Stripe",
+      anim: "right" as const,
+      gsap: "tools-gsap",
+    },
+  ],
 };
 
-const socialLinks = [
-  {
-    name: "LinkedIn",
-    url: "https://www.linkedin.com/in/gabriel-saiz-de-la-maza-bajo-140370184/",
-    icon: Linkedin,
-  },
-  {
-    name: "GitHub",
-    url: "https://github.com/GabriLPDA22",
-    icon: Github,
-  },
-  {
-    name: "Instagram",
-    url: "https://instagram.com/saiz_gabriel",
-    icon: Instagram,
-  },
-];
+function TechCard({
+  title,
+  items,
+  animation,
+  className = "",
+}: {
+  title: string;
+  items: string;
+  animation: "left" | "right";
+  className?: string;
+}) {
+  return (
+    <div
+      className={`group relative z-[1] overflow-hidden rounded-[2.5rem] border border-white/15 bg-noir-soft/80 p-6 xl:rounded-[3rem] xl:p-8 ${className}`}
+    >
+      <p className="relative z-10 text-xl font-medium text-ink/80 transition-colors duration-300 group-hover:text-noir xl:text-2xl">
+        {title}
+      </p>
+      <p className="relative z-10 mt-3 font-code text-sm text-ink/50 transition-colors duration-300 group-hover:text-noir/70 xl:text-base">
+        {items}
+      </p>
+      <div
+        className={`absolute inset-0 -z-[1] scale-x-0 bg-ink transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-x-100 ${
+          animation === "left" ? "origin-left" : "origin-right"
+        }`}
+      />
+    </div>
+  );
+}
+
+function GithubPair() {
+  return (
+    <a
+      href="https://github.com/GabriLPDA22"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group flex cursor-pointer"
+      aria-label="Ver perfil de GitHub"
+    >
+      <span className="flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-noir-soft transition-colors duration-300 group-hover:bg-ink group-hover:[&_svg]:text-noir xl:h-14 xl:w-14">
+        <Github className="h-5 w-5 text-ink" strokeWidth={1.7} />
+      </span>
+      <span className="relative -left-3 flex h-12 w-12 -rotate-45 items-center justify-center rounded-full bg-ink text-noir transition-all duration-300 group-hover:left-2 group-hover:rotate-180 group-hover:bg-noir-soft group-hover:text-ink xl:-left-4 xl:h-14 xl:w-14">
+        <ArrowUpRight className="h-5 w-5 xl:h-6 xl:w-6" strokeWidth={2.2} />
+      </span>
+    </a>
+  );
+}
 
 export default function AboutSection() {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
+  const groups = techGroups[locale] ?? techGroups.es;
+  const byId = Object.fromEntries(groups.map((g) => [g.id, g]));
+  const scopeRef = useScrollScrub({
+    ".personal-image-gsap": { y: -50, x: 50, rotate: -5 },
+    ".section-name-gsap": { x: -100, y: -100, mobileX: -40 },
+    ".description-gsap": { x: 100, y: -100, mobileX: 40 },
+    ".front-gsap": { scale: 0.9, rotate: 5, x: 100, mobileX: 40 },
+    ".styles-gsap": { scale: 0.9, rotate: -5, x: -100, mobileX: -40 },
+    ".back-gsap": { scale: 0.9, rotate: 5, x: 100, mobileX: 40 },
+    ".tools-gsap": { scale: 0.9, rotate: -5, x: -100, mobileX: -40 },
+    ".github-gsap": { rotate: 5, x: 100, mobileX: 30 },
+    ".tools-text-gsap": { rotate: -5, x: -100, mobileX: -30 },
+  });
+  usePinnedSectionExit(scopeRef, "#servicios");
 
   return (
-    <section id="sobre-mi" className="relative scroll-mt-24 py-20 sm:py-28">
-      {/* Background glow */}
-      <div aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="aurora aurora-animate left-[-15%] top-[20%] h-[35vh] w-[50vw] bg-[#c026d3]/10" />
-      </div>
+    <section
+      ref={scopeRef}
+      id="sobre-mi"
+      className="relative z-0 scroll-mt-24 bg-noir py-28 will-change-transform xl:bg-transparent xl:py-40"
+    >
+      <div className="container-main flex flex-col gap-12 xl:gap-24">
+        <div className="flex w-full flex-col gap-8 md:flex-row md:items-end md:justify-between md:gap-20 2xl:w-[85%]">
+          <h2 className="section-name-gsap font-code text-3xl text-ink xl:text-5xl">
+            ../
+            <SplitTitle text={t.about.title.toLowerCase()} play="view" />
+          </h2>
+          <p className="description-gsap max-w-xl whitespace-pre-line text-base leading-relaxed text-ink/55 xl:text-xl">
+            {t.about.subtitle}
+          </p>
+        </div>
 
-      <div className="container-main">
-        <SectionHeading tag={t.about.title} headline={t.about.headline} />
+        <div className="flex flex-col-reverse items-center gap-10 xl:flex-row xl:justify-between">
+          <div className="flex w-full flex-col gap-6 xl:w-1/2 xl:gap-8">
+            <div className="front-gsap">
+              <TechCard
+                title={byId.front.label}
+                items={byId.front.items}
+                animation="left"
+              />
+            </div>
 
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          {/* ── Foto ── */}
-          <m.div
-            variants={fadeInUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            className="relative mx-auto w-full max-w-sm"
-          >
-            {/* Marco con gradiente */}
-            <div className="group relative rounded-[2rem] bg-gradient-to-br from-acid/40 via-white/10 to-[#6d5dfc]/40 p-[1.5px] transition-shadow duration-500 hover:shadow-[0_0_60px_-15px_rgba(204,245,63,0.3)]">
-              <div className="relative aspect-[3/4] w-full overflow-hidden rounded-[calc(2rem-1.5px)] bg-noir-soft">
+            <div className="flex items-center justify-between gap-4">
+              <div className="styles-gsap w-1/2">
+                <TechCard
+                  title={byId.styles.label}
+                  items={byId.styles.items}
+                  animation="right"
+                />
+              </div>
+              <div className="github-gsap flex w-1/2 justify-center">
+                <GithubPair />
+              </div>
+            </div>
+
+            <div className="flex items-end justify-between gap-4">
+              <p className="tools-text-gsap w-[40%] text-sm leading-relaxed text-ink/50 xl:text-lg">
+                {t.about.favorites}
+              </p>
+              <div className="back-gsap w-1/2">
+                <TechCard
+                  title={byId.back.label}
+                  items={byId.back.items}
+                  animation="left"
+                />
+              </div>
+            </div>
+
+            <div className="tools-gsap">
+              <TechCard
+                title={byId.tools.label}
+                items={byId.tools.items}
+                animation="right"
+              />
+            </div>
+          </div>
+
+          <div className="personal-image-gsap relative w-full max-w-sm xl:max-w-md">
+            <div className="anime-panel relative mx-auto p-3 md:p-4">
+              <div className="relative h-[24rem] w-full overflow-hidden rounded-[1.35rem] md:h-[30rem] xl:h-[34rem]">
                 <Image
                   src="/img/Yo.webp"
                   alt="Gabriel Saiz — Desarrollador Full-Stack freelance especializado en React Native, Next.js y .NET"
                   fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                  sizes="(max-width: 1024px) 100vw, 400px"
-                  loading="lazy"
+                  className="object-cover object-[center_12%] transition-transform duration-700 hover:scale-105"
+                  sizes="(max-width: 1024px) 100vw, 420px"
+                  priority={false}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-noir/60 via-transparent to-transparent" />
               </div>
+              <ScriptQuote size="sm" className="mt-4 px-1">
+                {t.hero.vibeAlt}
+              </ScriptQuote>
             </div>
-
-            {/* Sticker badge */}
-            <div className="absolute -right-3 -top-3 rotate-6 rounded-full bg-acid px-4 py-2 font-display text-[12px] font-bold text-noir shadow-[0_8px_30px_-6px_rgba(204,245,63,0.5)] sm:-right-5">
-              End-to-End ✦
-            </div>
-          </m.div>
-
-          {/* ── Texto ── */}
-          <m.div
-            variants={fadeInUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ delay: 0.1 }}
-            className="flex flex-col items-center text-center lg:items-start lg:text-left"
-          >
-            <h3 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-              Gabriel Saiz
-            </h3>
-            <p className="mt-2 text-[15px] font-medium text-acid">
-              {t.about.role}
-            </p>
-
-            <p className="mt-5 max-w-md text-[15px] leading-relaxed text-ink/60 sm:text-base">
-              {t.about.subtitle}
-            </p>
-
-            {/* Bullets */}
-            <ul className="mt-7 space-y-3">
-              {t.about.bullets.map((bullet) => (
-                <li
-                  key={bullet}
-                  className="flex items-center gap-3 text-[14.5px] text-ink/75"
-                >
-                  <span className="flex h-5.5 w-5.5 flex-shrink-0 items-center justify-center rounded-full bg-acid/15">
-                    <Check className="h-3 w-3 text-acid" strokeWidth={3} />
-                  </span>
-                  {bullet}
-                </li>
-              ))}
-            </ul>
-
-            {/* CTA + socials */}
-            <div className="mt-9 flex flex-col items-center gap-5 sm:flex-row">
-              <a
-                href="#contacto"
-                className="btn-shine inline-flex h-12 items-center justify-center gap-2 rounded-full bg-acid px-7 text-[14px] font-bold text-noir transition-all duration-300 hover:bg-acid-light hover:shadow-[0_8px_30px_-6px_rgba(204,245,63,0.5)]"
-              >
-                <Mail className="h-4 w-4" strokeWidth={2.2} />
-                {t.about.cta}
-              </a>
-
-              <div className="flex items-center gap-2.5">
-                {socialLinks.map((link) => {
-                  const Icon = link.icon;
-                  return (
-                    <a
-                      key={link.name}
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex h-11 w-11 items-center justify-center rounded-full border border-white/[0.1] bg-white/[0.03] text-ink/60 transition-all duration-300 hover:border-acid/50 hover:bg-acid/10 hover:text-acid"
-                      aria-label={link.name}
-                    >
-                      <Icon className="h-4 w-4" strokeWidth={1.7} />
-                    </a>
-                  );
-                })}
-              </div>
-            </div>
-          </m.div>
+          </div>
         </div>
       </div>
     </section>

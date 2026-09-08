@@ -16,13 +16,15 @@ interface SectionHeadingProps {
   headline: string;
   subtitle?: string;
   align?: "center" | "left";
+  className?: string;
 }
 
 export default function SectionHeading({
   tag,
   headline,
   subtitle,
-  align = "center",
+  align = "left",
+  className = "",
 }: SectionHeadingProps) {
   const isCenter = align === "center";
 
@@ -32,21 +34,25 @@ export default function SectionHeading({
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-80px" }}
-      className={`mb-12 lg:mb-16 ${isCenter ? "text-center" : "text-left"}`}
+      className={`section-head-gsap mb-12 lg:mb-20 ${isCenter ? "text-center" : "text-left"} ${className}`}
     >
-      <p
-        className={`mb-4 flex items-center gap-3 font-display text-[13px] font-bold uppercase tracking-[0.3em] text-acid sm:text-[14px] ${
-          isCenter ? "justify-center" : ""
+      <h2
+        className={`font-code text-3xl tracking-tight text-ink xl:text-5xl ${
+          isCenter ? "" : ""
         }`}
       >
-        {tag}
-      </p>
-      <h2 className="font-display text-[clamp(2.2rem,6.5vw,4rem)] font-bold leading-[1.04] tracking-[-0.02em] text-ink">
-        {headline}
+        ../{tag.toLowerCase()}
       </h2>
+      <p
+        className={`mt-4 font-code text-xl text-ink/90 xl:text-3xl ${
+          isCenter ? "mx-auto" : ""
+        }`}
+      >
+        {headline}
+      </p>
       {subtitle && (
         <p
-          className={`mt-5 max-w-xl text-[15px] leading-relaxed text-ink/55 sm:text-lg ${
+          className={`mt-5 max-w-[34rem] text-[15px] leading-relaxed text-ink/55 xl:text-xl ${
             isCenter ? "mx-auto" : ""
           }`}
         >
