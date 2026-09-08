@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, type HTMLAttributes } from "react";
 import Link from "next/link";
 import { useLocale } from "@/contexts/LocaleContext";
 import LanguageToggle from "@/components/ui/LanguageToggle";
@@ -147,8 +147,9 @@ export default function Header() {
             : "pointer-events-none opacity-0"
         }`}
         aria-hidden={!isMenuOpen}
+        {...(!isMenuOpen ? ({ inert: true } as HTMLAttributes<HTMLDivElement>) : {})}
       >
-        <nav className="container-main flex-1">
+        <nav className="container-main flex-1" aria-label="Menú móvil">
           <ul className="flex flex-col gap-1">
             {[...NAV_ITEMS, { label: t.nav.contact, href: "/#contacto" }].map(
               (item, i) => (
@@ -166,12 +167,13 @@ export default function Header() {
                   <a
                     href={item.href}
                     onClick={closeMenu}
+                    tabIndex={isMenuOpen ? 0 : -1}
                     className="group flex items-baseline justify-between py-4"
                   >
                     <span className="font-display text-4xl font-semibold tracking-tight text-ink transition-colors group-hover:text-acid">
                       {item.label}
                     </span>
-                    <span className="font-display text-sm text-acid/60">
+                    <span className="font-display text-sm text-acid/70">
                       0{i + 1}
                     </span>
                   </a>
@@ -190,9 +192,10 @@ export default function Header() {
           <a
             href="mailto:gsaiz.bajo@gmail.com"
             onClick={closeMenu}
-            className="inline-flex items-center gap-2 text-[13px] tracking-[0.08em] text-ink/50 transition-colors hover:text-acid"
+            tabIndex={isMenuOpen ? 0 : -1}
+            className="inline-flex items-center gap-2 text-[13px] tracking-[0.08em] text-ink/60 transition-colors hover:text-acid"
           >
-            <span className="text-[11px] uppercase tracking-[0.2em] text-ink/35">
+            <span className="text-[11px] uppercase tracking-[0.2em] text-ink/50">
               Email
             </span>
             gsaiz.bajo@gmail.com

@@ -54,7 +54,7 @@ export default function HeroSection() {
                   <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-acid" />
                   {t.hero.availability}
                 </span>
-                <span className="font-script text-xl text-ink/55 sm:text-2xl">
+                <span className="font-script text-xl text-ink/65 sm:text-2xl">
                   Zaragoza · Remoto
                 </span>
               </div>
@@ -67,7 +67,7 @@ export default function HeroSection() {
                 </p>
               </EntryFade>
               <EntryFade order={0.7}>
-                <p className="mt-1 font-display text-[clamp(3.4rem,14vw,8.5rem)] font-bold leading-[0.86] tracking-[-0.055em] text-ink/35 sm:text-ink/40">
+                <p className="mt-1 font-display text-[clamp(3.4rem,14vw,8.5rem)] font-bold leading-[0.86] tracking-[-0.055em] text-ink/55 sm:text-ink/60">
                   {lastName}
                 </p>
               </EntryFade>
@@ -120,7 +120,7 @@ export default function HeroSection() {
             </EntryFade>
 
             <EntryFade order={1.8} className="hero-meta-gsap">
-              <p className="text-[12px] tracking-wide text-ink/45">{t.hero.proof}</p>
+              <p className="text-[12px] tracking-wide text-ink/60">{t.hero.proof}</p>
             </EntryFade>
 
             <div className="hero-meta-gsap pt-2">

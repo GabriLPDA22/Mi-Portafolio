@@ -36,7 +36,7 @@ export default function Footer({ overlay = false }: { overlay?: boolean }) {
 
       <SocialPills compact />
 
-      <div className="flex flex-col items-center gap-4 text-[12.5px] text-ink/40 sm:flex-row sm:gap-8">
+      <div className="flex flex-col items-center gap-4 text-[12.5px] text-ink/55 sm:flex-row sm:gap-8">
         <p>
           © {new Date().getFullYear()} Gabriel Saiz. {t.footer.copyright}
         </p>
