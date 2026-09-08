@@ -6,8 +6,8 @@
    Soft rounded type; acid token remapped to amber.
    ============================================ */
 @theme {
-  --font-sans: var(--font-nunito), var(--font-inter), system-ui, sans-serif;
-  --font-display: var(--font-nunito), var(--font-grotesk), system-ui, sans-serif;
+  --font-sans: var(--font-nunito), system-ui, sans-serif;
+  --font-display: var(--font-nunito), system-ui, sans-serif;
   --font-script: var(--font-caveat), "Segoe Print", cursive;
   --font-code: ui-monospace, "Cascadia Code", "Fira Code", "SF Mono", Consolas,
     monospace;
@@ -88,6 +88,15 @@ body {
   max-width: 100vw;
   width: 100%;
   position: relative;
+}
+
+/* Secciones bajo el fold: menos trabajo de layout en móvil */
+#proyectos,
+#trayectoria,
+#resultados,
+#contacto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
 }
 
 ::selection {

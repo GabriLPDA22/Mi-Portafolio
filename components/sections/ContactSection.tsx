@@ -103,12 +103,12 @@ export default function ContactSection() {
         <div
           ref={leftCurtainRef}
           aria-hidden="true"
-          className="contact-curtain absolute inset-y-0 left-0 z-30 w-1/2 overflow-hidden bg-[#e8d9c4] sm:rounded-r-[2rem]"
+          className="contact-curtain absolute inset-y-0 left-0 z-30 w-1/2 overflow-hidden bg-[#efe0c8] sm:rounded-r-[2rem]"
         >
           <div className="flex h-full w-[200%] items-center justify-center pb-[0.55em]">
-            <p className="relative whitespace-nowrap font-code text-[clamp(2rem,9vw,6.5rem)] font-bold uppercase tracking-[-0.02em] text-[#151515] sm:tracking-[0.04em]">
+            <p className="relative whitespace-nowrap font-code text-[clamp(2rem,9vw,6.5rem)] font-bold uppercase tracking-[-0.02em] text-noir sm:tracking-[0.04em]">
               {title}
-              <span className="text-reflect absolute inset-x-0 top-[88%] block">
+              <span className="text-reflect absolute inset-x-0 top-[88%] block text-noir/35">
                 {title}
               </span>
             </p>
@@ -118,12 +118,12 @@ export default function ContactSection() {
         <div
           ref={rightCurtainRef}
           aria-hidden="true"
-          className="contact-curtain absolute inset-y-0 right-0 z-30 w-1/2 overflow-hidden bg-[#e8d9c4] sm:rounded-l-[2rem]"
+          className="contact-curtain absolute inset-y-0 right-0 z-30 w-1/2 overflow-hidden bg-[#efe0c8] sm:rounded-l-[2rem]"
         >
           <div className="ml-[-100%] flex h-full w-[200%] items-center justify-center pb-[0.55em]">
-            <p className="relative whitespace-nowrap font-code text-[clamp(2rem,9vw,6.5rem)] font-bold uppercase tracking-[-0.02em] text-[#151515] sm:tracking-[0.04em]">
+            <p className="relative whitespace-nowrap font-code text-[clamp(2rem,9vw,6.5rem)] font-bold uppercase tracking-[-0.02em] text-noir sm:tracking-[0.04em]">
               {title}
-              <span className="text-reflect absolute inset-x-0 top-[88%] block">
+              <span className="text-reflect absolute inset-x-0 top-[88%] block text-noir/35">
                 {title}
               </span>
             </p>

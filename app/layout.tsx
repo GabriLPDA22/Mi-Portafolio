@@ -1,98 +1,53 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import { Caveat, Nunito } from "next/font/google";
 import "./globals.css";
 import { LocaleProvider } from "@/contexts/LocaleContext";
 import CookieBanner from "@/components/ui/CookieBanner";
 import { MotionProvider } from "@/components/providers/MotionProvider";
 
-// Soft rounded display — encaja con el retrato anime / golden-hour
 const nunito = Nunito({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-nunito",
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "600", "700", "800"],
 });
 
-// Manuscrita como los pósters del estudio ("Good Vibes Only")
 const caveat = Caveat({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-caveat",
-  weight: ["500", "600", "700"],
-});
-
-const spaceGrotesk = localFont({
-  src: [
-    { path: "./fonts/SpaceGrotesk-400.woff2", weight: "400", style: "normal" },
-    { path: "./fonts/SpaceGrotesk-500.woff2", weight: "500", style: "normal" },
-    { path: "./fonts/SpaceGrotesk-600.woff2", weight: "600", style: "normal" },
-    { path: "./fonts/SpaceGrotesk-700.woff2", weight: "700", style: "normal" },
-  ],
-  display: "swap",
-  variable: "--font-grotesk",
-});
-
-const inter = localFont({
-  src: [
-    { path: "./fonts/Inter-400.woff2", weight: "400", style: "normal" },
-    { path: "./fonts/Inter-500.woff2", weight: "500", style: "normal" },
-    { path: "./fonts/Inter-600.woff2", weight: "600", style: "normal" },
-  ],
-  display: "swap",
-  variable: "--font-inter",
+  weight: ["600", "700"],
 });
 
 const siteUrl = "https://gabrielcodes.dev";
 
+const siteDescription =
+  "Gabriel Saiz — desarrollador full-stack en Zaragoza. Experiencia en React Native, Next.js y .NET. Apps en producción y abierto a oportunidades laborales.";
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Gabriel Saiz — Desarrollador Freelance Full-Stack | Apps Móviles y Web",
+    default: "Gabriel Saiz — Desarrollador Full-Stack | Portfolio",
     template: "%s | Gabriel Saiz",
   },
-  description:
-    "Desarrollador Full-Stack freelance especializado en React Native, Next.js y .NET. Apps móviles iOS/Android, webs y dashboards desde 2.500€. Presupuesto sin compromiso en 24h.",
+  description: siteDescription,
   keywords: [
-    // Primary keywords
-    "desarrollador full stack freelance",
-    "desarrollador freelance España",
-    "desarrollador móvil freelance",
-    "full stack developer freelance",
-    "desarrollador React Native freelance",
-    "desarrollador Next.js freelance",
-    // Tarifas (keywords con impresiones)
-    "fullstack freelance tarifas",
-    "desarrollador freelance tarifas",
-    "precio desarrollador freelance",
-    "cuánto cuesta desarrollador freelance",
-    // Technologies
+    "desarrollador full stack",
+    "desarrollador React Native",
+    "desarrollador Next.js",
+    "desarrollador .NET",
+    "portfolio desarrollador",
+    "full stack developer España",
+    "desarrollador Zaragoza",
+    "empleo desarrollador full stack",
+    "junior mid full stack Zaragoza",
     "React Native",
     "Next.js",
     "TypeScript",
     ".NET",
     "PostgreSQL",
     "Expo",
-    "Node.js",
-    // Services
-    "desarrollo móvil",
-    "apps iOS",
-    "apps Android",
-    "desarrollo web",
-    "desarrollo de aplicaciones",
-    "aplicaciones móviles",
-    "web apps",
-    "dashboards",
-    "APIs REST",
-    // Long-tail
-    "crear app móvil",
-    "desarrollo app iOS Android",
-    "desarrollador .NET freelance",
-    "desarrollo web moderno",
-    "full stack developer España",
-    "desarrollador freelance Zaragoza",
     "gabriel saiz",
-    "gabriel saiz desarrollador",
   ],
   authors: [{ name: "Gabriel Saiz" }],
   creator: "Gabriel Saiz",
@@ -113,23 +68,21 @@ export const metadata: Metadata = {
     locale: "es_ES",
     url: siteUrl,
     siteName: "Gabriel Saiz — Portfolio",
-    title: "Gabriel Saiz — Desarrollador Freelance Full-Stack | Apps Móviles y Web",
-    description:
-      "Apps móviles iOS/Android, webs y dashboards hechos a medida. Especialista en React Native, Next.js y .NET. Presupuesto gratis en 24h.",
+    title: "Gabriel Saiz — Desarrollador Full-Stack",
+    description: siteDescription,
     images: [
       {
         url: `${siteUrl}/img/og-image.jpg`,
         width: 1200,
         height: 630,
-        alt: "Gabriel Saiz — Desarrollador freelance web y móvil",
+        alt: "Gabriel Saiz — Desarrollador full-stack",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Gabriel Saiz — Desarrollador Freelance Full-Stack",
-    description:
-      "Apps móviles iOS/Android, webs y dashboards a medida. React Native, Next.js y .NET. Presupuesto gratis en 24h.",
+    title: "Gabriel Saiz — Desarrollador Full-Stack",
+    description: siteDescription,
     images: [`${siteUrl}/img/og-image.jpg`],
   },
   alternates: {
@@ -155,10 +108,11 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${nunito.variable} ${caveat.variable} ${spaceGrotesk.variable} ${inter.variable} overflow-x-hidden`}
+      className={`${nunito.variable} ${caveat.variable} overflow-x-hidden`}
       suppressHydrationWarning
     >
       <head>
+        <meta name="description" content={siteDescription} />
         <meta name="theme-color" content="#120e0b" />
         <meta name="color-scheme" content="dark" />
       </head>

@@ -1,19 +1,19 @@
 import Image from "next/image";
 
-/** Marca g abierta + núcleo dorado (logo fila 2 · 3) */
+/** Marca real (g + núcleo dorado) */
 export default function BrandMark({
   className = "h-7 w-7",
 }: {
   className?: string;
 }) {
   return (
-    <span className={`relative inline-block ${className}`}>
+    <span className={`relative inline-block shrink-0 ${className}`}>
       <Image
-        src="/img/brand-mark-on-dark.png"
+        src="/img/brand-mark-64.png"
         alt=""
-        fill
-        className="object-contain"
-        sizes="40px"
+        width={64}
+        height={64}
+        className="h-full w-full object-contain"
         priority
       />
     </span>

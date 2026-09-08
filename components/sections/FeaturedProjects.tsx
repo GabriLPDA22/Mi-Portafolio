@@ -45,8 +45,8 @@ const projectImages: Record<
     type: "photo",
   },
   "tarot-divinidad": {
-    src: "/img/divinidad000.png",
-    alt: "Tarot Divinidad 000 - Web con sistema de reservas vía Calendly y WhatsApp desarrollada con Astro",
+    src: "/img/divinidad-hero.webp",
+    alt: "Tarot Divinidad — web de consultas de tarot con reservas y WhatsApp",
     type: "photo",
   },
 };
@@ -91,12 +91,25 @@ function ProjectVisual({
     );
   }
 
+  // Hero wide (Tarot): contenedor más ancho y ratio paisaje para no aplastar
+  if (project.id === "tarot-divinidad") {
+    return (
+      <div className="relative w-full overflow-hidden rounded-2xl border border-white/12 xl:w-[62%]">
+        <div className="relative aspect-[2/1] w-full sm:aspect-[21/10]">
+          <Image
+            src={project.image.src}
+            alt={project.image.alt}
+            fill
+            className="object-cover object-center transition-transform duration-700 hover:scale-[1.03]"
+            sizes="(max-width: 1280px) 100vw, 62vw"
+          />
+        </div>
+      </div>
+    );
+  }
+
   const objectPos =
-    project.id === "huvegrym"
-      ? "object-[center_30%]"
-      : project.id === "tarot-divinidad"
-        ? "object-[center_20%]"
-        : "object-center";
+    project.id === "huvegrym" ? "object-[center_30%]" : "object-center";
 
   return (
     <div className="relative h-[36%] w-full overflow-hidden rounded-2xl border border-white/12 xl:h-[72%] xl:w-[55%]">

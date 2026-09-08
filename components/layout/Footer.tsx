@@ -14,9 +14,9 @@ export default function Footer({ overlay = false }: { overlay?: boolean }) {
   const routes = [
     { href: "/", label: "Inicio" },
     { href: "/#sobre-mi", label: t.nav.about },
-    { href: "/#servicios", label: t.nav.services },
     { href: "/#proyectos", label: t.nav.projects },
-    { href: "/#tarifas", label: t.nav.pricing },
+    { href: "/#servicios", label: t.nav.services },
+    { href: "/#trayectoria", label: "Trayectoria" },
     { href: "/#contacto", label: t.nav.contact },
   ];
 
@@ -93,11 +93,6 @@ export default function Footer({ overlay = false }: { overlay?: boolean }) {
       ref={scopeRef}
       className="relative overflow-hidden border-t border-white/[0.06] pt-16 xl:pt-24"
     >
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-ink/[0.05] [clip-path:polygon(0_72%,100%_0,100%_4%,0_82%)] xl:h-28"
-      />
-
       <div className="container-main relative z-10 flex flex-col items-center gap-8 pb-14 xl:gap-12 xl:pb-20">
         {links}
       </div>

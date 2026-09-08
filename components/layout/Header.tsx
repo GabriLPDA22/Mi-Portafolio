@@ -12,22 +12,28 @@ export default function Header() {
   const [hasScrolled, setHasScrolled] = useState(false);
 
   const NAV_ITEMS = [
-    { label: t.nav.services, href: "/#servicios" },
-    { label: t.nav.projects, href: "/#proyectos" },
-    { label: t.nav.pricing, href: "/#tarifas" },
-    { label: t.nav.process, href: "/#resultados" },
     { label: t.nav.about, href: "/#sobre-mi" },
-    // { label: t.nav.comments, href: "/#comentarios" },
+    { label: t.nav.projects, href: "/#proyectos" },
+    { label: t.nav.services, href: "/#servicios" },
+    { label: t.nav.process, href: "/#resultados" },
   ];
 
   useEffect(() => {
+    let frame = 0;
     const handleScroll = () => {
-      setHasScrolled(window.scrollY > 20);
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        setHasScrolled(window.scrollY > 20);
+      });
     };
 
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   useEffect(() => {

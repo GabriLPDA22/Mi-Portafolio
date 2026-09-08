@@ -203,11 +203,11 @@ export default function AboutSection() {
             <div className="anime-panel relative mx-auto p-3 md:p-4">
               <div className="relative h-[24rem] w-full overflow-hidden rounded-[1.35rem] md:h-[30rem] xl:h-[34rem]">
                 <Image
-                  src="/img/Yo.webp"
+                  src="/img/Yo-480.webp"
                   alt="Gabriel Saiz — Desarrollador Full-Stack freelance especializado en React Native, Next.js y .NET"
                   fill
                   className="object-cover object-[center_12%] transition-transform duration-700 hover:scale-105"
-                  sizes="(max-width: 1024px) 100vw, 420px"
+                  sizes="(max-width: 1024px) 90vw, 420px"
                   priority={false}
                 />
               </div>
