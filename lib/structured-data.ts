@@ -14,6 +14,13 @@ export const personData = {
     "https://instagram.com/saiz_gabriel",
   ],
   email: "gsaiz.bajo@gmail.com",
+  // CV público
+  subjectOf: {
+    "@type": "DigitalDocument",
+    name: "CV Gabriel Saiz",
+    encodingFormat: "application/pdf",
+    url: `${siteUrl}/cv/Gabriel-Saiz-CV.pdf`,
+  },
   knowsAbout: [
     "React Native",
     "Next.js",

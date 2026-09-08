@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight, FileDown } from "lucide-react";
 import { useLocale } from "@/contexts/LocaleContext";
 import { EntryFade } from "@/components/motion/Entry";
 import SocialPills from "@/components/ui/SocialPills";
@@ -98,6 +98,14 @@ export default function HeroSection() {
                   className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
                   strokeWidth={2.5}
                 />
+              </a>
+              <a
+                href="/cv/Gabriel-Saiz-CV.pdf"
+                download="Gabriel-Saiz-CV.pdf"
+                className="group inline-flex h-12 items-center gap-2 rounded-full border border-acid/35 bg-acid/[0.08] px-5 text-[14px] font-semibold text-acid transition-colors hover:border-acid hover:bg-acid/15"
+              >
+                <FileDown className="h-4 w-4" strokeWidth={2.2} />
+                {t.hero.ctaCv}
               </a>
               <a
                 href="#proyectos"

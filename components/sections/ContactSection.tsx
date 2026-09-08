@@ -74,6 +74,13 @@ export default function ContactSection() {
                   >
                     {t.hero.ctaPrimary}
                   </a>
+                  <a
+                    href="/cv/Gabriel-Saiz-CV.pdf"
+                    download="Gabriel-Saiz-CV.pdf"
+                    className="inline-flex items-center rounded-full border border-acid/35 px-4 py-2 text-[13px] font-semibold text-acid transition-colors hover:border-acid hover:bg-acid/10"
+                  >
+                    {t.hero.ctaCv}
+                  </a>
                 </div>
                 <div className="mt-1 flex flex-wrap items-end gap-8 xl:gap-12">
                   <p className="pb-2 text-sm text-ink/50 xl:text-lg">
