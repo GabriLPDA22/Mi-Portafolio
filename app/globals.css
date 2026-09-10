@@ -90,11 +90,13 @@ body {
   position: relative;
 }
 
-/* Secciones bajo el fold: menos trabajo de layout en móvil */
-#proyectos,
+/* Secciones bajo el fold: menos trabajo de layout en móvil.
+   #proyectos y #contacto quedan fuera: tienen animaciones ligadas al
+   scroll que leen getBoundingClientRect() en cada frame, y su alto real
+   (varios viewports) no encaja con el placeholder de content-visibility,
+   forzando relayouts caros justo durante el scroll (lag en móvil). */
 #trayectoria,
-#resultados,
-#contacto {
+#resultados {
   content-visibility: auto;
   contain-intrinsic-size: auto 900px;
 }

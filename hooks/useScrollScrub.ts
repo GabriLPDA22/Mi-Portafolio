@@ -39,7 +39,6 @@ export function useScrollScrub(animations: Record<string, ScrubVars>) {
     const items: Item[] = [];
     for (const selector of Object.keys(animationsRef.current)) {
       scope.querySelectorAll<HTMLElement>(selector).forEach((el) => {
-        el.classList.add("gsap-scrub");
         items.push({
           el,
           selector,
@@ -48,6 +47,17 @@ export function useScrollScrub(animations: Record<string, ScrubVars>) {
       });
     }
     if (!items.length) return;
+
+    // will-change promotes each item to its own GPU layer — only worth
+    // paying for while the section is actually near the viewport.
+    // Leaving it on permanently (the old behavior) accumulates standing
+    // compositor layers across every section using this hook as the
+    // user scrolls down a long page, which is a real cost on mobile GPUs.
+    const setPromoted = (promoted: boolean) => {
+      for (const item of items) {
+        item.el.classList.toggle("gsap-scrub", promoted);
+      }
+    };
 
     const distance = 300;
     const scrubSeconds = 2;
@@ -118,6 +128,7 @@ export function useScrollScrub(animations: Record<string, ScrubVars>) {
 
     const unobserve = observeNearViewport(scope, (isActive) => {
       active = isActive;
+      setPromoted(active);
       if (active) loop.kick();
     });
 

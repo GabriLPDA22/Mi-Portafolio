@@ -31,6 +31,12 @@ export function useContactCurtain(
     const veil = veilRef?.current ?? null;
     if (!section || !stage || !left || !right || !content) return;
 
+    // Below sm the section renders as plain static-flow content (see
+    // ContactSection.tsx) — no pinned stage, no curtain, nothing to
+    // animate. Skip the whole rAF/scroll rig there: it was the main
+    // source of the "telón" jank on phones.
+    if (window.innerWidth < 640) return;
+
     if (prefersReducedMotion()) {
       left.style.transform = "translate3d(-105%, 0, 0)";
       right.style.transform = "translate3d(105%, 0, 0)";
@@ -57,18 +63,14 @@ export function useContactCurtain(
       currentOpen += (targetOpen - currentOpen) * lag;
       currentExit += (targetExit - currentExit) * lag;
 
-      // Telón fuera del todo — sin franjas laterales en el footer
+      // Telón fuera del todo — sin franjas laterales en el footer.
+      // Esta animación solo corre en sm+ (ver el bail-out más arriba),
+      // así que las constantes ya no necesitan una variante "mobile".
       const curtainX = currentOpen * 105;
       const reveal = 0.06 + currentOpen * 0.94;
-      const mobile = window.innerWidth < 640;
-      // En móvil el form se lee mejor encima del corte diagonal
-      const exitFade = mobile ? 0.55 : 0.78;
-      const exitBright = mobile ? 0.28 : 0.5;
-      const exitScale = mobile ? 0.04 : 0.08;
-      const opacity = reveal * (1 - currentExit * exitFade);
-      const scale = 0.97 + currentOpen * 0.03 - currentExit * exitScale;
-      const shiftY = currentExit * (mobile ? -18 : -6);
-      const brightness = 1 - currentExit * exitBright;
+      const opacity = reveal * (1 - currentExit * 0.78);
+      const scale = 0.97 + currentOpen * 0.03 - currentExit * 0.08;
+      const shiftY = currentExit * -6;
 
       stage.style.transform = `translate3d(0, ${pinY.toFixed(2)}px, 0)`;
       stage.style.pointerEvents = currentExit > 0.25 ? "none" : "auto";
@@ -76,9 +78,10 @@ export function useContactCurtain(
       right.style.transform = `translate3d(${curtainX.toFixed(2)}%, 0, 0)`;
       content.style.opacity = opacity.toFixed(3);
       content.style.transform = `translate3d(0, ${shiftY.toFixed(2)}vh, 0) scale(${scale.toFixed(4)})`;
-      content.style.filter = `brightness(${brightness.toFixed(3)})`;
       if (veil) {
-        veil.style.opacity = (currentExit * (mobile ? 0.28 : 0.55)).toFixed(3);
+        // El velo (opacidad, barato) sustituye al filter:brightness()
+        // anterior, que forzaba repintado en cada frame.
+        veil.style.opacity = (currentExit * 0.55).toFixed(3);
       }
 
       return (
@@ -115,7 +118,6 @@ export function useContactCurtain(
       right.style.transform = "";
       content.style.opacity = "";
       content.style.transform = "";
-      content.style.filter = "";
       if (veil) veil.style.opacity = "";
     };
   }, [contentRef, leftRef, rightRef, sectionRef, stageRef, veilRef]);

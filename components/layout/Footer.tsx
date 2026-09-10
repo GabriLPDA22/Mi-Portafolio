@@ -56,12 +56,14 @@ export default function Footer({ overlay = false }: { overlay?: boolean }) {
     return (
       <footer
         ref={scopeRef}
-        className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden"
+        className="relative flex flex-col justify-end overflow-hidden sm:min-h-[100svh]"
       >
-        {/* Hueco superior: el form se ve detrás del corte */}
+        {/* Hueco superior: el form se ve detrás del corte (solo desktop/tablet,
+            donde el form va pineado detrás; en móvil el form ya está arriba
+            en flujo normal, así que este espacio se colapsa) */}
         <div
           aria-hidden="true"
-          className="min-h-[36svh] flex-1 sm:min-h-[42svh]"
+          className="hidden flex-1 sm:block sm:min-h-[42svh]"
         />
 
         {/* Móvil: panel sólido con diagonal; desktop: degradado suave */}

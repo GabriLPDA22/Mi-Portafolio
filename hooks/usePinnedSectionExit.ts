@@ -46,7 +46,11 @@ export function usePinnedSectionExit(
     };
 
     const requestUpdate = () => {
-      if (!active && window.innerWidth >= 640) return;
+      // Only schedule work while the section is actually near the
+      // viewport — this used to run on every scroll anywhere on the
+      // page (the `active` check was OR'd with a width check that made
+      // it a no-op on mobile), keeping a rAF loop alive site-wide.
+      if (!active) return;
       if (frame) return;
       frame = requestAnimationFrame(update);
     };
@@ -63,6 +67,11 @@ export function usePinnedSectionExit(
         if (active) {
           measure();
           requestUpdate();
+        } else if (window.innerWidth < 640) {
+          // Leaving the pin window — release the transform instead of
+          // leaving it stuck at its last value.
+          section.dataset.mobilePinY = "0";
+          section.style.transform = "";
         }
       },
       "40% 0px 40% 0px",

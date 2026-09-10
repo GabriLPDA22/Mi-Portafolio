@@ -31,15 +31,15 @@ export default function ContactSection() {
     <section
       ref={sectionRef}
       id="contacto"
-      className="relative h-[280svh] scroll-mt-24"
+      className="relative h-auto scroll-mt-24 sm:h-[280svh]"
     >
       <div
         ref={stageRef}
-        className="absolute inset-x-0 top-0 z-10 h-svh overflow-hidden will-change-transform"
+        className="static overflow-visible sm:absolute sm:inset-x-0 sm:top-0 sm:z-10 sm:h-svh sm:overflow-hidden sm:will-change-transform"
       >
         <div
           ref={contentRef}
-          className="contact-stage-content absolute inset-0 overflow-y-auto px-5 pb-10 pt-20 will-change-transform sm:px-6 lg:flex lg:items-center lg:overflow-hidden lg:py-24"
+          className="contact-stage-content static overflow-visible px-5 pb-10 pt-20 sm:absolute sm:inset-0 sm:overflow-y-auto sm:px-6 sm:will-change-transform lg:flex lg:items-center lg:overflow-hidden lg:py-24"
         >
           <div className="relative z-10 mx-auto w-full max-w-[65rem] sm:px-2">
             <h2 className="mb-5 text-center font-code text-3xl font-bold uppercase tracking-[0.08em] text-ink sm:text-5xl lg:mb-10 lg:text-6xl">
@@ -100,17 +100,18 @@ export default function ContactSection() {
           </div>
         </div>
 
-        {/* Velo que oscurece el form cuando entra el footer */}
+        {/* Velo que oscurece el form cuando entra el footer — solo desktop/tablet */}
         <div
           ref={veilRef}
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-20 bg-noir opacity-0"
+          className="pointer-events-none absolute inset-0 z-20 hidden bg-noir opacity-0 sm:block"
         />
 
+        {/* Telón de apertura — solo desktop/tablet, donde corre la animación de scroll */}
         <div
           ref={leftCurtainRef}
           aria-hidden="true"
-          className="contact-curtain absolute inset-y-0 left-0 z-30 w-1/2 overflow-hidden bg-[#efe0c8] sm:rounded-r-[2rem]"
+          className="contact-curtain absolute inset-y-0 left-0 z-30 hidden w-1/2 overflow-hidden bg-[#efe0c8] sm:block sm:rounded-r-[2rem]"
         >
           <div className="flex h-full w-[200%] items-center justify-center pb-[0.55em]">
             <p className="relative whitespace-nowrap font-code text-[clamp(2rem,9vw,6.5rem)] font-bold uppercase tracking-[-0.02em] text-noir sm:tracking-[0.04em]">
@@ -125,7 +126,7 @@ export default function ContactSection() {
         <div
           ref={rightCurtainRef}
           aria-hidden="true"
-          className="contact-curtain absolute inset-y-0 right-0 z-30 w-1/2 overflow-hidden bg-[#efe0c8] sm:rounded-l-[2rem]"
+          className="contact-curtain absolute inset-y-0 right-0 z-30 hidden w-1/2 overflow-hidden bg-[#efe0c8] sm:block sm:rounded-l-[2rem]"
         >
           <div className="ml-[-100%] flex h-full w-[200%] items-center justify-center pb-[0.55em]">
             <p className="relative whitespace-nowrap font-code text-[clamp(2rem,9vw,6.5rem)] font-bold uppercase tracking-[-0.02em] text-noir sm:tracking-[0.04em]">
@@ -138,7 +139,7 @@ export default function ContactSection() {
         </div>
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 z-20">
+      <div className="static sm:absolute sm:inset-x-0 sm:bottom-0 sm:z-20">
         <Footer overlay />
       </div>
     </section>

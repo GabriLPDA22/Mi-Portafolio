@@ -15,7 +15,18 @@ export function useProjectsStack(
 ) {
   useEffect(() => {
     const container = containerRef.current;
-    if (!container || prefersReducedMotion()) return;
+    // Below xl the cards already stack vertically in normal flow (see
+    // ProjectPanel's flex-col-reverse/xl:flex-row) — the pin+crossfade
+    // effect is a desktop flourish. Skip it entirely on phones/tablets:
+    // it was the main source of scroll jank there (continuous rAF work
+    // plus forced layout reads on every touch-scroll tick).
+    if (
+      !container ||
+      prefersReducedMotion() ||
+      window.innerWidth < 1280
+    ) {
+      return;
+    }
 
     const cards = Array.from(
       container.querySelectorAll<HTMLElement>(".project-card"),
@@ -106,6 +117,11 @@ export function useProjectsStack(
 
     const kick = () => {
       if (!active) return;
+      loop.kick();
+    };
+
+    const onResize = () => {
+      if (!active) return;
       measure();
       loop.kick();
     };
@@ -114,13 +130,16 @@ export function useProjectsStack(
       container,
       (isActive) => {
         active = isActive;
-        if (active) kick();
+        if (active) {
+          measure();
+          loop.kick();
+        }
       },
       "30% 0px 30% 0px",
     );
 
     window.addEventListener("scroll", kick, { passive: true });
-    window.addEventListener("resize", kick, { passive: true });
+    window.addEventListener("resize", onResize, { passive: true });
     measure();
     kick();
 
@@ -128,7 +147,7 @@ export function useProjectsStack(
       loop.stop();
       unobserve();
       window.removeEventListener("scroll", kick);
-      window.removeEventListener("resize", kick);
+      window.removeEventListener("resize", onResize);
       cards.forEach((card) => {
         card.style.transform = "";
         delete card.dataset.pinY;
