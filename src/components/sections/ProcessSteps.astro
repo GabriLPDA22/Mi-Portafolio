@@ -1,0 +1,54 @@
+---
+interface Step {
+  title: string;
+  text: string;
+}
+interface Props {
+  steps?: Step[];
+  title?: string;
+}
+
+const {
+  title = 'Cómo trabajamos',
+  steps = [
+    {
+      title: 'Llamada de 20 minutos',
+      text: 'Nos cuentas tu negocio, tus clientes y qué quieres conseguir. Sin tecnicismos.',
+    },
+    {
+      title: 'Presupuesto cerrado',
+      text: 'En menos de 24 h recibes precio, plazo y lo que incluye por escrito. Sin sorpresas.',
+    },
+    {
+      title: 'Diseño y desarrollo',
+      text: 'Ves el diseño antes de programarlo y revisas avances cada semana. Dos rondas de cambios incluidas.',
+    },
+    {
+      title: 'Publicación y Google',
+      text: 'Publicamos, damos de alta en Google Search Console y te enseñamos a sacarle partido.',
+    },
+  ],
+} = Astro.props;
+---
+
+<section class="section" aria-labelledby="proceso-title">
+  <div class="container-page">
+    <div class="max-w-2xl">
+      <p class="eyebrow">Proceso</p>
+      <h2 id="proceso-title" class="heading-lg mt-4">{title}</h2>
+    </div>
+    <ol class="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+      {
+        steps.map((s, i) => (
+          <li class="reveal card relative p-7">
+            <span class="font-mono text-sm text-accent" aria-hidden="true">
+              0{i + 1}
+            </span>
+            <h3 class="mt-6 text-lg font-semibold text-fg">{s.title}</h3>
+            <p class="mt-3 text-sm leading-relaxed text-muted">{s.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

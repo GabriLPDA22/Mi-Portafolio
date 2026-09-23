@@ -1,62 +1,80 @@
-# Configuración para Netlify
-# Esto optimiza el almacenamiento en caché y mejora el rendimiento
-
-# Configuración de construcción
 [build]
-  publish = "dist"
   command = "npm run build"
+  publish = "dist"
 
-# Configuración de caché para archivos estáticos
+[build.environment]
+  NODE_VERSION = "22"
+
+# ---------------------------------------------------------------
+# Cabeceras de seguridad
+# ---------------------------------------------------------------
 [[headers]]
   for = "/*"
   [headers.values]
-    X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
     X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    Cross-Origin-Opener-Policy = "same-origin"
 
-# Caché para archivos que no cambian (versiones hash)
+# Assets con hash en el nombre: caché inmutable de 1 año.
 [[headers]]
-  for = "/assets/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-# Caché para fuentes
-[[headers]]
-  for = "/*.woff2"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-# Caché para imágenes
-[[headers]]
-  for = "/*.webp"
+  for = "/_astro/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
-  for = "/*.svg"
+  for = "/og/*"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/*.jpg"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age=604800"
 
 [[headers]]
   for = "/*.png"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age=604800"
 
-# Caché para Service Worker
-[[headers]]
-  for = "/sw.js"
-  [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
-
-# Redirecciones para SPA
+# ---------------------------------------------------------------
+# Redirecciones 301 (URLs del portfolio anterior y variantes)
+# ---------------------------------------------------------------
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+  from = "/diseño-web-zaragoza"
+  to = "/diseno-web-zaragoza"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/dise%C3%B1o-web-zaragoza"
+  to = "/diseno-web-zaragoza"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/servicios/mantenimiento-web"
+  to = "/mantenimiento-web"
+  status = 301
+
+[[redirects]]
+  from = "/proyecto/*"
+  to = "/proyectos"
+  status = 301
+
+[[redirects]]
+  from = "/privacy-policy"
+  to = "/politica-privacidad"
+  status = 301
+
+[[redirects]]
+  from = "/carta-recomendacion"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/dashboard"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/cv.pdf"
+  to = "/"
+  status = 301
