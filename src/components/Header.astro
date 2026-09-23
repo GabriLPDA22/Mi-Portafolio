@@ -2,11 +2,19 @@
 import Icon from '@/components/ui/Icon.astro';
 import Button from '@/components/ui/Button.astro';
 import Logo from '@/components/Logo.astro';
-import { services } from '@/data/services';
+import { services, formatPrice } from '@/data/services';
+import { site, whatsappUrl, PHONE_PLACEHOLDER } from '@/config/site';
 import { normalizePath } from '@/lib/url';
 
 const current = normalizePath(Astro.url.pathname);
 const isActive = (path: string) => (path === '/' ? current === '/' : current === path || current.startsWith(`${path}/`));
+
+const serviceIcons = {
+  'landing-pages': 'target',
+  'diseno-web': 'layout',
+  'web-con-reservas': 'calendar',
+  'mantenimiento-web': 'wrench',
+} as const;
 
 const links = [
   { label: 'Diseño web Zaragoza', href: '/diseno-web-zaragoza' },
@@ -91,48 +99,115 @@ const links = [
       </div>
       <button
         type="button"
-        class="inline-flex size-11 items-center justify-center rounded-full border border-line text-fg lg:hidden"
+        class="relative inline-flex size-11 items-center justify-center rounded-full border border-line bg-white/[0.03] text-fg transition-colors hover:bg-white/[0.07] lg:hidden"
         aria-controls="mobile-menu"
         aria-expanded="false"
         data-menu-toggle
       >
         <span class="sr-only">Abrir menú</span>
-        <Icon name="menu" class="size-5" />
+        <span class="menu-icon" aria-hidden="true"><span></span><span></span></span>
       </button>
     </div>
   </div>
 
-  <!-- Menú móvil -->
-  <div id="mobile-menu" class="hidden border-t border-line bg-ink lg:hidden" data-menu>
-    <nav aria-label="Móvil" class="container-page max-h-[calc(100dvh-4rem)] overflow-y-auto py-6">
-      <p class="eyebrow mb-3">Servicios</p>
-      <ul class="grid gap-1">
+  <!-- Menú móvil: panel a pantalla completa bajo la cabecera. `absolute` (no `fixed`) porque el
+       backdrop-filter del header crea un nuevo bloque contenedor para los hijos `fixed`. -->
+  <div
+    id="mobile-menu"
+    class="mobile-menu absolute inset-x-0 top-full hidden h-[calc(100dvh-4rem)] flex-col bg-ink lg:hidden"
+    data-menu
+  >
+    <nav aria-label="Móvil" class="container-page flex-1 overflow-y-auto overscroll-contain pt-6 pb-8">
+      <div class="menu-item flex items-center justify-between">
+        <p class="eyebrow">Servicios</p>
+        <a href="/servicios" class="inline-flex items-center gap-1 text-sm text-muted hover:text-fg">
+          Ver todos <Icon name="arrowRight" class="size-3.5" />
+        </a>
+      </div>
+      <ul class="mt-4 grid grid-cols-2 gap-3">
         {
-          services.map((s) => (
-            <li>
-              <a href={s.path} class="flex items-center justify-between rounded-xl px-3 py-3 text-base text-fg hover:bg-white/5">
-                {s.name}
+          services.map((s, i) => (
+            <li class="menu-item" style={`--i:${i + 1}`}>
+              <a
+                href={s.path}
+                class:list={[
+                  'flex h-full flex-col rounded-2xl border p-4 transition-colors active:scale-[0.98]',
+                  isActive(s.path) ? 'border-accent/40 bg-accent/[0.06]' : 'border-line bg-surface/60 hover:border-line-strong',
+                ]}
+                aria-current={isActive(s.path) ? 'page' : undefined}
+              >
+                <span class="inline-flex size-9 items-center justify-center rounded-xl bg-accent/10 text-accent">
+                  <Icon name={serviceIcons[s.id]} class="size-[1.1rem]" />
+                </span>
+                <span class="mt-4 text-[0.95rem] leading-tight font-medium text-fg">{s.name}</span>
+                <span class="mt-1 text-xs text-muted">{formatPrice(s.price)}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <ul class="mt-6 divide-y divide-line border-y border-line">
+        {
+          [...links, { label: 'Contacto', href: '/contacto' }].map((l, i) => (
+            <li class="menu-item" style={`--i:${i + 5}`}>
+              <a
+                href={l.href}
+                class:list={[
+                  'flex items-center justify-between py-3.5 text-base font-medium transition-colors',
+                  isActive(l.href) ? 'text-accent' : 'text-fg hover:text-accent',
+                ]}
+                aria-current={isActive(l.href) ? 'page' : undefined}
+              >
+                {l.label}
                 <Icon name="arrowRight" class="size-4 text-muted" />
               </a>
             </li>
           ))
         }
       </ul>
-      <ul class="mt-6 grid gap-1 border-t border-line pt-6">
-        {
-          [...links, { label: 'Todos los servicios', href: '/servicios' }, { label: 'Contacto', href: '/contacto' }].map((l) => (
-            <li>
-              <a href={l.href} class="block rounded-xl px-3 py-3 text-base text-soft hover:bg-white/5 hover:text-fg">
-                {l.label}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-      <Button href="/contacto#presupuesto" size="lg" class="mt-6 w-full" data-cta="mobile-menu">
-        Solicitar presupuesto
-      </Button>
+
+      <p class="menu-item mt-6 flex items-center gap-2 text-sm text-muted" style="--i:9">
+        <Icon name="mapPin" class="size-4 text-accent" />
+        {site.address.locality} · {site.openingHours.display}
+      </p>
     </nav>
+
+    <div class="border-t border-line bg-ink-2/95 px-4 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))] backdrop-blur-xl sm:px-6">
+      <Button href="/contacto#presupuesto" size="lg" class="w-full" data-cta="mobile-menu">
+        Solicitar presupuesto
+        <Icon name="arrowRight" class="size-4" />
+      </Button>
+      <div class="mt-3 grid grid-cols-2 gap-3">
+        <a
+          href={whatsappUrl()}
+          target="_blank"
+          rel="noopener"
+          class="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-line-strong text-sm font-semibold text-fg hover:bg-white/5"
+          data-cta="mobile-menu-whatsapp"
+        >
+          <Icon name="messageCircle" class="size-4 text-[#25D366]" /> WhatsApp
+        </a>
+        {
+          PHONE_PLACEHOLDER ? (
+            <a
+              href={`mailto:${site.contact.email}`}
+              class="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-line-strong text-sm font-semibold text-fg hover:bg-white/5"
+            >
+              <Icon name="mail" class="size-4 text-accent" /> Email
+            </a>
+          ) : (
+            <a
+              href={`tel:+${site.contact.phoneE164}`}
+              class="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-line-strong text-sm font-semibold text-fg hover:bg-white/5"
+              data-cta="mobile-menu-phone"
+            >
+              <Icon name="phone" class="size-4 text-accent" /> Llamar
+            </a>
+          )
+        }
+      </div>
+    </div>
   </div>
 </header>
 
@@ -145,7 +220,9 @@ const links = [
     const setOpen = (open: boolean) => {
       toggle.setAttribute('aria-expanded', String(open));
       menu.classList.toggle('hidden', !open);
-      document.documentElement.classList.toggle('overflow-hidden', open);
+      menu.classList.toggle('flex', open);
+      // `menu-open` bloquea el scroll del fondo y oculta el botón flotante de WhatsApp.
+      document.documentElement.classList.toggle('menu-open', open);
       if (label) label.textContent = open ? 'Cerrar menú' : 'Abrir menú';
     };
 
@@ -159,5 +236,7 @@ const links = [
     menu.addEventListener('click', (e) => {
       if ((e.target as HTMLElement).closest('a')) setOpen(false);
     });
+    // Si se pasa a escritorio con el menú abierto, se cierra para no dejar el scroll bloqueado.
+    matchMedia('(min-width: 1024px)').addEventListener('change', (e) => e.matches && setOpen(false));
   }
 </script>

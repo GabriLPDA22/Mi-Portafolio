@@ -13,7 +13,9 @@ interface Props {
 
 const { project, headingLevel = 'h3', detailed = false } = Astro.props;
 const Heading = headingLevel;
-const service = getService(project.service);
+const typeLabel = project.service ? getService(project.service).name : project.typeLabel;
+const isAppStore = project.url?.includes('apps.apple.com');
+const fit = project.imageFit ?? 'cover';
 ---
 
 <article class="reveal group card card-hover flex flex-col overflow-hidden">
@@ -33,14 +35,17 @@ const service = getService(project.service);
         sizes="(min-width: 1024px) 560px, (min-width: 640px) 50vw, 100vw"
         loading="lazy"
         decoding="async"
-        class="aspect-[16/10] w-full object-cover object-top transition-transform duration-700 ease-(--ease-out-expo) group-hover:scale-[1.03]"
+        class:list={[
+          'aspect-[16/10] w-full transition-transform duration-700 ease-(--ease-out-expo) group-hover:scale-[1.03]',
+          fit === 'contain' ? 'bg-[radial-gradient(ellipse_at_center,#1a1a1f,#0f0f12)] object-contain py-3' : 'object-cover object-top',
+        ]}
       />
     </div>
   </div>
   <div class="flex flex-1 flex-col p-6 sm:p-7">
     <div class="flex flex-wrap items-center gap-2 text-xs">
       <span class="rounded-full border border-line px-2.5 py-1 text-soft">{project.sector}</span>
-      <span class="rounded-full border border-line px-2.5 py-1 text-soft">{service.name}</span>
+      {typeLabel && <span class="rounded-full border border-line px-2.5 py-1 text-soft">{typeLabel}</span>}
       {
         project.kind === 'cliente' ? (
           <span class="rounded-full bg-accent/15 px-2.5 py-1 font-medium text-accent">Cliente · en producción</span>
@@ -84,7 +89,7 @@ const service = getService(project.service);
           rel="noopener"
           class="mt-6 inline-flex items-center gap-1.5 self-start text-sm font-medium text-accent hover:underline hover:underline-offset-4"
         >
-          Ver web en directo<span class="sr-only"> de {project.name}</span>
+          {isAppStore ? 'Ver en App Store' : 'Ver web en directo'}<span class="sr-only"> de {project.name}</span>
           <Icon name="arrowUpRight" class="size-4" />
         </a>
       )

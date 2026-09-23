@@ -3,6 +3,8 @@ import huvegrym from '@/assets/projects/huvegrym.webp';
 import elixiumReservas from '@/assets/projects/elixium-reservas.webp';
 import elixiumDelivery from '@/assets/projects/elixium-delivery.webp';
 import coreevo from '@/assets/projects/coreevo.webp';
+import tarotDivinidad from '@/assets/projects/tarot-divinidad.webp';
+import theArch from '@/assets/projects/the-arch.webp';
 import type { ServiceId } from './services';
 
 export interface Project {
@@ -11,8 +13,12 @@ export interface Project {
   sector: string;
   /** `cliente`: proyecto real en producción. `demo`: proyecto propio que demuestra una solución. */
   kind: 'cliente' | 'demo';
-  service: ServiceId;
+  /** Servicio de la web al que corresponde. Los proyectos fuera del catálogo (apps) usan `typeLabel`. */
+  service?: ServiceId;
+  typeLabel?: string;
   image: ImageMetadata;
+  /** `contain` para capturas verticales (mockups de móvil) que no deben recortarse. */
+  imageFit?: 'cover' | 'contain';
   imageAlt: string;
   challenge: string;
   solution: string;
@@ -35,6 +41,37 @@ export const projects: Project[] = [
       'Web editorial a pantalla completa con galería de espectáculos y actuaciones, proyectos futuros y contacto directo para contrataciones.',
     highlights: ['Diseño editorial a medida', 'Galería de espectáculos', 'Contacto para programadores', '100 % adaptada a móvil'],
     url: 'https://huvegrym.es',
+  },
+  {
+    slug: 'tarot-divinidad',
+    name: 'Tarot Divinidad 000',
+    sector: 'Consultas de tarot',
+    kind: 'cliente',
+    service: 'web-con-reservas',
+    image: tarotDivinidad,
+    imageAlt: 'Página de inicio de Tarot Divinidad 000 con botones para reservar consulta o escribir por WhatsApp',
+    challenge:
+      'Necesitaba una web que transmitiera confianza y permitiera a sus clientes reservar consulta a cualquier hora, sin esperar respuesta a un mensaje.',
+    solution:
+      'Web con reservas online integradas con Calendly y sincronizadas con Google Calendar, y WhatsApp como alternativa directa.',
+    highlights: ['Reservas online con Calendly', 'Sincronización con Google Calendar', 'Reserva alternativa por WhatsApp', 'Hecha con Astro'],
+    url: 'https://divinidad000.com',
+  },
+  {
+    slug: 'the-arch',
+    name: 'The Arch',
+    sector: 'Comunidad y networking',
+    kind: 'cliente',
+    typeLabel: 'App iOS',
+    image: theArch,
+    imageFit: 'contain',
+    imageAlt: 'Pantalla de inicio de la app The Arch, red de antiguos alumnos de Oxford, en un iPhone',
+    challenge:
+      'Una red de antiguos alumnos de Oxford necesitaba una app propia para eventos, entradas y comunicación entre sus miembros.',
+    solution:
+      'App iOS publicada en App Store con backend propio en la nube, pagos y suscripciones con Stripe y panel de administración.',
+    highlights: ['App publicada en App Store', 'Entradas en Apple Wallet', 'Chat en tiempo real', 'Pagos con Stripe'],
+    url: 'https://apps.apple.com/us/app/the-arch/id6753820007',
   },
   {
     slug: 'elixium-restaurante',

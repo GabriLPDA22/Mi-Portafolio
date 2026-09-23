@@ -59,7 +59,6 @@ npm run assets    # regenera favicons e imágenes OG (requiere Chromium: CHROMIU
 
 ## Pendiente antes de publicar
 
-- [ ] Poner el número real de WhatsApp en `src/config/site.ts` (`PHONE_E164`). Mientras sea el placeholder, el teléfono no se muestra ni se incluye en Schema, pero el botón de WhatsApp apunta a ese número.
 - [ ] Añadir el NIF en `site.legal.nif` (obligatorio en el aviso legal, LSSI art. 10).
 - [ ] Revisar el precio del mantenimiento (25 €/mes) y la mención “sin IVA”.
 - [ ] Activar las notificaciones por email de Netlify Forms (Site settings → Forms).

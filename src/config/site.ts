@@ -7,7 +7,7 @@
  */
 
 /** Número en formato E.164 sin "+" ni espacios. TODO: sustituir por el número real. */
-const PHONE_E164 = '34600000000';
+const PHONE_E164 = '34663941885';
 
 export const PHONE_PLACEHOLDER = PHONE_E164 === '34600000000';
 
