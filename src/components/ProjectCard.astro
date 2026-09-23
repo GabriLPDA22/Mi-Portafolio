@@ -50,7 +50,7 @@ const fit = project.imageFit ?? 'cover';
         project.kind === 'cliente' ? (
           <span class="rounded-full bg-accent/15 px-2.5 py-1 font-medium text-accent">Cliente · en producción</span>
         ) : (
-          <span class="rounded-full bg-white/5 px-2.5 py-1 text-muted">Proyecto demostrativo</span>
+          <span class="rounded-full bg-white/5 px-2.5 py-1 text-muted">{project.academicLabel ?? 'Proyecto académico'}</span>
         )
       }
     </div>
@@ -59,11 +59,11 @@ const fit = project.imageFit ?? 'cover';
       detailed ? (
         <dl class="mt-4 grid gap-4 text-sm leading-relaxed">
           <div>
-            <dt class="font-medium text-soft">El reto</dt>
+            <dt class="font-medium text-soft">{project.kind === 'cliente' ? 'El reto' : 'Objetivo'}</dt>
             <dd class="mt-1 text-muted">{project.challenge}</dd>
           </div>
           <div>
-            <dt class="font-medium text-soft">La solución</dt>
+            <dt class="font-medium text-soft">{project.kind === 'cliente' ? 'La solución' : 'Qué desarrollé'}</dt>
             <dd class="mt-1 text-muted">{project.solution}</dd>
           </div>
         </dl>

@@ -72,7 +72,7 @@ const reasons = [
   },
 ] as const;
 
-const featuredProjects = projects.slice(0, 3);
+const featuredProjects = projects.filter((p) => p.kind === 'cliente').slice(0, 3);
 ---
 
 <BaseLayout
