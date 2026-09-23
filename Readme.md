@@ -1,66 +1,275 @@
-# GabrielCodes — Diseño web en Zaragoza
+# 🚀 Gabriel Saiz — Portfolio
 
-Web comercial de **GabrielCodes** ([gabrielcodes.dev](https://gabrielcodes.dev)): estudio de diseño y desarrollo web para negocios en Zaragoza. Orientada a captación de clientes y posicionamiento orgánico (SEO local + motores generativos).
+<div align="center">
 
-## Stack
+**Portfolio profesional de desarrollador Full-Stack freelance**
 
-- **Astro 7**: salida 100 % estática, sin JS por defecto (~2,5 KB de JS en total)
-- **Tailwind CSS 4** con design tokens en `@theme` (`src/styles/global.css`)
-- **astro:assets**: imágenes AVIF/WebP responsive y API de fuentes (Inter autoalojada con fallback métrico, CLS 0)
-- **Netlify**: hosting, cabeceras de seguridad, redirecciones 301 y **Netlify Forms** para el formulario de presupuesto
+[![Next.js](https://img.shields.io/badge/Next.js-15.5.9-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19.2.3-61DAFB?style=for-the-badge&logo=react)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.0-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
 
-## Arquitectura de URLs
+[🌐 Sitio Web](https://gabrielcodes.dev) • [📧 Contacto](mailto:gsaiz.bajo@gmail.com) • [💼 LinkedIn](https://www.linkedin.com/in/gabriel-saiz-de-la-maza-bajo-140370184/)
 
-| Ruta | Intención de búsqueda |
-| --- | --- |
-| `/` | diseño web Zaragoza, páginas web para negocios |
-| `/servicios` | comparativa y precios |
-| `/servicios/diseno-web` | crear página web para empresa |
-| `/diseno-web-zaragoza` | diseño web en Zaragoza (SEO local) |
-| `/servicios/landing-pages` | landing pages profesionales |
-| `/servicios/web-con-reservas` | webs con reservas online |
-| `/mantenimiento-web` | mantenimiento web |
-| `/proyectos` | casos y portfolio |
-| `/contacto` | presupuesto |
+</div>
 
-`/diseño-web-zaragoza` redirige con 301 a `/diseno-web-zaragoza` (slug ASCII: evita URLs codificadas `%C3%B1` al compartir). Las URLs del portfolio anterior (`/proyecto/*`, `/privacy-policy`, `/dashboard`…) también redirigen con 301 (`netlify.toml`).
+---
 
-## SEO implementado
+## ✨ Características
 
-- `<title>`, meta description, canonical, Open Graph y Twitter Card únicos por página (`src/layouts/BaseLayout.astro`)
-- Un único `<h1>` por página; H2/H3 organizados por subintención de búsqueda
-- JSON-LD en `@graph` con `@id` estables: `ProfessionalService`/`LocalBusiness`, `WebSite`, `Person`, `Service` + `Offer` con rango de precios, `FAQPage`, `BreadcrumbList` e `ItemList` (`src/lib/schema.ts`)
-- `sitemap-index.xml` automático (excluye páginas legales y de sistema), `robots.txt` con bots de IA permitidos y `/llms.txt` generado desde los mismos datos que la web
-- **Auditoría en cada build** (`scripts/audit-seo.mjs`): el build falla si hay más de un H1, un canonical incorrecto, títulos o descripciones duplicados, JSON-LD inválido, imágenes sin `alt` o enlaces internos rotos
+### 🎨 Diseño Premium
+- **Dark-first design** con estética minimalista y elegante
+- **Glassmorphism** sutil en cards y componentes
+- **Gradientes** y efectos visuales premium
+- **Tipografía moderna** (Outfit + Inter) con jerarquía clara
+- **Responsive design** perfecto en todos los dispositivos
 
-Lighthouse (móvil, build de producción): 100 / 100 / 100 / 100 en las páginas principales, LCP ≈ 1,5 s y CLS 0.
+### ⚡ Performance & SEO
+- **Optimizado para Core Web Vitals** (LCP, FID, CLS)
+- **SEO completo**: Metadata, Open Graph, Twitter Cards
+- **Structured Data (JSON-LD)** para mejor indexación
+- **Sitemap.xml** y robots.txt configurados
+- **Lazy loading** de imágenes y componentes
 
-## Contenido y datos
+### 🎭 Animaciones & Interacciones
+- **Framer Motion** para animaciones suaves
+- **Custom cursor** con efectos de spotlight
+- **Hover states** elegantes en cards y botones
+- **Scroll animations** con Intersection Observer
+- **Micro-interacciones** en iconos y elementos UI
 
-Todo el contenido comercial está centralizado:
+### 📱 Secciones
+- **Hero** con mensaje directo y CTAs claros
+- **Tech Stack** con carrusel infinito de tecnologías
+- **Servicios** en grid responsive con spotlight effects
+- **Proyectos destacados** con imágenes y detalles técnicos
+- **Sobre mí** con foto interactiva y overlay
+- **Resultados reales** con métricas y proof points
+- **FAQ** con acordeones animados
+- **Contacto** con formulario integrado (Formspree)
 
-- `src/config/site.ts`: datos NAP (nombre, teléfono, email, zona), horario, GA4 y datos legales
-- `src/data/services.ts`: servicios, precios, plazos y opciones del formulario
-- `src/data/faqs.ts`: FAQs (se pintan en HTML y en `FAQPage` con el mismo texto)
-- `src/data/projects.ts`: proyectos
+---
 
-Google Analytics solo se carga cuando el usuario acepta las cookies (RGPD), y así no penaliza la primera carga.
+## 🛠️ Stack Tecnológico
 
-## Desarrollo
+### Core
+- **[Next.js 15.5.9](https://nextjs.org/)** - Framework React con App Router
+- **[React 19.2.3](https://react.dev/)** - Biblioteca UI
+- **[TypeScript 5.9.3](https://www.typescriptlang.org/)** - Tipado estático
+- **[Tailwind CSS 4](https://tailwindcss.com/)** - Utility-first CSS
+
+### Animaciones & UI
+- **[Framer Motion 12.23.26](https://www.framer.com/motion/)** - Animaciones fluidas
+- **[Lucide React](https://lucide.dev/)** - Iconos minimalistas
+- **CSS Variables** - Sistema de diseño personalizado
+
+### Formularios
+- **[Formspree](https://formspree.io/)** - Backend-less form handling
+
+### Optimización
+- **Next.js Image** - Optimización automática de imágenes
+- **Font Optimization** - Google Fonts con `display: swap`
+- **Code Splitting** - Carga diferida de componentes
+
+---
+
+## 🚀 Inicio Rápido
+
+### Prerrequisitos
+- Node.js 18+ 
+- npm o yarn
+
+### Instalación
 
 ```bash
+# Clonar el repositorio
+git clone https://github.com/tu-usuario/mi-portafolio.git
+
+# Entrar al directorio
+cd mi-portafolio
+
+# Instalar dependencias
 npm install
-npm run dev       # http://localhost:4321
-npm run build     # build + auditoría SEO
-npm run preview
-npm run check     # comprobación de tipos (astro check)
-npm run assets    # regenera favicons e imágenes OG (requiere Chromium: CHROMIUM_PATH=/ruta/a/chrome)
 ```
 
-## Pendiente antes de publicar
+### Desarrollo
 
-- [ ] Poner el número real de WhatsApp en `src/config/site.ts` (`PHONE_E164`). Mientras sea el placeholder, el teléfono no se muestra ni se incluye en Schema, pero el botón de WhatsApp apunta a ese número.
-- [ ] Añadir el NIF en `site.legal.nif` (obligatorio en el aviso legal, LSSI art. 10).
-- [ ] Revisar el precio del mantenimiento (25 €/mes) y la mención “sin IVA”.
-- [ ] Activar las notificaciones por email de Netlify Forms (Site settings → Forms).
-- [ ] Crear o actualizar Google Business Profile con los mismos datos que `site.ts` y enviar el sitemap en Search Console.
+```bash
+# Iniciar servidor de desarrollo
+npm run dev
+
+# Abrir en el navegador
+# http://localhost:3000
+```
+
+### Build para Producción
+
+```bash
+# Crear build optimizado
+npm run build
+
+# Iniciar servidor de producción
+npm start
+```
+
+---
+
+## 📁 Estructura del Proyecto
+
+```
+mi-portafolio/
+├── app/                      # Next.js App Router
+│   ├── layout.tsx           # Layout principal con metadata SEO
+│   ├── page.tsx             # Página principal
+│   ├── globals.css           # Estilos globales y variables CSS
+│   ├── robots.ts            # Configuración robots.txt
+│   └── sitemap.xml/         # Sitemap dinámico
+│
+├── components/
+│   ├── layout/              # Componentes de layout
+│   │   ├── Header.tsx       # Navbar con menú móvil
+│   │   └── Footer.tsx       # Footer con links sociales
+│   │
+│   ├── sections/            # Secciones de la landing
+│   │   ├── HeroSection.tsx
+│   │   ├── ServicesSection.tsx
+│   │   ├── FeaturedProjects.tsx
+│   │   ├── AboutSection.tsx
+│   │   ├── ResultsSection.tsx
+│   │   ├── FAQSection.tsx
+│   │   └── ContactSection.tsx
+│   │
+│   └── ui/                  # Componentes reutilizables
+│       ├── CustomCursor.tsx
+│       ├── TechCarousel.tsx
+│       └── ProjectCard.tsx
+│
+├── data/                    # Datos estáticos
+│   └── projects.ts          # Información de proyectos
+│
+├── public/                  # Archivos estáticos
+│   ├── img/                 # Imágenes optimizadas
+│   └── sitemap.xml          # Sitemap estático
+│
+├── hooks/                   # Custom hooks
+│   └── useSpotlight.ts      # Hook para efectos spotlight
+│
+└── lib/                     # Utilidades
+    └── utils.ts             # Funciones helper
+```
+
+---
+
+## 🎨 Sistema de Diseño
+
+### Colores
+```css
+/* Backgrounds */
+--bg-primary: #0a0a0b
+--bg-secondary: #111113
+--bg-card: rgba(255, 255, 255, 0.025)
+
+/* Text */
+--text-primary: #fafafa
+--text-secondary: rgba(255, 255, 255, 0.75)
+
+/* Accent */
+--accent: #8b5cf6 (Violeta tecnológico)
+--accent-light: #a78bfa
+```
+
+### Tipografía
+- **Display**: Outfit (Headings)
+- **Body**: Inter (Texto, UI)
+
+### Espaciado
+- Sistema de espaciado consistente con Tailwind
+- `container-main` para máximo ancho y padding lateral
+
+---
+
+## 🔍 SEO & Optimización
+
+### Implementado
+- ✅ Metadata completo (title, description, keywords)
+- ✅ Open Graph tags para redes sociales
+- ✅ Twitter Cards
+- ✅ Structured Data (JSON-LD) - Person & ProfessionalService
+- ✅ Sitemap.xml estático
+- ✅ Robots.txt optimizado
+- ✅ Canonical URLs
+- ✅ Alt text descriptivo en todas las imágenes
+- ✅ Semantic HTML (header, main, nav, section, footer)
+
+### Próximos Pasos
+Ver `SEO-RECOMMENDATIONS.md` para guía completa de optimización SEO.
+
+---
+
+## 📱 Responsive Design
+
+- **Mobile First**: Diseño optimizado para móviles
+- **Breakpoints**: sm (640px), md (768px), lg (1024px), xl (1280px)
+- **Touch-friendly**: Áreas de toque adecuadas en móvil
+- **Carousels**: Scroll horizontal con snap en móvil
+
+---
+
+## 🎯 Características Destacadas
+
+### Custom Cursor
+Cursor personalizado con halo difuso y efectos de spotlight en cards.
+
+### Tech Carousel
+Carrusel infinito horizontal con auto-scroll suave y pausa en hover.
+
+### Spotlight Effects
+Efectos de spotlight radial que siguen el cursor dentro de las cards.
+
+### Formulario de Contacto
+Integración con Formspree para envío de emails sin backend.
+
+---
+
+## 📝 Scripts Disponibles
+
+```bash
+npm run dev      # Desarrollo (localhost:3000)
+npm run build    # Build de producción
+npm start        # Servidor de producción
+npm run lint     # Linter de código
+```
+
+---
+
+## 🔗 Links Importantes
+
+- **Sitio Web**: [gabrielcodes.dev](https://gabrielcodes.dev)
+- **LinkedIn**: [Gabriel Saiz](https://www.linkedin.com/in/gabriel-saiz-de-la-maza-bajo-140370184/)
+- **GitHub**: [@GabriLPDA22](https://github.com/GabriLPDA22)
+- **Instagram**: [@saiz_gabriel](https://instagram.com/saiz_gabriel)
+- **Email**: gsaiz.bajo@gmail.com
+
+---
+
+## 📄 Licencia
+
+Este proyecto es privado y propiedad de Gabriel Saiz.
+
+---
+
+## 🙏 Agradecimientos
+
+- Diseño inspirado en portfolios premium de [Framer](https://display.framer.website/), [HolyGrid](https://holygrid.studio/) y [Owen Hudock](https://www.owenhudock.design/)
+- Iconos de [Lucide](https://lucide.dev/)
+- Fuentes de [Google Fonts](https://fonts.google.com/)
+
+---
+
+<div align="center">
+
+**Desarrollado con ❤️ por [Gabriel Saiz](https://gabrielcodes.dev)**
+
+[⬆ Volver arriba](#-gabriel-saiz--portfolio)
+
+</div>
