@@ -30,6 +30,10 @@ DirectorySlash Off
   RewriteRule ^privacy-policy/?$ /politica-privacidad [L,R=301]
   RewriteRule ^(carta-recomendacion|dashboard)/?$ / [L,R=301]
   RewriteRule ^cv\.pdf$ / [L,R=301]
+  # Versión anterior en Next.js (portfolio): URLs que Google aún tiene indexadas.
+  RewriteRule ^privacidad/?$ /politica-privacidad [L,R=301]
+  RewriteRule ^(cv|auth)(/.*)?$ / [L,R=301]
+  RewriteRule ^sitemap\.xml$ /sitemap-index.xml [L,R=301]
 
   # --- URLs limpias -----------------------------------------------------
   # /index.html y /index → /
