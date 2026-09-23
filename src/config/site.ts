@@ -76,10 +76,10 @@ export const site = {
     note: 'Precios orientativos sin IVA. Presupuesto cerrado antes de empezar.',
   },
 
-  /** Datos del titular para el aviso legal (LSSI-CE art. 10). TODO: completar NIF. */
+  /** Datos del titular para el aviso legal (LSSI-CE art. 10). */
   legal: {
     holder: 'Gabriel Saiz de la Maza Bajo',
-    nif: '',
+    nif: '73163085Q',
     lastUpdated: '23 de septiembre de 2026',
   },
 
