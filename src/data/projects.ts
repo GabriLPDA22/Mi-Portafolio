@@ -2,7 +2,6 @@ import type { ImageMetadata } from 'astro';
 import huvegrym from '@/assets/projects/huvegrym.webp';
 import elixiumReservas from '@/assets/projects/elixium-reservas.webp';
 import elixiumDelivery from '@/assets/projects/elixium-delivery.webp';
-import coreevo from '@/assets/projects/coreevo.webp';
 import tarotDivinidad from '@/assets/projects/tarot-divinidad.webp';
 import theArch from '@/assets/projects/the-arch.webp';
 import type { ServiceId } from './services';
@@ -11,8 +10,13 @@ export interface Project {
   slug: string;
   name: string;
   sector: string;
-  /** `cliente`: proyecto real en producción. `demo`: proyecto propio que demuestra una solución. */
-  kind: 'cliente' | 'demo';
+  /**
+   * `cliente`: trabajo real para un cliente, en producción.
+   * `academico`: proyecto de formación (clase o TFG). Se muestra como tal y siempre después de los reales.
+   */
+  kind: 'cliente' | 'academico';
+  /** Etiqueta visible de los proyectos académicos, p. ej. "TFG" o "Proyecto académico". */
+  academicLabel?: string;
   /** Servicio de la web al que corresponde. Los proyectos fuera del catálogo (apps) usan `typeLabel`. */
   service?: ServiceId;
   typeLabel?: string;
@@ -77,42 +81,29 @@ export const projects: Project[] = [
     slug: 'elixium-restaurante',
     name: 'Elixium Foods — Restaurante',
     sector: 'Hostelería',
-    kind: 'demo',
+    kind: 'academico',
+    academicLabel: 'Proyecto académico',
     service: 'web-con-reservas',
     image: elixiumReservas,
     imageAlt: 'Formulario de reserva de mesa con selector de fecha, hora y mesa sobre una fotografía de un plato gourmet',
-    challenge:
-      'Un restaurante que gestiona las reservas por teléfono pierde clientes fuera de horario y dedica tiempo de sala a atender llamadas.',
+    challenge: 'Proyecto de clase: diseñar y programar la web de un restaurante con reservas online y carta digital.',
     solution:
-      'Web con carta interactiva, pedidos y reservas online: el cliente elige fecha, hora y mesa disponible sin tener que llamar.',
-    highlights: ['Reserva con selección de mesa', 'Carta digital interactiva', 'Pedidos online', 'Pago integrado'],
+      'Web con carta interactiva y reserva de mesa: el usuario elige fecha, hora y mesa disponible, y completa el proceso de pago.',
+    highlights: ['Reserva con selección de mesa', 'Carta digital interactiva', 'Proceso de pago'],
   },
   {
     slug: 'elixium-delivery',
     name: 'Elixium Foods — Pedidos online',
     sector: 'Hostelería y delivery',
-    kind: 'demo',
-    service: 'web-con-reservas',
+    kind: 'academico',
+    academicLabel: 'TFG',
+    typeLabel: 'Plataforma web',
     image: elixiumDelivery,
     imageAlt: 'Página de inicio de una plataforma de pedidos de comida a domicilio con buscador de dirección',
     challenge:
-      'Depender de plataformas de delivery supone pagar comisiones elevadas en cada pedido y no tener relación directa con el cliente.',
+      'Trabajo de Fin de Grado: construir de principio a fin una plataforma de pedidos de comida a domicilio al estilo de las grandes apps de delivery.',
     solution:
-      'Plataforma propia de pedidos a domicilio con catálogo de restaurantes, carrito, pagos y panel de administración, desplegada en la nube.',
-    highlights: ['Pedidos en tiempo real', 'Pagos online', 'Panel de administración', 'Infraestructura escalable'],
-  },
-  {
-    slug: 'coreevo-gym',
-    name: 'CoreEvo Gym',
-    sector: 'Deporte y fitness',
-    kind: 'demo',
-    service: 'landing-pages',
-    image: coreevo,
-    imageAlt: 'Cabecera de la web del gimnasio CoreEvo con el lema "Shape your body" y botón de contacto',
-    challenge:
-      'Un gimnasio de barrio necesita captar altas nuevas con una página directa que funcione bien en campañas de redes sociales.',
-    solution:
-      'Landing de alto impacto visual con una propuesta clara y una llamada a la acción de contacto siempre visible.',
-    highlights: ['Landing de captación', 'Estética de marca potente', 'CTA de contacto destacado', '100 % adaptada a móvil'],
+      'Plataforma completa con catálogo de restaurantes, carrito, pedidos en tiempo real y panel de administración, desplegada en AWS con integración y despliegue continuos.',
+    highlights: ['Pedidos en tiempo real', 'Panel de administración', 'Despliegue en AWS con CI/CD', '.NET 9 + Vue.js'],
   },
 ];

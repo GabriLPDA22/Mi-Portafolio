@@ -8,6 +8,8 @@ import { absoluteUrl } from '@/config/site';
 import { ids } from '@/lib/schema';
 
 const breadcrumbs = [{ name: 'Proyectos', path: '/proyectos' }];
+const clientWork = projects.filter((p) => p.kind === 'cliente');
+const academicWork = projects.filter((p) => p.kind === 'academico');
 
 const itemList = {
   '@type': 'ItemList',
@@ -38,23 +40,38 @@ const itemList = {
   <PageHero
     eyebrow="Proyectos"
     breadcrumbs={breadcrumbs}
-    lead="Cada web parte de un problema de negocio concreto. Aquí tienes algunos proyectos: webs de clientes en producción y proyectos demostrativos que muestran soluciones que podemos implantar en tu negocio."
+    lead="Webs y apps en producción para clientes reales, y los proyectos técnicos de formación que están detrás de lo que hacemos hoy."
   >
     Proyectos de diseño y desarrollo web
   </PageHero>
 
-  <section class="section" aria-labelledby="lista-proyectos">
+  <section class="section" aria-labelledby="clientes-title">
     <div class="container-page">
-      <h2 id="lista-proyectos" class="sr-only">Listado de proyectos</h2>
-      <div class="grid gap-6 md:grid-cols-2">
-        {projects.map((p) => <ProjectCard project={p} detailed />)}
+      <p class="eyebrow">En producción</p>
+      <h2 id="clientes-title" class="heading-lg mt-4">Trabajos para clientes</h2>
+      <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {clientWork.map((p) => <ProjectCard project={p} detailed />)}
       </div>
-      <p class="mt-10 max-w-2xl text-sm leading-relaxed text-muted">
-        Los proyectos marcados como “demostrativos” son desarrollos propios que reproducen necesidades reales de negocio
-        (reservas, pedidos online, captación). Son funcionales y sirven como base para proyectos de clientes.
-      </p>
     </div>
   </section>
+
+  {
+    academicWork.length > 0 && (
+      <section class="section border-t border-line bg-ink-2" aria-labelledby="academicos-title">
+        <div class="container-page">
+          <p class="eyebrow">Formación</p>
+          <h2 id="academicos-title" class="heading-lg mt-4">Proyectos académicos</h2>
+          <p class="lead mt-5 max-w-2xl">
+            Desarrollos completos hechos durante la formación en Desarrollo de Aplicaciones Web, incluido el TFG. No son
+            encargos de clientes, pero usan las mismas tecnologías que aplicamos en los proyectos reales.
+          </p>
+          <div class="mt-12 grid gap-6 md:grid-cols-2">
+            {academicWork.map((p) => <ProjectCard project={p} detailed />)}
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   <CtaSection title="¿Tu negocio es el próximo?" />
 </BaseLayout>

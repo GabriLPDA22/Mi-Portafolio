@@ -49,8 +49,9 @@ const {
 } = Astro.props;
 
 const service = getService(serviceId);
-const related = projects.filter((p) => p.service === serviceId);
-const caseStudies = (related.length ? related : projects).slice(0, 2);
+// Las páginas de venta solo muestran trabajos reales: primero los del mismo servicio, luego el resto.
+const clientWork = projects.filter((p) => p.kind === 'cliente');
+const caseStudies = [...clientWork.filter((p) => p.service === serviceId), ...clientWork.filter((p) => p.service !== serviceId)].slice(0, 2);
 const others = services.filter((s) => s.id !== serviceId);
 const ctaHref = `/contacto?servicio=${service.formValue}#presupuesto`;
 ---
@@ -124,7 +125,7 @@ const ctaHref = `/contacto?servicio=${service.formValue}#presupuesto`;
       <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
         <div class="max-w-2xl">
           <p class="eyebrow">Proyectos</p>
-          <h2 id="casos-title" class="heading-lg mt-4">Ejemplos de trabajos similares</h2>
+          <h2 id="casos-title" class="heading-lg mt-4">Trabajos para clientes</h2>
         </div>
         <Button href="/proyectos" variant="ghost" class="self-start px-0 sm:self-auto">
           Ver todos <Icon name="arrowRight" class="size-4" />
