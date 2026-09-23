@@ -125,6 +125,11 @@ const label = 'text-sm font-medium text-soft';
     const select = form.querySelector<HTMLSelectElement>('select[name="tipo-de-web"]');
     if (servicio && select && [...select.options].some((o) => o.value === servicio)) select.value = servicio;
 
+    // Web3Forms exige una URL absoluta de retorno. Por defecto apunta a producción; con JS se usa el
+    // dominio actual, así las pruebas en local (npm run dev / preview) vuelven a localhost/gracias.
+    const redirect = form.querySelector<HTMLInputElement>('input[name="redirect"]');
+    if (redirect) redirect.value = new URL('/gracias', location.origin).href;
+
     // Evita envíos duplicados en conexiones lentas.
     form.addEventListener('submit', () => {
       const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
