@@ -91,6 +91,17 @@ const legal = [
       <ul class="mt-4 flex gap-2">
         <li>
           <a
+            href={site.social.instagram.url}
+            target="_blank"
+            rel="noopener me"
+            class="inline-flex size-10 items-center justify-center rounded-full border border-line text-muted transition-colors hover:border-line-strong hover:text-fg"
+            data-cta="footer-instagram"
+          >
+            <Icon name="instagram" class="size-4" label="Instagram" />
+          </a>
+        </li>
+        <li>
+          <a
             href={site.founder.linkedin}
             target="_blank"
             rel="noopener me"
@@ -110,6 +121,9 @@ const legal = [
           </a>
         </li>
       </ul>
+      <a href={site.social.instagram.url} target="_blank" rel="noopener" class="mt-4 inline-block text-sm text-muted hover:text-fg">
+        @{site.social.instagram.handle}
+      </a>
     </div>
   </div>
 

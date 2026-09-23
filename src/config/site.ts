@@ -22,6 +22,11 @@ export const site = {
   lang: 'es',
   foundingDate: '2023',
 
+  /** Redes sociales del negocio (no personales). Se enlazan en el pie y en Schema.org `sameAs`. */
+  social: {
+    instagram: { handle: 'gabrielcodes.studio', url: 'https://www.instagram.com/gabrielcodes.studio/' },
+  },
+
   founder: {
     name: 'Gabriel Saiz',
     jobTitle: 'Diseñador y desarrollador web',

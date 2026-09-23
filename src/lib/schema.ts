@@ -102,7 +102,7 @@ export const businessSchema = (): Json => ({
     name: 'Servicios de diseño y desarrollo web',
     itemListElement: services.map((s) => ({ ...offerFor(s), itemOffered: { '@id': serviceId(s) } })),
   },
-  sameAs: [site.founder.linkedin, site.founder.github],
+  sameAs: [site.social.instagram.url, site.founder.linkedin, site.founder.github],
 });
 
 export const websiteSchema = (): Json => ({

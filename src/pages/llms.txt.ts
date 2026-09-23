@@ -34,6 +34,8 @@ export const GET: APIRoute = () => {
     '## Contacto',
     '',
     `- Email: ${site.contact.email}`,
+    `- WhatsApp / teléfono: ${site.contact.phoneDisplay}`,
+    `- Instagram: ${site.social.instagram.url}`,
     `- Horario: ${site.openingHours.display}`,
     `- Zona: ${site.address.locality} y alrededores`,
     '',
