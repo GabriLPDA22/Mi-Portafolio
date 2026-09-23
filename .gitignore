@@ -49,3 +49,11 @@ vite.config.local.js
 # Astro
 .astro
 .netlify
+
+# Builds y cachés de otras versiones (Next.js) y herramientas
+.next
+out
+next-env.d.ts
+*.tsbuildinfo
+__pycache__
+*.pyc

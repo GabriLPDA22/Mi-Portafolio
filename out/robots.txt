@@ -1,7 +1,0 @@
-User-Agent: *
-Allow: /
-Disallow: /api/
-Disallow: /_next/
-
-Host: https://gabrielcodes.dev
-Sitemap: https://gabrielcodes.dev/sitemap.xml

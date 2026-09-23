@@ -26,7 +26,9 @@ const urlPathFor = (file) => {
   return '/' + rel.replace(/\/index\.html$/, '').replace(/\.html$/, '');
 };
 
-const files = (await walk(DIST)).filter((f) => f.endsWith('.html'));
+// Excluye ficheros de verificación de propiedad (Google Search Console: googleXXXX.html).
+const isVerificationFile = (f) => /^google[0-9a-f]+\.html$/.test(path.basename(f));
+const files = (await walk(DIST)).filter((f) => f.endsWith('.html') && !isVerificationFile(f));
 const pages = new Set(files.map(urlPathFor));
 const errors = [];
 const warnings = [];
