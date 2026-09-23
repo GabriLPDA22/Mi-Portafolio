@@ -155,3 +155,26 @@ export const zaragozaFaqs: Faq[] = [
       'Sí: Utebo, Cuarte de Huerva, Cadrete, María de Huerva, La Puebla de Alfindén, Villanueva de Gállego, Zuera, La Muela y el resto del área metropolitana de Zaragoza.',
   },
 ];
+
+export const economicasFaqs: Faq[] = [
+  {
+    question: '¿Cuál es la página web más barata que hacéis?',
+    answer:
+      'Una landing page profesional desde 300 € (sin IVA): una sola página diseñada a medida, adaptada a móvil, con formulario, botón de WhatsApp, SEO básico y dominio, hosting y SSL configurados. Es la opción ideal para empezar a captar clientes con poco presupuesto y se puede ampliar más adelante sin rehacerla.',
+  },
+  {
+    question: '¿Hay que pagar cuotas mensuales?',
+    answer:
+      'No. Pagas el precio de la web una sola vez y es tuya. Los únicos costes anuales son el dominio y el hosting, que se contratan a tu nombre y suelen rondar entre 30 y 100 € al año según el proveedor. El mantenimiento mensual es opcional.',
+  },
+  {
+    question: '¿Por qué sois más baratos que una agencia?',
+    answer:
+      'Porque trabajas directamente con quien diseña y programa tu web: sin oficina, sin comerciales y sin intermediarios. Además usamos un proceso probado que evita horas perdidas. El ahorro va al precio, no a la calidad: cada web se entrega rápida, adaptada a móvil y preparada para Google.',
+  },
+  {
+    question: '¿Una web barata puede salir en Google?',
+    answer:
+      'Sí, si está bien hecha. Lo que hace que una web aparezca en Google no es su precio, sino que cargue rápido, tenga textos pensados para las búsquedas de tus clientes y una estructura técnica correcta. Todas nuestras webs, incluida la más económica, se entregan con esa base de SEO.',
+  },
+];

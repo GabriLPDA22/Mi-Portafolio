@@ -1,0 +1,221 @@
+---
+/**
+ * Página de captación para búsquedas sensibles al precio ("páginas web baratas",
+ * "página web económica Zaragoza"). Recoge la intención sin posicionar la marca como
+ * low cost: no se enlaza desde el menú principal, solo desde el pie y la página de precios.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/sections/PageHero.astro';
+import PricingCards from '@/components/sections/PricingCards.astro';
+import FaqSection from '@/components/sections/FaqSection.astro';
+import CtaSection from '@/components/sections/CtaSection.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { economicasFaqs } from '@/data/faqs';
+import { getService } from '@/data/services';
+import { faqSchema, serviceSchema } from '@/lib/schema';
+
+const breadcrumbs = [{ name: 'Páginas web económicas', path: '/paginas-web-economicas' }];
+
+/** Comparativa cualitativa: rangos habituales del mercado, sin precios de terceros concretos. */
+const options = [
+  {
+    name: 'Hacerla tú (Wix, Squarespace…)',
+    upfront: '0 €',
+    monthly: 'Cuota mensual obligatoria mientras exista la web',
+    time: 'Muchas horas tuyas',
+    quality: 'Plantilla genérica, velocidad y SEO limitados',
+    ownership: 'No puedes llevártela a otro proveedor',
+  },
+  {
+    name: 'Plantilla “low cost”',
+    upfront: '100 – 300 €',
+    monthly: 'Hosting + licencias de plantilla y plugins',
+    time: 'Poco',
+    quality: 'Suele ser lenta y se parece a miles de webs',
+    ownership: 'Depende de quién la hizo',
+  },
+  {
+    name: 'Agencia',
+    upfront: '1.500 – 5.000 €',
+    monthly: 'A menudo mantenimiento obligatorio',
+    time: 'Poco',
+    quality: 'Buena',
+    ownership: 'Normalmente tuya',
+  },
+];
+
+const savings = [
+  {
+    icon: 'handshake',
+    title: 'Sin intermediarios',
+    text: 'Hablas directamente con quien diseña y programa tu web. No hay comerciales ni jefes de proyecto que encarezcan el precio.',
+  },
+  {
+    icon: 'zap',
+    title: 'Proceso eficiente',
+    text: 'Un método de trabajo probado y componentes propios que evitan empezar de cero cada vez. Menos horas, mismo resultado a medida.',
+  },
+  {
+    icon: 'euro',
+    title: 'Sin cuotas obligatorias',
+    text: 'Pagas la web una vez y es tuya. Solo pagas dominio y hosting, a tu nombre. El mantenimiento es opcional.',
+  },
+] as const;
+
+const cheapTraps = [
+  '<strong>Cuotas para siempre:</strong> una web “gratis” con cuota mensual acaba costando más en pocos años que una hecha a medida.',
+  '<strong>Plantillas lentas:</strong> si tarda más de 3 segundos en el móvil, muchos visitantes se van antes de verla y Google la penaliza.',
+  '<strong>Sin SEO:</strong> una web bonita que no aparece en Google no trae clientes.',
+  '<strong>No es tuya:</strong> dominio a nombre de otro, sin accesos… y el día que quieras cambiar, empiezas de cero.',
+];
+---
+
+<BaseLayout
+  title="Páginas Web Baratas en Zaragoza desde 300 € | GabrielCodes"
+  description="Páginas web económicas para negocios en Zaragoza desde 300 €. Diseño a medida, rápidas y preparadas para Google, sin cuotas mensuales obligatorias. Pide presupuesto."
+  breadcrumbs={breadcrumbs}
+  schema={[serviceSchema(getService('landing-pages')), serviceSchema(getService('diseno-web')), faqSchema(economicasFaqs)]}
+>
+  <PageHero
+    eyebrow="Páginas web económicas"
+    breadcrumbs={breadcrumbs}
+    lead="Una web profesional no tiene por qué costar miles de euros. Diseñamos páginas web baratas para negocios de Zaragoza que, en cambio, no lo parecen: a medida, rápidas en el móvil y preparadas para aparecer en Google."
+    price="Desde 300 €"
+    delivery="1–4 semanas"
+    ctaHref="/contacto?servicio=landing-page#presupuesto"
+    whatsappMessage="Hola, busco una página web económica para mi negocio. ¿Me podéis dar presupuesto?"
+  >
+    Páginas web económicas en Zaragoza, sin que parezcan baratas
+  </PageHero>
+
+  <!-- Cómo mantenemos el precio -->
+  <section class="section" aria-labelledby="ahorro-title">
+    <div class="container-page">
+      <div class="max-w-2xl">
+        <p class="eyebrow">Precio justo</p>
+        <h2 id="ahorro-title" class="heading-lg mt-4">Cómo conseguimos un precio bajo sin recortar calidad</h2>
+      </div>
+      <div class="mt-14 grid gap-5 md:grid-cols-3">
+        {
+          savings.map((s) => (
+            <div class="reveal card p-7">
+              <span class="inline-flex size-11 items-center justify-center rounded-xl border border-accent/25 bg-accent/10 text-accent">
+                <Icon name={s.icon} class="size-5" />
+              </span>
+              <h3 class="mt-6 text-lg font-semibold text-fg">{s.title}</h3>
+              <p class="mt-3 text-sm leading-relaxed text-muted">{s.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Precios -->
+  <section id="precios" class="section border-t border-line bg-ink-2" aria-labelledby="precios-title">
+    <div class="container-page">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="eyebrow">Precios cerrados</p>
+        <h2 id="precios-title" class="heading-lg mt-4">¿Cuánto cuesta una página web barata pero profesional?</h2>
+        <p class="lead mt-5">Sabes el precio desde el principio. Sin sorpresas ni cuotas escondidas.</p>
+      </div>
+      <div class="mt-16">
+        <PricingCards featured="landing-pages" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparativa -->
+  <section class="section border-t border-line" aria-labelledby="comparativa-title">
+    <div class="container-page">
+      <p class="eyebrow">Comparativa</p>
+      <h2 id="comparativa-title" class="heading-lg mt-4 max-w-3xl">Web barata: qué opciones tienes y cuánto cuestan de verdad</h2>
+      <p class="lead mt-5 max-w-2xl">Rangos habituales en el mercado. Lo importante no es solo el precio inicial, sino lo que pagas cada año.</p>
+
+      <div class="mt-12 overflow-x-auto rounded-[var(--radius-card)] border border-line">
+        <table class="w-full min-w-[48rem] text-left text-sm">
+          <caption class="sr-only">Comparativa de opciones para tener una página web económica</caption>
+          <thead class="bg-surface text-fg">
+            <tr>
+              <th scope="col" class="p-4 font-medium">Opción</th>
+              <th scope="col" class="p-4 font-medium">Precio inicial</th>
+              <th scope="col" class="p-4 font-medium">Costes recurrentes</th>
+              <th scope="col" class="p-4 font-medium">Tu tiempo</th>
+              <th scope="col" class="p-4 font-medium">Calidad, velocidad y SEO</th>
+              <th scope="col" class="p-4 font-medium">¿Es tuya?</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-line">
+            {
+              options.map((o) => (
+                <tr>
+                  <th scope="row" class="p-4 font-medium text-soft">{o.name}</th>
+                  <td class="p-4 whitespace-nowrap text-muted">{o.upfront}</td>
+                  <td class="p-4 text-muted">{o.monthly}</td>
+                  <td class="p-4 text-muted">{o.time}</td>
+                  <td class="p-4 text-muted">{o.quality}</td>
+                  <td class="p-4 text-muted">{o.ownership}</td>
+                </tr>
+              ))
+            }
+            <tr class="bg-accent/[0.06]">
+              <th scope="row" class="p-4 font-semibold text-accent">GabrielCodes</th>
+              <td class="p-4 font-medium whitespace-nowrap text-fg">Desde 300 €</td>
+              <td class="p-4 text-soft">Solo dominio y hosting (a tu nombre)</td>
+              <td class="p-4 text-soft">Una reunión de 20 minutos</td>
+              <td class="p-4 text-soft">A medida, Lighthouse 90+, SEO incluido</td>
+              <td class="p-4 text-soft">Sí, 100 %</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contenido SEO -->
+  <section class="border-t border-line py-20 sm:py-24">
+    <div class="container-page">
+      <div class="prose-page">
+        <h2>Por qué una web barata puede salir cara</h2>
+        <p>
+          Buscar una página web barata tiene todo el sentido si estás empezando o tu negocio no necesita más. El problema es que
+          lo barato a veces esconde costes que aparecen después:
+        </p>
+        <ul>
+          {cheapTraps.map((t) => <li set:html={t} />)}
+        </ul>
+
+        <h2>Qué incluye nuestra página web más económica</h2>
+        <p>
+          La <a href="/servicios/landing-pages">landing page desde 300 €</a> es una página única diseñada a medida para tu
+          negocio, con tus servicios, fotos, formulario de contacto y botón de WhatsApp. Se adapta a cualquier móvil, carga al
+          instante y sale configurada con dominio, hosting, certificado SSL, SEO básico y Google Analytics. Es suficiente para
+          que un negocio local tenga presencia profesional y empiece a recibir contactos.
+        </p>
+        <p>
+          Si necesitas explicar varios servicios o posicionar en Google a largo plazo, la
+          <a href="/servicios/diseno-web">web profesional desde 700 €</a> sigue siendo un precio muy por debajo del de una
+          agencia. Y si trabajas con citas, la <a href="/servicios/web-con-reservas">web con reservas online</a> se amortiza con
+          las llamadas que te ahorra.
+        </p>
+
+        <h2>Páginas web económicas para negocios de Zaragoza</h2>
+        <p>
+          Trabajamos con autónomos, comercios y pequeñas empresas de Zaragoza y alrededores que quieren una web profesional con
+          un presupuesto ajustado. Nos reunimos contigo en persona o por videollamada y te enviamos un
+          <strong>presupuesto cerrado en menos de 24 horas</strong>. Más información sobre el servicio local en
+          <a href="/diseno-web-zaragoza">diseño web en Zaragoza</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="border-t border-line">
+    <FaqSection faqs={economicasFaqs} title="Preguntas sobre páginas web económicas" />
+  </div>
+
+  <CtaSection
+    title="¿Buscas una web profesional a buen precio?"
+    text="Cuéntanos tu negocio y tu presupuesto. En menos de 24 h tienes una propuesta cerrada, sin compromiso."
+  />
+</BaseLayout>

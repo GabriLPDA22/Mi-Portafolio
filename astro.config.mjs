@@ -46,7 +46,7 @@ export default defineConfig({
       serialize(item) {
         const path = new URL(item.url).pathname;
         if (path === '/') item.priority = 1.0;
-        else if (path.startsWith('/servicios') || path === '/diseno-web-zaragoza') item.priority = 0.9;
+        else if (path.startsWith('/servicios') || ['/diseno-web-zaragoza', '/paginas-web-economicas'].includes(path)) item.priority = 0.9;
         else item.priority = 0.7;
         return item;
       },
