@@ -71,7 +71,7 @@ export const projects: Project[] = [
     solution:
       'App iOS publicada en App Store con backend propio en la nube, pagos y suscripciones con Stripe y panel de administración.',
     highlights: ['App publicada en App Store', 'Entradas en Apple Wallet', 'Chat en tiempo real', 'Pagos con Stripe'],
-    url: 'https://apps.apple.com/us/app/the-arch/id6753820007',
+    url: 'https://apps.apple.com/us/app/arch-oxford/id6753820007',
   },
   {
     slug: 'elixium-restaurante',
