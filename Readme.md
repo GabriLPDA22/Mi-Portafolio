@@ -7,7 +7,8 @@ Web comercial de **GabrielCodes** ([gabrielcodes.dev](https://gabrielcodes.dev))
 - **Astro 7**: salida 100 % estática, sin JS por defecto (~2,5 KB de JS en total)
 - **Tailwind CSS 4** con design tokens en `@theme` (`src/styles/global.css`)
 - **astro:assets**: imágenes AVIF/WebP responsive y API de fuentes (Inter autoalojada con fallback métrico, CLS 0)
-- **Netlify**: hosting, cabeceras de seguridad, redirecciones 301 y **Netlify Forms** para el formulario de presupuesto
+- **Hostinger** (LiteSpeed/Apache): hosting estático; `public/.htaccess` gestiona URLs limpias, redirecciones 301, HTTPS, caché y cabeceras de seguridad
+- **Web3Forms**: envío del formulario de presupuesto por email, sin backend
 
 ## Arquitectura de URLs
 
@@ -23,7 +24,7 @@ Web comercial de **GabrielCodes** ([gabrielcodes.dev](https://gabrielcodes.dev))
 | `/proyectos` | casos y portfolio |
 | `/contacto` | presupuesto |
 
-`/diseño-web-zaragoza` redirige con 301 a `/diseno-web-zaragoza` (slug ASCII: evita URLs codificadas `%C3%B1` al compartir). Las URLs del portfolio anterior (`/proyecto/*`, `/privacy-policy`, `/dashboard`…) también redirigen con 301 (`netlify.toml`).
+`/diseño-web-zaragoza` redirige con 301 a `/diseno-web-zaragoza` (slug ASCII: evita URLs codificadas `%C3%B1` al compartir). Las URLs del portfolio anterior (`/proyecto/*`, `/privacy-policy`, `/dashboard`…) también redirigen con 301 (`public/.htaccess`).
 
 ## SEO implementado
 
@@ -57,9 +58,15 @@ npm run check     # comprobación de tipos (astro check)
 npm run assets    # regenera favicons e imágenes OG (requiere Chromium: CHROMIUM_PATH=/ruta/a/chrome)
 ```
 
+## Despliegue en Hostinger
+
+1. `npm run build`
+2. Sube **el contenido** de `dist/` (no la carpeta) a `public_html/` con el Administrador de archivos o por FTP, incluidos los archivos ocultos `.htaccess` y `_astro/.htaccess`.
+3. En hPanel activa el SSL del dominio.
+
 ## Pendiente antes de publicar
 
 - [ ] Añadir el NIF en `site.legal.nif` (obligatorio en el aviso legal, LSSI art. 10).
 - [ ] Revisar el precio del mantenimiento (25 €/mes) y la mención “sin IVA”.
-- [ ] Activar las notificaciones por email de Netlify Forms (Site settings → Forms).
+- [ ] Crear la clave de Web3Forms en [web3forms.com](https://web3forms.com) con el email donde quieres recibir las solicitudes y pegarla en `site.forms.web3formsKey` (`src/config/site.ts`). Sin ella el build avisa y los envíos no llegan.
 - [ ] Crear o actualizar Google Business Profile con los mismos datos que `site.ts` y enviar el sitemap en Search Console.

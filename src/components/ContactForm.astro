@@ -1,11 +1,13 @@
 ---
 /**
- * Formulario de presupuesto procesado por Netlify Forms: Netlify detecta el formulario
- * en el HTML estático durante el despliegue, así que no hace falta backend ni JS para enviarlo.
- * Antispam: campo honeypot + reCAPTCHA opcional desde el panel de Netlify.
+ * Formulario de presupuesto enviado a Web3Forms, que reenvía cada solicitud por email.
+ * Funciona en cualquier hosting estático (Hostinger) y sin JavaScript: el POST es nativo y
+ * Web3Forms redirige a /gracias. El email del cliente llega como Reply-To para contestar directo.
+ * Antispam: casilla trampa `botcheck` que los bots rellenan y Web3Forms descarta.
  */
 import Icon from '@/components/ui/Icon.astro';
 import { projectTypes, budgetRanges, sectors } from '@/data/services';
+import { site, absoluteUrl } from '@/config/site';
 
 const field =
   'mt-2 block w-full rounded-xl border border-line-strong bg-ink px-4 py-3 text-base text-fg placeholder:text-white/35 transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30';
@@ -15,16 +17,16 @@ const label = 'text-sm font-medium text-soft';
 <form
   name="presupuesto"
   method="POST"
-  action="/gracias"
-  data-netlify="true"
-  netlify-honeypot="empresa-web"
+  action={site.forms.endpoint}
+  accept-charset="UTF-8"
   class="grid gap-5 sm:grid-cols-2"
   data-budget-form
 >
-  <input type="hidden" name="form-name" value="presupuesto" />
-  <p class="hidden" aria-hidden="true">
-    <label>No rellenes este campo: <input name="empresa-web" tabindex="-1" autocomplete="off" /></label>
-  </p>
+  <input type="hidden" name="access_key" value={site.forms.web3formsKey} />
+  <input type="hidden" name="subject" value="Nueva solicitud de presupuesto · gabrielcodes.dev" />
+  <input type="hidden" name="from_name" value={`Web ${site.name}`} />
+  <input type="hidden" name="redirect" value={absoluteUrl('/gracias')} />
+  <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
   <div>
     <label for="f-nombre" class={label}>Nombre <span class="text-accent" aria-hidden="true">*</span></label>

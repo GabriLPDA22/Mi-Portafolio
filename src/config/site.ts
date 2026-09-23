@@ -83,6 +83,16 @@ export const site = {
     lastUpdated: '23 de septiembre de 2026',
   },
 
+  /**
+   * Formulario de presupuesto vía Web3Forms (https://web3forms.com): envía cada solicitud al
+   * email con el que se genera la clave. La clave es pública por diseño (va en el HTML).
+   * TODO: generar la clave en web3forms.com con tu email y pegarla aquí.
+   */
+  forms: {
+    web3formsKey: '',
+    endpoint: 'https://api.web3forms.com/submit',
+  },
+
   analytics: {
     /** Google Analytics 4. Solo se carga tras aceptar cookies. */
     gaId: 'G-CEDV9NP2WJ',

@@ -98,6 +98,14 @@ for (const file of files) {
   }
 }
 
+// El formulario de presupuesto necesita la clave de Web3Forms para entregar los envíos.
+for (const file of files) {
+  const html = await readFile(file, 'utf8');
+  if (/name="access_key" value(="")?[\s>/]/.test(html)) {
+    warnings.push(`${urlPathFor(file)}: formulario sin clave de Web3Forms (site.forms.web3formsKey): los envíos NO llegarán`);
+  }
+}
+
 for (const w of warnings) console.warn(`  ⚠ ${w}`);
 if (errors.length) {
   for (const e of errors) console.error(`  ✗ ${e}`);

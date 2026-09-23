@@ -8,7 +8,7 @@ const NOINDEX_PATHS = ['/gracias', '/aviso-legal', '/politica-privacidad', '/pol
 
 export default defineConfig({
   site: 'https://gabrielcodes.dev',
-  // `file` + `never`: /contacto.html se sirve como /contacto (pretty URLs de Netlify),
+  // `file` + `never`: /contacto.html se sirve como /contacto (reescritura en public/.htaccess),
   // así la URL canónica, el sitemap y los enlaces internos coinciden sin redirecciones.
   trailingSlash: 'never',
   build: {

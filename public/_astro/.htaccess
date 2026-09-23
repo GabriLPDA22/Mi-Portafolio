@@ -1,0 +1,4 @@
+# Assets generados por Astro con hash en el nombre: nunca cambian, caché de 1 año.
+<IfModule mod_headers.c>
+  Header set Cache-Control "public, max-age=31536000, immutable"
+</IfModule>
