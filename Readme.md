@@ -67,5 +67,4 @@ npm run assets    # regenera favicons e imágenes OG (requiere Chromium: CHROMIU
 ## Pendiente antes de publicar
 
 - [ ] Revisar el precio del mantenimiento (25 €/mes) y la mención “sin IVA”.
-- [ ] Crear la clave de Web3Forms en [web3forms.com](https://web3forms.com) con el email donde quieres recibir las solicitudes y pegarla en `site.forms.web3formsKey` (`src/config/site.ts`). Sin ella el build avisa y los envíos no llegan.
 - [ ] Crear o actualizar Google Business Profile con los mismos datos que `site.ts` y enviar el sitemap en Search Console.

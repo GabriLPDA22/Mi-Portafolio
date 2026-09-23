@@ -6,7 +6,7 @@
  * (NAP: Name, Address, Phone). La coherencia NAP es un factor de SEO local.
  */
 
-/** Número en formato E.164 sin "+" ni espacios. TODO: sustituir por el número real. */
+/** Número en formato E.164 sin "+" ni espacios. */
 const PHONE_E164 = '34663941885';
 
 export const PHONE_PLACEHOLDER = PHONE_E164 === '34600000000';
@@ -86,10 +86,9 @@ export const site = {
   /**
    * Formulario de presupuesto vía Web3Forms (https://web3forms.com): envía cada solicitud al
    * email con el que se genera la clave. La clave es pública por diseño (va en el HTML).
-   * TODO: generar la clave en web3forms.com con tu email y pegarla aquí.
    */
   forms: {
-    web3formsKey: '',
+    web3formsKey: '7bc8e344-1f6a-4df7-b056-540f8a25a4ba',
     endpoint: 'https://api.web3forms.com/submit',
   },
 
