@@ -1,0 +1,28 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import { site } from '@/config/site';
+
+interface Props {
+  title: string;
+  heading: string;
+  description: string;
+  path: string;
+}
+
+const { title, heading, description, path } = Astro.props;
+const breadcrumbs = [{ name: heading, path }];
+---
+
+<BaseLayout title={title} description={description} noindex>
+  <section class="section pt-10 sm:pt-14">
+    <div class="container-page">
+      <Breadcrumbs items={breadcrumbs} />
+      <h1 class="heading-lg mt-10">{heading}</h1>
+      <p class="mt-4 text-sm text-muted">Última actualización: {site.legal.lastUpdated}</p>
+      <div class="prose-page mt-10">
+        <slot />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

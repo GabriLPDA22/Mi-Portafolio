@@ -1,0 +1,60 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/sections/PageHero.astro';
+import CtaSection from '@/components/sections/CtaSection.astro';
+import ProjectCard from '@/components/ProjectCard.astro';
+import { projects } from '@/data/projects';
+import { absoluteUrl } from '@/config/site';
+import { ids } from '@/lib/schema';
+
+const breadcrumbs = [{ name: 'Proyectos', path: '/proyectos' }];
+
+const itemList = {
+  '@type': 'ItemList',
+  name: 'Proyectos de diseño web',
+  itemListElement: projects.map((p, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    item: {
+      '@type': 'CreativeWork',
+      name: p.name,
+      description: p.solution,
+      genre: p.sector,
+      image: absoluteUrl(p.image.src),
+      creator: { '@id': ids.business },
+      ...(p.url ? { url: p.url } : {}),
+    },
+  })),
+};
+---
+
+<BaseLayout
+  title="Proyectos de Diseño Web y Casos Reales | GabrielCodes"
+  description="Ejemplos de páginas web, landing pages y webs con reservas que hemos diseñado y desarrollado: el reto de cada negocio y cómo lo resolvimos."
+  breadcrumbs={breadcrumbs}
+  pageType="CollectionPage"
+  schema={[itemList]}
+>
+  <PageHero
+    eyebrow="Proyectos"
+    breadcrumbs={breadcrumbs}
+    lead="Cada web parte de un problema de negocio concreto. Aquí tienes algunos proyectos: webs de clientes en producción y proyectos demostrativos que muestran soluciones que podemos implantar en tu negocio."
+  >
+    Proyectos de diseño y desarrollo web
+  </PageHero>
+
+  <section class="section" aria-labelledby="lista-proyectos">
+    <div class="container-page">
+      <h2 id="lista-proyectos" class="sr-only">Listado de proyectos</h2>
+      <div class="grid gap-6 md:grid-cols-2">
+        {projects.map((p) => <ProjectCard project={p} detailed />)}
+      </div>
+      <p class="mt-10 max-w-2xl text-sm leading-relaxed text-muted">
+        Los proyectos marcados como “demostrativos” son desarrollos propios que reproducen necesidades reales de negocio
+        (reservas, pedidos online, captación). Son funcionales y sirven como base para proyectos de clientes.
+      </p>
+    </div>
+  </section>
+
+  <CtaSection title="¿Tu negocio es el próximo?" />
+</BaseLayout>

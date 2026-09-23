@@ -1,0 +1,51 @@
+---
+import LegalLayout from '@/layouts/LegalLayout.astro';
+import { site } from '@/config/site';
+---
+
+<LegalLayout
+  title="Aviso legal | GabrielCodes"
+  heading="Aviso legal"
+  description="Aviso legal e información del titular del sitio web gabrielcodes.dev."
+  path="/aviso-legal"
+>
+  <h2>Datos identificativos</h2>
+  <p>En cumplimiento del artículo 10 de la Ley 34/2002, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE), se informa:</p>
+  <ul>
+    <li><strong>Titular:</strong> {site.legal.holder}</li>
+    {site.legal.nif && <li><strong>NIF:</strong> {site.legal.nif}</li>}
+    <li><strong>Nombre comercial:</strong> {site.name}</li>
+    <li><strong>Localidad:</strong> {site.address.locality}, {site.address.region} (España)</li>
+    <li><strong>Email:</strong> <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></li>
+    <li><strong>Sitio web:</strong> {site.url}</li>
+  </ul>
+
+  <h2>Objeto</h2>
+  <p>
+    Este sitio web ofrece información sobre los servicios de diseño, desarrollo y mantenimiento de páginas web de {site.name}
+    y permite a los usuarios solicitar presupuesto.
+  </p>
+
+  <h2>Condiciones de uso</h2>
+  <p>
+    El acceso al sitio web es gratuito y atribuye la condición de usuario, que se compromete a hacer un uso adecuado de los
+    contenidos conforme a la ley, la buena fe y el orden público. Los precios mostrados son orientativos y no constituyen una
+    oferta vinculante; el precio final se fija en el presupuesto personalizado aceptado por escrito.
+  </p>
+
+  <h2>Propiedad intelectual e industrial</h2>
+  <p>
+    Los textos, diseños, logotipos y código de este sitio son titularidad de {site.legal.holder} o se usan con autorización.
+    Las capturas de proyectos de clientes se muestran como portfolio profesional. Queda prohibida su reproducción total o
+    parcial sin autorización expresa.
+  </p>
+
+  <h2>Responsabilidad</h2>
+  <p>
+    El titular no se responsabiliza de los daños derivados del uso de la información del sitio ni de los contenidos de sitios
+    de terceros enlazados, sobre los que no tiene control.
+  </p>
+
+  <h2>Legislación aplicable</h2>
+  <p>Este aviso legal se rige por la legislación española. Para cualquier controversia serán competentes los juzgados y tribunales que correspondan conforme a la normativa aplicable.</p>
+</LegalLayout>

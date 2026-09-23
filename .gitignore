@@ -46,3 +46,6 @@ coverage
 # Archivos de configuración local
 vite.config.local.js
 .vite
+# Astro
+.astro
+.netlify
