@@ -1,0 +1,82 @@
+---
+import ServiceLayout from '@/layouts/ServiceLayout.astro';
+import { disenoWebFaqs } from '@/data/faqs';
+---
+
+<ServiceLayout
+  serviceId="diseno-web"
+  title="Páginas Web para Empresas desde 700 € | GabrielCodes"
+  description="Creamos la página web profesional de tu empresa: diseño a medida, SEO local, carga ultrarrápida y formularios que generan contactos. Presupuesto cerrado en 24 h."
+  eyebrow="Diseño web para empresas"
+  lead="Creamos la web de tu empresa para que genere contactos, no solo visitas: diseño a medida, textos que explican lo que haces y una base técnica preparada para posicionar en Google."
+  breadcrumbs={[
+    { name: 'Servicios', path: '/servicios' },
+    { name: 'Diseño web', path: '/servicios/diseno-web' },
+  ]}
+  includesTitle="Una web profesional completa, lista para captar clientes"
+  faqs={disenoWebFaqs}
+  faqTitle="Dudas sobre crear la web de tu empresa"
+  image="/og/og-diseno-web.png"
+  ctaTitle="¿Creamos la web de tu empresa?"
+>
+  <Fragment slot="h1">Diseño de páginas web para empresas que quieren crecer</Fragment>
+
+  <h2>¿Qué debe tener la página web de una empresa?</h2>
+  <p>
+    Una página web profesional no es solo una tarjeta de visita. Debe cargar rápido, aparecer en Google y facilitar que tus
+    clientes contacten contigo. Cuando alguien entra en la web de tu empresa se hace tres preguntas en pocos segundos:
+    <strong>¿qué hacen?, ¿me fío de ellos? y ¿cómo les contacto?</strong> Si la web no responde a las tres, el visitante
+    vuelve a Google y elige a otro.
+  </p>
+
+  <h3>Un mensaje que se entiende en cinco segundos</h3>
+  <p>
+    La cabecera de tu web tiene que decir qué haces, para quién y en qué zona, sin frases genéricas como “soluciones
+    integrales de calidad”. Redactamos los textos pensando en cómo habla tu cliente y en lo que escribe en Google.
+  </p>
+
+  <h3>Velocidad y adaptación al móvil</h3>
+  <p>
+    La mayoría de las búsquedas de negocios locales se hacen desde el teléfono, muchas veces con cobertura irregular. Por
+    eso diseñamos primero para móvil y optimizamos imágenes, tipografías y código para que la web cargue en menos de dos
+    segundos. Google también lo mide: las Core Web Vitals influyen en el posicionamiento.
+  </p>
+
+  <h3>SEO desde la primera línea de código</h3>
+  <p>
+    Cada página tiene su título, su descripción y una estructura de encabezados pensada para una búsqueda concreta.
+    Añadimos datos estructurados (Schema.org) para que Google entienda qué empresa eres, dónde trabajas y qué servicios
+    ofreces, y damos de alta la web en Google Search Console.
+  </p>
+
+  <h3>Pruebas de confianza y contacto sin fricción</h3>
+  <p>
+    Proyectos, reseñas, certificaciones, fotos reales del equipo… Todo lo que ayude a que un desconocido confíe en ti. Y al
+    lado, siempre visible, un botón para llamar, escribir por WhatsApp o pedir presupuesto.
+  </p>
+
+  <h2>Cómo creamos la página web de tu empresa</h2>
+  <ul>
+    <li><strong>Análisis:</strong> revisamos tu negocio, a tu competencia en Google y las búsquedas que hacen tus clientes.</li>
+    <li><strong>Estructura y textos:</strong> definimos las páginas (inicio, servicios, sobre nosotros, contacto…) y el mensaje de cada una.</li>
+    <li><strong>Diseño:</strong> ves el diseño completo antes de programarlo y puedes pedir cambios.</li>
+    <li><strong>Desarrollo:</strong> programamos una web rápida, segura y accesible, sin plantillas pesadas.</li>
+    <li><strong>Publicación:</strong> configuramos dominio, SSL, analítica y Search Console, y te explicamos cómo medir resultados.</li>
+  </ul>
+
+  <h2>¿Cuánto cuesta una página web para una empresa?</h2>
+  <p>
+    Una web profesional para empresa cuesta entre <strong>700 y 1.200 €</strong> (sin IVA). La diferencia depende de tres
+    factores: el número de páginas, si necesitas que redactemos todos los textos y si hay funciones especiales como un área
+    de clientes o un catálogo. Si lo que necesitas es una sola página para una campaña, una
+    <a href="/servicios/landing-pages">landing page</a> desde 300 € puede ser suficiente; si trabajas con citas, mira la
+    <a href="/servicios/web-con-reservas">web con reservas online</a>.
+  </p>
+
+  <h2>¿Por qué no usar una plantilla de Wix o WordPress?</h2>
+  <p>
+    Las plantillas sirven para salir del paso, pero suelen ser lentas, se parecen a miles de webs y cargan funciones que
+    nunca usarás. Una web a medida pesa una fracción, se adapta a tu marca y está construida alrededor de un objetivo:
+    que te contacten. Además, no pagas licencias de plantillas ni plugins cada año.
+  </p>
+</ServiceLayout>

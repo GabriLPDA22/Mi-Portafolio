@@ -1,0 +1,170 @@
+---
+/**
+ * Plantilla de página de servicio. Estructura orientada a intención de búsqueda:
+ * H1 (keyword principal) → qué incluye y precio → contenido SEO (H2/H3 por subintención)
+ * → casos reales → proceso → FAQ (FAQPage) → CTA. El Service + Offer se emite en JSON-LD.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/sections/PageHero.astro';
+import FaqSection from '@/components/sections/FaqSection.astro';
+import ProcessSteps from '@/components/sections/ProcessSteps.astro';
+import CtaSection from '@/components/sections/CtaSection.astro';
+import ProjectCard from '@/components/ProjectCard.astro';
+import Button from '@/components/ui/Button.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { getService, formatPrice, services, type ServiceId } from '@/data/services';
+import { projects } from '@/data/projects';
+import { site } from '@/config/site';
+import { serviceSchema, faqSchema, type Crumb } from '@/lib/schema';
+import type { Faq } from '@/data/faqs';
+
+interface Props {
+  serviceId: ServiceId;
+  title: string;
+  description: string;
+  eyebrow: string;
+  lead: string;
+  breadcrumbs: Crumb[];
+  faqs: Faq[];
+  faqTitle?: string;
+  includesTitle: string;
+  image?: string;
+  ctaTitle?: string;
+  ctaText?: string;
+}
+
+const {
+  serviceId,
+  title,
+  description,
+  eyebrow,
+  lead,
+  breadcrumbs,
+  faqs,
+  faqTitle,
+  includesTitle,
+  image,
+  ctaTitle,
+  ctaText,
+} = Astro.props;
+
+const service = getService(serviceId);
+const related = projects.filter((p) => p.service === serviceId);
+const caseStudies = (related.length ? related : projects).slice(0, 2);
+const others = services.filter((s) => s.id !== serviceId);
+const ctaHref = `/contacto?servicio=${service.formValue}#presupuesto`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={image}
+  breadcrumbs={breadcrumbs}
+  schema={[serviceSchema(service), faqSchema(faqs)]}
+>
+  <PageHero
+    eyebrow={eyebrow}
+    breadcrumbs={breadcrumbs}
+    lead={lead}
+    price={formatPrice(service.price)}
+    delivery={service.delivery}
+    ctaHref={ctaHref}
+    whatsappMessage={`Hola, me interesa el servicio de ${service.name.toLowerCase()}. ¿Me podéis dar presupuesto?`}
+  >
+    <slot name="h1" />
+  </PageHero>
+
+  <!-- Qué incluye -->
+  <section class="section" aria-labelledby="incluye-title">
+    <div class="container-page grid gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-5">
+        <p class="eyebrow">Qué incluye</p>
+        <h2 id="incluye-title" class="heading-lg mt-4">{includesTitle}</h2>
+        <p class="mt-5 text-muted">{service.summary}</p>
+      </div>
+      <div class="lg:col-span-6 lg:col-start-7">
+        <div class="card p-7 sm:p-9">
+          <div class="flex flex-wrap items-baseline justify-between gap-3 border-b border-line pb-6">
+            <p class="text-3xl font-semibold tracking-tight text-fg">{formatPrice(service.price)}</p>
+            <p class="text-sm text-muted">Entrega: {service.delivery}</p>
+          </div>
+          <ul class="mt-6 grid gap-4">
+            {
+              service.includes.map((item) => (
+                <li class="flex gap-3 text-soft">
+                  <span class="mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent">
+                    <Icon name="check" class="size-3.5" />
+                  </span>
+                  {item}
+                </li>
+              ))
+            }
+          </ul>
+          <Button href={ctaHref} size="lg" class="mt-8 w-full" data-cta={`service-card-${service.id}`}>
+            Solicitar presupuesto
+          </Button>
+          <p class="mt-4 text-center text-xs text-muted">{site.pricing.note}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contenido SEO específico del servicio -->
+  <section class="border-t border-line py-20 sm:py-24">
+    <div class="container-page">
+      <div class="prose-page">
+        <slot />
+      </div>
+    </div>
+  </section>
+
+  <!-- Casos -->
+  <section class="section border-t border-line bg-ink-2" aria-labelledby="casos-title">
+    <div class="container-page">
+      <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+        <div class="max-w-2xl">
+          <p class="eyebrow">Proyectos</p>
+          <h2 id="casos-title" class="heading-lg mt-4">Ejemplos de trabajos similares</h2>
+        </div>
+        <Button href="/proyectos" variant="ghost" class="self-start px-0 sm:self-auto">
+          Ver todos <Icon name="arrowRight" class="size-4" />
+        </Button>
+      </div>
+      <div class="mt-12 grid gap-6 md:grid-cols-2">
+        {caseStudies.map((p) => <ProjectCard project={p} />)}
+      </div>
+    </div>
+  </section>
+
+  <div class="border-t border-line">
+    <ProcessSteps />
+  </div>
+
+  <div class="border-t border-line">
+    <FaqSection faqs={faqs} title={faqTitle} />
+  </div>
+
+  <!-- Otros servicios: enlazado interno entre páginas de servicio -->
+  <section class="border-t border-line py-16" aria-labelledby="otros-title">
+    <div class="container-page">
+      <h2 id="otros-title" class="text-sm font-semibold tracking-[0.18em] text-muted uppercase">Otros servicios</h2>
+      <ul class="mt-6 grid gap-4 md:grid-cols-3">
+        {
+          others.map((s) => (
+            <li>
+              <a href={s.path} class="group card card-hover flex items-center justify-between gap-4 p-5">
+                <span>
+                  <span class="block font-medium text-fg">{s.name}</span>
+                  <span class="mt-1 block text-sm text-muted">{formatPrice(s.price)}</span>
+                </span>
+                <Icon name="arrowRight" class="size-4 text-muted transition-transform group-hover:translate-x-1 group-hover:text-accent" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <CtaSection title={ctaTitle} text={ctaText} />
+</BaseLayout>

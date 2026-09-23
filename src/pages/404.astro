@@ -1,0 +1,30 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Button from '@/components/ui/Button.astro';
+import { services } from '@/data/services';
+---
+
+<BaseLayout title="Página no encontrada | GabrielCodes" description="La página que buscas no existe o ha cambiado de dirección." noindex>
+  <section class="section">
+    <div class="container-page max-w-2xl text-center">
+      <p class="font-mono text-sm text-accent">Error 404</p>
+      <h1 class="heading-lg mt-4">Esta página no existe</h1>
+      <p class="lead mt-6">Puede que el enlace haya cambiado. Estas páginas sí te pueden interesar:</p>
+      <ul class="mt-8 flex flex-wrap justify-center gap-2">
+        {
+          services.map((s) => (
+            <li>
+              <a href={s.path} class="inline-flex rounded-full border border-line px-4 py-2 text-sm text-soft hover:border-line-strong hover:text-fg">
+                {s.name}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
+        <Button href="/" size="lg">Volver al inicio</Button>
+        <Button href="/contacto" variant="secondary" size="lg">Contacto</Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
