@@ -1,27 +1,31 @@
 ---
 /**
- * Cabecera de sección: número + etiqueta, título y entradilla, con la palabra de la sección
- * en gigante y en contorno detrás (`.bg-word`).
+ * Cabecera de sección: "(01) Etiqueta", titular con remate en cursiva editorial y entradilla,
+ * con la palabra de la sección en gigante y en contorno detrás (`.bg-word`).
  */
 interface Props {
   id: string;
   number: string;
   eyebrow: string;
   title: string;
+  /** Remate del titular en cursiva y color de acento. */
+  accent?: string;
   lead?: string;
   /** Palabra de fondo; por defecto, la etiqueta. */
   bg?: string;
   class?: string;
 }
 
-const { id, number, eyebrow, title, lead, bg = eyebrow, class: className } = Astro.props;
+const { id, number, eyebrow, title, accent, lead, bg = eyebrow, class: className } = Astro.props;
 ---
 
 <div class:list={['relative', className]}>
   <span class="bg-word -top-[0.42em] -left-[0.06em]" aria-hidden="true">{bg}</span>
   <div class="relative z-10">
-    <p class="eyebrow"><span class="text-muted">{number} —</span> {eyebrow}</p>
-    <h2 id={id} class="heading-lg mt-4 max-w-3xl">{title}</h2>
+    <p class="eyebrow"><span class="text-accent">({number})</span> {eyebrow}</p>
+    <h2 id={id} class="heading-lg mt-5 max-w-3xl">
+      {title}{accent && ' '}{accent && <span class="serif-accent">{accent}</span>}
+    </h2>
     {lead && <p class="lead mt-5 max-w-2xl">{lead}</p>}
     <slot />
   </div>

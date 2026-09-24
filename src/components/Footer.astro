@@ -11,11 +11,11 @@ const social = [
 ] as const;
 ---
 
-<footer class="border-t border-line bg-ink-2">
-  <div class="container-page flex flex-col gap-8 py-12 sm:flex-row sm:items-center sm:justify-between">
+<footer class="theme-dark overflow-hidden">
+  <div class="container-page flex flex-col gap-8 pt-16 pb-10 sm:flex-row sm:items-end sm:justify-between">
     <div>
       <a href="/" aria-label={`${site.name}, ir al inicio`}><Logo /></a>
-      <p class="mt-3 text-sm text-muted">{site.role} · {site.location}</p>
+      <p class="mt-4 max-w-xs text-sm leading-relaxed text-muted">{site.role} · web y mobile con .NET, Vue 3 y React Native. {site.location}.</p>
     </div>
     <ul class="flex gap-2">
       {
@@ -25,7 +25,7 @@ const social = [
               href={s.href}
               target={s.icon === 'mail' ? undefined : '_blank'}
               rel={s.icon === 'mail' ? undefined : 'noopener me'}
-              class="inline-flex size-11 items-center justify-center rounded-full border border-line text-muted transition-colors hover:border-line-strong hover:text-fg"
+              class="icon-btn size-12"
               data-cta={`footer-${s.icon}`}
             >
               <Icon name={s.icon} class="size-[1.1rem]" label={s.label} />
@@ -35,14 +35,13 @@ const social = [
       }
     </ul>
   </div>
-  <div class="overflow-hidden" aria-hidden="true">
-    <p
-      class="bg-word !static -mb-[0.18em] block text-center !text-[clamp(3.2rem,15.5vw,14rem)] ![mask-image:linear-gradient(to_bottom,#000_40%,transparent_100%)]"
-    >
-      {site.name}
-    </p>
-  </div>
-  <div class="border-t border-line">
+  <p
+    class="-mb-[0.2em] text-center font-display text-[clamp(3.4rem,16.5vw,15rem)] leading-[0.85] font-extrabold tracking-[-0.06em] whitespace-nowrap text-lime select-none"
+    aria-hidden="true"
+  >
+    {site.name}
+  </p>
+  <div class="relative border-t border-line bg-bg">
     <div class="container-page flex flex-col gap-3 py-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
       <p>© {year} {site.fullName}. Hecho a mano con Astro.</p>
       <ul class="flex flex-wrap gap-x-5 gap-y-2">

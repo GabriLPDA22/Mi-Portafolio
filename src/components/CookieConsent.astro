@@ -15,16 +15,16 @@ import { site } from '@/config/site';
   aria-label="Preferencias de cookies"
   data-ga-id={site.analytics.gaId}
 >
-  <div class="card bg-ink-2/95 p-5 shadow-2xl shadow-black/70 backdrop-blur-xl">
+  <div class="theme-dark rounded-[var(--radius-card)] border border-line p-5 shadow-2xl shadow-black/30">
     <p class="text-sm leading-relaxed text-soft">
       Uso cookies analíticas para saber qué se visita y mejorar la web. Solo se activan si aceptas.
       <a href="/politica-cookies" class="text-accent underline underline-offset-4">Leer la política de cookies</a>.
     </p>
     <div class="mt-4 flex gap-2">
-      <button type="button" class="h-10 flex-1 cursor-pointer rounded-full bg-accent px-4 text-sm font-semibold text-accent-ink hover:bg-white" data-consent="granted">
+      <button type="button" class="h-10 flex-1 cursor-pointer rounded-full bg-lime px-4 text-sm font-semibold text-lime-ink hover:bg-fg" data-consent="granted">
         Aceptar
       </button>
-      <button type="button" class="h-10 flex-1 cursor-pointer rounded-full border border-line-strong px-4 text-sm font-semibold text-fg hover:bg-white/5" data-consent="denied">
+      <button type="button" class="h-10 flex-1 cursor-pointer rounded-full border border-line-strong px-4 text-sm font-semibold text-fg hover:bg-fg/10" data-consent="denied">
         Rechazar
       </button>
     </div>

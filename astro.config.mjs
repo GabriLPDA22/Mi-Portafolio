@@ -35,6 +35,38 @@ export default defineConfig({
         ],
       },
     },
+    {
+      // Titulares (OFL-1.1, subset latin de Fontsource).
+      provider: fontProviders.local(),
+      name: 'Bricolage Grotesque',
+      cssVariable: '--font-bricolage',
+      fallbacks: ['system-ui', 'sans-serif'],
+      options: {
+        variants: [
+          {
+            src: ['./src/assets/fonts/bricolage-latin-wght.woff2'],
+            weight: '200 800',
+            style: 'normal',
+          },
+        ],
+      },
+    },
+    {
+      // Cursiva editorial para palabras destacadas (OFL-1.1).
+      provider: fontProviders.local(),
+      name: 'Instrument Serif',
+      cssVariable: '--font-instrument',
+      fallbacks: ['Georgia', 'serif'],
+      options: {
+        variants: [
+          {
+            src: ['./src/assets/fonts/instrument-serif-latin-italic.woff2'],
+            weight: '400',
+            style: 'italic',
+          },
+        ],
+      },
+    },
   ],
   integrations: [
     sitemap({

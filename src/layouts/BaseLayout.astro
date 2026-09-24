@@ -51,9 +51,11 @@ const graph = noindex ? null : buildGraph(schema ?? [webPageSchema({ path, title
     <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
 
     <Font cssVariable="--font-inter" preload />
+    <Font cssVariable="--font-bricolage" preload />
+    <Font cssVariable="--font-instrument" />
 
-    <meta name="theme-color" content="#09090B" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#F3F0E8" />
+    <meta name="color-scheme" content="light" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="author" content={site.fullName} />
 

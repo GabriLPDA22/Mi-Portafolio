@@ -7,12 +7,12 @@ import { site } from '@/config/site';
 <BaseLayout title="Página no encontrada | Gabriel Saiz" description="La página que buscas no existe o ha cambiado de dirección." noindex>
   <section class="section">
     <div class="container-page max-w-2xl text-center">
-      <p class="font-mono text-sm text-accent">Error 404</p>
-      <h1 class="heading-lg mt-4">Esta página no existe</h1>
+      <p class="eyebrow">(404) Error</p>
+      <h1 class="heading-lg mt-4">Esta página <span class="serif-accent">no existe</span></h1>
       <p class="lead mt-6">Puede que el enlace haya cambiado. Todo lo importante está en la portada.</p>
       <div class="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
-        <Button href="/" size="lg">Ir al inicio</Button>
-        <Button href={site.documents.cv} variant="secondary" size="lg" download>Descargar CV</Button>
+        <Button href="/">Ir al inicio</Button>
+        <Button href={site.documents.cv} variant="outline" download>Descargar CV</Button>
       </div>
     </div>
   </section>
