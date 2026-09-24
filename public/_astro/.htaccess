@@ -1,0 +1,5 @@
+# Recursos de Astro con hash en el nombre: caché de 1 año inmutable.
+# (Fichero aparte en vez de <If>, que LiteSpeed de Hostinger no soporta.)
+<IfModule mod_headers.c>
+  Header set Cache-Control "public, max-age=31536000, immutable"
+</IfModule>

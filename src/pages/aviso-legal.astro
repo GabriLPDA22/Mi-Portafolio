@@ -1,0 +1,13 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import LegalApp from '@/app/LegalApp';
+---
+
+<BaseLayout
+  title="Aviso Legal"
+  description="Aviso legal del sitio web gabrielcodes.dev. Información sobre el titular del sitio y condiciones de uso."
+  path="/aviso-legal"
+  noindex
+>
+  <LegalApp client:load page="aviso-legal" />
+</BaseLayout>

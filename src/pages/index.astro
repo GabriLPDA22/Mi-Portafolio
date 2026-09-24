@@ -1,0 +1,14 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import HomeApp from '@/app/HomeApp';
+import { personData, organizationData, websiteData, breadcrumbsData } from '@/lib/structured-data';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [personData, websiteData, organizationData, breadcrumbsData],
+};
+---
+
+<BaseLayout jsonLd={jsonLd}>
+  <HomeApp client:load />
+</BaseLayout>
