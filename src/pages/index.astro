@@ -4,6 +4,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Icon from '@/components/ui/Icon.astro';
 import TechIcon from '@/components/TechIcon.astro';
 import ContactForm from '@/components/ContactForm.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
 import photo from '@/assets/team/gabriel-saiz.webp';
 import nasaImage from '@/assets/achievements/nasa-space-apps.webp';
 import { site } from '@/config/site';
@@ -17,8 +18,6 @@ const others = projects.filter((p) => !p.featured);
 
 // Cada grupo del carrusel repite la lista dos veces para superar el ancho de cualquier pantalla.
 const marqueeGroup: Tech[] = [...marquee, ...marquee].map((id) => tech[id]);
-// Fila secundaria (sentido contrario): infraestructura y tecnologías de apoyo.
-const marqueeSecondary: Tech[] = [...supportingSkills, ...alsoUsed, ...supportingSkills, ...alsoUsed].map((id) => tech[id]);
 
 const skillIcons = ['layout', 'smartphone', 'server'] as const;
 
@@ -144,49 +143,33 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
       </div>
     </div>
 
-    <!-- Carrusel infinito de tecnologías: dos filas en sentidos opuestos -->
-    <div class="relative overflow-hidden border-y border-line py-12 sm:py-14">
-      <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_120%_at_50%_50%,rgb(0_230_118/0.07),transparent_70%)]" aria-hidden="true"></div>
-      <p class="sr-only">
-        Tecnologías: {[...marquee, ...supportingSkills, ...alsoUsed].map((id) => tech[id].name).join(', ')}.
-      </p>
-
-      <!-- Fila principal -->
-      <div class="marquee relative" style="--marquee-duration: 55s">
+    <!-- Carrusel infinito de tecnologías sobre la palabra STACK gigante en contorno -->
+    <div class="relative overflow-x-clip py-16 sm:py-24">
+      <span class="bg-word top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 !text-[clamp(6rem,24vw,20rem)]" aria-hidden="true">
+        Stack
+      </span>
+      <p class="sr-only">Tecnologías: {marquee.map((id) => tech[id].name).join(', ')}.</p>
+      <div class="marquee relative z-10" style="--marquee-duration: 60s">
         {
           [0, 1].map(() => (
             <ul class="marquee-group !gap-0 !pr-0" aria-hidden="true">
               {marqueeGroup.map((t) => (
                 <li class="group/item flex shrink-0 items-center">
-                  <span class="flex items-center gap-3.5 px-6 text-white/85 transition-colors duration-300 group-hover/item:text-white sm:px-8">
+                  <span class="flex items-center gap-4 px-8 text-white/90 transition-colors duration-300 group-hover/item:text-white sm:px-12">
                     {t.path && (
                       <TechIcon
                         tech={t}
                         class:list={[
                           'transition-colors duration-300 group-hover/item:text-accent',
-                          t.wordmark ? 'h-9 w-auto sm:h-11' : 'size-7 sm:size-9',
+                          t.wordmark ? 'h-16 w-auto sm:h-24' : 'size-9 sm:size-12',
                         ]}
                       />
                     )}
-                    {!t.wordmark && <span class="text-2xl font-semibold tracking-tight whitespace-nowrap sm:text-[2rem]">{t.name}</span>}
+                    {!t.wordmark && (
+                      <span class="text-3xl font-semibold tracking-tight whitespace-nowrap sm:text-5xl">{t.name}</span>
+                    )}
                   </span>
-                  <span class="text-sm text-accent/60" aria-hidden="true">✦</span>
-                </li>
-              ))}
-            </ul>
-          ))
-        }
-      </div>
-
-      <!-- Fila secundaria, en sentido contrario -->
-      <div class="marquee marquee-reverse relative mt-6 sm:mt-8" style="--marquee-duration: 80s">
-        {
-          [0, 1].map(() => (
-            <ul class="marquee-group !gap-0 !pr-0" aria-hidden="true">
-              {marqueeSecondary.map((t) => (
-                <li class="group/item flex shrink-0 items-center gap-2.5 px-5 text-white/35 transition-colors duration-300 hover:text-white/80 sm:px-7">
-                  {t.path && <TechIcon tech={t} class="size-5 transition-colors duration-300 group-hover/item:text-accent sm:size-6" />}
-                  <span class="text-base font-medium whitespace-nowrap sm:text-lg">{t.name}</span>
+                  <span class="text-base text-accent/70 sm:text-lg" aria-hidden="true">✦</span>
                 </li>
               ))}
             </ul>
@@ -211,11 +194,15 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
   </section>
 
   <!-- ============================== PROYECTOS ============================== -->
-  <section id="proyectos" class="section border-t border-line" aria-labelledby="proyectos-title">
+  <section id="proyectos" class="section overflow-x-clip border-t border-line" aria-labelledby="proyectos-title">
     <div class="container-page">
-      <p class="eyebrow"><span class="text-muted">01 —</span> Proyectos</p>
-      <h2 id="proyectos-title" class="heading-lg mt-4 max-w-3xl">Producto real, en producción</h2>
-      <p class="lead mt-5 max-w-2xl">De la base de datos a la app en la store. Esto es lo que he construido.</p>
+      <SectionHeading
+        id="proyectos-title"
+        number="01"
+        eyebrow="Proyectos"
+        title="Producto real, en producción"
+        lead="De la base de datos a la app en la store. Esto es lo que he construido."
+      />
 
       <!-- Proyecto destacado -->
       <article class="reveal spotlight mt-14 overflow-hidden rounded-[1.75rem] bg-gradient-to-br from-accent/50 via-line-strong to-transparent p-px">
@@ -332,13 +319,18 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
   </section>
 
   <!-- ============================== EXPERIENCIA ============================== -->
-  <section id="experiencia" class="section border-t border-line bg-ink-2" aria-labelledby="experiencia-title">
+  <section id="experiencia" class="section overflow-x-clip border-t border-line bg-ink-2" aria-labelledby="experiencia-title">
     <div class="container-page grid gap-12 lg:grid-cols-12">
       <div class="lg:col-span-4">
         <div class="lg:sticky lg:top-28">
-          <p class="eyebrow"><span class="text-muted">02 —</span> Experiencia</p>
-          <h2 id="experiencia-title" class="heading-lg mt-4">Dónde he trabajado</h2>
-          <p class="mt-5 text-muted">Apps publicadas, clientes reales y pipelines que despliegan solos.</p>
+          <SectionHeading
+            id="experiencia-title"
+            number="02"
+            eyebrow="Experiencia"
+            bg="Trayectoria"
+            title="Dónde he trabajado"
+            lead="Apps publicadas, clientes reales y pipelines que despliegan solos."
+          />
           <a
             href={site.documents.recommendation}
             target="_blank"
@@ -400,11 +392,15 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
   </section>
 
   <!-- ============================== STACK ============================== -->
-  <section id="stack" class="section border-t border-line" aria-labelledby="stack-title">
+  <section id="stack" class="section overflow-x-clip border-t border-line" aria-labelledby="stack-title">
     <div class="container-page">
-      <p class="eyebrow"><span class="text-muted">03 —</span> Stack</p>
-      <h2 id="stack-title" class="heading-lg mt-4">Web y mobile sobre un backend .NET</h2>
-      <p class="lead mt-5 max-w-2xl">Tres piezas que domino y que uso juntas: The Arch es el ejemplo completo.</p>
+      <SectionHeading
+        id="stack-title"
+        number="03"
+        eyebrow="Stack"
+        title="Web y mobile sobre un backend .NET"
+        lead="Tres piezas que domino y que uso juntas: The Arch es el ejemplo completo."
+      />
 
       <!-- Stack principal -->
       <div class="mt-14 grid gap-5 md:grid-cols-3">
@@ -468,10 +464,9 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
   </section>
 
   <!-- ============================== LOGROS Y FORMACIÓN ============================== -->
-  <section id="logros" class="section border-t border-line bg-ink-2" aria-labelledby="logros-title">
+  <section id="logros" class="section overflow-x-clip border-t border-line bg-ink-2" aria-labelledby="logros-title">
     <div class="container-page">
-      <p class="eyebrow"><span class="text-muted">04 —</span> Logros</p>
-      <h2 id="logros-title" class="heading-lg mt-4">Premios y competiciones</h2>
+      <SectionHeading id="logros-title" number="04" eyebrow="Logros" bg="Premios" title="Premios y competiciones" />
 
       <div class="mt-14 grid gap-5 lg:grid-cols-2">
         <article class="reveal spotlight card relative overflow-hidden lg:row-span-3">
@@ -540,11 +535,10 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
   </section>
 
   <!-- ============================== SOBRE MÍ ============================== -->
-  <section id="sobre-mi" class="section border-t border-line" aria-labelledby="sobre-title">
+  <section id="sobre-mi" class="section overflow-x-clip border-t border-line" aria-labelledby="sobre-title">
     <div class="container-page grid gap-12 lg:grid-cols-2 lg:items-start">
       <div>
-        <p class="eyebrow"><span class="text-muted">05 —</span> Sobre mí</p>
-        <h2 id="sobre-title" class="heading-lg mt-4">Me gusta llevar las cosas a producción</h2>
+        <SectionHeading id="sobre-title" number="05" eyebrow="Sobre mí" bg="Sobre mí" title="Me gusta llevar las cosas a producción" />
         <div class="mt-6 grid gap-4 text-lg leading-relaxed text-muted">
           <p>
             Empecé en sistemas y redes y di el salto al desarrollo. Hoy trabajo de punta a punta: modelo la base de datos,
@@ -581,9 +575,14 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
     <div class="hero-aurora pointer-events-none absolute inset-0 opacity-70" aria-hidden="true"></div>
     <div class="container-page relative grid gap-12 lg:grid-cols-12">
       <div class="lg:col-span-5">
-        <p class="eyebrow"><span class="text-muted">06 —</span> Contacto</p>
-        <h2 id="contacto-title" class="heading-lg mt-4">¿Tienes un puesto para mí?</h2>
-        <p class="lead mt-5">Escríbeme y te respondo en menos de 24 horas. También puedes descargar mi CV o hablar por LinkedIn.</p>
+        <SectionHeading
+          id="contacto-title"
+          number="06"
+          eyebrow="Contacto"
+          bg="Hablemos"
+          title="¿Tienes un puesto para mí?"
+          lead="Escríbeme y te respondo en menos de 24 horas. También puedes descargar mi CV o hablar por LinkedIn."
+        />
         <ul class="mt-9 grid gap-3">
           <li>
             <a href={`mailto:${site.contact.email}`} class="spotlight card card-hover flex items-center gap-4 p-4" data-cta="contact-email">

@@ -338,9 +338,6 @@ html.menu-open #cookie-banner {
   .marquee-group {
     animation: marquee var(--marquee-duration, 60s) linear infinite;
   }
-  .marquee-reverse .marquee-group {
-    animation-direction: reverse;
-  }
   .marquee:hover .marquee-group {
     animation-play-state: paused;
   }
@@ -386,4 +383,29 @@ body::after {
 /* Foto del hero con borde degradado. */
 .photo-frame {
   background: linear-gradient(140deg, rgb(0 230 118 / 0.9), rgb(45 226 230 / 0.5) 45%, rgb(255 255 255 / 0.08) 75%);
+}
+
+/*
+ * Palabra gigante de fondo en contorno (recuperada de los títulos de sección del portfolio en
+ * Vue y del texto hueco de la versión "Acid Noir"). Decorativa: aria-hidden y sin eventos.
+ */
+.bg-word {
+  position: absolute;
+  z-index: 0;
+  font-size: clamp(4.5rem, 17vw, 15rem);
+  font-weight: 800;
+  line-height: 0.8;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgb(255 255 255 / 0.075);
+  pointer-events: none;
+  user-select: none;
+  mask-image: linear-gradient(to bottom, #000 30%, transparent 105%);
+}
+@media (min-width: 768px) {
+  .bg-word {
+    -webkit-text-stroke-width: 2px;
+  }
 }
