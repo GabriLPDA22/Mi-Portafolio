@@ -1,0 +1,100 @@
+---
+import Icon from './Icon.astro';
+import ScriptQuote from './ScriptQuote.astro';
+import SocialPills from './SocialPills.astro';
+import { getT, type Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = getT(locale);
+const [firstName, lastName] = t.hero.name.split(' ');
+
+// Entradas del hero: mismo reparto de retrasos que antes (order × 0,4 s).
+const d = (order: number) => `--d:${(order * 0.4).toFixed(2)}s`;
+const scrub = (vars: Record<string, number>) => JSON.stringify(vars);
+---
+
+<section class="relative isolate flex min-h-svh w-full flex-col overflow-hidden" data-scrub-scope>
+  <div aria-hidden="true" class="pointer-events-none absolute inset-y-0 right-0 w-[min(58vw,42rem)] opacity-70 sm:opacity-90">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_40%,rgba(255,178,70,0.2),transparent_62%)]"></div>
+    <div
+      class="absolute inset-0"
+      style="background-image:repeating-linear-gradient(90deg, transparent 0 18px, rgba(255,196,90,0.045) 18px 22px);mask-image:linear-gradient(90deg, transparent 0%, black 35%, black 100%);-webkit-mask-image:linear-gradient(90deg, transparent 0%, black 35%, black 100%)"
+    >
+    </div>
+  </div>
+
+  <div class="container-main relative flex flex-1 flex-col justify-center pb-16 pt-28 sm:pb-20 sm:pt-32">
+    <h1 class="sr-only">{t.hero.name}. {t.hero.title}. {t.hero.subtitle}</h1>
+
+    <div class="grid items-end gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-16 xl:gap-20">
+      <div class="flex flex-col gap-8 sm:gap-10">
+        <div class="intro-fade" style={d(0)}>
+          <div class="hero-meta-gsap flex flex-wrap items-center gap-3" data-scrub={scrub({ y: 18, opacity: 0 })}>
+            <span class="inline-flex items-center gap-2 rounded-full border border-acid/25 bg-acid/[0.08] px-3.5 py-1.5 text-[11px] uppercase tracking-[0.18em] text-acid">
+              <span class="pulse-dot h-1.5 w-1.5 rounded-full bg-acid"></span>
+              {t.hero.availability}
+            </span>
+            <span class="font-script text-xl text-ink/70 sm:text-2xl">Zaragoza · {locale === 'es' ? 'Remoto' : 'Remote'}</span>
+          </div>
+        </div>
+
+        <div class="hero-name-gsap" data-scrub={scrub({ y: -40, scale: 0.96 })}>
+          <div class="intro-fade" style={d(0.4)}>
+            <p class="font-display text-[clamp(3.4rem,14vw,8.5rem)] font-bold leading-[0.86] tracking-[-0.055em] text-ink">{firstName}</p>
+          </div>
+          <div class="intro-fade" style={d(0.7)}>
+            <p class="mt-1 font-display text-[clamp(3.4rem,14vw,8.5rem)] font-bold leading-[0.86] tracking-[-0.055em] text-ink/55 sm:text-ink/60">
+              {lastName}
+            </p>
+          </div>
+        </div>
+
+        <div class="intro-fade hero-headline-gsap" style={d(0.95)} data-scrub={scrub({ y: -28, x: -30, mobileX: -12 })}>
+          <ScriptQuote size="lg">{t.hero.vibeQuote}</ScriptQuote>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-8 lg:pb-3">
+        <div class="intro-scale hero-copy-gsap" style={d(1.2)} data-scrub={scrub({ y: 24, opacity: 0 })}>
+          <p class="max-w-md text-pretty text-[15px] leading-relaxed text-ink/70 sm:text-base xl:text-lg">{t.hero.subtitle}</p>
+        </div>
+
+        <div class="intro-fade hero-meta-gsap flex flex-wrap items-center gap-3" style={d(1.5)} data-scrub={scrub({ y: 18, opacity: 0 })}>
+          <a
+            href="#contacto"
+            class="btn-shine group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-acid px-6 text-[14px] font-bold text-noir transition-all duration-300 hover:bg-acid-light"
+          >
+            {t.hero.ctaPrimary}
+            <Icon name="ArrowRight" class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" strokeWidth={2.5} />
+          </a>
+          <a
+            href="/cv/Gabriel-Saiz-CV.pdf"
+            download="Gabriel-Saiz-CV.pdf"
+            class="group inline-flex h-12 items-center gap-2 rounded-full border border-acid/35 bg-acid/[0.08] px-5 text-[14px] font-semibold text-acid transition-colors hover:border-acid hover:bg-acid/15"
+          >
+            <Icon name="FileDown" class="h-4 w-4" strokeWidth={2.2} />
+            {t.hero.ctaCv}
+          </a>
+          <a
+            href="#proyectos"
+            class="group inline-flex h-12 items-center gap-2 rounded-full border border-white/15 px-5 text-[14px] font-medium text-ink/80 transition-colors hover:border-acid hover:text-acid"
+          >
+            {t.hero.ctaSecondary}
+            <Icon name="ArrowUpRight" class="h-4 w-4 transition-transform duration-300 group-hover:rotate-45" strokeWidth={2.2} />
+          </a>
+        </div>
+
+        <div class="intro-fade hero-meta-gsap" style={d(1.8)} data-scrub={scrub({ y: 18, opacity: 0 })}>
+          <p class="text-[12px] tracking-wide text-ink/70">{t.hero.proof}</p>
+        </div>
+
+        <div class="hero-meta-gsap pt-2" data-scrub={scrub({ y: 18, opacity: 0 })}>
+          <SocialPills introDelay={0.8} />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

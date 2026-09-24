@@ -1,6 +1,5 @@
 // @ts-check
 import { defineConfig, fontProviders } from 'astro/config';
-import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
@@ -9,8 +8,9 @@ export default defineConfig({
   trailingSlash: 'never',
   build: {
     format: 'file',
+    // CSS inline en el HTML: sin petición bloqueante antes del primer pintado.
+    inlineStylesheets: 'always',
   },
-  integrations: [react()],
   // Nunito y Caveat autoalojadas (antes via next/font/google), mismas variables CSS.
   fonts: [
     {
@@ -28,7 +28,8 @@ export default defineConfig({
       cssVariable: '--font-caveat',
       fallbacks: ['cursive'],
       options: {
-        variants: [{ src: ['./src/assets/fonts/caveat-latin-wght-normal.woff2'], weight: '400 700', style: 'normal' }],
+        // Instancia estática del peso 600 (el único que se usa), subset latino.
+        variants: [{ src: ['./src/assets/fonts/caveat-latin-600.woff2'], weight: '600', style: 'normal' }],
       },
     },
   ],

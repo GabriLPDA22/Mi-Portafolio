@@ -1,4 +1,9 @@
-@import "tailwindcss";
+@import "tailwindcss" source(none);
+/* Solo se escanean las plantillas de la web (no .agents/, .cursor/, docs…) */
+@source "../components";
+@source "../layouts";
+@source "../pages";
+@source "../scripts";
 
 /* ============================================
    DESIGN TOKENS — PORTFOLIO 4.0 "GOLDEN HOUR"
@@ -73,6 +78,8 @@
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
+  /* clip: recorta igual pero no crea contenedor de scroll (position: sticky sigue funcionando) */
+  overflow-x: clip;
   max-width: 100vw;
   width: 100%;
   scroll-padding-top: 96px;
@@ -85,6 +92,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  /* clip: recorta igual pero no crea contenedor de scroll (position: sticky sigue funcionando) */
+  overflow-x: clip;
   max-width: 100vw;
   width: 100%;
   position: relative;
@@ -114,6 +123,15 @@ body {
     max-width: 100%;
     height: auto;
   }
+}
+
+/* Imagen que ocupa todo su contenedor posicionado (equivale al `fill` de next/image).
+   Clase > selector de tipo: gana a la regla img{height:auto} de móvil. */
+.img-fill {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
 /* ============================================
@@ -256,11 +274,11 @@ body::after {
   }
 }
 
-/* Glass effect */
-.glass {
+/* Glass effect — @utility para poder usarla con variantes (data-[scrolled=true]:glass) */
+@utility glass {
   background: var(--bg-glass);
-  backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
 }
 
 /* Acid text gradient — highlighter on bone */
@@ -552,28 +570,6 @@ textarea:focus-visible {
   animation: heroRise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* ============================================
-   PRELOADER — palabras + barra de progreso
-   ============================================ */
-.preloader-word {
-  font-family: Georgia, "Times New Roman", serif;
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  animation: preloaderWord 0.26s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-@keyframes preloaderWord {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 @keyframes pulse-dot {
   0%,
   100% {
@@ -618,6 +614,81 @@ textarea:focus-visible {
 
 .animate-fade-locale {
   animation: fadeLocale 0.2s ease both;
+}
+
+/* ============================================
+   ENTRADAS — CSS + IntersectionObserver (antes framer-motion)
+   Solo se ocultan con JS activo (.js en <html>): sin JS todo se ve.
+   ============================================ */
+.js [data-reveal] {
+  transition:
+    opacity var(--dur, 0.6s) var(--ease, ease-out) var(--d, 0s),
+    transform var(--dur, 0.6s) var(--ease, ease-out) var(--d, 0s),
+    /* hovers con utilidades translate-* de Tailwind (propiedad aparte de transform) */
+    translate 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.js [data-reveal]:not(.is-in) {
+  opacity: 0.001;
+  transform: translate3d(var(--rx, 0), var(--ry, 0), 0) scale(var(--rs, 1));
+}
+
+/* Título letra a letra */
+.split-letter {
+  display: inline-block;
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(var(--d, 0s) + var(--i, 0) * 45ms);
+}
+
+.js .split-title:not(.is-in) .split-letter {
+  transform: translateY(108%);
+}
+
+/* Entrada del hero al cargar (sin esperar a JS). `backwards` libera el
+   transform al terminar para que el scrub pueda moverlo. */
+@keyframes introFade {
+  /* 0.01 y no 0: con opacidad casi nula Chrome no registra el LCP hasta el final */
+  from {
+    opacity: 0.01;
+    transform: scale(0.95);
+  }
+}
+
+.intro-fade {
+  animation: introFade 0.6s ease-out backwards;
+  animation-delay: var(--d, 0s);
+}
+
+/* Elemento LCP del hero: solo escala (sin fundido) para que cuente desde el primer pintado. */
+@keyframes introScale {
+  from {
+    transform: scale(0.95);
+  }
+}
+
+.intro-scale {
+  animation: introScale 0.6s ease-out backwards;
+  animation-delay: var(--d, 0s);
+}
+
+@keyframes introRise {
+  from {
+    opacity: 0.01;
+    transform: translateY(36px) scale(0.95);
+  }
+}
+
+.intro-stagger > * {
+  animation: introRise 0.6s ease-out backwards;
+  animation-delay: calc(var(--d, 0s) + var(--i, 0) * 120ms);
+}
+
+/* "Sobre mí" en móvil: fija mientras "Capacidades" la tapa. */
+@media (max-width: 639px) and (prefers-reduced-motion: no-preference) {
+  [data-pin-cover] {
+    position: sticky;
+    top: var(--pin-top, 0px);
+  }
 }
 
 /* ============================================
@@ -706,6 +777,12 @@ textarea:focus-visible {
 
   .hero-fade-in {
     animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .js [data-reveal]:not(.is-in),
+  .js .split-title:not(.is-in) .split-letter {
     opacity: 1;
     transform: none;
   }

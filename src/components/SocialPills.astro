@@ -1,0 +1,36 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  compact?: boolean;
+  /** Retraso de la entrada escalonada (hero). */
+  introDelay?: number;
+}
+const { compact = false, introDelay } = Astro.props;
+
+const socials = [
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/gabriel-saiz-de-la-maza-bajo-140370184/', icon: 'Linkedin' },
+  { label: 'GitHub', href: 'https://github.com/GabriLPDA22', icon: 'Github' },
+  { label: 'Instagram', href: 'https://instagram.com/saiz_gabriel', icon: 'Instagram' },
+];
+const layout = compact ? 'flex flex-wrap justify-center gap-3 sm:gap-5' : 'flex flex-wrap justify-center gap-3 sm:gap-5 xl:gap-10';
+const stagger = introDelay !== undefined;
+---
+
+<div class:list={[layout, stagger && 'intro-stagger']} style={stagger ? `--d:${introDelay}s` : undefined}>
+  {
+    socials.map((s, i) => (
+      <div class="will-change-[opacity,transform]" style={stagger ? `--i:${i}` : undefined}>
+        <a
+          href={s.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class:list={['social-pill', !compact && (i === 0 || i === socials.length - 1) && '2xl:mt-3']}
+        >
+          <Icon name={s.icon} class="h-4 w-4" strokeWidth={1.8} />
+          <span>{s.label}</span>
+        </a>
+      </div>
+    ))
+  }
+</div>

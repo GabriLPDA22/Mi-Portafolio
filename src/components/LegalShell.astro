@@ -1,0 +1,121 @@
+---
+import { getT, localePath, type Locale } from '@/i18n';
+
+export interface LegalSectionLink {
+  id: string;
+  title: string;
+}
+
+interface Props {
+  locale: Locale;
+  title: string;
+  lastUpdatedLabel: string;
+  sections: LegalSectionLink[];
+  /** Ruta sin idioma de la página actual ("/privacidad" o "/aviso-legal"). */
+  path: string;
+}
+const { locale, title, lastUpdatedLabel, sections, path } = Astro.props;
+const hub = getT(locale).legalHub;
+const pages = [
+  { path: '/privacidad', label: hub.privacy },
+  { path: '/aviso-legal', label: hub.legalNotice },
+];
+const strip = (s: string) => s.replace(/^\d+(\.\d+)?\.\s*/, '');
+const date = new Date().toLocaleDateString(locale === 'es' ? 'es-ES' : 'en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
+const linkCls = 'block rounded-md py-2 pr-2 text-[13px] leading-snug text-ink/65 transition-colors hover:text-acid';
+---
+
+<main id="main-content" class="min-h-screen pb-24 pt-20 sm:pb-28 sm:pt-24">
+  <div class="container-main max-w-6xl">
+    <div class="lg:grid lg:grid-cols-[minmax(0,16rem)_minmax(0,1fr)] lg:gap-x-14 xl:grid-cols-[minmax(0,18rem)_minmax(0,42rem)] xl:gap-x-16">
+      <aside class="min-w-0">
+        <div class="lg:sticky lg:top-28 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto lg:pr-4">
+          <div class="mb-8 border-b border-white/[0.07] pb-6 lg:mb-10">
+            <p class="font-display text-xl font-bold tracking-[-0.02em] text-acid sm:text-2xl">{hub.title}</p>
+            <p class="mt-2 text-[14px] leading-relaxed text-ink/65">{hub.description}</p>
+          </div>
+
+          <!-- Móvil: selector de documento -->
+          <nav aria-label={hub.documents} class="mb-6 flex gap-2 lg:hidden">
+            {
+              pages.map((p) => {
+                const active = p.path === path;
+                return (
+                  <a
+                    href={localePath(locale, p.path)}
+                    aria-current={active ? 'page' : undefined}
+                    class:list={[
+                      'flex min-h-11 flex-1 items-center justify-center rounded-lg border px-3 py-2.5 text-center text-[12px] font-medium leading-tight transition-colors sm:text-[13px]',
+                      active ? 'border-acid/30 bg-acid/[0.08] text-acid' : 'border-white/[0.08] bg-white/[0.02] text-ink/65 hover:border-white/[0.14] hover:text-ink',
+                    ]}
+                  >
+                    {p.label}
+                  </a>
+                );
+              })
+            }
+          </nav>
+
+          <!-- Escritorio: lista de documentos -->
+          <nav aria-label={hub.documents} class="mb-8 hidden lg:block">
+            <p class="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-acid/80">{hub.documents}</p>
+            <ul class="space-y-1">
+              {
+                pages.map((p) => {
+                  const active = p.path === path;
+                  return (
+                    <li>
+                      <a
+                        href={localePath(locale, p.path)}
+                        aria-current={active ? 'page' : undefined}
+                        class:list={[
+                          'block rounded-lg px-3 py-2.5 text-[14px] transition-colors',
+                          active ? 'bg-acid/[0.06] font-medium text-acid' : 'text-ink/65 hover:bg-white/[0.03] hover:text-acid',
+                        ]}
+                      >
+                        {p.label}
+                      </a>
+                    </li>
+                  );
+                })
+              }
+            </ul>
+          </nav>
+
+          <!-- Móvil: índice desplegable -->
+          <details class="mb-6 rounded-lg border border-white/[0.08] bg-white/[0.02] lg:hidden">
+            <summary class="cursor-pointer list-none px-4 py-3.5 text-[12px] font-semibold uppercase tracking-[0.12em] text-acid/80 [&::-webkit-details-marker]:hidden">
+              {hub.onThisPage}
+            </summary>
+            <div class="border-t border-white/[0.06] px-3 pb-3 pt-2">
+              <nav aria-label={hub.onThisPage}>
+                <ul class="space-y-0.5">
+                  {sections.map((s) => <li><a href={`#${s.id}`} class={linkCls}>{strip(s.title)}</a></li>)}
+                </ul>
+              </nav>
+            </div>
+          </details>
+
+          <!-- Escritorio: índice -->
+          <nav aria-label={hub.onThisPage} class="hidden lg:block">
+            <p class="mb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-acid/80">{hub.onThisPage}</p>
+            <ul class="space-y-0.5">
+              {sections.map((s) => <li><a href={`#${s.id}`} class={linkCls}>{strip(s.title)}</a></li>)}
+            </ul>
+          </nav>
+        </div>
+      </aside>
+
+      <article class="min-w-0 lg:border-l lg:border-white/[0.06] lg:pl-14 xl:pl-16">
+        <header class="mb-8 sm:mb-10">
+          <h1 class="font-display text-[clamp(1.625rem,5.5vw,2.25rem)] font-bold leading-[1.12] tracking-[-0.02em] text-acid">{title}</h1>
+          <div class="mt-5 border-t border-white/[0.07] pt-5">
+            <p class="text-[12px] font-semibold uppercase tracking-[0.12em] text-ink/60">{lastUpdatedLabel}</p>
+            <p class="mt-1 text-[15px] text-ink/75">{date}</p>
+          </div>
+        </header>
+        <div class="legal-prose"><slot /></div>
+      </article>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,19 @@
+---
+import Icon from './Icon.astro';
+import type { Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+}
+const label = Astro.props.locale === 'es' ? 'Volver arriba' : 'Back to top';
+---
+
+<button
+  type="button"
+  data-scroll-top
+  aria-label={label}
+  title={label}
+  class="glass invisible fixed bottom-6 right-6 z-40 flex h-12 w-12 translate-y-5 scale-[0.8] items-center justify-center rounded-full border border-white/[0.12] opacity-0 transition-all duration-200 hover:border-acid hover:bg-acid hover:text-noir hover:shadow-[0_0_30px_-6px_rgba(240,180,41,0.5)] active:scale-95 sm:bottom-8 sm:right-8 [&.is-in]:visible [&.is-in]:translate-y-0 [&.is-in]:scale-100 [&.is-in]:opacity-100"
+>
+  <Icon name="ArrowUp" class="h-5 w-5 text-current transition-colors duration-300" strokeWidth={2} />
+</button>
