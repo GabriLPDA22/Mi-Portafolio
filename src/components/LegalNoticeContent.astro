@@ -1,0 +1,59 @@
+---
+import LegalShell from './LegalShell.astro';
+import LegalSection from './LegalSection.astro';
+import LegalList from './LegalList.astro';
+import LegalKV from './LegalKV.astro';
+import { getT, type Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = getT(locale);
+const s = t.legalNotice.sections;
+const sections = [
+  { id: 'identity', title: s.identity.title },
+  { id: 'purpose', title: s.purpose.title },
+  { id: 'terms', title: s.terms.title },
+  { id: 'ip', title: s.ip.title },
+  { id: 'liability', title: s.liability.title },
+  { id: 'links', title: s.links.title },
+  { id: 'law', title: s.law.title },
+  { id: 'changes', title: s.changes.title },
+  { id: 'contact', title: s.contact.title },
+];
+const emailLink = 'text-ink underline decoration-white/20 underline-offset-[3px] transition-colors hover:text-acid hover:decoration-acid/40';
+---
+
+<LegalShell locale={locale} title={t.legalNotice.title} lastUpdatedLabel={t.legalNotice.lastUpdated} sections={sections} path="/aviso-legal">
+  <LegalSection id="identity" title={s.identity.title}>
+    <p>{s.identity.intro}</p>
+    <LegalKV
+      items={[
+        { label: s.identity.name, value: s.identity.nameValue },
+        { label: s.identity.email, email: true },
+        { label: s.identity.website, value: s.identity.websiteValue },
+        { label: s.identity.activity, value: s.identity.activityValue },
+      ]}
+    />
+  </LegalSection>
+  <LegalSection id="purpose" title={s.purpose.title}><p>{s.purpose.description}</p></LegalSection>
+  <LegalSection id="terms" title={s.terms.title}>
+    <p>{s.terms.description}</p>
+    <LegalList items={s.terms.items} />
+  </LegalSection>
+  <LegalSection id="ip" title={s.ip.title}><p>{s.ip.description}</p></LegalSection>
+  <LegalSection id="liability" title={s.liability.title}>
+    <p>{s.liability.description}</p>
+    <LegalList items={s.liability.items} />
+  </LegalSection>
+  <LegalSection id="links" title={s.links.title}><p>{s.links.description}</p></LegalSection>
+  <LegalSection id="law" title={s.law.title}><p>{s.law.description}</p></LegalSection>
+  <LegalSection id="changes" title={s.changes.title}><p>{s.changes.description}</p></LegalSection>
+  <LegalSection id="contact" title={s.contact.title}>
+    <div class="space-y-3">
+      <p>{s.contact.description}</p>
+      <p><a href="mailto:gsaiz.bajo@gmail.com" class={emailLink}>gsaiz.bajo@gmail.com</a></p>
+    </div>
+  </LegalSection>
+</LegalShell>

@@ -1,0 +1,181 @@
+---
+import Icon from './Icon.astro';
+import Footer from './Footer.astro';
+import { getT, type Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = getT(locale);
+const f = t.contact.form;
+const [firstName, lastName] = t.hero.name.split(' ');
+const title = t.contact.title;
+
+const badges = [
+  { icon: 'Clock', label: t.contact.badges.response },
+  { icon: 'CheckCircle', label: t.contact.badges.free },
+  { icon: 'Sparkles', label: t.contact.badges.noCommitment },
+];
+const options = ['mobile', 'web', 'ecommerce', 'saas', 'consulting', 'other'] as const;
+const msgFailed =
+  locale === 'es'
+    ? 'Hubo un error al enviar el mensaje. Por favor, intenta de nuevo o escríbeme directamente a gsaiz.bajo@gmail.com'
+    : 'There was an error sending your message. Please try again or email me directly at gsaiz.bajo@gmail.com';
+
+const input =
+  'w-full rounded-2xl border border-white/[0.09] bg-white/[0.03] px-4 py-3.5 text-[14px] text-ink placeholder-white/45 outline-none transition-all duration-300 focus:border-acid/50 focus:bg-white/[0.05] focus:ring-1 focus:ring-acid/25';
+const label = 'mb-2 block text-[13px] font-medium text-ink/75';
+---
+
+<section id="contacto" data-curtain class="relative h-auto scroll-mt-24 sm:h-[280svh]">
+  <div data-curtain-stage class="static overflow-visible sm:absolute sm:inset-x-0 sm:top-0 sm:z-10 sm:h-svh sm:overflow-hidden sm:will-change-transform">
+    <div
+      data-curtain-content
+      class="contact-stage-content static overflow-visible px-5 pb-10 pt-20 sm:absolute sm:inset-0 sm:overflow-y-auto sm:px-6 sm:will-change-transform lg:flex lg:items-center lg:overflow-hidden lg:py-24"
+    >
+      <div class="relative z-10 mx-auto w-full max-w-[65rem] sm:px-2">
+        <h2 class="mb-5 text-center font-code text-3xl font-bold uppercase tracking-[0.08em] text-ink sm:text-5xl lg:mb-10 lg:text-6xl">{title}</h2>
+
+        <div class="mb-7 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 lg:mb-10">
+          {
+            badges.map((b) => (
+              <span class="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-3.5 py-1.5 text-[11px] font-medium text-ink/70 sm:px-4 sm:text-[12px]">
+                <Icon name={b.icon} class="h-3.5 w-3.5 text-acid" strokeWidth={2} />
+                {b.label}
+              </span>
+            ))
+          }
+        </div>
+
+        <div class="grid items-center gap-8 lg:grid-cols-2 lg:gap-16 xl:gap-20">
+          <div class="hidden lg:block">
+            <div class="flex flex-wrap items-center gap-4">
+              <p class="font-code text-[clamp(2.8rem,7vw,5.5rem)] font-semibold leading-none text-ink">{firstName}</p>
+              <a
+                href="#contacto-form"
+                class="inline-flex items-center rounded-full border border-white/20 px-4 py-2 text-[13px] font-medium text-ink/80 transition-colors hover:border-acid hover:text-acid"
+              >
+                {t.hero.ctaPrimary}
+              </a>
+              <a
+                href="/cv/Gabriel-Saiz-CV.pdf"
+                download="Gabriel-Saiz-CV.pdf"
+                class="inline-flex items-center rounded-full border border-acid/35 px-4 py-2 text-[13px] font-semibold text-acid transition-colors hover:border-acid hover:bg-acid/10"
+              >
+                {t.hero.ctaCv}
+              </a>
+            </div>
+            <div class="mt-1 flex flex-wrap items-end gap-8 xl:gap-12">
+              <p class="pb-2 text-sm text-ink/65 xl:text-lg">{t.contact.role}</p>
+              <p class="font-code text-[clamp(2.8rem,7vw,5.5rem)] font-semibold leading-none text-ink">{lastName}</p>
+            </div>
+            <p class="max-w-md pt-8 text-[15px] leading-relaxed text-ink/65">{t.contact.subtitle}</p>
+          </div>
+
+          <!-- Formulario (Formspree) -->
+          <div
+            id="contacto-form"
+            data-contact
+            data-msg-required={f.error}
+            data-msg-failed={msgFailed}
+            data-reveal
+            data-reveal-margin="-80px"
+            style="--rx:30px;--dur:.7s;--ease:cubic-bezier(0.22,1,0.36,1)"
+            class="relative"
+          >
+            <div class="relative max-sm:bg-transparent sm:overflow-hidden sm:rounded-3xl sm:border sm:border-white/[0.09] sm:bg-white/[0.025] sm:p-8 sm:backdrop-blur-xl">
+              <div aria-hidden="true" class="absolute inset-x-0 top-0 hidden h-px bg-gradient-to-r from-transparent via-acid/50 to-transparent sm:block"></div>
+
+              <div data-contact-success hidden class="py-12 text-center" role="status">
+                <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-acid/15">
+                  <Icon name="CheckCircle" class="h-8 w-8 text-acid" />
+                </div>
+                <h3 class="mb-2 font-display text-xl font-semibold text-ink">{f.success.title}</h3>
+                <p class="text-[15px] text-ink/70">{f.success.message}</p>
+                <button type="button" data-contact-again class="mt-6 text-[13px] font-semibold text-acid transition-colors hover:text-acid-light">
+                  {f.success.again}
+                </button>
+              </div>
+
+              <form action="https://formspree.io/f/mrezlekq" method="POST" class="space-y-5">
+                <div class="grid gap-5 sm:grid-cols-2">
+                  <div>
+                    <label for="name" class={label}>{f.name}</label>
+                    <input type="text" id="name" name="name" required autocomplete="name" class={input} placeholder={f.name} />
+                  </div>
+                  <div>
+                    <label for="email" class={label}>{f.email}</label>
+                    <input type="email" id="email" name="email" required autocomplete="email" class={input} placeholder={locale === 'es' ? 'tu@email.com' : 'you@email.com'} />
+                  </div>
+                </div>
+
+                <div>
+                  <label for="project" class={label}>{f.project}</label>
+                  <select id="project" name="project" class:list={[input, 'appearance-none']}>
+                    <option value="" class="bg-noir-elevated">{f.projectOptions.select}</option>
+                    {options.map((o) => <option value={o} class="bg-noir-elevated">{f.projectOptions[o]}</option>)}
+                  </select>
+                </div>
+
+                <div>
+                  <label for="message" class={label}>{f.message}</label>
+                  <textarea id="message" name="message" required rows="5" class:list={[input, 'resize-none']} placeholder={f.messagePlaceholder}></textarea>
+                </div>
+
+                <div data-contact-error hidden role="alert" class="flex items-center gap-2 rounded-2xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-[13px] text-red-400">
+                  <Icon name="AlertCircle" class="h-4 w-4 flex-shrink-0" />
+                  <span data-error-text></span>
+                </div>
+
+                <button
+                  type="submit"
+                  class="btn-shine flex h-13 w-full items-center justify-center gap-2 rounded-full bg-acid px-6 text-[15px] font-bold text-noir transition-all duration-300 hover:bg-acid-light hover:shadow-[0_8px_40px_-8px_rgba(240,180,41,0.5)] disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <span data-idle class="flex items-center gap-2">
+                    {f.send}
+                    <Icon name="Send" class="h-4 w-4" strokeWidth={2.2} />
+                  </span>
+                  <span data-loading hidden class="flex items-center gap-2">
+                    <Icon name="Loader2" class="h-4 w-4 animate-spin" />
+                    {f.sending}
+                  </span>
+                </button>
+
+                <p class="text-center text-[12px] text-ink/60">
+                  {f.support}{' '}
+                  <a href="mailto:gsaiz.bajo@gmail.com" class="font-semibold text-acid transition-colors hover:text-acid-light">gsaiz.bajo@gmail.com</a>
+                </p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Velo que oscurece el formulario cuando entra el pie (solo sm+) -->
+    <div data-curtain-veil aria-hidden="true" class="pointer-events-none absolute inset-0 z-20 hidden bg-noir opacity-0 sm:block"></div>
+
+    <!-- Telón de apertura (solo sm+) -->
+    <div data-curtain-left aria-hidden="true" class="contact-curtain absolute inset-y-0 left-0 z-30 hidden w-1/2 overflow-hidden bg-[#efe0c8] sm:block sm:rounded-r-[2rem]">
+      <div class="flex h-full w-[200%] items-center justify-center pb-[0.55em]">
+        <p class="relative whitespace-nowrap font-code text-[clamp(2rem,9vw,6.5rem)] font-bold uppercase tracking-[-0.02em] text-noir sm:tracking-[0.04em]">
+          {title}
+          <span class="text-reflect absolute inset-x-0 top-[88%] block text-noir/35">{title}</span>
+        </p>
+      </div>
+    </div>
+    <div data-curtain-right aria-hidden="true" class="contact-curtain absolute inset-y-0 right-0 z-30 hidden w-1/2 overflow-hidden bg-[#efe0c8] sm:block sm:rounded-l-[2rem]">
+      <div class="ml-[-100%] flex h-full w-[200%] items-center justify-center pb-[0.55em]">
+        <p class="relative whitespace-nowrap font-code text-[clamp(2rem,9vw,6.5rem)] font-bold uppercase tracking-[-0.02em] text-noir sm:tracking-[0.04em]">
+          {title}
+          <span class="text-reflect absolute inset-x-0 top-[88%] block text-noir/35">{title}</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="static sm:absolute sm:inset-x-0 sm:bottom-0 sm:z-20">
+    <Footer locale={locale} overlay />
+  </div>
+</section>

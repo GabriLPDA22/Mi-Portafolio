@@ -1,0 +1,23 @@
+---
+/**
+ * Título que entra letra a letra al aparecer en pantalla. El texto completo va en un
+ * span accesible; las letras sueltas se ocultan a los lectores de pantalla.
+ */
+interface Props {
+  text: string;
+  class?: string;
+}
+const { text, class: className = '' } = Astro.props;
+const letters = Array.from(text);
+---
+
+<span class:list={['split-title inline-flex overflow-hidden pb-[0.06em]', className]} data-reveal data-reveal-amount="0.15">
+  <span class="sr-only">{text}</span>
+  {
+    letters.map((char, i) => (
+      <span class="split-letter will-change-transform" style={`--i:${i}`} aria-hidden="true">
+        {char === ' ' ? ' ' : char}
+      </span>
+    ))
+  }
+</span>

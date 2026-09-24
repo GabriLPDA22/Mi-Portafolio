@@ -1,0 +1,20 @@
+---
+/** Cita manuscrita estilo póster del estudio anime. */
+interface Props {
+  size?: 'sm' | 'md' | 'lg';
+  class?: string;
+}
+const { size = 'md', class: className = '' } = Astro.props;
+const sizeClass =
+  size === 'lg' ? 'text-[clamp(1.65rem,4vw,2.75rem)]' : size === 'sm' ? 'text-lg sm:text-xl' : 'text-[clamp(1.25rem,3vw,1.85rem)]';
+---
+
+<figure class:list={['flex flex-col items-start gap-1.5', className]}>
+  <blockquote class:list={['font-script leading-[1.15] tracking-wide text-ink/90', sizeClass]}>
+    <slot />
+  </blockquote>
+  <svg viewBox="0 0 24 14" fill="currentColor" aria-hidden="true" class="h-3.5 w-6 text-acid/90">
+    <path d="M2.2 11.5 4.8 3.8c.2-.6 1-.7 1.4-.2L9.2 7l2-5.2c.25-.65 1.15-.65 1.4 0L14.6 7l3-3.4c.4-.45 1.2-.4 1.4.2l2.6 7.7H2.2Z"></path>
+    <rect x="2" y="11.2" width="20" height="1.8" rx="0.6"></rect>
+  </svg>
+</figure>

@@ -1,0 +1,49 @@
+---
+import Icon from './Icon.astro';
+import SectionHeading from './SectionHeading.astro';
+import { getT, type Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = getT(locale);
+const r = t.results.items;
+const blocks = [
+  { icon: 'MessageSquare', ...r.communication },
+  { icon: 'Repeat', ...r.iterations },
+  { icon: 'Code2', ...r.code },
+  { icon: 'Target', ...r.product },
+];
+---
+
+<section id="resultados" data-scrub-scope class="relative scroll-mt-24 py-20 sm:py-28">
+  <div class="container-main">
+    <SectionHeading tag={t.results.title} headline={t.results.headline} subtitle={t.results.subtitle} scrub={{ y: -24, x: -14, mobileX: -6 }} />
+
+    <div class="grid gap-4 sm:grid-cols-2 lg:gap-5">
+      {
+        blocks.map((block, i) => (
+          <div class="result-card-gsap" data-scrub={JSON.stringify({ y: 28, scale: 0.96 })}>
+            <div
+              data-reveal
+              data-reveal-margin="-80px"
+              style={`--ry:30px;--d:${(0.1 + i * 0.1).toFixed(2)}s;--ease:cubic-bezier(0.22,1,0.36,1)`}
+              class="h-full"
+            >
+              <div class="card-acid group relative h-full overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.025] p-6 sm:p-8">
+              <div class="relative">
+                <div class="mb-5 flex h-11 w-11 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.04] text-ink/70 transition-all duration-300 group-hover:border-acid/40 group-hover:text-acid">
+                  <Icon name={block.icon} class="h-5 w-5" strokeWidth={1.7} />
+                </div>
+                <h3 class="mb-2 font-display text-lg font-semibold tracking-tight text-ink">{block.title}</h3>
+                <p class="text-[14px] leading-relaxed text-ink/65 sm:text-[15px]">{block.text}</p>
+              </div>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

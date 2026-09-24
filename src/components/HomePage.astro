@@ -1,0 +1,37 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Hero from './Hero.astro';
+import About from './About.astro';
+import Services from './Services.astro';
+import Projects from './Projects.astro';
+import Experience from './Experience.astro';
+import Results from './Results.astro';
+import Contact from './Contact.astro';
+import { personData, organizationData, websiteData, breadcrumbsData } from '@/lib/structured-data';
+import type { Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [personData, websiteData, organizationData, breadcrumbsData],
+};
+---
+
+<BaseLayout locale={locale} jsonLd={jsonLd} scrollTop>
+  <div class="w-full max-w-[100vw]">
+    <main class="w-full max-w-[100vw]">
+      <Hero locale={locale} />
+      <div class="relative isolate">
+        <About locale={locale} />
+        <Services locale={locale} />
+      </div>
+      <Projects locale={locale} />
+      <Experience locale={locale} />
+      <Results locale={locale} />
+      <Contact locale={locale} />
+    </main>
+  </div>
+</BaseLayout>

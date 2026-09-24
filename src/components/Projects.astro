@@ -1,0 +1,195 @@
+---
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Icon from './Icon.astro';
+import SplitTitle from './SplitTitle.astro';
+import archImg from '@/assets/img/Arch.webp';
+import huvegrymImg from '@/assets/img/Huvegrym.webp';
+import tarotImg from '@/assets/img/divinidad-hero.webp';
+import { getT, type Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = getT(locale);
+
+const projectImages: Record<string, { src: ImageMetadata; alt: string; type: 'mockup' | 'photo' }> = {
+  arch: {
+    src: archImg,
+    alt: 'ARCH App iOS - Aplicación móvil para comunidad de Oxford University desarrollada con React Native y Expo',
+    type: 'mockup',
+  },
+  huvegrym: {
+    src: huvegrymImg,
+    alt: 'Huvegrym - Sitio web de escuela de danza desarrollado con Next.js, optimizado para SEO y rendimiento',
+    type: 'photo',
+  },
+  'tarot-divinidad': {
+    src: tarotImg,
+    alt: 'Tarot Divinidad — web de consultas de tarot con reservas y WhatsApp',
+    type: 'photo',
+  },
+};
+
+const projectCtaHrefs: Record<string, Record<string, string>> = {
+  arch: {
+    'Descargar en App Store': 'https://apps.apple.com/us/app/the-arch/id6753820007',
+    'Download on App Store': 'https://apps.apple.com/us/app/the-arch/id6753820007',
+    'Solicitar detalles': '#contacto',
+    'Request details': '#contacto',
+  },
+  huvegrym: { 'Ver sitio web': 'https://huvegrym.es', 'View website': 'https://huvegrym.es' },
+  'tarot-divinidad': { 'Ver sitio web': 'https://divinidad000.com', 'View website': 'https://divinidad000.com' },
+};
+
+const projects = t.projects.items.map((item) => {
+  const ctaHref = projectCtaHrefs[item.id]?.[item.cta] || '#';
+  const secondary = 'secondaryCta' in item && item.secondaryCta ? (item.secondaryCta as string) : undefined;
+  return {
+    ...item,
+    image: projectImages[item.id],
+    cta: { label: item.cta, href: ctaHref, external: ctaHref.startsWith('http') },
+    secondaryCta: secondary ? { label: secondary, href: projectCtaHrefs[item.id]?.[secondary] || '#contacto' } : undefined,
+  };
+});
+---
+
+<section id="proyectos" class="relative scroll-mt-24 pt-16 xl:pt-10">
+  <div class="container-main">
+    <div class="mb-4 flex xl:mb-2 xl:gap-20">
+      <div class="hidden xl:block xl:w-[60%]"></div>
+      <h2 class="font-code text-3xl tracking-tight text-ink xl:w-full xl:text-5xl">
+        ../<SplitTitle text={t.projects.title.toLowerCase()} />
+      </h2>
+    </div>
+  </div>
+
+  <div class="projects-stack">
+    {
+      projects.map((project, index) => {
+        const odd = index % 2 === 1;
+        const isLast = index === projects.length - 1;
+        const img = project.image;
+        return (
+          <div
+            class="project-card relative flex h-svh items-center overflow-hidden bg-noir pt-4 xl:h-[calc(100svh-5.25rem)] xl:pt-0"
+            style={`z-index:${index + 1}`}
+          >
+            {index > 0 && (
+              <div
+                aria-hidden="true"
+                class="pointer-events-none absolute left-0 top-[-3.5rem] z-20 h-16 w-full bg-gradient-to-t from-noir via-noir to-transparent xl:top-[-1.5rem] xl:h-8"
+              />
+            )}
+
+            <article
+              class:list={[
+                'project-card-content mx-auto flex h-full w-full max-w-[var(--container-max)] flex-col-reverse items-start justify-end gap-6 px-5 sm:px-6 xl:flex-row xl:items-center xl:gap-16 xl:px-8 xl:will-change-transform',
+                odd && 'xl:flex-row-reverse',
+                isLast ? 'pb-10 pt-8' : 'py-8',
+              ]}
+            >
+              <div class="flex w-full flex-col justify-center gap-4 xl:w-[45%] xl:gap-7">
+                <div class="flex flex-col gap-4 xl:gap-6">
+                  <h3 class="font-display text-2xl font-semibold tracking-tight text-ink xl:text-4xl">{project.title}</h3>
+                  <div class="flex flex-wrap gap-2 xl:gap-3">
+                    {project.chips.map((chip) => (
+                      <span class="rounded-full border border-white/15 bg-noir px-3 py-1 text-[11px] text-ink/75 xl:text-sm">{chip}</span>
+                    ))}
+                  </div>
+                </div>
+
+                <p class="max-w-xl text-[14px] leading-relaxed text-ink/70 xl:text-lg">
+                  <span class="font-medium text-ink/85">{project.subtitle}. </span>
+                  {project.description}
+                </p>
+
+                <ul class="hidden space-y-2 xl:block">
+                  {project.bullets.slice(0, 4).map((bullet) => (
+                    <li class="flex items-start gap-3 text-[13px] text-ink/65 xl:text-[15px]">
+                      <span class="mt-[7px] h-1 w-1 flex-shrink-0 rounded-full bg-acid" />
+                      {bullet}
+                    </li>
+                  ))}
+                </ul>
+
+                <div class="mt-1 flex flex-wrap items-center gap-3">
+                  <a
+                    href={project.cta.href}
+                    target={project.cta.external ? '_blank' : undefined}
+                    rel={project.cta.external ? 'noopener noreferrer' : undefined}
+                    class="group inline-flex w-fit items-center gap-3 rounded-full border border-white/20 py-1.5 pl-5 pr-1.5 text-[14px] font-medium text-ink transition-colors hover:border-acid hover:text-acid xl:text-base"
+                  >
+                    {project.cta.label}
+                    <span class="flex h-9 w-9 items-center justify-center rounded-full bg-ink text-noir transition-transform duration-300 group-hover:rotate-45">
+                      <Icon name="ArrowUpRight" class="h-4 w-4" strokeWidth={2.4} />
+                    </span>
+                  </a>
+                  {project.secondaryCta && (
+                    <a
+                      href={project.secondaryCta.href}
+                      class="text-[13px] text-ink/65 underline-offset-4 transition-colors hover:text-acid hover:underline"
+                    >
+                      {project.secondaryCta.label}
+                    </a>
+                  )}
+                </div>
+              </div>
+
+              {img.type === 'mockup' ? (
+                <div class="relative flex h-[38%] w-full items-center justify-center xl:h-[70%] xl:w-[55%]">
+                  <div class="relative aspect-[9/19] h-full min-w-[12rem]">
+                    <Picture
+                      src={img.src}
+                      alt={img.alt}
+                      formats={['avif', 'webp']}
+                      fallbackFormat="webp"
+                      widths={[320, 560, 800, 1024]}
+                      sizes="(max-width: 1280px) 55vw, 32vw"
+                      loading="lazy"
+                      class="img-fill rounded-[1.6rem] object-contain drop-shadow-[0_24px_60px_rgba(0,0,0,0.55)]"
+                    />
+                  </div>
+                </div>
+              ) : project.id === 'tarot-divinidad' ? (
+                <div class="relative w-full overflow-hidden rounded-2xl border border-white/12 xl:w-[62%]">
+                  <div class="relative aspect-[2/1] w-full sm:aspect-[21/10]">
+                    <Picture
+                      src={img.src}
+                      alt={img.alt}
+                      formats={['avif', 'webp']}
+                      fallbackFormat="webp"
+                      widths={[480, 768, 1024]}
+                      sizes="(max-width: 1280px) 100vw, 62vw"
+                      loading="lazy"
+                      class="img-fill object-cover object-center transition-transform duration-700 hover:scale-[1.03]"
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div class="relative h-[36%] w-full overflow-hidden rounded-2xl border border-white/12 xl:h-[72%] xl:w-[55%]">
+                  <Picture
+                    src={img.src}
+                    alt={img.alt}
+                    formats={['avif', 'webp']}
+                    fallbackFormat="webp"
+                    widths={[480, 720, 900]}
+                    sizes="(max-width: 1280px) 100vw, 55vw"
+                    loading="lazy"
+                    class:list={[
+                      'img-fill object-cover transition-transform duration-700 hover:scale-105',
+                      project.id === 'huvegrym' ? 'object-[center_30%]' : 'object-center',
+                    ]}
+                  />
+                </div>
+              )}
+            </article>
+          </div>
+        );
+      })
+    }
+  </div>
+
+  <div aria-hidden="true" class="relative z-[20] h-16 bg-noir xl:h-24"></div>
+</section>

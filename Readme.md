@@ -4,8 +4,7 @@
 
 **Portfolio profesional de desarrollador Full-Stack freelance**
 
-[![Next.js](https://img.shields.io/badge/Next.js-15.5.9-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-19.2.3-61DAFB?style=for-the-badge&logo=react)](https://react.dev/)
+[![Astro](https://img.shields.io/badge/Astro-7-BC52EE?style=for-the-badge&logo=astro)](https://astro.build/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.0-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
 
@@ -32,7 +31,7 @@
 - **Lazy loading** de imágenes y componentes
 
 ### 🎭 Animaciones & Interacciones
-- **Framer Motion** para animaciones suaves
+- **Animaciones con CSS + IntersectionObserver** (sin librerías): ~3 KB de JS comprimido en total
 - **Custom cursor** con efectos de spotlight
 - **Hover states** elegantes en cards y botones
 - **Scroll animations** con Intersection Observer
@@ -53,21 +52,18 @@
 ## 🛠️ Stack Tecnológico
 
 ### Core
-- **[Next.js 15.5.9](https://nextjs.org/)** - Framework React con App Router
-- **[React 19.2.3](https://react.dev/)** - Biblioteca UI
+- **[Astro 7](https://astro.build/)** - HTML estático, sin framework en el cliente
 - **[TypeScript 5.9.3](https://www.typescriptlang.org/)** - Tipado estático
 - **[Tailwind CSS 4](https://tailwindcss.com/)** - Utility-first CSS
 
 ### Animaciones & UI
-- **[Framer Motion 12.23.26](https://www.framer.com/motion/)** - Animaciones fluidas
-- **[Lucide React](https://lucide.dev/)** - Iconos minimalistas
+- **[Lucide](https://lucide.dev/)** - Iconos renderizados a SVG en build
 - **CSS Variables** - Sistema de diseño personalizado
 
 ### Formularios
 - **[Formspree](https://formspree.io/)** - Backend-less form handling
 
 ### Optimización
-- **Next.js Image** - Optimización automática de imágenes
 - **Font Optimization** - Google Fonts con `display: swap`
 - **Code Splitting** - Carga diferida de componentes
 
@@ -99,17 +95,20 @@ npm install
 npm run dev
 
 # Abrir en el navegador
-# http://localhost:3000
+# http://localhost:4321
 ```
 
 ### Build para Producción
 
 ```bash
-# Crear build optimizado
+# Crear build estático en dist/
 npm run build
 
-# Iniciar servidor de producción
-npm start
+# Previsualizar el build
+npm run preview
+
+# Despliegue en Hostinger: subir el CONTENIDO de dist/ a public_html/
+# (incluye .htaccess y _astro/.htaccess)
 ```
 
 ---
@@ -118,44 +117,17 @@ npm start
 
 ```
 mi-portafolio/
-├── app/                      # Next.js App Router
-│   ├── layout.tsx           # Layout principal con metadata SEO
-│   ├── page.tsx             # Página principal
-│   ├── globals.css           # Estilos globales y variables CSS
-│   ├── robots.ts            # Configuración robots.txt
-│   └── sitemap.xml/         # Sitemap dinámico
+├── src/
+│   ├── pages/               # Rutas Astro (index, privacidad, aviso-legal, 404)
+│   ├── layouts/             # BaseLayout.astro: metadata SEO, fuentes, JSON-LD
+│   ├── components/          # Componentes .astro (secciones, cabecera, pie, legales)
+│   ├── scripts/             # JS del cliente: animaciones (motion.ts) e interfaz (ui.ts)
+│   ├── i18n.ts              # Idiomas por ruta: / (es) y /en (en)
+│   ├── styles/globals.css   # Estilos globales y variables CSS
+│   └── assets/              # Fuentes e imágenes (optimizadas a AVIF/WebP en build)
 │
-├── components/
-│   ├── layout/              # Componentes de layout
-│   │   ├── Header.tsx       # Navbar con menú móvil
-│   │   └── Footer.tsx       # Footer con links sociales
-│   │
-│   ├── sections/            # Secciones de la landing
-│   │   ├── HeroSection.tsx
-│   │   ├── ServicesSection.tsx
-│   │   ├── FeaturedProjects.tsx
-│   │   ├── AboutSection.tsx
-│   │   ├── ResultsSection.tsx
-│   │   ├── FAQSection.tsx
-│   │   └── ContactSection.tsx
-│   │
-│   └── ui/                  # Componentes reutilizables
-│       ├── CustomCursor.tsx
-│       ├── TechCarousel.tsx
-│       └── ProjectCard.tsx
-│
-├── data/                    # Datos estáticos
-│   └── projects.ts          # Información de proyectos
-│
-├── public/                  # Archivos estáticos
-│   ├── img/                 # Imágenes optimizadas
-│   └── sitemap.xml          # Sitemap estático
-│
-├── hooks/                   # Custom hooks
-│   └── useSpotlight.ts      # Hook para efectos spotlight
-│
-└── lib/                     # Utilidades
-    └── utils.ts             # Funciones helper
+├── public/                  # Ficheros tal cual: .htaccess, CV, favicons, robots, sitemap
+└── brand/                   # Logos originales (no se publican)
 ```
 
 ---
@@ -234,10 +206,10 @@ Integración con Formspree para envío de emails sin backend.
 ## 📝 Scripts Disponibles
 
 ```bash
-npm run dev      # Desarrollo (localhost:3000)
-npm run build    # Build de producción
-npm start        # Servidor de producción
-npm run lint     # Linter de código
+npm run dev      # Desarrollo (localhost:4321)
+npm run build    # Build estático en dist/
+npm run preview  # Previsualizar el build
+npm run check    # Comprobación de tipos (astro check)
 ```
 
 ---

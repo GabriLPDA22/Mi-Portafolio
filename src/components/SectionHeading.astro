@@ -1,0 +1,18 @@
+---
+interface Props {
+  tag: string;
+  headline: string;
+  subtitle?: string;
+  /** Desplazamiento con el scroll (mismas variables que el antiguo useScrollScrub). */
+  scrub?: Record<string, number>;
+}
+const { tag, headline, subtitle, scrub } = Astro.props;
+---
+
+<div class="section-head-gsap mb-12 text-left lg:mb-20" data-scrub={scrub ? JSON.stringify(scrub) : undefined}>
+  <div data-reveal data-reveal-margin="-80px" style="--ry:28px;--dur:.7s;--ease:cubic-bezier(0.22,1,0.36,1)">
+    <h2 class="font-code text-3xl tracking-tight text-ink xl:text-5xl">../{tag.toLowerCase()}</h2>
+    <p class="mt-4 font-code text-xl text-ink/90 xl:text-3xl">{headline}</p>
+    {subtitle && <p class="mt-5 max-w-[34rem] text-[15px] leading-relaxed text-ink/65 xl:text-xl">{subtitle}</p>}
+  </div>
+</div>
