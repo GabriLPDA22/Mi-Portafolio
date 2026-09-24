@@ -1,0 +1,13 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import LegalApp from '@/app/LegalApp';
+---
+
+<BaseLayout
+  title="Política de Privacidad"
+  description="Política de privacidad del sitio web gabrielcodes.dev. Información sobre el tratamiento de datos personales conforme al RGPD."
+  path="/privacidad"
+  noindex
+>
+  <LegalApp client:load page="privacidad" />
+</BaseLayout>

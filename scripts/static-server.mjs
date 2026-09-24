@@ -1,10 +1,10 @@
-// Servidor estático mínimo para auditar el build exportado (carpeta out/)
+// Servidor estático mínimo para auditar el build (carpeta dist/)
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { extname, join, normalize } from "node:path";
 import { gzipSync } from "node:zlib";
 
-const ROOT = new URL("../out", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1");
+const ROOT = new URL("../dist", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1");
 const PORT = Number(process.argv[2] || 4174);
 
 const MIME = {
