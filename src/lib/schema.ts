@@ -6,7 +6,7 @@
  * puesto, habilidades, formación, premios y perfiles sociales a la misma entidad.
  */
 import { site, absoluteUrl } from '@/config/site';
-import { education, achievements, skills } from '@/data/profile';
+import { education, achievements, skills, supportingSkills, alsoUsed } from '@/data/profile';
 import { tech } from '@/data/tech';
 import { projects } from '@/data/projects';
 
@@ -29,14 +29,14 @@ export const personSchema = (): Json => ({
   email: `mailto:${site.contact.email}`,
   address: { '@type': 'PostalAddress', addressLocality: 'Zaragoza', addressRegion: 'Aragón', addressCountry: 'ES' },
   knowsLanguage: [{ '@type': 'Language', name: 'Español', alternateName: 'es' }],
-  knowsAbout: [...new Set(skills.flatMap((g) => g.items.map((id) => tech[id].name)))],
+  knowsAbout: [...new Set([...skills.flatMap((g) => g.items), ...supportingSkills, ...alsoUsed].map((id) => tech[id].name))],
   alumniOf: [...new Set(education.map((e) => e.center))].map((name) => ({ '@type': 'EducationalOrganization', name })),
   award: achievements.map((a) => `${a.title} (${a.year})`),
   hasOccupation: {
     '@type': 'Occupation',
     name: site.role,
     occupationLocation: { '@type': 'City', name: 'Zaragoza' },
-    skills: '.NET, C#, Vue 3, TypeScript, React Native, PostgreSQL, PHP, Symfony, Java, AWS',
+    skills: '.NET, C#, Vue 3, TypeScript, React Native, Expo, PostgreSQL, SignalR, AWS',
   },
   sameAs: [site.social.linkedin, site.social.github],
 });

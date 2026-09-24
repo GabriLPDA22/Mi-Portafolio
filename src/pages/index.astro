@@ -7,7 +7,7 @@ import ContactForm from '@/components/ContactForm.astro';
 import photo from '@/assets/team/gabriel-saiz.webp';
 import nasaImage from '@/assets/achievements/nasa-space-apps.webp';
 import { site } from '@/config/site';
-import { experience, education, achievements, skills, marquee, stats } from '@/data/profile';
+import { experience, education, achievements, skills, supportingSkills, alsoUsed, marquee, stats } from '@/data/profile';
 import { projects } from '@/data/projects';
 import { tech, type Tech } from '@/data/tech';
 import { profilePageSchema, projectsSchema } from '@/lib/schema';
@@ -18,7 +18,7 @@ const others = projects.filter((p) => !p.featured);
 // Cada grupo del carrusel repite la lista dos veces para superar el ancho de cualquier pantalla.
 const marqueeGroup: Tech[] = [...marquee, ...marquee].map((id) => tech[id]);
 
-const skillIcons = ['server', 'layout', 'smartphone', 'cloud', 'code'] as const;
+const skillIcons = ['layout', 'smartphone', 'server'] as const;
 
 const medalStyles = {
   gold: { label: 'Ganador', class: 'bg-[#f5c542]/15 text-[#f5c542] ring-[#f5c542]/30' },
@@ -27,8 +27,9 @@ const medalStyles = {
 } as const;
 
 const lookingFor = [
+  'Puesto full-stack web y/o mobile: .NET, Vue 3 o React Native',
   'Empresa con producto propio y equipo técnico con el que aprender',
-  'Stack .NET, Vue o React Native, y también PHP con Symfony o Java',
+  'También abierto a backend con PHP y Symfony',
   'Zaragoza presencial o híbrido, o remoto desde España',
   'Incorporación inmediata',
 ];
@@ -61,8 +62,9 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
         </h1>
 
         <p class="lead mt-7 max-w-xl">
-          Llevo apps y webs a producción: <strong class="font-medium text-fg">apps publicadas en App Store y Google Play</strong>,
-          backends en .NET y paneles en Vue. Busco un equipo con producto propio donde aportar desde el primer día.
+          Construyo <strong class="font-medium text-fg">web y mobile de punta a punta</strong>: APIs en .NET, aplicaciones web con Vue
+          y apps con React Native publicadas en App Store y Google Play. Busco un equipo con producto propio donde aportar desde el
+          primer día.
         </p>
 
         <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -370,38 +372,66 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
   <section id="stack" class="section border-t border-line" aria-labelledby="stack-title">
     <div class="container-page">
       <p class="eyebrow"><span class="text-muted">03 —</span> Stack</p>
-      <h2 id="stack-title" class="heading-lg mt-4">Con qué trabajo</h2>
-      <p class="lead mt-5 max-w-2xl">
-        Mi día a día es .NET, Vue 3 y React Native. También tengo experiencia real con PHP y Symfony, y base en Java.
-      </p>
-      <div class="mt-14 grid gap-5 md:grid-cols-6">
+      <h2 id="stack-title" class="heading-lg mt-4">Web y mobile sobre un backend .NET</h2>
+      <p class="lead mt-5 max-w-2xl">Tres piezas que domino y que uso juntas: The Arch es el ejemplo completo.</p>
+
+      <!-- Stack principal -->
+      <div class="mt-14 grid gap-5 md:grid-cols-3">
         {
           skills.map((g, i) => (
-            <div
-              class:list={[
-                'reveal spotlight card p-7',
-                i < 2 ? 'md:col-span-3' : 'md:col-span-2',
-                i === 0 && 'border-accent/35',
-              ]}
-            >
+            <div class="reveal spotlight card flex flex-col p-7">
               <div class="flex items-center gap-3">
-                <span class="inline-flex size-10 items-center justify-center rounded-xl bg-accent/10 text-accent">
+                <span class="inline-flex size-11 items-center justify-center rounded-xl bg-accent/10 text-accent">
                   <Icon name={skillIcons[i]} class="size-5" />
                 </span>
-                <h3 class="text-lg font-semibold text-fg">{g.group}</h3>
+                <h3 class="text-xl font-semibold text-fg">{g.group}</h3>
               </div>
               <p class="mt-3 text-sm leading-relaxed text-muted">{g.description}</p>
-              <ul class="mt-6 grid grid-cols-3 gap-2.5">
+              <ul class="mt-7 grid grid-cols-2 gap-3">
                 {g.items.map((id) => (
-                  <li class="group/tile flex flex-col items-center gap-2 rounded-xl border border-line bg-white/[0.02] px-2 py-3.5 text-center transition hover:-translate-y-0.5 hover:border-line-strong hover:bg-white/[0.05]">
-                    <TechIcon tech={tech[id]} class="size-7 transition-transform duration-300 group-hover/tile:scale-110" branded />
-                    <span class="text-xs leading-tight text-soft">{tech[id].name}</span>
+                  <li class="group/tile flex flex-col items-center gap-2.5 rounded-xl border border-line bg-white/[0.02] px-2 py-5 text-center transition hover:-translate-y-0.5 hover:border-line-strong hover:bg-white/[0.05]">
+                    <TechIcon tech={tech[id]} class="size-9 transition-transform duration-300 group-hover/tile:scale-110" branded />
+                    <span class="text-sm leading-tight text-soft">{tech[id].name}</span>
                   </li>
                 ))}
               </ul>
             </div>
           ))
         }
+      </div>
+
+      <!-- Apoyo: infraestructura y otras tecnologías -->
+      <div class="reveal card mt-5 grid gap-8 p-7 md:grid-cols-2">
+        <div>
+          <h3 class="flex items-center gap-2 text-sm font-semibold text-fg">
+            <Icon name="cloud" class="size-4 text-accent" /> Despliegue e infraestructura
+          </h3>
+          <ul class="mt-4 flex flex-wrap gap-x-5 gap-y-3">
+            {
+              supportingSkills.map((id) => (
+                <li class="inline-flex items-center gap-2 text-sm text-soft">
+                  <TechIcon tech={tech[id]} class="size-5" branded />
+                  {tech[id].name}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div>
+          <h3 class="flex items-center gap-2 text-sm font-semibold text-fg">
+            <Icon name="code" class="size-4 text-accent" /> También he trabajado con
+          </h3>
+          <ul class="mt-4 flex flex-wrap gap-x-5 gap-y-3">
+            {
+              alsoUsed.map((id) => (
+                <li class="inline-flex items-center gap-2 text-sm text-muted">
+                  <TechIcon tech={tech[id]} class="size-5 opacity-80" branded />
+                  {tech[id].name}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
       </div>
     </div>
   </section>

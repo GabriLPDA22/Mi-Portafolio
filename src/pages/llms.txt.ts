@@ -4,7 +4,7 @@
  */
 import type { APIRoute } from 'astro';
 import { site, absoluteUrl } from '@/config/site';
-import { experience, education, achievements, skills } from '@/data/profile';
+import { experience, education, achievements, skills, supportingSkills, alsoUsed } from '@/data/profile';
 import { projects } from '@/data/projects';
 import { tech } from '@/data/tech';
 
@@ -38,6 +38,8 @@ export const GET: APIRoute = () => {
     '## Habilidades',
     '',
     ...skills.map((g) => `- ${g.group}: ${g.items.map((id) => tech[id].name).join(', ')}`),
+    `- Cloud y DevOps: ${supportingSkills.map((id) => tech[id].name).join(', ')}`,
+    `- También: ${alsoUsed.map((id) => tech[id].name).join(', ')}`,
     '',
     '## Contacto',
     '',

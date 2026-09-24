@@ -9,14 +9,14 @@ export const site = {
   fullName: 'Gabriel Saiz de la Maza Bajo',
   role: 'Desarrollador Full-Stack',
   /** Especialidad tal y como aparece en el CV. */
-  headline: 'Full-Stack Developer · .NET · Vue 3 · React Native',
+  headline: 'Full-Stack Web & Mobile · .NET · Vue 3 · React Native',
   description:
-    'Desarrollador Full-Stack en Zaragoza especializado en .NET, Vue 3 y React Native. Apps publicadas en App Store y Google Play, backend en producción, PHP/Symfony y AWS.',
+    'Desarrollador Full-Stack web y mobile en Zaragoza: backend .NET, web con Vue 3 y apps con React Native publicadas en App Store y Google Play.',
   locale: 'es_ES',
   lang: 'es',
   location: 'Zaragoza, España',
   /** Qué tipo de puesto busca: se muestra en la web y en /llms.txt. */
-  lookingFor: 'Puesto de desarrollador full-stack, backend (.NET, PHP/Symfony o Java) o mobile en empresa con producto propio, en Zaragoza (presencial o híbrido) o en remoto desde España.',
+  lookingFor: 'Puesto full-stack web y/o mobile con .NET, Vue o React Native (también abierto a PHP/Symfony), en Zaragoza (presencial o híbrido) o en remoto desde España.',
   availability: 'Incorporación inmediata',
 
   contact: {

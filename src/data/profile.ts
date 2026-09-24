@@ -122,36 +122,35 @@ export const achievements: Achievement[] = [
   },
 ];
 
-/** Stack agrupado. Cada id apunta al registro de logos de `tech.ts`. */
+/**
+ * Stack principal: web + mobile sobre un backend .NET. Es lo que se destaca;
+ * el resto va en `supportingSkills` y `alsoUsed` para no diluir el perfil.
+ */
 export const skills: { group: string; description: string; items: TechId[] }[] = [
   {
-    group: 'Backend',
-    description: 'APIs REST y tiempo real, autenticación, pagos y tareas en segundo plano.',
-    items: ['dotnet', 'csharp', 'signalr', 'postgresql', 'jwt', 'mysql'],
-  },
-  {
-    group: 'Frontend',
-    description: 'Paneles y webs rápidas, tipadas y accesibles.',
-    items: ['vue', 'typescript', 'vite', 'tailwind', 'astro', 'nextjs'],
+    group: 'Web',
+    description: 'Paneles y aplicaciones web con Vue 3 y TypeScript: rápidas, tipadas y mantenibles.',
+    items: ['vue', 'typescript', 'vite', 'tailwind'],
   },
   {
     group: 'Mobile',
-    description: 'Apps multiplataforma publicadas, con pagos in-app y CI/CD a las stores.',
-    items: ['reactNative', 'expo', 'flutter', 'stripe', 'appStore', 'googlePlay'],
+    description: 'Apps iOS y Android con React Native publicadas en las stores, con pagos in-app.',
+    items: ['reactNative', 'expo', 'stripe', 'appStore'],
   },
   {
-    group: 'Cloud & DevOps',
-    description: 'Contenedores, despliegues automatizados y servidores en producción.',
-    items: ['aws', 'docker', 'kubernetes', 'githubActions', 'nginx', 'linux'],
-  },
-  {
-    group: 'PHP, Java y más',
-    description: 'PHP y Symfony en proyectos para clientes en GOLIVE; Java desde la formación.',
-    items: ['php', 'symfony', 'wordpress', 'gitlab', 'figma', 'java'],
+    group: 'Backend',
+    description: 'APIs REST y en tiempo real con .NET, autenticación JWT y PostgreSQL.',
+    items: ['dotnet', 'csharp', 'signalr', 'postgresql'],
   },
 ];
 
-/** Tecnologías del carrusel del hero. */
+/** Infraestructura con la que despliego lo anterior. */
+export const supportingSkills: TechId[] = ['aws', 'docker', 'kubernetes', 'githubActions', 'nginx', 'linux'];
+
+/** Experiencia secundaria: visible, pero sin protagonismo. */
+export const alsoUsed: TechId[] = ['php', 'symfony', 'java', 'flutter', 'mysql', 'nextjs', 'astro', 'wordpress'];
+
+/** Carrusel del hero: solo el stack principal. */
 export const marquee: TechId[] = [
   'dotnet',
   'csharp',
@@ -162,16 +161,8 @@ export const marquee: TechId[] = [
   'postgresql',
   'signalr',
   'stripe',
-  'aws',
   'docker',
-  'kubernetes',
-  'githubActions',
-  'astro',
-  'tailwind',
-  'flutter',
-  'php',
-  'symfony',
-  'java',
+  'aws',
 ];
 
 /** Cifras destacadas: todas verificables en el CV y en los proyectos. */
