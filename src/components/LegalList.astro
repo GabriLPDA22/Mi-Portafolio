@@ -1,0 +1,9 @@
+---
+interface Props {
+  items: readonly string[];
+}
+---
+
+<ul class="list-disc space-y-2 pl-5 marker:text-ink/30">
+  {Astro.props.items.map((item) => <li>{item}</li>)}
+</ul>

@@ -1,11 +1,18 @@
 Options -Indexes
 RewriteEngine On
 
-# Serve .html files for extensionless URLs
+# /en es a la vez en.html y la carpeta en/: sin esto Apache redirige a /en/ (403).
+DirectorySlash Off
+
+# Barra final → URL limpia (/en/ → /en, /privacidad/ → /privacidad)
+RewriteCond %{REQUEST_URI} ^/(.+)/$
+RewriteCond %{DOCUMENT_ROOT}/%1.html -f
+RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+# URLs sin extensión → fichero .html (también si existe una carpeta con el mismo nombre)
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.html -f
-RewriteRule ^(.+?)/?$ $1.html [L]
+RewriteRule ^(.+?)$ $1.html [L]
 
 # 404 fallback
 ErrorDocument 404 /404.html

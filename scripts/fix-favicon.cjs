@@ -39,7 +39,7 @@ const fs = require("fs");
   await sharp("public/img/brand-mark-on-dark.png")
     .resize(64, 64)
     .png()
-    .toFile("public/img/brand-mark-64.png");
+    .toFile("src/assets/img/brand-mark-64.png");
 
   const logo = await sharp("public/img/brand-mark-on-dark.png")
     .resize(360, 360, {
@@ -76,7 +76,7 @@ const fs = require("fs");
   entry.writeUInt32LE(22, 12);
   fs.writeFileSync("public/favicon.ico", Buffer.concat([header, entry, png32]));
 
-  const b64 = fs.readFileSync("public/img/brand-mark-64.png").toString("base64");
+  const b64 = fs.readFileSync("src/assets/img/brand-mark-64.png").toString("base64");
   fs.writeFileSync(
     "public/favicon.svg",
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#120e0b"/><image href="data:image/png;base64,${b64}" x="8" y="8" width="48" height="48"/></svg>`

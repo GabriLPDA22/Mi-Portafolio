@@ -1,33 +1,60 @@
 ---
 /**
- * Layout raíz: mismos metadatos que el `metadata` de app/layout.tsx de la versión Next.js,
- * fuentes Nunito + Caveat autoalojadas y estilos globales.
+ * Layout raíz: metadatos SEO por idioma (con hreflang), fuentes autoalojadas, cabecera,
+ * banner de cookies y un único script ligero (sin frameworks en el cliente).
  */
 import { Font } from 'astro:assets';
 import '@/styles/globals.css';
+import Header from '@/components/Header.astro';
+import CookieBanner from '@/components/CookieBanner.astro';
+import ScrollToTop from '@/components/ScrollToTop.astro';
+import { localePath, type Locale } from '@/i18n';
 
 interface Props {
+  locale: Locale;
+  /** Ruta sin prefijo de idioma ("/", "/privacidad"…). */
+  path?: string;
   /** Título de la página; se completa con " | Gabriel Saiz" salvo en la portada. */
   title?: string;
   description?: string;
-  /** Ruta canónica ("/", "/privacidad"…). */
-  path?: string;
   noindex?: boolean;
-  /** Datos estructurados JSON-LD. */
   jsonLd?: Record<string, unknown>;
+  /** Mostrar el botón "volver arriba" (portada). */
+  scrollTop?: boolean;
 }
 
 const siteUrl = 'https://gabrielcodes.dev';
-const siteDescription =
-  'Gabriel Saiz — desarrollador full-stack en Zaragoza. Experiencia en React Native, Next.js y .NET. Apps en producción y abierto a oportunidades laborales.';
-const defaultTitle = 'Gabriel Saiz — Desarrollador Full-Stack | Portfolio';
-const ogTitle = 'Gabriel Saiz — Desarrollador Full-Stack';
+const meta = {
+  es: {
+    title: 'Gabriel Saiz — Desarrollador Full-Stack | Portfolio',
+    ogTitle: 'Gabriel Saiz — Desarrollador Full-Stack',
+    description:
+      'Gabriel Saiz — desarrollador full-stack en Zaragoza. Experiencia en React Native, Next.js y .NET. Apps en producción y abierto a oportunidades laborales.',
+    ogLocale: 'es_ES',
+    ogAlt: 'Gabriel Saiz — Desarrollador full-stack',
+    siteName: 'Gabriel Saiz — Portfolio',
+  },
+  en: {
+    title: 'Gabriel Saiz — Full-Stack Developer | Portfolio',
+    ogTitle: 'Gabriel Saiz — Full-Stack Developer',
+    description:
+      'Gabriel Saiz — full-stack developer based in Zaragoza, Spain. Experience with React Native, Next.js and .NET. Apps in production and open to job opportunities.',
+    ogLocale: 'en_GB',
+    ogAlt: 'Gabriel Saiz — Full-stack developer',
+    siteName: 'Gabriel Saiz — Portfolio',
+  },
+};
+
+const { locale, path = '/', title, description, noindex = false, jsonLd, scrollTop = false } = Astro.props;
+const m = meta[locale];
+const fullTitle = title ? `${title} | Gabriel Saiz` : m.title;
+const desc = description ?? m.description;
+const url = (l: Locale) => {
+  const p = localePath(l, path);
+  return p === '/' ? siteUrl : `${siteUrl}${p}`;
+};
+const canonical = url(locale);
 const ogImage = `${siteUrl}/img/og-image.jpg`;
-
-const { title, description = siteDescription, path = '/', noindex = false, jsonLd } = Astro.props;
-
-const fullTitle = title ? `${title} | Gabriel Saiz` : defaultTitle;
-const canonical = path === '/' ? siteUrl : `${siteUrl}${path}`;
 const keywords = [
   'desarrollador full stack',
   'desarrollador React Native',
@@ -49,16 +76,16 @@ const keywords = [
 ---
 
 <!doctype html>
-<html lang="es" class="overflow-x-hidden">
+<html lang={locale}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Con JS, las entradas animadas empiezan ocultas; sin JS todo es visible. -->
+    <script is:inline>document.documentElement.classList.add('js')</script>
     <title>{fullTitle}</title>
-    <meta name="description" content={description} />
+    <meta name="description" content={desc} />
     <meta name="keywords" content={keywords} />
     <meta name="author" content="Gabriel Saiz" />
-    <meta name="creator" content="Gabriel Saiz" />
-    <meta name="publisher" content="Gabriel Saiz" />
     {
       noindex ? (
         <meta name="robots" content="noindex, nofollow" />
@@ -70,39 +97,46 @@ const keywords = [
       )
     }
     <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="es" href={url('es')} />
+    <link rel="alternate" hreflang="en" href={url('en')} />
+    <link rel="alternate" hreflang="x-default" href={url('es')} />
     <meta name="google-site-verification" content="tl7fbd-SUdovbuPNFSkybxDcu_TQs9maMuc0x9ar04c" />
     <meta name="theme-color" content="#120e0b" />
     <meta name="color-scheme" content="dark" />
 
     <Font cssVariable="--font-nunito" preload />
-    <Font cssVariable="--font-caveat" />
+    <Font cssVariable="--font-caveat" preload />
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="icon" href="/icon.png" type="image/png" sizes="512x512" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" type="image/png" sizes="180x180" />
-    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
     <link rel="manifest" href="/manifest.webmanifest" />
 
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content="es_ES" />
-    <meta property="og:url" content={siteUrl} />
-    <meta property="og:site_name" content="Gabriel Saiz — Portfolio" />
-    <meta property="og:title" content={ogTitle} />
-    <meta property="og:description" content={siteDescription} />
+    <meta property="og:locale" content={m.ogLocale} />
+    <meta property="og:locale:alternate" content={meta[locale === 'es' ? 'en' : 'es'].ogLocale} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={m.siteName} />
+    <meta property="og:title" content={m.ogTitle} />
+    <meta property="og:description" content={m.description} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Gabriel Saiz — Desarrollador full-stack" />
-
+    <meta property="og:image:alt" content={m.ogAlt} />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={ogTitle} />
-    <meta name="twitter:description" content={siteDescription} />
+    <meta name="twitter:title" content={m.ogTitle} />
+    <meta name="twitter:description" content={m.description} />
     <meta name="twitter:image" content={ogImage} />
 
-    {jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+    {jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd).replace(/</g, '\\u003c')} />}
   </head>
-  <body class="min-h-screen max-w-[100vw] overflow-x-hidden antialiased">
+  <body class="min-h-screen max-w-[100vw] overflow-x-clip antialiased">
+    <Header locale={locale} path={path} />
     <slot />
+    {scrollTop && <ScrollToTop locale={locale} />}
+    <CookieBanner locale={locale} />
+    <script>
+      import '@/scripts/site';
+    </script>
   </body>
 </html>

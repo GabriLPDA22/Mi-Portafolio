@@ -448,7 +448,7 @@ export const translations = {
     },
     // Cookies
     cookies: {
-      message: 'Este sitio web utiliza cookies técnicas necesarias para su funcionamiento y para guardar tus preferencias de idioma. No utilizamos cookies de seguimiento ni publicidad.',
+      message: 'Este sitio web utiliza cookies técnicas necesarias para su funcionamiento y para recordar tu elección sobre este aviso. No utilizamos cookies de seguimiento ni publicidad.',
       moreInfo: 'Más información en nuestra',
       privacyPolicy: 'Política de Privacidad',
       accept: 'Aceptar',
@@ -490,7 +490,6 @@ export const translations = {
             description: 'Utilizamos cookies técnicas necesarias para el funcionamiento del sitio:',
             items: [
               'cookie-consent: Almacena tu preferencia sobre el uso de cookies',
-              'locale: Almacena tu preferencia de idioma (español/inglés)',
             ],
             note: 'Estas cookies son necesarias y no requieren consentimiento según el RGPD, ya que son estrictamente necesarias para el funcionamiento del sitio.',
           },
@@ -500,7 +499,6 @@ export const translations = {
           description: 'Los datos recopilados se utilizan exclusivamente para:',
           items: [
             'Responder a tus consultas enviadas a través del formulario de contacto',
-            'Mantener tus preferencias de idioma',
             'Recordar tu consentimiento sobre el uso de cookies',
           ],
         },
@@ -516,7 +514,7 @@ export const translations = {
           title: '5. Conservación de datos',
           description: 'Los datos del formulario de contacto se conservan durante el tiempo necesario para responder a tu consulta y, en su caso, durante los plazos legalmente establecidos.',
           cookiesNote: 'Las cookies técnicas se conservan según su finalidad:',
-          cookieItems: ['Cookie de consentimiento: 1 año', 'Cookie de idioma: Persistente hasta que la elimines'],
+          cookieItems: ['Cookie de consentimiento: 1 año'],
         },
         rights: {
           title: '6. Tus derechos',
@@ -1060,7 +1058,7 @@ export const translations = {
     },
     // Cookies
     cookies: {
-      message: 'This website uses necessary technical cookies for its operation and to save your language preferences. We do not use tracking or advertising cookies.',
+      message: 'This website uses necessary technical cookies for its operation and to remember your choice on this notice. We do not use tracking or advertising cookies.',
       moreInfo: 'More information in our',
       privacyPolicy: 'Privacy Policy',
       accept: 'Accept',
@@ -1102,7 +1100,6 @@ export const translations = {
             description: 'We use technical cookies necessary for the site operation:',
             items: [
               'cookie-consent: Stores your preference regarding cookie usage',
-              'locale: Stores your language preference (Spanish/English)',
             ],
             note: 'These cookies are necessary and do not require consent under GDPR, as they are strictly necessary for the site operation.',
           },
@@ -1112,7 +1109,6 @@ export const translations = {
           description: 'The collected data is used exclusively for:',
           items: [
             'Responding to your inquiries sent through the contact form',
-            'Maintaining your language preferences',
             'Remembering your consent regarding cookie usage',
           ],
         },
@@ -1128,7 +1124,7 @@ export const translations = {
           title: '5. Data Retention',
           description: 'Contact form data is retained for the time necessary to respond to your inquiry and, where applicable, for legally established periods.',
           cookiesNote: 'Technical cookies are retained according to their purpose:',
-          cookieItems: ['Consent cookie: 1 year', 'Language cookie: Persistent until you delete it'],
+          cookieItems: ['Consent cookie: 1 year'],
         },
         rights: {
           title: '6. Your Rights',

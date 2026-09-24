@@ -1,0 +1,50 @@
+---
+import Icon from './Icon.astro';
+import { getT, localePath, type Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const c = getT(locale).cookies;
+---
+
+<!-- Oculto por defecto: el script lo muestra solo si no hay preferencia guardada. -->
+<div
+  data-cookie-banner
+  hidden
+  role="region"
+  aria-label={locale === 'es' ? 'Aviso de cookies' : 'Cookie notice'}
+  class="fixed bottom-0 left-0 right-0 z-50 w-full max-w-[100vw] translate-y-[100px] overflow-hidden border-t border-white/[0.1] bg-noir/95 opacity-0 backdrop-blur-xl transition-all duration-300 ease-out [&.is-in]:translate-y-0 [&.is-in]:opacity-100"
+>
+  <div class="w-full px-3 py-2.5 sm:container-main sm:py-4">
+    <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+      <div class="flex min-w-0 flex-1 items-start gap-1.5 sm:gap-2">
+        <Icon name="Cookie" class="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-acid sm:h-5 sm:w-5" />
+        <div class="min-w-0 flex-1">
+          <p class="text-[11px] leading-snug text-white/80 sm:text-[14px] sm:leading-relaxed">{c.message}</p>
+          <p class="mt-1 text-[10px] text-white/65 sm:mt-2 sm:text-[12px]">
+            {c.moreInfo}{' '}
+            <a href={localePath(locale, '/privacidad')} class="break-words text-acid underline transition-colors hover:text-acid-light">{c.privacyPolicy}</a>
+          </p>
+        </div>
+      </div>
+      <div class="flex items-center gap-1.5 sm:flex-shrink-0 sm:gap-3">
+        <button
+          type="button"
+          data-consent="rejected"
+          class="flex-shrink-0 whitespace-nowrap px-2.5 py-1.5 text-[11px] font-medium text-white/70 transition-colors hover:text-white sm:px-4 sm:py-2 sm:text-[13px]"
+        >
+          {c.reject}
+        </button>
+        <button
+          type="button"
+          data-consent="accepted"
+          class="inline-flex flex-shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-acid px-3.5 py-1.5 text-[11px] font-bold text-noir transition-all duration-300 hover:bg-acid-light hover:shadow-lg hover:shadow-acid/25 sm:px-6 sm:py-2.5 sm:text-[13px]"
+        >
+          {c.accept}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
