@@ -336,7 +336,10 @@ html.menu-open #cookie-banner {
 }
 @media (prefers-reduced-motion: no-preference) {
   .marquee-group {
-    animation: marquee 60s linear infinite;
+    animation: marquee var(--marquee-duration, 60s) linear infinite;
+  }
+  .marquee-reverse .marquee-group {
+    animation-direction: reverse;
   }
   .marquee:hover .marquee-group {
     animation-play-state: paused;

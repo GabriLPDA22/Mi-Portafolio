@@ -17,6 +17,8 @@ const others = projects.filter((p) => !p.featured);
 
 // Cada grupo del carrusel repite la lista dos veces para superar el ancho de cualquier pantalla.
 const marqueeGroup: Tech[] = [...marquee, ...marquee].map((id) => tech[id]);
+// Fila secundaria (sentido contrario): infraestructura y tecnologías de apoyo.
+const marqueeSecondary: Tech[] = [...supportingSkills, ...alsoUsed, ...supportingSkills, ...alsoUsed].map((id) => tech[id]);
 
 const skillIcons = ['layout', 'smartphone', 'server'] as const;
 
@@ -142,18 +144,49 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
       </div>
     </div>
 
-    <!-- Carrusel infinito de tecnologías: icono + nombre en monocromo; el icono se ilumina al pasar el ratón -->
-    <div class="relative border-y border-line bg-ink-2/40 py-10">
-      <p class="mb-7 text-center text-xs font-semibold tracking-[0.4em] text-accent uppercase">Stack</p>
-      <p class="sr-only">Tecnologías: {marquee.map((id) => tech[id].name).join(', ')}.</p>
-      <div class="marquee">
+    <!-- Carrusel infinito de tecnologías: dos filas en sentidos opuestos -->
+    <div class="relative overflow-hidden border-y border-line py-12 sm:py-14">
+      <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_120%_at_50%_50%,rgb(0_230_118/0.07),transparent_70%)]" aria-hidden="true"></div>
+      <p class="sr-only">
+        Tecnologías: {[...marquee, ...supportingSkills, ...alsoUsed].map((id) => tech[id].name).join(', ')}.
+      </p>
+
+      <!-- Fila principal -->
+      <div class="marquee relative" style="--marquee-duration: 55s">
         {
-          [0, 1].map((copy) => (
-            <ul class="marquee-group !gap-0 !pr-0" aria-hidden="true" data-copy={copy}>
+          [0, 1].map(() => (
+            <ul class="marquee-group !gap-0 !pr-0" aria-hidden="true">
               {marqueeGroup.map((t) => (
-                <li class="group/item flex shrink-0 items-center gap-3 px-7 text-white/55 transition-colors duration-300 hover:text-fg sm:px-9">
-                  <TechIcon tech={t} class="size-6 text-white/45 transition-colors duration-300 group-hover/item:text-accent" />
-                  <span class="text-[15px] font-medium whitespace-nowrap">{t.name}</span>
+                <li class="group/item flex shrink-0 items-center">
+                  <span class="flex items-center gap-3.5 px-6 text-white/85 transition-colors duration-300 group-hover/item:text-white sm:px-8">
+                    {t.path && (
+                      <TechIcon
+                        tech={t}
+                        class:list={[
+                          'transition-colors duration-300 group-hover/item:text-accent',
+                          t.wordmark ? 'h-9 w-auto sm:h-11' : 'size-7 sm:size-9',
+                        ]}
+                      />
+                    )}
+                    {!t.wordmark && <span class="text-2xl font-semibold tracking-tight whitespace-nowrap sm:text-[2rem]">{t.name}</span>}
+                  </span>
+                  <span class="text-sm text-accent/60" aria-hidden="true">✦</span>
+                </li>
+              ))}
+            </ul>
+          ))
+        }
+      </div>
+
+      <!-- Fila secundaria, en sentido contrario -->
+      <div class="marquee marquee-reverse relative mt-6 sm:mt-8" style="--marquee-duration: 80s">
+        {
+          [0, 1].map(() => (
+            <ul class="marquee-group !gap-0 !pr-0" aria-hidden="true">
+              {marqueeSecondary.map((t) => (
+                <li class="group/item flex shrink-0 items-center gap-2.5 px-5 text-white/35 transition-colors duration-300 hover:text-white/80 sm:px-7">
+                  {t.path && <TechIcon tech={t} class="size-5 transition-colors duration-300 group-hover/item:text-accent sm:size-6" />}
+                  <span class="text-base font-medium whitespace-nowrap sm:text-lg">{t.name}</span>
                 </li>
               ))}
             </ul>

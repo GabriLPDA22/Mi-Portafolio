@@ -150,7 +150,7 @@ export const supportingSkills: TechId[] = ['aws', 'docker', 'kubernetes', 'githu
 /** Experiencia secundaria: visible, pero sin protagonismo. */
 export const alsoUsed: TechId[] = ['php', 'symfony', 'java', 'flutter', 'mysql', 'nextjs', 'astro', 'wordpress'];
 
-/** Carrusel del hero: solo el stack principal. */
+/** Carrusel del hero, fila principal: solo el stack principal. */
 export const marquee: TechId[] = [
   'dotnet',
   'csharp',

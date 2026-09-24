@@ -12,6 +12,8 @@ export interface Tech {
   path?: string;
   /** Color de marca legible sobre fondo oscuro. */
   color: string;
+  /** El logo oficial ya es el nombre escrito (p. ej. .NET): no se repite el texto. */
+  wordmark?: boolean;
   /** Icono genérico de respaldo cuando no hay logo oficial. */
   fallback?: 'cloud' | 'zap' | 'code' | 'server' | 'smartphone' | 'shield' | 'database';
 }
@@ -32,7 +34,7 @@ const logo = (name: string, slug: string): Tech => {
 };
 
 export const tech = {
-  dotnet: logo('.NET', 'dotnet'),
+  dotnet: { ...logo('.NET', 'dotnet'), wordmark: true },
   csharp: { name: 'C#', color: '#9B4F96', fallback: 'code' },
   vue: logo('Vue 3', 'vuedotjs'),
   typescript: logo('TypeScript', 'typescript'),
