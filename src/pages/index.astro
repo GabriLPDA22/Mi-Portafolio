@@ -9,14 +9,14 @@ import nasaImage from '@/assets/achievements/nasa-space-apps.webp';
 import { site } from '@/config/site';
 import { experience, education, achievements, skills, marquee, stats } from '@/data/profile';
 import { projects } from '@/data/projects';
-import { tech } from '@/data/tech';
+import { tech, type Tech } from '@/data/tech';
 import { profilePageSchema, projectsSchema } from '@/lib/schema';
 
 const featured = projects.find((p) => p.featured)!;
 const others = projects.filter((p) => !p.featured);
 
 // Cada grupo del carrusel repite la lista dos veces para superar el ancho de cualquier pantalla.
-const marqueeGroup = [...marquee, ...marquee].map((id) => tech[id]);
+const marqueeGroup: Tech[] = [...marquee, ...marquee].map((id) => tech[id]);
 
 const skillIcons = ['server', 'layout', 'smartphone', 'cloud', 'code'] as const;
 
@@ -137,37 +137,24 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
         >
           <span aria-hidden="true">🏆</span> Ganador NASA Space Apps
         </p>
-
-        <div
-          class="code-card relative -mt-20 mr-3 ml-6 rounded-2xl border border-line-strong bg-[#0d0d11]/95 shadow-2xl shadow-black/70 backdrop-blur sm:mr-0 sm:-ml-10 lg:-ml-24"
-          aria-hidden="true"
-        >
-          <div class="flex items-center gap-1.5 border-b border-line px-4 py-2.5">
-            <span class="size-2.5 rounded-full bg-[#ff5f57]"></span>
-            <span class="size-2.5 rounded-full bg-[#febc2e]"></span>
-            <span class="size-2.5 rounded-full bg-[#28c840]"></span>
-            <span class="ml-2 text-[0.7rem] text-muted">gabriel.ts</span>
-          </div>
-          <pre class="overflow-hidden px-4 py-3.5 text-[0.72rem] leading-[1.7] text-soft sm:text-[0.78rem]"><code><span class="k">const</span> gabriel = {'{'}
-  <span class="p">rol</span>: <span class="s">'Full-Stack Developer'</span>,
-  <span class="p">stack</span>: [<span class="s">'.NET'</span>, <span class="s">'Vue'</span>, <span class="s">'React Native'</span>],
-  <span class="p">base</span>: <span class="s">'Zaragoza · Remoto'</span>,
-  <span class="p">disponible</span>: <span class="b">true</span>, <span class="c">// 👋</span>
-{'}'};</code></pre>
-        </div>
       </div>
     </div>
 
-    <!-- Carrusel infinito de tecnologías -->
-    <div class="marquee relative border-y border-line bg-ink-2/60 py-5">
+    <!-- Carrusel infinito de tecnologías: solo logos -->
+    <div class="marquee relative border-y border-line bg-ink-2/60 py-8">
       <p class="sr-only">Tecnologías: {marquee.map((id) => tech[id].name).join(', ')}.</p>
       {
         [0, 1].map((copy) => (
-          <ul class="marquee-group" aria-hidden="true" data-copy={copy}>
+          <ul class="marquee-group !gap-14 !pr-14" aria-hidden="true" data-copy={copy}>
             {marqueeGroup.map((t) => (
-              <li class="group/logo inline-flex items-center gap-2.5 rounded-full border border-line bg-white/[0.02] py-2 pr-4 pl-3 text-sm whitespace-nowrap text-soft">
-                <TechIcon tech={t} class="size-[1.15rem]" branded />
-                {t.name}
+              <li class="flex shrink-0 items-center" title={t.name}>
+                {t.path ? (
+                  <TechIcon tech={t} class="size-10 opacity-85 transition hover:scale-110 hover:opacity-100" branded />
+                ) : (
+                  <span class="text-2xl font-bold tracking-tight whitespace-nowrap opacity-85" style={`color:${t.color}`}>
+                    {t.name}
+                  </span>
+                )}
               </li>
             ))}
           </ul>

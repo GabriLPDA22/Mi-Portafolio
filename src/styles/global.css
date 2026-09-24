@@ -379,25 +379,6 @@ body::after {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* Bloque de código del hero. */
-.code-card {
-  font-family: ui-monospace, 'SF Mono', 'Cascadia Code', Menlo, Consolas, monospace;
-}
-.code-card .k {
-  color: #c792ea;
-}
-.code-card .p {
-  color: #82aaff;
-}
-.code-card .s {
-  color: #9ef0bd;
-}
-.code-card .b {
-  color: #f78c6c;
-}
-.code-card .c {
-  color: #8b93a1;
-}
 
 /* Foto del hero con borde degradado. */
 .photo-frame {
