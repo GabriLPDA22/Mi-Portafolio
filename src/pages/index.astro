@@ -2,18 +2,23 @@
 import { Picture } from 'astro:assets';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Icon from '@/components/ui/Icon.astro';
+import TechIcon from '@/components/TechIcon.astro';
 import ContactForm from '@/components/ContactForm.astro';
 import photo from '@/assets/team/gabriel-saiz.webp';
 import nasaImage from '@/assets/achievements/nasa-space-apps.webp';
 import { site } from '@/config/site';
 import { experience, education, achievements, skills, marquee, stats } from '@/data/profile';
 import { projects } from '@/data/projects';
+import { tech } from '@/data/tech';
 import { profilePageSchema, projectsSchema } from '@/lib/schema';
 
 const featured = projects.find((p) => p.featured)!;
 const others = projects.filter((p) => !p.featured);
 
-const skillIcons = ['code', 'smartphone', 'server', 'layout', 'cloud', 'database'] as const;
+// Cada grupo del carrusel repite la lista dos veces para superar el ancho de cualquier pantalla.
+const marqueeGroup = [...marquee, ...marquee].map((id) => tech[id]);
+
+const skillIcons = ['server', 'layout', 'smartphone', 'cloud', 'code'] as const;
 
 const medalStyles = {
   gold: { label: 'Ganador', class: 'bg-[#f5c542]/15 text-[#f5c542] ring-[#f5c542]/30' },
@@ -23,7 +28,7 @@ const medalStyles = {
 
 const lookingFor = [
   'Empresa con producto propio y equipo técnico con el que aprender',
-  'Stack .NET, Vue o React Native (o el tuyo: aprendo rápido)',
+  'Stack .NET, Vue o React Native, y también PHP con Symfony o Java',
   'Zaragoza presencial o híbrido, o remoto desde España',
   'Incorporación inmediata',
 ];
@@ -41,7 +46,7 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
     <div class="hero-aurora pointer-events-none absolute inset-0" aria-hidden="true"></div>
     <div class="grid-bg pointer-events-none absolute inset-0 opacity-70" aria-hidden="true"></div>
 
-    <div class="container-page relative grid items-center gap-14 pt-12 pb-16 sm:pt-20 lg:grid-cols-12 lg:gap-10 lg:pt-24 lg:pb-20">
+    <div class="container-page relative grid items-center gap-16 pt-12 pb-20 sm:pt-20 lg:grid-cols-12 lg:gap-10 lg:pt-24 lg:pb-28">
       <div class="lg:col-span-7">
         <p class="inline-flex items-center gap-2.5 rounded-full border border-accent/30 bg-accent/[0.07] py-1.5 pr-4 pl-3 text-sm font-medium text-accent">
           <span class="status-dot" aria-hidden="true"></span>
@@ -67,23 +72,23 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
             class="group inline-flex h-13 items-center justify-center gap-2 rounded-full bg-accent px-7 text-base font-semibold text-accent-ink shadow-[0_0_0_1px_rgb(0_230_118/0.4),0_10px_36px_-8px_rgb(0_230_118/0.6)] transition hover:bg-white"
             data-cta="hero-cv"
           >
-            <Icon name="download" class="size-5" />
+            <Icon name="download" class="size-5 transition-transform group-hover:translate-y-0.5" />
             Descargar CV
           </a>
           <a
             href="#contacto"
-            class="inline-flex h-13 items-center justify-center gap-2 rounded-full border border-line-strong bg-white/[0.03] px-7 text-base font-semibold text-fg transition hover:bg-white/[0.08]"
+            class="group inline-flex h-13 items-center justify-center gap-2 rounded-full border border-line-strong bg-white/[0.03] px-7 text-base font-semibold text-fg transition hover:bg-white/[0.08]"
             data-cta="hero-contact"
           >
             Hablemos
-            <Icon name="arrowRight" class="size-4" />
+            <Icon name="arrowRight" class="size-4 transition-transform group-hover:translate-x-0.5" />
           </a>
           <div class="flex gap-2 sm:ml-2">
             <a
               href={site.social.linkedin}
               target="_blank"
               rel="noopener me"
-              class="inline-flex size-13 items-center justify-center rounded-full border border-line text-soft transition hover:border-line-strong hover:text-fg"
+              class="inline-flex size-13 items-center justify-center rounded-full border border-line text-soft transition hover:border-[#0A66C2] hover:text-[#0A66C2]"
               data-cta="hero-linkedin"
             >
               <Icon name="linkedin" class="size-5" label="LinkedIn" />
@@ -102,13 +107,13 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
 
         <ul class="mt-9 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted">
           <li class="inline-flex items-center gap-2"><Icon name="mapPin" class="size-4 text-accent" />Zaragoza · remoto</li>
-          <li class="inline-flex items-center gap-2"><Icon name="globe" class="size-4 text-accent" />Inglés B2</li>
+          <li class="inline-flex items-center gap-2"><Icon name="smartphone" class="size-4 text-accent" />Apps en App Store y Google Play</li>
           <li class="inline-flex items-center gap-2"><Icon name="graduationCap" class="size-4 text-accent" />DAW · TFG 10 MH</li>
         </ul>
       </div>
 
-      <!-- Foto -->
-      <div class="relative mx-auto w-full max-w-[22rem] lg:col-span-5 lg:max-w-[25rem]">
+      <!-- Foto + tarjeta de código -->
+      <div class="relative mx-auto w-full max-w-[22rem] lg:col-span-5 lg:max-w-[24rem]">
         <div class="photo-frame rounded-[2rem] p-px shadow-2xl shadow-black/60">
           <div class="relative overflow-hidden rounded-[calc(2rem-1px)] bg-surface">
             <Picture
@@ -117,58 +122,65 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
               formats={['avif', 'webp']}
               fallbackFormat="webp"
               widths={[360, 540, 720]}
-              sizes="(min-width: 1024px) 400px, 352px"
+              sizes="(min-width: 1024px) 384px, 352px"
               loading="eager"
               fetchpriority="high"
               class="aspect-[4/5] w-full object-cover object-[50%_20%] grayscale"
             />
-            <div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-ink/80 to-transparent" aria-hidden="true">
+            <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" aria-hidden="true">
             </div>
-            <p class="absolute right-4 bottom-4 left-4 text-xs font-medium text-white/90 sm:text-sm">{site.headline}</p>
           </div>
         </div>
-        <!-- Chips flotantes -->
-        <div
-          class="absolute top-6 -left-4 flex items-center gap-2 rounded-2xl border border-line-strong bg-ink-2/90 px-3 py-2 text-xs font-medium text-fg shadow-xl shadow-black/50 backdrop-blur sm:-left-10"
+
+        <p
+          class="absolute top-5 -left-3 flex items-center gap-2 rounded-2xl border border-line-strong bg-ink-2/90 px-3 py-2 text-xs font-medium text-fg shadow-xl shadow-black/50 backdrop-blur sm:-left-9"
         >
           <span aria-hidden="true">🏆</span> Ganador NASA Space Apps
-        </div>
+        </p>
+
         <div
-          class="absolute top-1/2 -right-3 flex items-center gap-2 rounded-2xl border border-line-strong bg-ink-2/90 px-3 py-2 text-xs font-medium text-fg shadow-xl shadow-black/50 backdrop-blur sm:-right-8"
+          class="code-card relative -mt-20 mr-3 ml-6 rounded-2xl border border-line-strong bg-[#0d0d11]/95 shadow-2xl shadow-black/70 backdrop-blur sm:mr-0 sm:-ml-10 lg:-ml-24"
+          aria-hidden="true"
         >
-          <Icon name="smartphone" class="size-4 text-accent" /> Apps en las stores
-        </div>
-        <div
-          class="absolute bottom-16 -left-3 flex items-center gap-2 rounded-2xl border border-line-strong bg-ink-2/90 px-3 py-2 text-xs font-medium text-fg shadow-xl shadow-black/50 backdrop-blur sm:-left-8"
-        >
-          <Icon name="award" class="size-4 text-[#f5c542]" /> TFG · 10 Matrícula de Honor
+          <div class="flex items-center gap-1.5 border-b border-line px-4 py-2.5">
+            <span class="size-2.5 rounded-full bg-[#ff5f57]"></span>
+            <span class="size-2.5 rounded-full bg-[#febc2e]"></span>
+            <span class="size-2.5 rounded-full bg-[#28c840]"></span>
+            <span class="ml-2 text-[0.7rem] text-muted">gabriel.ts</span>
+          </div>
+          <pre class="overflow-hidden px-4 py-3.5 text-[0.72rem] leading-[1.7] text-soft sm:text-[0.78rem]"><code><span class="k">const</span> gabriel = {'{'}
+  <span class="p">rol</span>: <span class="s">'Full-Stack Developer'</span>,
+  <span class="p">stack</span>: [<span class="s">'.NET'</span>, <span class="s">'Vue'</span>, <span class="s">'React Native'</span>],
+  <span class="p">base</span>: <span class="s">'Zaragoza · Remoto'</span>,
+  <span class="p">disponible</span>: <span class="b">true</span>, <span class="c">// 👋</span>
+{'}'};</code></pre>
         </div>
       </div>
     </div>
 
-    <!-- Carrusel de tecnologías -->
-    <div class="marquee relative border-y border-line bg-ink-2/60 py-4" aria-label="Tecnologías con las que trabajo">
-      <div class="marquee-track">
-        {
-          [...marquee, ...marquee].map((t, i) => (
-            <span
-              class="inline-flex items-center gap-2 rounded-full border border-line px-4 py-1.5 text-sm whitespace-nowrap text-soft"
-              aria-hidden={i >= marquee.length ? 'true' : undefined}
-            >
-              <span class="size-1.5 rounded-full bg-accent" aria-hidden="true" />
-              {t}
-            </span>
-          ))
-        }
-      </div>
+    <!-- Carrusel infinito de tecnologías -->
+    <div class="marquee relative border-y border-line bg-ink-2/60 py-5">
+      <p class="sr-only">Tecnologías: {marquee.map((id) => tech[id].name).join(', ')}.</p>
+      {
+        [0, 1].map((copy) => (
+          <ul class="marquee-group" aria-hidden="true" data-copy={copy}>
+            {marqueeGroup.map((t) => (
+              <li class="group/logo inline-flex items-center gap-2.5 rounded-full border border-line bg-white/[0.02] py-2 pr-4 pl-3 text-sm whitespace-nowrap text-soft">
+                <TechIcon tech={t} class="size-[1.15rem]" branded />
+                {t.name}
+              </li>
+            ))}
+          </ul>
+        ))
+      }
     </div>
 
     <!-- Cifras -->
     <div class="container-page">
-      <dl class="grid grid-cols-2 gap-px overflow-hidden rounded-[var(--radius-card)] border border-line bg-line my-16 lg:grid-cols-4">
+      <dl class="my-16 grid grid-cols-2 gap-px overflow-hidden rounded-[var(--radius-card)] border border-line bg-line lg:grid-cols-4">
         {
           stats.map((s) => (
-            <div class="flex flex-col bg-ink p-6 sm:p-8">
+            <div class="spotlight flex flex-col bg-ink p-6 sm:p-8">
               <dt class="order-2 mt-2 text-sm leading-snug text-muted">{s.label}</dt>
               <dd class="text-4xl font-semibold tracking-tight text-fg sm:text-5xl">{s.value}</dd>
             </div>
@@ -181,56 +193,67 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
   <!-- ============================== PROYECTOS ============================== -->
   <section id="proyectos" class="section border-t border-line" aria-labelledby="proyectos-title">
     <div class="container-page">
-      <p class="eyebrow">Proyectos</p>
+      <p class="eyebrow"><span class="text-muted">01 —</span> Proyectos</p>
       <h2 id="proyectos-title" class="heading-lg mt-4 max-w-3xl">Producto real, en producción</h2>
       <p class="lead mt-5 max-w-2xl">De la base de datos a la app en la store. Esto es lo que he construido.</p>
 
       <!-- Proyecto destacado -->
-      <article class="reveal card mt-14 grid overflow-hidden lg:grid-cols-12">
-        <div class="relative flex items-center justify-center bg-[radial-gradient(ellipse_at_center,rgb(0_230_118/0.14),transparent_65%)] p-8 lg:col-span-5">
-          <Picture
-            src={featured.image}
-            alt={featured.imageAlt}
-            formats={['avif', 'webp']}
-            fallbackFormat="webp"
-            widths={[240, 440]}
-            sizes="260px"
-            loading="lazy"
-            class="h-auto w-[65%] max-w-[16rem] drop-shadow-[0_30px_40px_rgb(0_0_0/0.6)]"
-          />
-        </div>
-        <div class="flex flex-col p-7 sm:p-10 lg:col-span-7">
-          <p class="inline-flex self-start rounded-full bg-accent/15 px-3 py-1 text-xs font-semibold text-accent">{featured.label}</p>
-          <h3 class="mt-5 text-3xl font-semibold text-fg">{featured.name}</h3>
-          <p class="mt-2 text-lg text-soft">{featured.tagline}</p>
-          <p class="mt-4 leading-relaxed text-muted">{featured.description}</p>
-          <ul class="mt-6 grid gap-3 text-sm text-soft">
-            {
-              featured.highlights.map((h) => (
-                <li class="flex gap-3">
-                  <Icon name="check" class="mt-0.5 size-4 shrink-0 text-accent" />
-                  {h}
-                </li>
-              ))
-            }
-          </ul>
-          <ul class="mt-7 flex flex-wrap gap-2" aria-label="Tecnologías">
-            {featured.stack.map((t) => <li class={pill}>{t}</li>)}
-          </ul>
-          <div class="mt-8 flex flex-wrap gap-3">
-            {
-              featured.links.map((l) => (
-                <a
-                  href={l.url}
-                  target="_blank"
-                  rel="noopener"
-                  class="inline-flex h-11 items-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-ink transition hover:bg-accent"
-                >
-                  {l.label}
-                  <Icon name="arrowUpRight" class="size-4" />
-                </a>
-              ))
-            }
+      <article class="reveal spotlight mt-14 overflow-hidden rounded-[1.75rem] bg-gradient-to-br from-accent/50 via-line-strong to-transparent p-px">
+        <div class="grid overflow-hidden rounded-[calc(1.75rem-1px)] bg-surface lg:grid-cols-12">
+          <div class="relative flex items-center justify-center overflow-hidden p-10 lg:col-span-5">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_55%,rgb(0_230_118/0.22),transparent_60%)]" aria-hidden="true"></div>
+            <div class="grid-bg absolute inset-0 opacity-60" aria-hidden="true"></div>
+            <div class="relative mx-auto w-[62%] max-w-[16rem]">
+              <Picture
+                src={featured.image}
+                alt={featured.imageAlt}
+                formats={['avif', 'webp']}
+                fallbackFormat="webp"
+                widths={[240, 440]}
+                sizes="260px"
+                loading="lazy"
+                pictureAttributes={{ class: 'block' }}
+                class="mx-auto block h-auto w-full -rotate-3 drop-shadow-[0_40px_50px_rgb(0_0_0/0.7)] transition-transform duration-700 ease-(--ease-out-expo) hover:rotate-0"
+              />
+            </div>
+          </div>
+          <div class="flex flex-col p-7 sm:p-10 lg:col-span-7">
+            <p class="inline-flex items-center gap-2 self-start rounded-full bg-accent/15 px-3 py-1 text-xs font-semibold text-accent">
+              <span class="status-dot scale-75" aria-hidden="true"></span>
+              {featured.label}
+            </p>
+            <h3 class="mt-5 text-3xl font-semibold text-fg sm:text-4xl">{featured.name}</h3>
+            <p class="mt-2 text-lg text-soft">{featured.tagline}</p>
+            <p class="mt-4 leading-relaxed text-muted">{featured.description}</p>
+            <ul class="mt-6 grid gap-3 text-sm text-soft">
+              {
+                featured.highlights.map((h) => (
+                  <li class="flex gap-3">
+                    <Icon name="check" class="mt-0.5 size-4 shrink-0 text-accent" />
+                    {h}
+                  </li>
+                ))
+              }
+            </ul>
+            <ul class="mt-7 flex flex-wrap gap-2" aria-label="Tecnologías">
+              {featured.stack.map((t) => <li class={pill}>{t}</li>)}
+            </ul>
+            <div class="mt-8 flex flex-wrap gap-3">
+              {
+                featured.links.map((l) => (
+                  <a
+                    href={l.url}
+                    target="_blank"
+                    rel="noopener"
+                    class="inline-flex h-11 items-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-ink transition hover:bg-accent"
+                  >
+                    <TechIcon tech={tech.appStore} class="size-4" />
+                    {l.label}
+                    <Icon name="arrowUpRight" class="size-4" />
+                  </a>
+                ))
+              }
+            </div>
           </div>
         </div>
       </article>
@@ -239,18 +262,25 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
       <div class="mt-6 grid gap-6 md:grid-cols-3">
         {
           others.map((p) => (
-            <article class="reveal group card card-hover flex flex-col overflow-hidden">
-              <div class="overflow-hidden border-b border-line bg-ink-2">
-                <Picture
-                  src={p.image}
-                  alt={p.imageAlt}
-                  formats={['avif', 'webp']}
-                  fallbackFormat="webp"
-                  widths={[400, 640, 900]}
-                  sizes="(min-width: 768px) 360px, 100vw"
-                  loading="lazy"
-                  class="aspect-[16/10] w-full object-cover object-top transition-transform duration-700 ease-(--ease-out-expo) group-hover:scale-[1.04]"
-                />
+            <article class="reveal spotlight group card card-hover flex flex-col overflow-hidden">
+              <div class="border-b border-line bg-ink-2 p-3 pb-0">
+                <div class="overflow-hidden rounded-t-xl border border-b-0 border-line-strong">
+                  <div class="flex items-center gap-1.5 bg-surface-2 px-3 py-2" aria-hidden="true">
+                    <span class="size-2 rounded-full bg-white/15" />
+                    <span class="size-2 rounded-full bg-white/15" />
+                    <span class="size-2 rounded-full bg-white/15" />
+                  </div>
+                  <Picture
+                    src={p.image}
+                    alt={p.imageAlt}
+                    formats={['avif', 'webp']}
+                    fallbackFormat="webp"
+                    widths={[400, 640, 900]}
+                    sizes="(min-width: 768px) 360px, 100vw"
+                    loading="lazy"
+                    class="aspect-[16/10] w-full object-cover object-top transition-transform duration-700 ease-(--ease-out-expo) group-hover:scale-[1.04]"
+                  />
+                </div>
               </div>
               <div class="flex flex-1 flex-col p-6">
                 <p class="text-xs font-semibold tracking-wide text-accent uppercase">{p.label}</p>
@@ -286,14 +316,14 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
     <div class="container-page grid gap-12 lg:grid-cols-12">
       <div class="lg:col-span-4">
         <div class="lg:sticky lg:top-28">
-          <p class="eyebrow">Experiencia</p>
+          <p class="eyebrow"><span class="text-muted">02 —</span> Experiencia</p>
           <h2 id="experiencia-title" class="heading-lg mt-4">Dónde he trabajado</h2>
           <p class="mt-5 text-muted">Apps publicadas, clientes reales y pipelines que despliegan solos.</p>
           <a
             href={site.documents.recommendation}
             target="_blank"
             rel="noopener"
-            class="card card-hover mt-8 flex items-center gap-4 p-4"
+            class="spotlight card card-hover mt-8 flex items-center gap-4 p-4"
             data-cta="recommendation-letter"
           >
             <span class="inline-flex size-11 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-accent">
@@ -303,6 +333,7 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
               <span class="block text-sm font-medium text-fg">Carta de recomendación</span>
               <span class="block text-xs text-muted">GOLIVE Services · PDF</span>
             </span>
+            <Icon name="arrowUpRight" class="ml-auto size-4 text-muted" />
           </a>
         </div>
       </div>
@@ -313,32 +344,34 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
           experience.map((e) => (
             <li class="reveal relative pb-12 pl-10 last:pb-0">
               <span class="absolute top-1.5 left-0 size-[15px] rounded-full border-2 border-accent bg-ink" aria-hidden="true" />
-              <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                <h3 class="text-xl font-semibold text-fg">{e.role}</h3>
-                <p class="text-sm font-medium text-accent">{e.period}</p>
+              <div class="spotlight card p-6 sm:p-7">
+                <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                  <h3 class="text-xl font-semibold text-fg">{e.role}</h3>
+                  <p class="text-sm font-medium text-accent">{e.period}</p>
+                </div>
+                <p class="mt-1 text-soft">
+                  {e.url ? (
+                    <a href={e.url} target="_blank" rel="noopener" class="underline decoration-white/20 underline-offset-4 hover:decoration-accent">
+                      {e.company}
+                    </a>
+                  ) : (
+                    e.company
+                  )}
+                  <span class="text-muted"> · {e.location}</span>
+                </p>
+                <p class="mt-4 leading-relaxed text-muted">{e.summary}</p>
+                <ul class="mt-4 grid gap-2.5 text-sm leading-relaxed text-soft">
+                  {e.bullets.map((b) => (
+                    <li class="flex gap-3">
+                      <span class="mt-2 size-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+                <ul class="mt-5 flex flex-wrap gap-2" aria-label="Tecnologías">
+                  {e.stack.map((t) => <li class={pill}>{t}</li>)}
+                </ul>
               </div>
-              <p class="mt-1 text-soft">
-                {e.url ? (
-                  <a href={e.url} target="_blank" rel="noopener" class="underline decoration-white/20 underline-offset-4 hover:decoration-accent">
-                    {e.company}
-                  </a>
-                ) : (
-                  e.company
-                )}
-                <span class="text-muted"> · {e.location}</span>
-              </p>
-              <p class="mt-4 leading-relaxed text-muted">{e.summary}</p>
-              <ul class="mt-4 grid gap-2.5 text-sm leading-relaxed text-soft">
-                {e.bullets.map((b) => (
-                  <li class="flex gap-3">
-                    <span class="mt-2 size-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
-                    {b}
-                  </li>
-                ))}
-              </ul>
-              <ul class="mt-5 flex flex-wrap gap-2" aria-label="Tecnologías">
-                {e.stack.map((t) => <li class={pill}>{t}</li>)}
-              </ul>
             </li>
           ))
         }
@@ -349,21 +382,34 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
   <!-- ============================== STACK ============================== -->
   <section id="stack" class="section border-t border-line" aria-labelledby="stack-title">
     <div class="container-page">
-      <p class="eyebrow">Stack</p>
+      <p class="eyebrow"><span class="text-muted">03 —</span> Stack</p>
       <h2 id="stack-title" class="heading-lg mt-4">Con qué trabajo</h2>
-      <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <p class="lead mt-5 max-w-2xl">
+        Mi día a día es .NET, Vue 3 y React Native. También tengo experiencia real con PHP y Symfony, y base en Java.
+      </p>
+      <div class="mt-14 grid gap-5 md:grid-cols-6">
         {
           skills.map((g, i) => (
-            <div class={`reveal card p-7 ${i === 0 ? 'border-accent/35 bg-surface' : ''}`}>
+            <div
+              class:list={[
+                'reveal spotlight card p-7',
+                i < 2 ? 'md:col-span-3' : 'md:col-span-2',
+                i === 0 && 'border-accent/35',
+              ]}
+            >
               <div class="flex items-center gap-3">
                 <span class="inline-flex size-10 items-center justify-center rounded-xl bg-accent/10 text-accent">
                   <Icon name={skillIcons[i]} class="size-5" />
                 </span>
                 <h3 class="text-lg font-semibold text-fg">{g.group}</h3>
               </div>
-              <ul class="mt-5 flex flex-wrap gap-2">
-                {g.items.map((t) => (
-                  <li class="rounded-lg border border-line bg-white/[0.02] px-3 py-1.5 text-sm text-soft">{t}</li>
+              <p class="mt-3 text-sm leading-relaxed text-muted">{g.description}</p>
+              <ul class="mt-6 grid grid-cols-3 gap-2.5">
+                {g.items.map((id) => (
+                  <li class="group/tile flex flex-col items-center gap-2 rounded-xl border border-line bg-white/[0.02] px-2 py-3.5 text-center transition hover:-translate-y-0.5 hover:border-line-strong hover:bg-white/[0.05]">
+                    <TechIcon tech={tech[id]} class="size-7 transition-transform duration-300 group-hover/tile:scale-110" branded />
+                    <span class="text-xs leading-tight text-soft">{tech[id].name}</span>
+                  </li>
                 ))}
               </ul>
             </div>
@@ -376,23 +422,25 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
   <!-- ============================== LOGROS Y FORMACIÓN ============================== -->
   <section id="logros" class="section border-t border-line bg-ink-2" aria-labelledby="logros-title">
     <div class="container-page">
-      <p class="eyebrow">Logros</p>
+      <p class="eyebrow"><span class="text-muted">04 —</span> Logros</p>
       <h2 id="logros-title" class="heading-lg mt-4">Premios y competiciones</h2>
 
       <div class="mt-14 grid gap-5 lg:grid-cols-2">
-        <!-- NASA destacado con imagen -->
-        <article class="reveal card relative overflow-hidden lg:row-span-3">
-          <Picture
-            src={nasaImage}
-            alt="Equipo ganador de la edición de Zaragoza del NASA Space Apps Challenge 2023"
-            formats={['avif', 'webp']}
-            fallbackFormat="webp"
-            widths={[600, 900, 1200]}
-            sizes="(min-width: 1024px) 560px, 100vw"
-            loading="lazy"
-            class="aspect-[16/9] w-full object-cover lg:aspect-auto lg:h-72"
-          />
-          <div class="p-7">
+        <article class="reveal spotlight card relative overflow-hidden lg:row-span-3">
+          <div class="relative">
+            <Picture
+              src={nasaImage}
+              alt="Equipo ganador de la edición de Zaragoza del NASA Space Apps Challenge 2023"
+              formats={['avif', 'webp']}
+              fallbackFormat="webp"
+              widths={[600, 900, 1200]}
+              sizes="(min-width: 1024px) 560px, 100vw"
+              loading="lazy"
+              class="aspect-[16/9] w-full object-cover lg:aspect-auto lg:h-72"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent" aria-hidden="true"></div>
+          </div>
+          <div class="relative -mt-6 p-7">
             <p class={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ring-1 ${medalStyles[achievements[0].medal].class}`}>
               🏆 {medalStyles[achievements[0].medal].label} · {achievements[0].year}
             </p>
@@ -402,7 +450,7 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
         </article>
         {
           achievements.slice(1).map((a) => (
-            <article class="reveal card flex gap-5 p-6">
+            <article class="reveal spotlight card flex gap-5 p-6">
               <span class={`inline-flex size-12 shrink-0 items-center justify-center rounded-2xl ring-1 ${medalStyles[a.medal].class}`}>
                 <Icon name="award" class="size-6" />
               </span>
@@ -424,7 +472,7 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
       <div class="mt-8 grid gap-5 md:grid-cols-2">
         {
           education.map((e) => (
-            <article class="reveal card p-7">
+            <article class="reveal spotlight card p-7">
               <p class="text-sm font-medium text-accent">{e.period}</p>
               <h3 class="mt-2 text-lg font-semibold text-fg">{e.title}</h3>
               <p class="mt-1 text-sm text-soft">{e.center}</p>
@@ -447,7 +495,7 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
   <section id="sobre-mi" class="section border-t border-line" aria-labelledby="sobre-title">
     <div class="container-page grid gap-12 lg:grid-cols-2 lg:items-start">
       <div>
-        <p class="eyebrow">Sobre mí</p>
+        <p class="eyebrow"><span class="text-muted">05 —</span> Sobre mí</p>
         <h2 id="sobre-title" class="heading-lg mt-4">Me gusta llevar las cosas a producción</h2>
         <div class="mt-6 grid gap-4 text-lg leading-relaxed text-muted">
           <p>
@@ -460,7 +508,7 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
           </p>
         </div>
       </div>
-      <div class="card p-7 sm:p-9">
+      <div class="spotlight card p-7 sm:p-9">
         <h3 class="flex items-center gap-3 text-xl font-semibold text-fg">
           <Icon name="target" class="size-6 text-accent" /> Qué busco
         </h3>
@@ -485,12 +533,12 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
     <div class="hero-aurora pointer-events-none absolute inset-0 opacity-70" aria-hidden="true"></div>
     <div class="container-page relative grid gap-12 lg:grid-cols-12">
       <div class="lg:col-span-5">
-        <p class="eyebrow">Contacto</p>
+        <p class="eyebrow"><span class="text-muted">06 —</span> Contacto</p>
         <h2 id="contacto-title" class="heading-lg mt-4">¿Tienes un puesto para mí?</h2>
         <p class="lead mt-5">Escríbeme y te respondo en menos de 24 horas. También puedes descargar mi CV o hablar por LinkedIn.</p>
         <ul class="mt-9 grid gap-3">
           <li>
-            <a href={`mailto:${site.contact.email}`} class="card card-hover flex items-center gap-4 p-4" data-cta="contact-email">
+            <a href={`mailto:${site.contact.email}`} class="spotlight card card-hover flex items-center gap-4 p-4" data-cta="contact-email">
               <span class="inline-flex size-10 items-center justify-center rounded-full bg-accent/10 text-accent"><Icon name="mail" class="size-5" /></span>
               <span>
                 <span class="block text-sm font-medium text-fg">Email</span>
@@ -499,7 +547,7 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
             </a>
           </li>
           <li>
-            <a href={`tel:+${site.contact.phoneE164}`} class="card card-hover flex items-center gap-4 p-4" data-cta="contact-phone">
+            <a href={`tel:+${site.contact.phoneE164}`} class="spotlight card card-hover flex items-center gap-4 p-4" data-cta="contact-phone">
               <span class="inline-flex size-10 items-center justify-center rounded-full bg-accent/10 text-accent"><Icon name="phone" class="size-5" /></span>
               <span>
                 <span class="block text-sm font-medium text-fg">Teléfono</span>
@@ -508,8 +556,8 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
             </a>
           </li>
           <li>
-            <a href={site.social.linkedin} target="_blank" rel="noopener me" class="card card-hover flex items-center gap-4 p-4" data-cta="contact-linkedin">
-              <span class="inline-flex size-10 items-center justify-center rounded-full bg-accent/10 text-accent"><Icon name="linkedin" class="size-5" /></span>
+            <a href={site.social.linkedin} target="_blank" rel="noopener me" class="spotlight card card-hover flex items-center gap-4 p-4" data-cta="contact-linkedin">
+              <span class="inline-flex size-10 items-center justify-center rounded-full bg-[#0A66C2]/15 text-[#4d9be6]"><Icon name="linkedin" class="size-5" /></span>
               <span>
                 <span class="block text-sm font-medium text-fg">LinkedIn</span>
                 <span class="block text-sm text-muted">Gabriel Saiz de la Maza Bajo</span>
@@ -517,7 +565,7 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
             </a>
           </li>
           <li>
-            <a href={site.documents.cv} download class="card card-hover flex items-center gap-4 border-accent/30 p-4" data-cta="contact-cv">
+            <a href={site.documents.cv} download class="spotlight card card-hover flex items-center gap-4 border-accent/30 p-4" data-cta="contact-cv">
               <span class="inline-flex size-10 items-center justify-center rounded-full bg-accent text-accent-ink"><Icon name="download" class="size-5" /></span>
               <span>
                 <span class="block text-sm font-medium text-fg">Descargar CV</span>
@@ -537,3 +585,20 @@ const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs 
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  // Foco de luz de las tarjetas: solo con ratón (en táctil no aporta y evita trabajo extra).
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    document.addEventListener(
+      'pointermove',
+      (e) => {
+        const card = (e.target as HTMLElement).closest<HTMLElement>('.spotlight');
+        if (!card) return;
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--mx', `${e.clientX - rect.left}px`);
+        card.style.setProperty('--my', `${e.clientY - rect.top}px`);
+      },
+      { passive: true },
+    );
+  }
+</script>

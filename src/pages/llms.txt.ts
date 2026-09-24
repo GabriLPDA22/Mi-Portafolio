@@ -6,6 +6,7 @@ import type { APIRoute } from 'astro';
 import { site, absoluteUrl } from '@/config/site';
 import { experience, education, achievements, skills } from '@/data/profile';
 import { projects } from '@/data/projects';
+import { tech } from '@/data/tech';
 
 export const GET: APIRoute = () => {
   const lines = [
@@ -36,8 +37,7 @@ export const GET: APIRoute = () => {
     '',
     '## Habilidades',
     '',
-    ...skills.map((g) => `- ${g.group}: ${g.items.join(', ')}`),
-    '- Idiomas: español (nativo), inglés (B2)',
+    ...skills.map((g) => `- ${g.group}: ${g.items.map((id) => tech[id].name).join(', ')}`),
     '',
     '## Contacto',
     '',

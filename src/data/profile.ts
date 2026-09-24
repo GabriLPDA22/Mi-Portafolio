@@ -1,3 +1,5 @@
+import type { TechId } from './tech';
+
 /**
  * Datos del perfil profesional. Fuente: CV (public/cv/Gabriel-Saiz-CV.pdf) y portfolio anterior.
  * Mantener sincronizado con el CV: es lo primero que un recruiter compara.
@@ -32,7 +34,7 @@ export const experience: Experience[] = [
   {
     role: 'Desarrollador Web & Mobile',
     company: 'Freelance',
-    period: '09/2025 — actualidad',
+    period: '09/2025 — 2026',
     location: 'Zaragoza · Remoto',
     summary: 'Desarrollo end-to-end de una app social multiplataforma, de la idea a la publicación en las stores.',
     bullets: [
@@ -120,38 +122,62 @@ export const achievements: Achievement[] = [
   },
 ];
 
-export const skills = [
-  { group: 'Stack principal', items: ['React Native', 'Expo', '.NET 8', 'C#', 'Vue 3', 'TypeScript', 'JavaScript'] },
-  { group: 'Mobile', items: ['React Native', 'Expo', 'expo-iap', 'Stripe', 'Skia', 'Apple Wallet', 'Flutter'] },
-  { group: 'Backend', items: ['.NET 8', 'ASP.NET Core', 'Entity Framework', 'SignalR', 'JWT', 'Hangfire'] },
-  { group: 'Frontend', items: ['Vue 3', 'TypeScript', 'Vite', 'Tailwind', 'Next.js', 'Astro'] },
-  { group: 'Cloud & DevOps', items: ['AWS (3 años)', 'Docker', 'Kubernetes', 'Nginx', 'GitHub Actions', 'Linux'] },
-  { group: 'Datos y otros', items: ['PostgreSQL', 'MySQL', 'PHP', 'Symfony', 'WordPress', 'Java'] },
-] as const;
+/** Stack agrupado. Cada id apunta al registro de logos de `tech.ts`. */
+export const skills: { group: string; description: string; items: TechId[] }[] = [
+  {
+    group: 'Backend',
+    description: 'APIs REST y tiempo real, autenticación, pagos y tareas en segundo plano.',
+    items: ['dotnet', 'csharp', 'signalr', 'postgresql', 'jwt', 'mysql'],
+  },
+  {
+    group: 'Frontend',
+    description: 'Paneles y webs rápidas, tipadas y accesibles.',
+    items: ['vue', 'typescript', 'vite', 'tailwind', 'astro', 'nextjs'],
+  },
+  {
+    group: 'Mobile',
+    description: 'Apps multiplataforma publicadas, con pagos in-app y CI/CD a las stores.',
+    items: ['reactNative', 'expo', 'flutter', 'stripe', 'appStore', 'googlePlay'],
+  },
+  {
+    group: 'Cloud & DevOps',
+    description: 'Contenedores, despliegues automatizados y servidores en producción.',
+    items: ['aws', 'docker', 'kubernetes', 'githubActions', 'nginx', 'linux'],
+  },
+  {
+    group: 'PHP, Java y más',
+    description: 'PHP y Symfony en proyectos para clientes en GOLIVE; Java desde la formación.',
+    items: ['php', 'symfony', 'wordpress', 'gitlab', 'figma', 'java'],
+  },
+];
 
 /** Tecnologías del carrusel del hero. */
-export const marquee = [
-  '.NET 8',
-  'C#',
-  'Vue 3',
-  'TypeScript',
-  'React Native',
-  'Expo',
-  'PostgreSQL',
-  'SignalR',
-  'Stripe',
-  'AWS',
-  'Docker',
-  'Kubernetes',
-  'GitHub Actions',
-  'Astro',
-  'Tailwind',
-] as const;
+export const marquee: TechId[] = [
+  'dotnet',
+  'csharp',
+  'vue',
+  'typescript',
+  'reactNative',
+  'expo',
+  'postgresql',
+  'signalr',
+  'stripe',
+  'aws',
+  'docker',
+  'kubernetes',
+  'githubActions',
+  'astro',
+  'tailwind',
+  'flutter',
+  'php',
+  'symfony',
+  'java',
+];
 
 /** Cifras destacadas: todas verificables en el CV y en los proyectos. */
 export const stats = [
   { value: '5', label: 'apps publicadas en App Store y Google Play' },
   { value: '10', label: 'TFG con Matrícula de Honor' },
-  { value: '3', label: 'años trabajando con AWS' },
-  { value: 'B2', label: 'nivel de inglés' },
+  { value: '3', label: 'años usando AWS en formación y proyectos' },
+  { value: '2', label: 'premios de programación ganados' },
 ] as const;
