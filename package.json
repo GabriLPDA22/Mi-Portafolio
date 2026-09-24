@@ -1,7 +1,7 @@
 {
-  "name": "gabrielcodes-web",
+  "name": "gabriel-saiz-portfolio",
   "version": "2.0.0",
-  "description": "Web de GabrielCodes: diseño y desarrollo web para negocios en Zaragoza",
+  "description": "Portfolio de Gabriel Saiz, desarrollador Full-Stack (.NET, Vue 3, React Native)",
   "private": true,
   "type": "module",
   "scripts": {

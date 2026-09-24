@@ -3,25 +3,24 @@ import { Font } from 'astro:assets';
 import '@/styles/global.css';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
-import WhatsAppButton from '@/components/WhatsAppButton.astro';
 import CookieConsent from '@/components/CookieConsent.astro';
 import { site, absoluteUrl } from '@/config/site';
 import { normalizePath } from '@/lib/url';
-import { buildGraph, breadcrumbSchema, webPageSchema, type Crumb } from '@/lib/schema';
+import { buildGraph, webPageSchema } from '@/lib/schema';
 
 interface Props {
-  /** Etiqueta <title> completa. Objetivo: 50–60 caracteres con la keyword principal al inicio. */
+  /** Etiqueta <title> completa (50–60 caracteres). */
   title: string;
-  /** Meta description única. Objetivo: 140–160 caracteres con propuesta de valor + CTA. */
+  /** Meta description única (140–160 caracteres). */
   description: string;
   /** Imagen Open Graph (ruta absoluta desde /public). 1200×630. */
   image?: string;
   imageAlt?: string;
   noindex?: boolean;
-  /** Migas de pan sin incluir "Inicio" (se añade automáticamente). */
-  breadcrumbs?: Crumb[];
-  pageType?: 'WebPage' | 'AboutPage' | 'ContactPage' | 'CollectionPage';
-  /** Nodos JSON-LD específicos de la página (Service, FAQPage…). */
+  /**
+   * Nodos JSON-LD de la página. Si se pasan, sustituyen al WebPage genérico
+   * (la portada usa ProfilePage).
+   */
   schema?: Record<string, unknown>[];
 }
 
@@ -29,25 +28,16 @@ const {
   title,
   description,
   image = site.ogImage,
-  imageAlt = 'GabrielCodes — Diseño web profesional para negocios en Zaragoza',
+  imageAlt = `${site.name} — ${site.role}`,
   noindex = false,
-  breadcrumbs = [],
-  pageType = 'WebPage',
-  schema = [],
+  schema,
 } = Astro.props;
 
 const path = normalizePath(Astro.url.pathname);
 const canonical = absoluteUrl(path);
 const ogImage = absoluteUrl(image);
 
-const crumbs: Crumb[] = [{ name: 'Inicio', path: '/' }, ...breadcrumbs];
-const graph = noindex
-  ? null
-  : buildGraph([
-      webPageSchema({ path, title, description, type: pageType }),
-      ...(breadcrumbs.length ? [breadcrumbSchema(crumbs)] : []),
-      ...schema,
-    ]);
+const graph = noindex ? null : buildGraph(schema ?? [webPageSchema({ path, title, description })]);
 ---
 
 <!doctype html>
@@ -65,11 +55,7 @@ const graph = noindex
     <meta name="theme-color" content="#09090B" />
     <meta name="color-scheme" content="dark" />
     <meta name="format-detection" content="telephone=no" />
-    <meta name="author" content={site.founder.name} />
-    <meta name="geo.region" content="ES-Z" />
-    <meta name="geo.placename" content="Zaragoza" />
-    <meta name="geo.position" content={`${site.geo.latitude};${site.geo.longitude}`} />
-    <meta name="ICBM" content={`${site.geo.latitude}, ${site.geo.longitude}`} />
+    <meta name="author" content={site.fullName} />
 
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -78,9 +64,11 @@ const graph = noindex
     <link rel="sitemap" href="/sitemap-index.xml" />
 
     <!-- Open Graph -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content="profile" />
+    <meta property="profile:first_name" content="Gabriel" />
+    <meta property="profile:last_name" content="Saiz" />
     <meta property="og:locale" content={site.locale} />
-    <meta property="og:site_name" content={site.name} />
+    <meta property="og:site_name" content={`${site.name} · ${site.role}`} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
@@ -110,7 +98,6 @@ const graph = noindex
       <slot />
     </main>
     <Footer />
-    <WhatsAppButton />
     <CookieConsent />
   </body>
 </html>

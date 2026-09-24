@@ -92,15 +92,14 @@ for (const file of files) {
     try {
       const data = JSON.parse(json);
       const types = (data['@graph'] ?? [data]).flatMap((n) => [n['@type']].flat());
-      for (const t of ['LocalBusiness', 'ProfessionalService', 'WebSite', 'Person']) if (!types.includes(t)) err(`JSON-LD sin ${t}`);
-      if (/<details/.test(html) && !types.includes('FAQPage')) warn('tiene FAQ visible pero no FAQPage en JSON-LD');
-    } catch (e) {
+      for (const t of ['Person', 'WebSite']) if (!types.includes(t)) err(`JSON-LD sin ${t}`);
+          } catch (e) {
       err(`JSON-LD inválido: ${e.message}`);
     }
   }
 }
 
-// El formulario de presupuesto necesita la clave de Web3Forms para entregar los envíos.
+// El formulario de contacto necesita la clave de Web3Forms para entregar los envíos.
 for (const file of files) {
   const html = await readFile(file, 'utf8');
   if (/name="access_key" value(="")?[\s>/]/.test(html)) {

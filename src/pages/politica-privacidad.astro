@@ -4,49 +4,42 @@ import { site } from '@/config/site';
 ---
 
 <LegalLayout
-  title="Política de privacidad | GabrielCodes"
+  title="Política de privacidad | Gabriel Saiz"
   heading="Política de privacidad"
-  description="Cómo tratamos los datos personales que nos facilitas a través del formulario de contacto de gabrielcodes.dev."
-  path="/politica-privacidad"
+  description="Cómo trato los datos personales que me facilitas a través del formulario de contacto de gabrielcodes.dev."
 >
   <h2>Responsable del tratamiento</h2>
   <p>
-    {site.legal.holder}{site.legal.nif && ` (NIF ${site.legal.nif})`}, con nombre comercial {site.name}, {site.address.locality}
-    (España). Contacto: <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>.
+    {site.fullName}, Zaragoza (España). Contacto: <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>. Esta es una
+    web personal sin actividad comercial.
   </p>
 
-  <h2>Qué datos tratamos y para qué</h2>
+  <h2>Qué datos trato y para qué</h2>
   <p>
-    A través del formulario de presupuesto recogemos nombre, empresa, email, teléfono (opcional), sector, tipo de proyecto,
-    presupuesto orientativo y el mensaje que escribas. Los usamos exclusivamente para responder a tu solicitud y, si lo
-    aceptas, preparar y enviarte un presupuesto.
+    A través del formulario de contacto recojo tu nombre, empresa, email y el mensaje que escribas. Los uso exclusivamente para
+    responderte y, en su caso, para gestionar un proceso de selección al que me invites.
   </p>
 
   <h2>Legitimación</h2>
-  <p>
-    La base legal es tu consentimiento (art. 6.1.a RGPD), que prestas al marcar la casilla del formulario, y la aplicación de
-    medidas precontractuales a petición tuya (art. 6.1.b RGPD).
-  </p>
+  <p>La base legal es tu consentimiento (art. 6.1.a RGPD), que prestas al marcar la casilla del formulario.</p>
 
   <h2>Conservación</h2>
-  <p>
-    Conservamos los datos mientras dure la relación comercial o, si no llega a iniciarse, durante un máximo de 12 meses desde
-    tu última comunicación. Después se eliminan.
-  </p>
+  <p>Conservo los datos mientras dure la conversación o el proceso de selección y, como máximo, 12 meses desde tu último mensaje.</p>
 
-  <h2>Destinatarios y encargados del tratamiento</h2>
-  <p>No cedemos tus datos a terceros salvo obligación legal. Utilizamos proveedores que actúan como encargados del tratamiento:</p>
+  <h2>Destinatarios</h2>
+  <p>No cedo tus datos a terceros salvo obligación legal. Utilizo estos proveedores como encargados del tratamiento:</p>
   <ul>
     <li><strong>Hostinger International Ltd.</strong> (alojamiento web), con servidores en la Unión Europea.</li>
-    <li><strong>Web3Forms</strong> (envío por email de las solicitudes del formulario). Los datos se transmiten cifrados y no se almacenan de forma permanente en el servicio.</li>
-    <li><strong>Google Ireland Ltd.</strong> (Google Analytics y correo electrónico), solo si aceptas las cookies analíticas en el caso de la analítica.</li>
+    <li><strong>Web3Forms</strong> (envío por email de los mensajes del formulario).</li>
+    <li><strong>Google Ireland Ltd.</strong> (Google Analytics y correo electrónico); la analítica solo si aceptas las cookies.</li>
   </ul>
 
   <h2>Tus derechos</h2>
   <p>
     Puedes ejercer los derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad, y retirar tu
-    consentimiento en cualquier momento escribiendo a <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>. Si
-    consideras que no hemos atendido correctamente tu solicitud, puedes reclamar ante la Agencia Española de Protección de
-    Datos (<a href="https://www.aepd.es" rel="noopener" target="_blank">www.aepd.es</a>).
+    consentimiento en cualquier momento escribiendo a <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>. También
+    puedes reclamar ante la Agencia Española de Protección de Datos (<a href="https://www.aepd.es" rel="noopener" target="_blank"
+      >www.aepd.es</a
+    >).
   </p>
 </LegalLayout>

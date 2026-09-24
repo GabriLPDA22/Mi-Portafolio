@@ -1,43 +1,50 @@
 /**
- * /llms.txt — resumen estructurado del negocio para motores generativos (ChatGPT, Claude,
- * Perplexity, Gemini). Se genera desde los mismos datos que la web para no desincronizarse.
- * Formato: https://llmstxt.org
+ * /llms.txt — perfil profesional estructurado para motores generativos (ChatGPT, Claude,
+ * Perplexity, Gemini). Se genera desde los mismos datos que la web. Formato: https://llmstxt.org
  */
 import type { APIRoute } from 'astro';
 import { site, absoluteUrl } from '@/config/site';
-import { services, formatPrice } from '@/data/services';
-import { generalFaqs } from '@/data/faqs';
+import { experience, education, achievements, skills } from '@/data/profile';
 import { projects } from '@/data/projects';
 
 export const GET: APIRoute = () => {
   const lines = [
-    `# ${site.name}`,
+    `# ${site.fullName}`,
     '',
     `> ${site.description}`,
     '',
-    `${site.name} es un estudio de diseño y desarrollo web con sede en ${site.address.locality} (${site.address.region}, España), fundado por ${site.founder.name}. Trabaja con negocios locales y pymes de ${site.areaServed.join(', ')} y, en remoto, de toda España.`,
+    `- Puesto: ${site.role} (${site.headline})`,
+    `- Ubicación: ${site.location}`,
+    `- Disponibilidad: ${site.availability}`,
+    `- Busca: ${site.lookingFor}`,
+    `- CV (PDF): ${absoluteUrl(site.documents.cv)}`,
     '',
-    '## Servicios y precios orientativos (sin IVA)',
+    '## Experiencia',
     '',
-    ...services.map((s) => `- [${s.name}](${absoluteUrl(s.path)}): ${formatPrice(s.price)}. Entrega: ${s.delivery}. ${s.summary}`),
+    ...experience.flatMap((e) => [`### ${e.role} — ${e.company} (${e.period})`, '', e.summary, ...e.bullets.map((b) => `- ${b}`), '']),
+    '## Proyectos',
     '',
-    '## Páginas principales',
+    ...projects.map((p) => `- [${p.name}](${p.links[0]?.url ?? site.url}): ${p.label}. ${p.description} Stack: ${p.stack.join(', ')}.`),
     '',
-    `- [Diseño web en Zaragoza](${absoluteUrl('/diseno-web-zaragoza')}): servicio local para negocios de Zaragoza y área metropolitana.`,
-    `- [Servicios y comparativa de precios](${absoluteUrl('/servicios')})`,
-    `- [Proyectos](${absoluteUrl('/proyectos')}): ${projects.map((p) => p.name).join('; ')}.`,
-    `- [Contacto y presupuesto](${absoluteUrl('/contacto')}): respuesta en menos de 24 h laborables.`,
+    '## Formación',
     '',
-    '## Preguntas frecuentes',
+    ...education.map((e) => `- ${e.title}, ${e.center} (${e.period}). ${e.bullets.join(' ')}`),
     '',
-    ...generalFaqs.flatMap((f) => [`### ${f.question}`, '', f.answer, '']),
+    '## Premios',
+    '',
+    ...achievements.map((a) => `- ${a.title} (${a.year}): ${a.detail}`),
+    '',
+    '## Habilidades',
+    '',
+    ...skills.map((g) => `- ${g.group}: ${g.items.join(', ')}`),
+    '- Idiomas: español (nativo), inglés (B2)',
+    '',
     '## Contacto',
     '',
     `- Email: ${site.contact.email}`,
-    `- WhatsApp / teléfono: ${site.contact.phoneDisplay}`,
-    `- Instagram: ${site.social.instagram.url}`,
-    `- Horario: ${site.openingHours.display}`,
-    `- Zona: ${site.address.locality} y alrededores`,
+    `- Teléfono: ${site.contact.phoneDisplay}`,
+    `- LinkedIn: ${site.social.linkedin}`,
+    `- GitHub: ${site.social.github}`,
     '',
   ];
 

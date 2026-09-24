@@ -1,194 +1,279 @@
 ---
+import { Picture } from 'astro:assets';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import Button from '@/components/ui/Button.astro';
 import Icon from '@/components/ui/Icon.astro';
-import HeroMockup from '@/components/HeroMockup.astro';
-import ProjectCard from '@/components/ProjectCard.astro';
-import PricingCards from '@/components/sections/PricingCards.astro';
-import ProcessSteps from '@/components/sections/ProcessSteps.astro';
-import FaqSection from '@/components/sections/FaqSection.astro';
-import CtaSection from '@/components/sections/CtaSection.astro';
-import { services, formatPrice } from '@/data/services';
-import { projects } from '@/data/projects';
-import { generalFaqs } from '@/data/faqs';
+import ContactForm from '@/components/ContactForm.astro';
+import photo from '@/assets/team/gabriel-saiz.webp';
+import nasaImage from '@/assets/achievements/nasa-space-apps.webp';
 import { site } from '@/config/site';
-import { faqSchema, serviceSchema } from '@/lib/schema';
+import { experience, education, achievements, skills, marquee, stats } from '@/data/profile';
+import { projects } from '@/data/projects';
+import { profilePageSchema, projectsSchema } from '@/lib/schema';
 
-const serviceIcons = {
-  'landing-pages': 'target',
-  'diseno-web': 'layout',
-  'web-con-reservas': 'calendar',
-  'mantenimiento-web': 'wrench',
+const featured = projects.find((p) => p.featured)!;
+const others = projects.filter((p) => !p.featured);
+
+const skillIcons = ['code', 'smartphone', 'server', 'layout', 'cloud', 'database'] as const;
+
+const medalStyles = {
+  gold: { label: 'Ganador', class: 'bg-[#f5c542]/15 text-[#f5c542] ring-[#f5c542]/30' },
+  finalist: { label: 'Finalista', class: 'bg-accent/15 text-accent ring-accent/30' },
+  participant: { label: 'Participante', class: 'bg-white/5 text-soft ring-white/15' },
 } as const;
 
-const pillars = [
-  {
-    icon: 'zap',
-    title: 'Carga en menos de 2 segundos',
-    text: 'Si tu web tarda, el cliente se va a la competencia. Optimizamos cada imagen y cada línea de código para que abra al instante en el móvil.',
-  },
-  {
-    icon: 'search',
-    title: 'Aparece en Google',
-    text: 'SEO técnico y local desde el primer día: que te encuentren quienes buscan tu servicio en Zaragoza, no solo quienes ya te conocen.',
-  },
-  {
-    icon: 'messageCircle',
-    title: 'Convierte visitas en contactos',
-    text: 'Botones de llamada, WhatsApp y formularios donde el cliente los necesita. Cada página tiene un objetivo claro.',
-  },
-] as const;
+const lookingFor = [
+  'Empresa con producto propio y equipo técnico con el que aprender',
+  'Stack .NET, Vue o React Native (o el tuyo: aprendo rápido)',
+  'Zaragoza presencial o híbrido, o remoto desde España',
+  'Incorporación inmediata',
+];
 
-const reasons = [
-  {
-    icon: 'handshake',
-    title: 'Hablas con quien hace tu web',
-    text: 'Sin comerciales ni intermediarios. Una sola persona de contacto que conoce tu proyecto de principio a fin.',
-  },
-  {
-    icon: 'euro',
-    title: 'Precio cerrado por escrito',
-    text: 'Sabes lo que vas a pagar antes de empezar. Sin horas extra sorpresa ni cuotas obligatorias.',
-  },
-  {
-    icon: 'gauge',
-    title: 'Rendimiento medible',
-    text: 'Entregamos cada web con una puntuación de 90+ en Google PageSpeed. Si no llega, seguimos trabajando.',
-  },
-  {
-    icon: 'shield',
-    title: 'La web es 100 % tuya',
-    text: 'Dominio a tu nombre, todos los accesos y sin permanencia. Si un día quieres cambiar de proveedor, te lo llevas todo.',
-  },
-  {
-    icon: 'smartphone',
-    title: 'Pensada primero para el móvil',
-    text: 'Diseñamos para el teléfono, que es desde donde te buscan tus clientes, y después adaptamos a ordenador.',
-  },
-  {
-    icon: 'mapPin',
-    title: 'Estudio local en Zaragoza',
-    text: 'Podemos vernos en persona. Conocemos el mercado local y cómo buscan los clientes de la zona.',
-  },
-] as const;
-
-const featuredProjects = projects.filter((p) => p.kind === 'cliente').slice(0, 3);
+const pill = 'rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs text-soft';
 ---
 
 <BaseLayout
-  title="Diseño Web en Zaragoza para Negocios | GabrielCodes"
-  description="Diseño de páginas web profesionales en Zaragoza para negocios que quieren más clientes. Webs rápidas y optimizadas para Google desde 300 €. Pide presupuesto."
-  schema={[...services.map(serviceSchema), faqSchema(generalFaqs)]}
+  title="Gabriel Saiz — Desarrollador Full-Stack .NET, Vue y React Native"
+  description="Desarrollador Full-Stack en Zaragoza: apps en App Store y Google Play, backend .NET + PostgreSQL y frontend Vue 3. Disponible para incorporación inmediata."
+  schema={[profilePageSchema(), projectsSchema()]}
 >
-  <!-- HERO -->
-  <section class="relative overflow-hidden">
-    <div class="grid-bg pointer-events-none absolute inset-0" aria-hidden="true"></div>
-    <div
-      class="pointer-events-none absolute -top-48 left-1/2 h-[34rem] w-[60rem] -translate-x-1/2 rounded-full bg-accent/[0.09] blur-[130px]"
-      aria-hidden="true"
-    >
-    </div>
-    <div class="container-page relative grid items-center gap-16 pt-14 pb-24 sm:pt-20 lg:grid-cols-12 lg:gap-10 lg:pt-24 lg:pb-32">
+  <!-- ============================== HERO ============================== -->
+  <section id="inicio" class="relative overflow-hidden">
+    <div class="hero-aurora pointer-events-none absolute inset-0" aria-hidden="true"></div>
+    <div class="grid-bg pointer-events-none absolute inset-0 opacity-70" aria-hidden="true"></div>
+
+    <div class="container-page relative grid items-center gap-14 pt-12 pb-16 sm:pt-20 lg:grid-cols-12 lg:gap-10 lg:pt-24 lg:pb-20">
       <div class="lg:col-span-7">
-        <p class="inline-flex items-center gap-2 rounded-full border border-line-strong bg-white/[0.03] py-1.5 pr-4 pl-2 text-xs text-soft">
-          <span class="rounded-full bg-accent/15 px-2 py-0.5 font-semibold text-accent">Zaragoza</span>
-          Diseño y desarrollo web para negocios
+        <p class="inline-flex items-center gap-2.5 rounded-full border border-accent/30 bg-accent/[0.07] py-1.5 pr-4 pl-3 text-sm font-medium text-accent">
+          <span class="status-dot" aria-hidden="true"></span>
+          Disponible · {site.availability.toLowerCase()}
         </p>
-        <h1 class="mt-7 text-[2.35rem] leading-[1.05] font-semibold sm:text-6xl lg:text-[3.5rem] xl:text-[3.9rem]">
-          Diseño páginas web profesionales para negocios que quieren <span class="text-gradient">conseguir más clientes</span>
+
+        <h1 class="mt-7">
+          <span class="block text-lg font-medium tracking-normal text-soft sm:text-xl">Hola, soy {site.name} 👋</span>
+          <span class="mt-3 block text-[2.7rem] leading-[1.02] font-semibold sm:text-7xl lg:text-[5.2rem]">
+            Desarrollador <span class="text-gradient">Full-Stack</span>
+          </span>
         </h1>
+
         <p class="lead mt-7 max-w-xl">
-          Webs rápidas, modernas y optimizadas para Google. Desde landing pages hasta sistemas de reservas online.
+          Llevo apps y webs a producción: <strong class="font-medium text-fg">apps publicadas en App Store y Google Play</strong>,
+          backends en .NET y paneles en Vue. Busco un equipo con producto propio donde aportar desde el primer día.
         </p>
-        <div class="mt-9 flex flex-col gap-3 sm:flex-row">
-          <Button href="/contacto#presupuesto" size="lg" data-cta="home-hero">
-            Solicitar presupuesto
-            <Icon name="arrowRight" class="size-4 transition-transform group-hover:translate-x-0.5" />
-          </Button>
-          <Button href="#precios" variant="secondary" size="lg" data-cta="home-hero-precios">Ver precios</Button>
+
+        <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <a
+            href={site.documents.cv}
+            download
+            class="group inline-flex h-13 items-center justify-center gap-2 rounded-full bg-accent px-7 text-base font-semibold text-accent-ink shadow-[0_0_0_1px_rgb(0_230_118/0.4),0_10px_36px_-8px_rgb(0_230_118/0.6)] transition hover:bg-white"
+            data-cta="hero-cv"
+          >
+            <Icon name="download" class="size-5" />
+            Descargar CV
+          </a>
+          <a
+            href="#contacto"
+            class="inline-flex h-13 items-center justify-center gap-2 rounded-full border border-line-strong bg-white/[0.03] px-7 text-base font-semibold text-fg transition hover:bg-white/[0.08]"
+            data-cta="hero-contact"
+          >
+            Hablemos
+            <Icon name="arrowRight" class="size-4" />
+          </a>
+          <div class="flex gap-2 sm:ml-2">
+            <a
+              href={site.social.linkedin}
+              target="_blank"
+              rel="noopener me"
+              class="inline-flex size-13 items-center justify-center rounded-full border border-line text-soft transition hover:border-line-strong hover:text-fg"
+              data-cta="hero-linkedin"
+            >
+              <Icon name="linkedin" class="size-5" label="LinkedIn" />
+            </a>
+            <a
+              href={site.social.github}
+              target="_blank"
+              rel="noopener me"
+              class="inline-flex size-13 items-center justify-center rounded-full border border-line text-soft transition hover:border-line-strong hover:text-fg"
+              data-cta="hero-github"
+            >
+              <Icon name="github" class="size-5" label="GitHub" />
+            </a>
+          </div>
         </div>
-        <ul class="mt-10 flex flex-col gap-3 text-sm text-soft sm:flex-row sm:flex-wrap sm:gap-x-7">
-          <li class="flex items-center gap-2"><Icon name="check" class="size-4 text-accent" />Presupuesto en 24 h</li>
-          <li class="flex items-center gap-2"><Icon name="check" class="size-4 text-accent" />Desde 300 €</li>
-          <li class="flex items-center gap-2"><Icon name="check" class="size-4 text-accent" />Sin permanencia</li>
+
+        <ul class="mt-9 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted">
+          <li class="inline-flex items-center gap-2"><Icon name="mapPin" class="size-4 text-accent" />Zaragoza · remoto</li>
+          <li class="inline-flex items-center gap-2"><Icon name="globe" class="size-4 text-accent" />Inglés B2</li>
+          <li class="inline-flex items-center gap-2"><Icon name="graduationCap" class="size-4 text-accent" />DAW · TFG 10 MH</li>
         </ul>
       </div>
-      <div class="lg:col-span-5">
-        <HeroMockup />
+
+      <!-- Foto -->
+      <div class="relative mx-auto w-full max-w-[22rem] lg:col-span-5 lg:max-w-[25rem]">
+        <div class="photo-frame rounded-[2rem] p-px shadow-2xl shadow-black/60">
+          <div class="relative overflow-hidden rounded-[calc(2rem-1px)] bg-surface">
+            <Picture
+              src={photo}
+              alt={`Retrato de ${site.name}, desarrollador full-stack`}
+              formats={['avif', 'webp']}
+              fallbackFormat="webp"
+              widths={[360, 540, 720]}
+              sizes="(min-width: 1024px) 400px, 352px"
+              loading="eager"
+              fetchpriority="high"
+              class="aspect-[4/5] w-full object-cover object-[50%_20%] grayscale"
+            />
+            <div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-ink/80 to-transparent" aria-hidden="true">
+            </div>
+            <p class="absolute right-4 bottom-4 left-4 text-xs font-medium text-white/90 sm:text-sm">{site.headline}</p>
+          </div>
+        </div>
+        <!-- Chips flotantes -->
+        <div
+          class="absolute top-6 -left-4 flex items-center gap-2 rounded-2xl border border-line-strong bg-ink-2/90 px-3 py-2 text-xs font-medium text-fg shadow-xl shadow-black/50 backdrop-blur sm:-left-10"
+        >
+          <span aria-hidden="true">🏆</span> Ganador NASA Space Apps
+        </div>
+        <div
+          class="absolute top-1/2 -right-3 flex items-center gap-2 rounded-2xl border border-line-strong bg-ink-2/90 px-3 py-2 text-xs font-medium text-fg shadow-xl shadow-black/50 backdrop-blur sm:-right-8"
+        >
+          <Icon name="smartphone" class="size-4 text-accent" /> Apps en las stores
+        </div>
+        <div
+          class="absolute bottom-16 -left-3 flex items-center gap-2 rounded-2xl border border-line-strong bg-ink-2/90 px-3 py-2 text-xs font-medium text-fg shadow-xl shadow-black/50 backdrop-blur sm:-left-8"
+        >
+          <Icon name="award" class="size-4 text-[#f5c542]" /> TFG · 10 Matrícula de Honor
+        </div>
       </div>
     </div>
-  </section>
 
-  <!-- PROPUESTA DE VALOR -->
-  <section class="section border-t border-line" aria-labelledby="valor-title">
-    <div class="container-page">
-      <div class="grid gap-10 lg:grid-cols-12">
-        <div class="lg:col-span-5">
-          <p class="eyebrow">Por qué importa</p>
-          <h2 id="valor-title" class="heading-lg mt-4">Una web que trabaja para tu negocio, no solo que “está”</h2>
-        </div>
-        <div class="lg:col-span-6 lg:col-start-7">
-          <p class="lead">
-            Una página web profesional no es solo una tarjeta de visita. Debe cargar rápido, aparecer en Google y facilitar que
-            tus clientes contacten contigo.
-          </p>
-          <p class="mt-5 text-muted">
-            La mayoría de tus clientes te buscan desde el móvil, comparan dos o tres opciones y deciden en segundos. Si tu web
-            es lenta, no sale en Google o no deja claro cómo contactarte, ese cliente acaba en la competencia aunque tu servicio
-            sea mejor.
-          </p>
-        </div>
-      </div>
-      <div class="mt-16 grid gap-5 md:grid-cols-3">
+    <!-- Carrusel de tecnologías -->
+    <div class="marquee relative border-y border-line bg-ink-2/60 py-4" aria-label="Tecnologías con las que trabajo">
+      <div class="marquee-track">
         {
-          pillars.map((p) => (
-            <div class="reveal card p-7">
-              <span class="inline-flex size-11 items-center justify-center rounded-xl border border-accent/25 bg-accent/10 text-accent">
-                <Icon name={p.icon} class="size-5" />
-              </span>
-              <h3 class="mt-6 text-lg font-semibold text-fg">{p.title}</h3>
-              <p class="mt-3 text-sm leading-relaxed text-muted">{p.text}</p>
-            </div>
+          [...marquee, ...marquee].map((t, i) => (
+            <span
+              class="inline-flex items-center gap-2 rounded-full border border-line px-4 py-1.5 text-sm whitespace-nowrap text-soft"
+              aria-hidden={i >= marquee.length ? 'true' : undefined}
+            >
+              <span class="size-1.5 rounded-full bg-accent" aria-hidden="true" />
+              {t}
+            </span>
           ))
         }
       </div>
     </div>
+
+    <!-- Cifras -->
+    <div class="container-page">
+      <dl class="grid grid-cols-2 gap-px overflow-hidden rounded-[var(--radius-card)] border border-line bg-line my-16 lg:grid-cols-4">
+        {
+          stats.map((s) => (
+            <div class="flex flex-col bg-ink p-6 sm:p-8">
+              <dt class="order-2 mt-2 text-sm leading-snug text-muted">{s.label}</dt>
+              <dd class="text-4xl font-semibold tracking-tight text-fg sm:text-5xl">{s.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
   </section>
 
-  <!-- SERVICIOS -->
-  <section class="section border-t border-line bg-ink-2" aria-labelledby="servicios-title">
+  <!-- ============================== PROYECTOS ============================== -->
+  <section id="proyectos" class="section border-t border-line" aria-labelledby="proyectos-title">
     <div class="container-page">
-      <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-        <div class="max-w-2xl">
-          <p class="eyebrow">Servicios</p>
-          <h2 id="servicios-title" class="heading-lg mt-4">Páginas web para empresas y negocios locales</h2>
-          <p class="lead mt-5">Elige el tipo de web según lo que necesitas conseguir. Todas incluyen diseño a medida, SEO y adaptación a móvil.</p>
-        </div>
-        <Button href="/servicios" variant="ghost" class="self-start px-0 sm:self-auto">
-          Ver todos los servicios <Icon name="arrowRight" class="size-4" />
-        </Button>
-      </div>
+      <p class="eyebrow">Proyectos</p>
+      <h2 id="proyectos-title" class="heading-lg mt-4 max-w-3xl">Producto real, en producción</h2>
+      <p class="lead mt-5 max-w-2xl">De la base de datos a la app en la store. Esto es lo que he construido.</p>
 
-      <div class="mt-14 grid gap-5 md:grid-cols-2">
-        {
-          services.map((s) => (
-            <article class="reveal group card card-hover relative flex flex-col p-7 sm:p-8">
-              <div class="flex items-start justify-between gap-4">
-                <span class="inline-flex size-12 items-center justify-center rounded-xl bg-white/[0.04] text-accent ring-1 ring-line">
-                  <Icon name={serviceIcons[s.id]} class="size-6" />
-                </span>
-                <span class="rounded-full border border-line px-3 py-1 text-sm font-medium text-fg">{formatPrice(s.price)}</span>
-              </div>
-              <h3 class="mt-7 text-xl font-semibold text-fg">
-                <a href={s.path} class="after:absolute after:inset-0 after:content-['']">
-                  {s.name}
+      <!-- Proyecto destacado -->
+      <article class="reveal card mt-14 grid overflow-hidden lg:grid-cols-12">
+        <div class="relative flex items-center justify-center bg-[radial-gradient(ellipse_at_center,rgb(0_230_118/0.14),transparent_65%)] p-8 lg:col-span-5">
+          <Picture
+            src={featured.image}
+            alt={featured.imageAlt}
+            formats={['avif', 'webp']}
+            fallbackFormat="webp"
+            widths={[240, 440]}
+            sizes="260px"
+            loading="lazy"
+            class="h-auto w-[65%] max-w-[16rem] drop-shadow-[0_30px_40px_rgb(0_0_0/0.6)]"
+          />
+        </div>
+        <div class="flex flex-col p-7 sm:p-10 lg:col-span-7">
+          <p class="inline-flex self-start rounded-full bg-accent/15 px-3 py-1 text-xs font-semibold text-accent">{featured.label}</p>
+          <h3 class="mt-5 text-3xl font-semibold text-fg">{featured.name}</h3>
+          <p class="mt-2 text-lg text-soft">{featured.tagline}</p>
+          <p class="mt-4 leading-relaxed text-muted">{featured.description}</p>
+          <ul class="mt-6 grid gap-3 text-sm text-soft">
+            {
+              featured.highlights.map((h) => (
+                <li class="flex gap-3">
+                  <Icon name="check" class="mt-0.5 size-4 shrink-0 text-accent" />
+                  {h}
+                </li>
+              ))
+            }
+          </ul>
+          <ul class="mt-7 flex flex-wrap gap-2" aria-label="Tecnologías">
+            {featured.stack.map((t) => <li class={pill}>{t}</li>)}
+          </ul>
+          <div class="mt-8 flex flex-wrap gap-3">
+            {
+              featured.links.map((l) => (
+                <a
+                  href={l.url}
+                  target="_blank"
+                  rel="noopener"
+                  class="inline-flex h-11 items-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-ink transition hover:bg-accent"
+                >
+                  {l.label}
+                  <Icon name="arrowUpRight" class="size-4" />
                 </a>
-              </h3>
-              <p class="mt-3 leading-relaxed text-muted">{s.summary}</p>
-              <p class="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-accent">
-                Ver detalles
-                <Icon name="arrowRight" class="size-4 transition-transform group-hover:translate-x-1" />
-              </p>
+              ))
+            }
+          </div>
+        </div>
+      </article>
+
+      <!-- Resto de proyectos -->
+      <div class="mt-6 grid gap-6 md:grid-cols-3">
+        {
+          others.map((p) => (
+            <article class="reveal group card card-hover flex flex-col overflow-hidden">
+              <div class="overflow-hidden border-b border-line bg-ink-2">
+                <Picture
+                  src={p.image}
+                  alt={p.imageAlt}
+                  formats={['avif', 'webp']}
+                  fallbackFormat="webp"
+                  widths={[400, 640, 900]}
+                  sizes="(min-width: 768px) 360px, 100vw"
+                  loading="lazy"
+                  class="aspect-[16/10] w-full object-cover object-top transition-transform duration-700 ease-(--ease-out-expo) group-hover:scale-[1.04]"
+                />
+              </div>
+              <div class="flex flex-1 flex-col p-6">
+                <p class="text-xs font-semibold tracking-wide text-accent uppercase">{p.label}</p>
+                <h3 class="mt-3 text-xl font-semibold text-fg">{p.name}</h3>
+                <p class="mt-2 text-sm leading-relaxed text-muted">{p.description}</p>
+                <ul class="mt-5 flex flex-wrap gap-2" aria-label="Tecnologías">
+                  {p.stack.map((t) => <li class={pill}>{t}</li>)}
+                </ul>
+                <div class="mt-auto pt-6">
+                  {p.links.map((l) => (
+                    <a
+                      href={l.url}
+                      target="_blank"
+                      rel="noopener"
+                      class="inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:underline hover:underline-offset-4"
+                    >
+                      {l.label}
+                      <span class="sr-only"> de {p.name}</span>
+                      <Icon name="arrowUpRight" class="size-4" />
+                    </a>
+                  ))}
+                </div>
+              </div>
             </article>
           ))
         }
@@ -196,56 +281,91 @@ const featuredProjects = projects.filter((p) => p.kind === 'cliente').slice(0, 3
     </div>
   </section>
 
-  <!-- PROYECTOS -->
-  <section class="section border-t border-line" aria-labelledby="proyectos-title">
-    <div class="container-page">
-      <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-        <div class="max-w-2xl">
-          <p class="eyebrow">Proyectos</p>
-          <h2 id="proyectos-title" class="heading-lg mt-4">Proyectos que ya están funcionando</h2>
+  <!-- ============================== EXPERIENCIA ============================== -->
+  <section id="experiencia" class="section border-t border-line bg-ink-2" aria-labelledby="experiencia-title">
+    <div class="container-page grid gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-4">
+        <div class="lg:sticky lg:top-28">
+          <p class="eyebrow">Experiencia</p>
+          <h2 id="experiencia-title" class="heading-lg mt-4">Dónde he trabajado</h2>
+          <p class="mt-5 text-muted">Apps publicadas, clientes reales y pipelines que despliegan solos.</p>
+          <a
+            href={site.documents.recommendation}
+            target="_blank"
+            rel="noopener"
+            class="card card-hover mt-8 flex items-center gap-4 p-4"
+            data-cta="recommendation-letter"
+          >
+            <span class="inline-flex size-11 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-accent">
+              <Icon name="fileText" class="size-5" />
+            </span>
+            <span>
+              <span class="block text-sm font-medium text-fg">Carta de recomendación</span>
+              <span class="block text-xs text-muted">GOLIVE Services · PDF</span>
+            </span>
+          </a>
         </div>
-        <Button href="/proyectos" variant="ghost" class="self-start px-0 sm:self-auto">
-          Ver todos los proyectos <Icon name="arrowRight" class="size-4" />
-        </Button>
       </div>
-      <div class="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {featuredProjects.map((p) => <ProjectCard project={p} />)}
-      </div>
-    </div>
-  </section>
 
-  <!-- PRECIOS -->
-  <section id="precios" class="section border-t border-line bg-ink-2" aria-labelledby="precios-title">
-    <div class="container-page">
-      <div class="mx-auto max-w-2xl text-center">
-        <p class="eyebrow">Precios</p>
-        <h2 id="precios-title" class="heading-lg mt-4">¿Cuánto cuesta una página web?</h2>
-        <p class="lead mt-5">Precios claros desde el principio. Elige el punto de partida y te enviamos un presupuesto cerrado para tu caso.</p>
-      </div>
-      <div class="mt-16">
-        <PricingCards />
-      </div>
-      <p class="mt-4 text-center text-sm text-muted">
-        ¿Ya tienes web? El <a href="/mantenimiento-web" class="text-accent underline underline-offset-4">mantenimiento web</a> empieza en
-        25 €/mes.
-      </p>
-    </div>
-  </section>
-
-  <!-- POR QUÉ NOSOTROS -->
-  <section class="section border-t border-line" aria-labelledby="porque-title">
-    <div class="container-page">
-      <div class="max-w-2xl">
-        <p class="eyebrow">Por qué {site.name}</p>
-        <h2 id="porque-title" class="heading-lg mt-4">La tranquilidad de trabajar con un estudio de confianza</h2>
-      </div>
-      <div class="mt-14 grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+      <ol class="relative lg:col-span-8">
+        <span class="absolute top-2 bottom-2 left-[7px] w-px bg-gradient-to-b from-accent via-line-strong to-transparent" aria-hidden="true"></span>
         {
-          reasons.map((r) => (
-            <div class="reveal">
-              <Icon name={r.icon} class="size-6 text-accent" />
-              <h3 class="mt-5 text-lg font-semibold text-fg">{r.title}</h3>
-              <p class="mt-2 leading-relaxed text-muted">{r.text}</p>
+          experience.map((e) => (
+            <li class="reveal relative pb-12 pl-10 last:pb-0">
+              <span class="absolute top-1.5 left-0 size-[15px] rounded-full border-2 border-accent bg-ink" aria-hidden="true" />
+              <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                <h3 class="text-xl font-semibold text-fg">{e.role}</h3>
+                <p class="text-sm font-medium text-accent">{e.period}</p>
+              </div>
+              <p class="mt-1 text-soft">
+                {e.url ? (
+                  <a href={e.url} target="_blank" rel="noopener" class="underline decoration-white/20 underline-offset-4 hover:decoration-accent">
+                    {e.company}
+                  </a>
+                ) : (
+                  e.company
+                )}
+                <span class="text-muted"> · {e.location}</span>
+              </p>
+              <p class="mt-4 leading-relaxed text-muted">{e.summary}</p>
+              <ul class="mt-4 grid gap-2.5 text-sm leading-relaxed text-soft">
+                {e.bullets.map((b) => (
+                  <li class="flex gap-3">
+                    <span class="mt-2 size-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
+                    {b}
+                  </li>
+                ))}
+              </ul>
+              <ul class="mt-5 flex flex-wrap gap-2" aria-label="Tecnologías">
+                {e.stack.map((t) => <li class={pill}>{t}</li>)}
+              </ul>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============================== STACK ============================== -->
+  <section id="stack" class="section border-t border-line" aria-labelledby="stack-title">
+    <div class="container-page">
+      <p class="eyebrow">Stack</p>
+      <h2 id="stack-title" class="heading-lg mt-4">Con qué trabajo</h2>
+      <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          skills.map((g, i) => (
+            <div class={`reveal card p-7 ${i === 0 ? 'border-accent/35 bg-surface' : ''}`}>
+              <div class="flex items-center gap-3">
+                <span class="inline-flex size-10 items-center justify-center rounded-xl bg-accent/10 text-accent">
+                  <Icon name={skillIcons[i]} class="size-5" />
+                </span>
+                <h3 class="text-lg font-semibold text-fg">{g.group}</h3>
+              </div>
+              <ul class="mt-5 flex flex-wrap gap-2">
+                {g.items.map((t) => (
+                  <li class="rounded-lg border border-line bg-white/[0.02] px-3 py-1.5 text-sm text-soft">{t}</li>
+                ))}
+              </ul>
             </div>
           ))
         }
@@ -253,44 +373,167 @@ const featuredProjects = projects.filter((p) => p.kind === 'cliente').slice(0, 3
     </div>
   </section>
 
-  <div class="border-t border-line bg-ink-2">
-    <ProcessSteps />
-  </div>
+  <!-- ============================== LOGROS Y FORMACIÓN ============================== -->
+  <section id="logros" class="section border-t border-line bg-ink-2" aria-labelledby="logros-title">
+    <div class="container-page">
+      <p class="eyebrow">Logros</p>
+      <h2 id="logros-title" class="heading-lg mt-4">Premios y competiciones</h2>
 
-  <!-- SEO LOCAL -->
-  <section class="section border-t border-line" aria-labelledby="zaragoza-title">
-    <div class="container-page grid gap-12 lg:grid-cols-2 lg:items-center">
-      <div>
-        <p class="eyebrow">Diseño web en Zaragoza</p>
-        <h2 id="zaragoza-title" class="heading-lg mt-4">Tu estudio de diseño web en Zaragoza y alrededores</h2>
-        <p class="lead mt-5">
-          Trabajamos con negocios de toda el área metropolitana. Nos reunimos contigo en persona, entendemos cómo te buscan tus
-          clientes y optimizamos tu web para que te encuentren en Google y en Google Maps.
-        </p>
-        <Button href="/diseno-web-zaragoza" variant="secondary" class="mt-8">
-          Diseño web en Zaragoza <Icon name="arrowRight" class="size-4" />
-        </Button>
-      </div>
-      <ul class="flex flex-wrap gap-2" aria-label="Zonas en las que trabajamos">
+      <div class="mt-14 grid gap-5 lg:grid-cols-2">
+        <!-- NASA destacado con imagen -->
+        <article class="reveal card relative overflow-hidden lg:row-span-3">
+          <Picture
+            src={nasaImage}
+            alt="Equipo ganador de la edición de Zaragoza del NASA Space Apps Challenge 2023"
+            formats={['avif', 'webp']}
+            fallbackFormat="webp"
+            widths={[600, 900, 1200]}
+            sizes="(min-width: 1024px) 560px, 100vw"
+            loading="lazy"
+            class="aspect-[16/9] w-full object-cover lg:aspect-auto lg:h-72"
+          />
+          <div class="p-7">
+            <p class={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ring-1 ${medalStyles[achievements[0].medal].class}`}>
+              🏆 {medalStyles[achievements[0].medal].label} · {achievements[0].year}
+            </p>
+            <h3 class="mt-4 text-2xl font-semibold text-fg">{achievements[0].title}</h3>
+            <p class="mt-3 leading-relaxed text-muted">{achievements[0].detail}</p>
+          </div>
+        </article>
         {
-          site.areaServed.map((a) => (
-            <li class="inline-flex items-center gap-2 rounded-full border border-line bg-white/[0.02] px-4 py-2 text-sm text-soft">
-              <Icon name="mapPin" class="size-3.5 text-accent" />
-              {a}
-            </li>
+          achievements.slice(1).map((a) => (
+            <article class="reveal card flex gap-5 p-6">
+              <span class={`inline-flex size-12 shrink-0 items-center justify-center rounded-2xl ring-1 ${medalStyles[a.medal].class}`}>
+                <Icon name="award" class="size-6" />
+              </span>
+              <div>
+                <p class="text-xs font-semibold tracking-wide text-muted uppercase">
+                  {medalStyles[a.medal].label} · {a.year}
+                </p>
+                <h3 class="mt-1.5 text-lg font-semibold text-fg">{a.title}</h3>
+                <p class="mt-2 text-sm leading-relaxed text-muted">{a.detail}</p>
+              </div>
+            </article>
           ))
         }
-      </ul>
+      </div>
+
+      <h2 id="formacion-title" class="heading-md mt-24 flex items-center gap-3">
+        <Icon name="graduationCap" class="size-7 text-accent" /> Formación
+      </h2>
+      <div class="mt-8 grid gap-5 md:grid-cols-2">
+        {
+          education.map((e) => (
+            <article class="reveal card p-7">
+              <p class="text-sm font-medium text-accent">{e.period}</p>
+              <h3 class="mt-2 text-lg font-semibold text-fg">{e.title}</h3>
+              <p class="mt-1 text-sm text-soft">{e.center}</p>
+              <ul class="mt-4 grid gap-2 text-sm leading-relaxed text-muted">
+                {e.bullets.map((b) => (
+                  <li class="flex gap-3">
+                    <span class="mt-2 size-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
+                    {b}
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
     </div>
   </section>
 
-  <div class="border-t border-line">
-    <FaqSection
-      faqs={generalFaqs}
-      title="Lo que nos preguntan antes de empezar"
-      intro="Respuestas directas sobre precios, plazos y cómo trabajamos."
-    />
-  </div>
+  <!-- ============================== SOBRE MÍ ============================== -->
+  <section id="sobre-mi" class="section border-t border-line" aria-labelledby="sobre-title">
+    <div class="container-page grid gap-12 lg:grid-cols-2 lg:items-start">
+      <div>
+        <p class="eyebrow">Sobre mí</p>
+        <h2 id="sobre-title" class="heading-lg mt-4">Me gusta llevar las cosas a producción</h2>
+        <div class="mt-6 grid gap-4 text-lg leading-relaxed text-muted">
+          <p>
+            Empecé en sistemas y redes y di el salto al desarrollo. Hoy trabajo de punta a punta: modelo la base de datos,
+            escribo la API en .NET, monto el panel en Vue y publico la app en las stores.
+          </p>
+          <p>
+            He peleado con las revisiones de Apple, con pagos in-app y con despliegues en AWS, y he aprendido que lo
+            importante es que el producto funcione para quien lo usa, con código que otro pueda mantener.
+          </p>
+        </div>
+      </div>
+      <div class="card p-7 sm:p-9">
+        <h3 class="flex items-center gap-3 text-xl font-semibold text-fg">
+          <Icon name="target" class="size-6 text-accent" /> Qué busco
+        </h3>
+        <ul class="mt-6 grid gap-4">
+          {
+            lookingFor.map((l) => (
+              <li class="flex gap-3 text-soft">
+                <span class="mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent">
+                  <Icon name="check" class="size-3.5" />
+                </span>
+                {l}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
 
-  <CtaSection />
+  <!-- ============================== CONTACTO ============================== -->
+  <section id="contacto" class="section relative overflow-hidden border-t border-line" aria-labelledby="contacto-title">
+    <div class="hero-aurora pointer-events-none absolute inset-0 opacity-70" aria-hidden="true"></div>
+    <div class="container-page relative grid gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-5">
+        <p class="eyebrow">Contacto</p>
+        <h2 id="contacto-title" class="heading-lg mt-4">¿Tienes un puesto para mí?</h2>
+        <p class="lead mt-5">Escríbeme y te respondo en menos de 24 horas. También puedes descargar mi CV o hablar por LinkedIn.</p>
+        <ul class="mt-9 grid gap-3">
+          <li>
+            <a href={`mailto:${site.contact.email}`} class="card card-hover flex items-center gap-4 p-4" data-cta="contact-email">
+              <span class="inline-flex size-10 items-center justify-center rounded-full bg-accent/10 text-accent"><Icon name="mail" class="size-5" /></span>
+              <span>
+                <span class="block text-sm font-medium text-fg">Email</span>
+                <span class="block text-sm text-muted">{site.contact.email}</span>
+              </span>
+            </a>
+          </li>
+          <li>
+            <a href={`tel:+${site.contact.phoneE164}`} class="card card-hover flex items-center gap-4 p-4" data-cta="contact-phone">
+              <span class="inline-flex size-10 items-center justify-center rounded-full bg-accent/10 text-accent"><Icon name="phone" class="size-5" /></span>
+              <span>
+                <span class="block text-sm font-medium text-fg">Teléfono</span>
+                <span class="block text-sm text-muted">{site.contact.phoneDisplay}</span>
+              </span>
+            </a>
+          </li>
+          <li>
+            <a href={site.social.linkedin} target="_blank" rel="noopener me" class="card card-hover flex items-center gap-4 p-4" data-cta="contact-linkedin">
+              <span class="inline-flex size-10 items-center justify-center rounded-full bg-accent/10 text-accent"><Icon name="linkedin" class="size-5" /></span>
+              <span>
+                <span class="block text-sm font-medium text-fg">LinkedIn</span>
+                <span class="block text-sm text-muted">Gabriel Saiz de la Maza Bajo</span>
+              </span>
+            </a>
+          </li>
+          <li>
+            <a href={site.documents.cv} download class="card card-hover flex items-center gap-4 border-accent/30 p-4" data-cta="contact-cv">
+              <span class="inline-flex size-10 items-center justify-center rounded-full bg-accent text-accent-ink"><Icon name="download" class="size-5" /></span>
+              <span>
+                <span class="block text-sm font-medium text-fg">Descargar CV</span>
+                <span class="block text-sm text-muted">PDF · 2 páginas</span>
+              </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="lg:col-span-7">
+        <div class="card bg-ink-2/80 p-6 backdrop-blur sm:p-10">
+          <h3 class="text-xl font-semibold text-fg">Envíame un mensaje</h3>
+          <p class="mt-2 mb-8 text-sm text-muted">Los campos con <span class="text-accent">*</span> son obligatorios.</p>
+          <ContactForm />
+        </div>
+      </div>
+    </div>
+  </section>
 </BaseLayout>

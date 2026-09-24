@@ -63,15 +63,15 @@ async function founderPhoto() {
 }
 
 const OG_PAGES = [
-  { file: 'og-default', eyebrow: 'Diseño web · Zaragoza', title: 'Páginas web profesionales para negocios que quieren más clientes' },
-  { file: 'og-diseno-web', eyebrow: 'Web profesional · 700 – 1.200 €', title: 'Diseño de páginas web para empresas' },
-  { file: 'og-diseno-web-zaragoza', eyebrow: 'Estudio local', title: 'Diseño web en Zaragoza para negocios' },
-  { file: 'og-landing-pages', eyebrow: 'Landing pages · 300 – 600 €', title: 'Landing pages que convierten visitas en clientes' },
-  { file: 'og-web-con-reservas', eyebrow: 'Reservas online · 900 – 1.500 €', title: 'Webs con sistema de reservas y citas online' },
-  { file: 'og-mantenimiento-web', eyebrow: 'Mantenimiento · desde 25 €/mes', title: 'Tu web siempre segura, rápida y actualizada' },
+  {
+    file: 'og-default',
+    eyebrow: 'Disponible · Zaragoza / Remoto',
+    title: 'Gabriel Saiz<br>Desarrollador Full-Stack',
+    subtitle: '.NET · Vue 3 · React Native · AWS',
+  },
 ];
 
-const ogHtml = (fontB64, { eyebrow, title }) => `<!doctype html><html><head><style>
+const ogHtml = (fontB64, { eyebrow, title, subtitle = '' }) => `<!doctype html><html><head><style>
 @font-face{font-family:Inter;src:url(data:font/woff2;base64,${fontB64}) format('woff2');font-weight:100 900}
 *{margin:0;box-sizing:border-box}
 body{width:1200px;height:630px;background:#09090B;font-family:Inter;color:#fff;position:relative;overflow:hidden}
@@ -81,13 +81,14 @@ body{width:1200px;height:630px;background:#09090B;font-family:Inter;color:#fff;p
 .brand{display:flex;align-items:center;gap:16px;font-size:30px;font-weight:600;letter-spacing:-.02em}
 .brand b{color:#00E676;font-weight:600}
 .eyebrow{display:inline-block;font-size:22px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#00E676;margin-bottom:22px}
-h1{font-size:68px;line-height:1.05;letter-spacing:-.035em;font-weight:600;max-width:940px}
+h1{font-size:76px;line-height:1.05;letter-spacing:-.035em;font-weight:600;max-width:940px}
 .foot{display:flex;justify-content:space-between;align-items:center;font-size:24px;color:#a1a1aa}
+p.sub{margin-top:22px;font-size:30px;color:#a1a1aa;font-weight:500}
 .pill{background:#00E676;color:#04150b;font-weight:600;padding:14px 28px;border-radius:999px}
 </style></head><body><div class="grid"></div><div class="glow"></div><div class="wrap">
-<div class="brand">${MARK_SVG.replace('<svg ', '<svg width="52" height="52" ')}<span>gabriel<b>codes</b></span></div>
-<div><span class="eyebrow">${eyebrow}</span><h1>${title}</h1></div>
-<div class="foot"><span>gabrielcodes.dev</span><span class="pill">Solicitar presupuesto</span></div>
+<div class="brand">${MARK_SVG.replace('<svg ', '<svg width="52" height="52" ')}<span>Gabriel Saiz<b>.</b></span></div>
+<div><span class="eyebrow">${eyebrow}</span><h1>${title}</h1><p class="sub">${subtitle}</p></div>
+<div class="foot"><span>gabrielcodes.dev</span><span class="pill">Descargar CV</span></div>
 </div></body></html>`;
 
 async function ogImages() {

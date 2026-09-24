@@ -1,97 +1,41 @@
 /**
- * Datos del negocio: única fuente de verdad para cabecera, footer, formularios,
- * botón de WhatsApp y datos estructurados (Schema.org).
- *
- * Mantén estos datos idénticos a los de tu ficha de Google Business Profile
- * (NAP: Name, Address, Phone). La coherencia NAP es un factor de SEO local.
+ * Datos personales y de contacto: única fuente de verdad para cabecera, pie, formulario,
+ * datos estructurados (Schema.org Person) y /llms.txt.
  */
-
-/** Número en formato E.164 sin "+" ni espacios. */
-const PHONE_E164 = '34663941885';
-
-export const PHONE_PLACEHOLDER = PHONE_E164 === '34600000000';
 
 export const site = {
   url: 'https://gabrielcodes.dev',
-  name: 'GabrielCodes',
-  legalName: 'Gabriel Saiz de la Maza Bajo',
-  tagline: 'Diseño y desarrollo web para negocios en Zaragoza',
+  name: 'Gabriel Saiz',
+  fullName: 'Gabriel Saiz de la Maza Bajo',
+  role: 'Desarrollador Full-Stack',
+  /** Especialidad tal y como aparece en el CV. */
+  headline: 'Full-Stack Developer · .NET · Vue 3 · React Native',
   description:
-    'Estudio de diseño web en Zaragoza. Creamos páginas web profesionales, landing pages y webs con reservas online para negocios que quieren conseguir más clientes desde Google.',
+    'Desarrollador Full-Stack en Zaragoza especializado en .NET, Vue 3 y React Native. Apps publicadas en App Store y Google Play, backend en producción y 3 años de experiencia con AWS.',
   locale: 'es_ES',
   lang: 'es',
-  foundingDate: '2023',
+  location: 'Zaragoza, España',
+  /** Qué tipo de puesto busca: se muestra en la web y en /llms.txt. */
+  lookingFor: 'Empresa con producto propio, en Zaragoza (presencial o híbrido) o en remoto desde España.',
+  availability: 'Incorporación inmediata',
 
-  /** Redes sociales del negocio (no personales). Se enlazan en el pie y en Schema.org `sameAs`. */
-  social: {
-    instagram: { handle: 'gabrielcodes.studio', url: 'https://www.instagram.com/gabrielcodes.studio/' },
+  contact: {
+    email: 'gsaiz.bajo@gmail.com',
+    phoneE164: '34663941885',
+    phoneDisplay: '+34 663 941 885',
   },
 
-  founder: {
-    name: 'Gabriel Saiz',
-    jobTitle: 'Diseñador y desarrollador web',
+  social: {
     linkedin: 'https://www.linkedin.com/in/gabriel-saiz-de-la-maza-bajo-140370184/',
     github: 'https://github.com/GabriLPDA22',
   },
 
-  contact: {
-    email: 'gsaiz.bajo@gmail.com',
-    phoneE164: PHONE_E164,
-    /** Formato legible para mostrar en pantalla. */
-    phoneDisplay: `+${PHONE_E164.slice(0, 2)} ${PHONE_E164.slice(2, 5)} ${PHONE_E164.slice(5, 8)} ${PHONE_E164.slice(8)}`,
-    whatsappMessage: 'Hola, me gustaría pedir presupuesto para una página web.',
-    responseTime: 'Respuesta en menos de 24 h laborables',
+  documents: {
+    cv: '/cv/Gabriel-Saiz-CV.pdf',
+    recommendation: '/documents/carta-recomendacion-golive.pdf',
   },
 
-  address: {
-    locality: 'Zaragoza',
-    region: 'Aragón',
-    postalCode: '',
-    country: 'ES',
-  },
-
-  /** Centro de Zaragoza. Negocio de área de servicio: no se publica dirección exacta. */
-  geo: { latitude: 41.6488, longitude: -0.8891 },
-
-  areaServed: [
-    'Zaragoza',
-    'Utebo',
-    'Cuarte de Huerva',
-    'Cadrete',
-    'María de Huerva',
-    'La Puebla de Alfindén',
-    'Villanueva de Gállego',
-    'Zuera',
-    'La Muela',
-    'Alfajarín',
-    'Pastriz',
-    'Casetas',
-  ],
-
-  openingHours: {
-    days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'] as const,
-    opens: '09:00',
-    closes: '19:00',
-    display: 'Lunes a viernes, 9:00 – 19:00',
-  },
-
-  /** Precios orientativos. Se reutilizan en páginas, tarjetas, FAQ y Schema (Offer). */
-  pricing: {
-    currency: 'EUR',
-    note: 'Precios orientativos sin IVA. Presupuesto cerrado antes de empezar.',
-  },
-
-  /** Datos del titular para el aviso legal (LSSI-CE art. 10). */
-  legal: {
-    holder: 'Gabriel Saiz de la Maza Bajo',
-    nif: '73163085Q',
-    lastUpdated: '23 de septiembre de 2026',
-  },
-
-  /**
-   * Formulario de presupuesto vía Web3Forms (https://web3forms.com): envía cada solicitud al
-   * email con el que se genera la clave. La clave es pública por diseño (va en el HTML).
-   */
+  /** Formulario de contacto vía Web3Forms: reenvía cada mensaje al email de la cuenta. */
   forms: {
     web3formsKey: '7bc8e344-1f6a-4df7-b056-540f8a25a4ba',
     endpoint: 'https://api.web3forms.com/submit',
@@ -102,10 +46,11 @@ export const site = {
     gaId: 'G-CEDV9NP2WJ',
   },
 
+  legal: {
+    lastUpdated: '24 de septiembre de 2026',
+  },
+
   ogImage: '/og/og-default.png',
 } as const;
-
-export const whatsappUrl = (message: string = site.contact.whatsappMessage) =>
-  `https://wa.me/${site.contact.phoneE164}?text=${encodeURIComponent(message)}`;
 
 export const absoluteUrl = (path: string) => new URL(path, site.url).toString();

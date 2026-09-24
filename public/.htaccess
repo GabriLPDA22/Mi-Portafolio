@@ -23,17 +23,21 @@ DirectorySlash Off
   RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
   RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
 
-  # --- Redirecciones 301 (variantes y URLs del portfolio anterior) -----
-  RewriteRule ^dise(ñ|%C3%B1)o-web-zaragoza/?$ /diseno-web-zaragoza [L,R=301,NE]
-  RewriteRule ^servicios/mantenimiento-web/?$ /mantenimiento-web [L,R=301]
-  RewriteRule ^proyecto/ /proyectos [L,R=301]
+  # --- Redirecciones 301 (versiones anteriores de la web) ---------------
+  # Portfolio en Vue
+  RewriteRule ^proyecto/ /#proyectos [L,R=301,NE]
   RewriteRule ^privacy-policy/?$ /politica-privacidad [L,R=301]
-  RewriteRule ^(carta-recomendacion|dashboard)/?$ / [L,R=301]
-  RewriteRule ^cv\.pdf$ / [L,R=301]
-  # Versión anterior en Next.js (portfolio): URLs que Google aún tiene indexadas.
+  RewriteRule ^(carta-recomendacion)/?$ /documents/carta-recomendacion-golive.pdf [L,R=301]
+  RewriteRule ^dashboard/?$ / [L,R=301]
+  RewriteRule ^cv\.pdf$ /cv/Gabriel-Saiz-CV.pdf [L,R=301]
+  # Portfolio en Next.js
   RewriteRule ^privacidad/?$ /politica-privacidad [L,R=301]
-  RewriteRule ^(cv|auth)(/.*)?$ / [L,R=301]
+  RewriteRule ^auth(/.*)?$ / [L,R=301]
   RewriteRule ^sitemap\.xml$ /sitemap-index.xml [L,R=301]
+  # Web de agencia (GabrielCodes)
+  RewriteRule ^(servicios|diseno-web-zaragoza|dise(ñ|%C3%B1)o-web-zaragoza|mantenimiento-web|paginas-web-economicas|aviso-legal)(/.*)?$ / [L,R=301]
+  RewriteRule ^proyectos/?$ /#proyectos [L,R=301,NE]
+  RewriteRule ^contacto/?$ /#contacto [L,R=301,NE]
 
   # --- URLs limpias -----------------------------------------------------
   # /index.html y /index → /

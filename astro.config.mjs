@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 // Rutas que existen pero no deben posicionar (páginas de sistema y legales).
-const NOINDEX_PATHS = ['/gracias', '/aviso-legal', '/politica-privacidad', '/politica-cookies', '/404'];
+const NOINDEX_PATHS = ['/gracias', '/politica-privacidad', '/politica-cookies', '/404'];
 
 export default defineConfig({
   site: 'https://gabrielcodes.dev',
@@ -44,10 +44,7 @@ export default defineConfig({
       },
       changefreq: 'monthly',
       serialize(item) {
-        const path = new URL(item.url).pathname;
-        if (path === '/') item.priority = 1.0;
-        else if (path.startsWith('/servicios') || ['/diseno-web-zaragoza', '/paginas-web-economicas'].includes(path)) item.priority = 0.9;
-        else item.priority = 0.7;
+        item.priority = new URL(item.url).pathname === '/' ? 1.0 : 0.5;
         return item;
       },
     }),

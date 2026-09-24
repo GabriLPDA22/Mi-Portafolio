@@ -2,37 +2,33 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Button from '@/components/ui/Button.astro';
 import Icon from '@/components/ui/Icon.astro';
-import { whatsappUrl } from '@/config/site';
+import { site } from '@/config/site';
 ---
 
-<BaseLayout
-  title="Solicitud recibida | GabrielCodes"
-  description="Hemos recibido tu solicitud de presupuesto. Te responderemos en menos de 24 horas laborables."
-  noindex
->
+<BaseLayout title="Mensaje enviado | Gabriel Saiz" description="Tu mensaje se ha enviado correctamente. Te responderé en menos de 24 horas." noindex>
   <section class="section">
     <div class="container-page max-w-2xl text-center">
       <span class="mx-auto inline-flex size-16 items-center justify-center rounded-full bg-accent/15 text-accent">
         <Icon name="check" class="size-8" />
       </span>
-      <h1 class="heading-lg mt-8">¡Gracias! Hemos recibido tu solicitud</h1>
-      <p class="lead mt-6">
-        Te responderemos en menos de 24 horas laborables con las primeras preguntas o una propuesta. Si es urgente, escríbenos
-        por WhatsApp.
-      </p>
+      <h1 class="heading-lg mt-8">¡Gracias! Mensaje recibido</h1>
+      <p class="lead mt-6">Te responderé en menos de 24 horas. Mientras tanto, aquí tienes mi CV y mi LinkedIn.</p>
       <div class="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
-        <Button href={whatsappUrl('Hola, acabo de enviar el formulario de presupuesto.')} target="_blank" rel="noopener" size="lg">
-          <Icon name="messageCircle" class="size-4" /> Escribir por WhatsApp
+        <Button href={site.documents.cv} size="lg" download data-cta="thanks-cv">
+          <Icon name="download" class="size-4" /> Descargar CV
         </Button>
-        <Button href="/proyectos" variant="secondary" size="lg">Ver proyectos</Button>
+        <Button href={site.social.linkedin} variant="secondary" size="lg" target="_blank" rel="noopener">
+          <Icon name="linkedin" class="size-4" /> LinkedIn
+        </Button>
       </div>
+      <a href="/" class="mt-10 inline-block text-sm text-muted hover:text-fg">← Volver al inicio</a>
     </div>
   </section>
   <script>
-    // Conversión para Google Analytics (solo si el usuario aceptó cookies y GA está cargado).
+    // Conversión en Google Analytics (solo si el visitante aceptó cookies y GA está cargado).
     window.addEventListener('load', () => {
       const w = window as unknown as { gtag?: (...args: unknown[]) => void };
-      w.gtag?.('event', 'generate_lead', { form: 'presupuesto' });
+      w.gtag?.('event', 'generate_lead', { form: 'contacto' });
     });
   </script>
 </BaseLayout>
