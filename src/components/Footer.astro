@@ -4,10 +4,8 @@ import { getT, homePath, localePath, type Locale } from '@/i18n';
 
 interface Props {
   locale: Locale;
-  /** Versión superpuesta al final del contacto (portada). */
-  overlay?: boolean;
 }
-const { locale, overlay = false } = Astro.props;
+const { locale } = Astro.props;
 const t = getT(locale);
 const home = homePath(locale);
 const es = locale === 'es';
@@ -23,83 +21,40 @@ const routes = [
 const year = new Date().getFullYear();
 ---
 
-{
-  overlay ? (
-    <footer data-scrub-scope class="relative flex flex-col justify-end overflow-hidden sm:min-h-[100svh]">
-      {/* Hueco superior: el formulario se ve detrás del corte (solo sm+) */}
-      <div aria-hidden="true" class="hidden flex-1 sm:block sm:min-h-[42svh]" />
-      <div class="relative z-10 pb-14 pt-14 sm:bg-gradient-to-t sm:from-noir sm:via-noir/92 sm:to-transparent sm:pb-20 sm:pt-28 xl:pt-36 max-sm:bg-noir max-sm:pt-20 max-sm:[clip-path:polygon(0_2.5rem,100%_0,100%_100%,0_100%)]">
-        <div
-          aria-hidden="true"
-          class="pointer-events-none absolute inset-x-0 top-0 h-10 bg-ink/[0.06] max-sm:[clip-path:polygon(0_100%,100%_0,100%_12%,0_100%)] sm:hidden"
-        />
-        <div class="container-main relative z-10 flex flex-col items-center gap-7 sm:gap-8 xl:gap-12">
-          <a href={home} class="font-pixel text-[12px] uppercase tracking-widest text-acid transition-colors hover:text-acid-light">
-            {es ? '¿Continuar?' : 'Continue?'} <span aria-hidden="true">▶</span> {es ? 'Volver al inicio' : 'Back to start'}
+<footer data-scrub-scope class="relative overflow-hidden border-t border-white/[0.06] pt-16 xl:pt-24">
+  <div class="container-main relative z-10 flex flex-col items-center gap-8 pb-14 xl:gap-12 xl:pb-20">
+    <a href={home} class="font-pixel text-[12px] uppercase tracking-widest text-acid transition-colors hover:text-acid-light">
+      {es ? '¿Continuar?' : 'Continue?'} <span aria-hidden="true">▶</span> {es ? 'Volver al inicio' : 'Back to start'}
+    </a>
+    <nav class="flex max-w-xs flex-wrap justify-center gap-x-8 gap-y-3 sm:max-w-none" aria-label={es ? 'Pie de página' : 'Footer'}>
+      {
+        routes.map((r) => (
+          <a href={r.href} class="text-base text-ink/65 transition-colors hover:text-ink xl:text-lg">
+            {r.label}
           </a>
-          <nav class="flex max-w-xs flex-wrap justify-center gap-x-8 gap-y-3 sm:max-w-none" aria-label={es ? 'Pie de página' : 'Footer'}>
-            {routes.map((r) => (
-              <a href={r.href} class="text-base text-ink/65 transition-colors hover:text-ink xl:text-lg">
-                {r.label}
-              </a>
-            ))}
-          </nav>
-          <SocialPills compact />
-          <button type="button" data-arcade-open hidden class="arcade-open font-pixel">🎮 {es ? 'Modo arcade' : 'Arcade mode'} <span class="text-ink/50">· ↑↑↓↓←→←→BA</span></button>
-          <div class="flex flex-col items-center gap-4 text-[12.5px] text-ink/65 sm:flex-row sm:gap-8">
-            <p>
-              © {year} Gabriel Saiz. {t.footer.copyright}
-            </p>
-            <div class="flex gap-5">
-              <a href={localePath(locale, '/privacidad')} class="hover:text-acid">{t.legalHub.privacy}</a>
-              <a href={localePath(locale, '/aviso-legal')} class="hover:text-acid">{t.legalHub.legalNotice}</a>
-            </div>
-          </div>
-        </div>
-        <p
-          aria-hidden="true"
-          data-scrub={JSON.stringify({ y: 20, scale: 1.03 })}
-          class="footer-watermark-gsap pointer-events-none relative z-0 -mb-6 mt-8 bg-gradient-to-t from-noir from-20% to-transparent text-center font-pixel uppercase text-[clamp(3rem,13vw,12rem)] leading-none text-ink/[0.08] sm:mt-10 xl:-mb-10"
-        >
-          Developer
-        </p>
+        ))
+      }
+    </nav>
+    <SocialPills compact />
+    <button type="button" data-arcade-open hidden class="arcade-open font-pixel">
+      🎮 {es ? 'Modo arcade' : 'Arcade mode'} <span class="text-ink/50">· ↑↑↓↓←→←→BA</span>
+    </button>
+    <div class="flex flex-col items-center gap-4 text-[12.5px] text-ink/65 sm:flex-row sm:gap-8">
+      <p>© {year} Gabriel Saiz. {t.footer.copyright}</p>
+      <div class="flex gap-5">
+        <a href={localePath(locale, '/privacidad')} class="hover:text-acid">{t.legalHub.privacy}</a>
+        <a href={localePath(locale, '/aviso-legal')} class="hover:text-acid">{t.legalHub.legalNotice}</a>
       </div>
-    </footer>
-  ) : (
-    <footer data-scrub-scope class="relative overflow-hidden border-t border-white/[0.06] pt-16 xl:pt-24">
-      <div class="container-main relative z-10 flex flex-col items-center gap-8 pb-14 xl:gap-12 xl:pb-20">
-        <a href={home} class="font-pixel text-[12px] uppercase tracking-widest text-acid transition-colors hover:text-acid-light">
-            {es ? '¿Continuar?' : 'Continue?'} <span aria-hidden="true">▶</span> {es ? 'Volver al inicio' : 'Back to start'}
-          </a>
-          <nav class="flex max-w-xs flex-wrap justify-center gap-x-8 gap-y-3 sm:max-w-none" aria-label={es ? 'Pie de página' : 'Footer'}>
-          {routes.map((r) => (
-            <a href={r.href} class="text-base text-ink/65 transition-colors hover:text-ink xl:text-lg">
-              {r.label}
-            </a>
-          ))}
-        </nav>
-        <SocialPills compact />
-          <button type="button" data-arcade-open hidden class="arcade-open font-pixel">🎮 {es ? 'Modo arcade' : 'Arcade mode'} <span class="text-ink/50">· ↑↑↓↓←→←→BA</span></button>
-        <div class="flex flex-col items-center gap-4 text-[12.5px] text-ink/65 sm:flex-row sm:gap-8">
-          <p>
-            © {year} Gabriel Saiz. {t.footer.copyright}
-          </p>
-          <div class="flex gap-5">
-            <a href={localePath(locale, '/privacidad')} class="hover:text-acid">{t.legalHub.privacy}</a>
-            <a href={localePath(locale, '/aviso-legal')} class="hover:text-acid">{t.legalHub.legalNotice}</a>
-          </div>
-        </div>
-      </div>
-      <p
-        aria-hidden="true"
-        data-scrub={JSON.stringify({ y: 20, scale: 1.03 })}
-        class="footer-watermark-gsap pointer-events-none relative z-0 -mb-6 bg-gradient-to-t from-noir from-15% to-transparent text-center font-pixel uppercase text-[clamp(3rem,12vw,12rem)] leading-none text-ink/[0.06] xl:-mb-10"
-      >
-        Developer
-      </p>
-    </footer>
-  )
-}
+    </div>
+  </div>
+  <p
+    aria-hidden="true"
+    data-scrub={JSON.stringify({ y: 20, scale: 1.03 })}
+    class="footer-watermark-gsap pointer-events-none relative z-0 -mb-6 bg-gradient-to-t from-noir from-15% to-transparent text-center font-pixel uppercase text-[clamp(3rem,12vw,12rem)] leading-none text-ink/[0.06] xl:-mb-10"
+  >
+    Developer
+  </p>
+</footer>
 
 <style>
   .arcade-open {

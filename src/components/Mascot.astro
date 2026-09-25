@@ -4,6 +4,7 @@
  * Respira (sube/baja 1 píxel) y parpadea cada pocos segundos.
  */
 import { MASCOT_FRAMES, MASCOT_PALETTE } from '@/data/mascot';
+import { pixelPaths } from '@/lib/pixel';
 
 interface Props {
   class?: string;
@@ -15,24 +16,8 @@ const { class: className = '', label } = Astro.props;
 const W = MASCOT_FRAMES.idle[0].length;
 const H = MASCOT_FRAMES.idle.length;
 
-/** Convierte las filas de caracteres en rectángulos (agrupando píxeles contiguos del mismo color). */
-const toRects = (rows: readonly string[]) => {
-  const rects: string[] = [];
-  rows.forEach((row, y) => {
-    let x = 0;
-    while (x < row.length) {
-      const ch = row[x];
-      let x2 = x;
-      while (x2 < row.length && row[x2] === ch) x2++;
-      const fill = MASCOT_PALETTE[ch];
-      if (fill) rects.push(`<rect x="${x}" y="${y}" width="${x2 - x}" height="1" fill="${fill}"/>`);
-      x = x2;
-    }
-  });
-  return rects.join('');
-};
-const idle = toRects(MASCOT_FRAMES.idle);
-const blink = toRects(MASCOT_FRAMES.blink);
+const idle = pixelPaths(MASCOT_FRAMES.idle, MASCOT_PALETTE);
+const blink = pixelPaths(MASCOT_FRAMES.blink, MASCOT_PALETTE);
 ---
 
 <svg

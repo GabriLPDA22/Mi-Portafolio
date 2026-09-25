@@ -1,6 +1,14 @@
 ---
+/**
+ * "Capacidades" como inventario de RPG: cada tecnología es un objeto con rareza según DÓNDE
+ * se ha usado (ver src/data/inventory.ts). Al pulsar un objeto se ve su ficha.
+ * Debajo, el árbol de habilidades (las áreas de trabajo) en formato compacto.
+ * Sin JS: se ven todas las fichas en lista.
+ */
 import Icon from './Icon.astro';
-import SplitTitle from './SplitTitle.astro';
+import GameHeading from './GameHeading.astro';
+import { INVENTORY, RARITY_HINT, RARITY_LABEL } from '@/data/inventory';
+import * as lucide from 'lucide';
 import { gameLabels, getT, type Locale } from '@/i18n';
 
 interface Props {
@@ -9,7 +17,19 @@ interface Props {
 const { locale } = Astro.props;
 const t = getT(locale);
 const g = gameLabels[locale];
+const es = locale === 'es';
+const rl = RARITY_LABEL[locale];
+const rh = RARITY_HINT[locale];
 
+/** Icono Lucide como contenido de <symbol> (trazo, sin relleno). */
+const lucideInner = (name: string) => {
+  const node = (lucide as unknown as Record<string, [string, Record<string, string | number>][]>)[name];
+  const inner = node.map(([tag, a]) => `<${tag} ${Object.entries(a).map(([k, v]) => `${k}="${v}"`).join(' ')}/>`).join('');
+  return `<g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">${inner}</g>`;
+};
+
+const SLOTS = 24;
+const empty = Math.max(0, SLOTS - INVENTORY.length);
 const serviceIcons: Record<string, string> = {
   mobile: 'Smartphone',
   web: 'Monitor',
@@ -18,75 +38,326 @@ const serviceIcons: Record<string, string> = {
   performance: 'Gauge',
   maintenance: 'ShieldCheck',
 };
-const gsapCard = ['services-first-card-gsap', 'services-second-card-gsap', 'services-third-card-gsap'];
-const cardScrub = [{ x: -50, rotate: -5 }, { scale: 0.9 }, { x: 50, rotate: 5 }];
-const ribbon = `${t.services.ribbon}  ·  ${t.services.ribbon}  ·  ${t.services.ribbon}  ·  `;
+const ticker = t.services.ribbon.split('·').map((s) => s.trim().replace(' & ', ' + '));
 ---
 
-<section id="servicios" data-scrub-scope class="relative z-10 scroll-mt-24 bg-noir py-20 xl:bg-transparent xl:py-32">
-  <div class="container-main flex flex-col gap-12 xl:gap-20">
-    <!-- Cinta curva: el texto se desliza con el scroll -->
-    <div data-arc aria-hidden="true" class="pointer-events-none relative -mx-5 mb-2 overflow-hidden sm:mx-0">
-      <svg
-        viewBox="0 0 1200 280"
-        class="h-[12.5rem] w-[175%] max-w-none -translate-x-[21%] sm:h-[12rem] sm:w-full sm:translate-x-0 xl:h-[14rem]"
-        preserveAspectRatio="xMidYMid meet"
-      >
-        <path d="M 48 204 Q 600 40 1152 204" fill="none" stroke="var(--color-ink)" stroke-width="152" stroke-linecap="round" class="sm:[stroke-width:112]"></path>
-        <path id="arc-path-services" d="M 48 204 Q 600 40 1152 204" fill="none"></path>
-        <text fill="var(--color-noir)" class="font-code text-[52px] font-bold uppercase tracking-[0.12em] sm:text-[34px] xl:text-[36px]">
-          <textPath href="#arc-path-services" startOffset="0%">{ribbon}</textPath>
-        </text>
-      </svg>
-    </div>
+<section id="servicios" class="relative z-10 scroll-mt-24 overflow-hidden py-20 sm:py-28">
+  <!-- Logos del inventario: se definen una vez y se reutilizan con <use> -->
+  <svg aria-hidden="true" width="0" height="0" class="absolute">
+    {
+      INVENTORY.map((item) =>
+        item.path ? (
+          <symbol id={`inv-${item.id}`} viewBox="0 0 24 24">
+            <path fill="currentColor" d={item.path} />
+          </symbol>
+        ) : (
+          <symbol id={`inv-${item.id}`} viewBox="0 0 24 24" set:html={lucideInner(item.lucide ?? 'Box')} />
+        ),
+      )
+    }
+  </svg>
 
-    <div class="text-center">
-      <div class="services-title-gsap" data-scrub={JSON.stringify({ y: -50, x: -50, rotate: -5 })}>
-        <p class="hud-chip mx-auto" data-reveal style="--ry:12px"><span class="text-ink/70">{g.level} 02</span> · {g.services}</p>
-        <h2 class="game-title mt-5 -rotate-1 text-[clamp(2.4rem,8vw,5.2rem)]">
-          <SplitTitle text={t.services.title} class="pb-[0.2em] pr-[0.12em]" />
-        </h2>
-      </div>
-      <p class="services-description-gsap mx-auto mt-5 max-w-[34rem] text-[15px] leading-relaxed text-ink/65 xl:text-xl" data-scrub={JSON.stringify({ scale: 0.85 })}>
-        {t.services.subtitle}
-      </p>
-    </div>
-
-    <div class="grid gap-8 sm:grid-cols-2 xl:grid-cols-3 xl:gap-10">
+  <!-- Cartel LED de recreativa -->
+  <div aria-hidden="true" class="led -mx-2 mb-14 -rotate-2 sm:mb-20">
+    <div class="led-track font-pixel">
       {
-        t.services.items.map((service, i) => {
-          const col = i % 3;
-          const tilt = col === 0 ? 'xl:-rotate-2' : col === 2 ? 'xl:rotate-2' : 'xl:z-[1]';
-          const drop = i % 2 === 0 ? '2xl:mt-4' : '';
-          const fan = col === 0 ? 'xl:translate-x-2' : col === 2 ? 'xl:-translate-x-2' : 'xl:scale-[1.02]';
-          return (
-            <div class:list={[gsapCard[col], tilt, drop, fan, 'h-full']} data-scrub={JSON.stringify(cardScrub[col])}>
-              <article
-                data-reveal
-                data-reveal-margin="-60px"
-                style={`--ry:32px;--d:${(i * 0.07).toFixed(2)}s;--ease:cubic-bezier(0.22,1,0.36,1)`}
-                class="game-panel group flex h-full flex-col justify-between p-7 transition-[translate,border-color] duration-300 hover:border-acid xl:p-8 xl:hover:-translate-y-6"
-              >
-                <div>
-                  <div class="mb-4 flex items-start justify-between">
-                    <span class="pixel-tag">Skill {String(i + 1).padStart(2, '0')}</span>
-                    <span class="flex h-11 w-11 items-center justify-center rounded-xl border-[3px] border-noir bg-acid text-noir shadow-[0_3px_0_#0a0706]">
-                      <Icon name={serviceIcons[service.id] ?? 'Monitor'} class="h-5 w-5" strokeWidth={1.6} />
-                    </span>
-                  </div>
-                  <h3 class="mb-3 font-code text-2xl tracking-wide text-ink xl:text-3xl">{service.title}</h3>
-                  <p class="mb-6 text-base leading-relaxed text-ink/65 xl:text-lg">{service.description}</p>
-                </div>
-                <div class="flex flex-wrap gap-2 border-t border-white/10 pt-6">
-                  {service.chips.map((chip) => (
-                    <span class="rounded-full border border-white/10 px-3 py-1 text-xs italic text-ink/65 xl:text-sm">{chip}</span>
-                  ))}
-                </div>
-              </article>
-            </div>
-          );
-        })
+        [0, 1].map(() => (
+          <span class="led-run">
+            {ticker.map((w) => (
+              <span class="px-5">
+                {w} <span class="text-noir/50">✦</span>
+              </span>
+            ))}
+          </span>
+        ))
       }
     </div>
   </div>
+
+  <div class="container-main">
+    <GameHeading level={`${g.level} 02`} eyebrow={g.services} title={t.services.title} subtitle={t.services.subtitle} />
+
+    <div data-inventory class="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,24rem)] lg:gap-8">
+      <!-- Ficha del objeto (arriba en móvil para que se vea al tocar) -->
+      <div class="order-first lg:order-last">
+        <div class="game-panel p-5 sm:p-6 lg:sticky lg:top-24" aria-live="polite">
+          {
+            INVENTORY.map((item, i) => (
+              <article data-inv-panel={item.id} data-hidden-js={i === 0 ? undefined : 'true'} class="inv-panel">
+                <div class="flex items-start gap-4">
+                  <span class:list={['inv-icon-lg', `rar-${item.rarity}`]} style={`--c:${item.color}`}>
+                    <svg aria-hidden="true" class="h-9 w-9"><use href={`#inv-${item.id}`} /></svg>
+                  </span>
+                  <div class="min-w-0">
+                    <h3 class="text-2xl font-black leading-tight text-ink">{item.name}</h3>
+                    <p class:list={['font-pixel mt-1 text-[10px] uppercase tracking-wider', `rar-text-${item.rarity}`]}>
+                      {rl[item.rarity]}
+                    </p>
+                  </div>
+                </div>
+                <p class="mt-4 text-[14.5px] leading-relaxed text-ink/80">{item.note[locale]}</p>
+                <p class="font-pixel mt-4 border-t-2 border-dashed border-white/10 pt-3 text-[10px] uppercase tracking-wider text-ink/50">
+                  {rh[item.rarity]}
+                </p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Inventario -->
+      <div class="game-panel p-3 sm:p-5">
+        <div class="mb-3 flex flex-wrap items-center justify-between gap-2 px-1 sm:mb-4">
+          <p class="font-pixel text-[11px] uppercase tracking-wider text-ink/70">
+            {es ? 'Inventario' : 'Inventory'} <span class="text-acid">{INVENTORY.length}/{SLOTS}</span>
+          </p>
+          <ul class="flex flex-wrap gap-x-3 gap-y-1 font-pixel text-[9px] uppercase tracking-wider sm:text-[10px]">
+            {(['legendary', 'epic', 'common'] as const).map((r) => (
+              <li class:list={['flex items-center gap-1.5', `rar-text-${r}`]}>
+                <span class:list={['h-2 w-2', `rar-dot-${r}`]} />
+                {rl[r]}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <ul class="grid grid-cols-4 gap-1.5 sm:grid-cols-6 sm:gap-2">
+          {
+            INVENTORY.map((item, i) => (
+              <li>
+                <button
+                  type="button"
+                  data-inv-item={item.id}
+                  aria-pressed={i === 0 ? 'true' : 'false'}
+                  class:list={['slot', `rar-${item.rarity}`]}
+                  style={`--c:${item.color};--i:${i}`}
+                >
+                  <svg aria-hidden="true" class="slot-icon"><use href={`#inv-${item.id}`} /></svg>
+                  <span class="slot-name">{item.name}</span>
+                </button>
+              </li>
+            ))
+          }
+          {Array.from({ length: empty }).map(() => (
+            <li aria-hidden="true" class="slot slot-empty" />
+          ))}
+        </ul>
+        <p class="font-pixel mt-3 px-1 text-[9px] uppercase tracking-wider text-ink/45 sm:text-[10px]">
+          {es ? 'Toca un objeto para ver dónde lo he usado' : 'Tap an item to see where I used it'}
+        </p>
+      </div>
+    </div>
+
+    <!-- Árbol de habilidades -->
+    <div class="mt-14 sm:mt-20">
+      <p class="font-pixel mb-5 text-[12px] uppercase tracking-widest text-acid">
+        ▸ {es ? 'Árbol de habilidades' : 'Skill tree'}
+      </p>
+      <ol class="skill-tree grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          t.services.items.map((s, i) => (
+            <li
+              data-reveal
+              data-reveal-margin="-40px"
+              style={`--ry:20px;--d:${(i * 0.06).toFixed(2)}s`}
+              class="skill-node flex gap-4 rounded-2xl border-[3px] border-noir bg-noir-elevated p-4 shadow-[0_5px_0_#0a0706] sm:p-5"
+            >
+              <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl border-[3px] border-noir bg-acid text-noir shadow-[0_3px_0_#0a0706]">
+                <Icon name={serviceIcons[s.id] ?? 'Monitor'} class="h-5 w-5" strokeWidth={2} />
+              </span>
+              <div class="min-w-0">
+                <h3 class="text-[17px] font-black leading-tight text-ink">{s.title}</h3>
+                <p class="mt-1.5 text-[13.5px] leading-relaxed text-ink/65">{s.description}</p>
+                <p class="font-pixel mt-2.5 text-[9.5px] uppercase tracking-wider text-acid/85">{s.chips.join(' · ')}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
 </section>
+
+<style>
+  /* ---------- Cartel LED ---------- */
+  .led {
+    background: #f0b429;
+    border-block: 3px solid #0a0706;
+    box-shadow: 0 6px 0 #0a0706;
+    overflow: hidden;
+  }
+  .led-track {
+    display: flex;
+    width: max-content;
+    padding: 0.85rem 0;
+    font-size: clamp(14px, 2.4vw, 20px);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #120e0b;
+    white-space: nowrap;
+  }
+  .led-run {
+    display: flex;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .led-track {
+      animation: led-scroll 26s linear infinite;
+    }
+  }
+  @keyframes led-scroll {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* ---------- Rarezas ---------- */
+  .rar-legendary {
+    --r: #f0b429;
+  }
+  .rar-epic {
+    --r: #b57bff;
+  }
+  .rar-common {
+    --r: rgba(255, 243, 230, 0.35);
+  }
+  .rar-text-legendary {
+    color: #f0b429;
+  }
+  .rar-text-epic {
+    color: #c99bff;
+  }
+  .rar-text-common {
+    color: rgba(255, 243, 230, 0.65);
+  }
+  .rar-dot-legendary {
+    background: #f0b429;
+  }
+  .rar-dot-epic {
+    background: #b57bff;
+  }
+  .rar-dot-common {
+    background: rgba(255, 243, 230, 0.5);
+  }
+
+  /* ---------- Casillas ---------- */
+  .slot {
+    position: relative;
+    display: flex;
+    aspect-ratio: 1;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    border-radius: 0.7rem;
+    border: 3px solid var(--r, rgba(255, 243, 230, 0.12));
+    background:
+      radial-gradient(circle at 50% 40%, color-mix(in srgb, var(--r, transparent) 16%, transparent), transparent 70%),
+      #120e0b;
+    box-shadow:
+      inset 0 0 0 2px #0a0706,
+      0 3px 0 #0a0706;
+    cursor: pointer;
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+  .slot-empty {
+    border-style: dashed;
+    border-color: rgba(255, 243, 230, 0.1);
+    background: rgba(18, 14, 11, 0.6);
+    cursor: default;
+  }
+  .slot :global(.slot-icon) {
+    width: 42%;
+    height: 42%;
+    color: var(--c);
+    filter: drop-shadow(0 2px 0 #0a0706);
+  }
+  .slot-name {
+    max-width: 92%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: var(--font-pixel);
+    font-size: 8px;
+    text-transform: uppercase;
+    color: rgba(255, 243, 230, 0.75);
+  }
+  @media (min-width: 640px) {
+    .slot-name {
+      font-size: 9px;
+    }
+  }
+  .slot:hover {
+    transform: translateY(-2px);
+  }
+  .slot[aria-pressed='true'] {
+    transform: translateY(-3px);
+    box-shadow:
+      inset 0 0 0 2px #0a0706,
+      0 0 0 3px #fff3e6,
+      0 5px 0 3px #0a0706;
+  }
+  .slot.rar-legendary[aria-pressed='true'] {
+    box-shadow:
+      inset 0 0 0 2px #0a0706,
+      0 0 0 3px #fff3e6,
+      0 5px 0 3px #0a0706,
+      0 0 22px 4px rgba(240, 180, 41, 0.35);
+  }
+  /* Brillo de objeto legendario (a saltos, estilo 8-bit) */
+  @media (prefers-reduced-motion: no-preference) {
+    .slot.rar-legendary::after {
+      content: '';
+      position: absolute;
+      top: 12%;
+      right: 12%;
+      width: 4px;
+      height: 4px;
+      background: #fff3e6;
+      box-shadow:
+        0 -4px 0 rgba(255, 243, 230, 0.6),
+        0 4px 0 rgba(255, 243, 230, 0.6),
+        -4px 0 0 rgba(255, 243, 230, 0.6),
+        4px 0 0 rgba(255, 243, 230, 0.6);
+      opacity: 0;
+      animation: sparkle 3.2s steps(1) infinite;
+      animation-delay: calc(var(--i, 0) * 0.3s);
+    }
+  }
+  @keyframes sparkle {
+    0%,
+    82% {
+      opacity: 0;
+    }
+    86%,
+    94% {
+      opacity: 1;
+    }
+  }
+
+  .inv-icon-lg {
+    display: grid;
+    height: 4.2rem;
+    width: 4.2rem;
+    flex-shrink: 0;
+    place-items: center;
+    border-radius: 0.9rem;
+    border: 3px solid var(--r);
+    background: #120e0b;
+    color: var(--c);
+    box-shadow:
+      inset 0 0 0 2px #0a0706,
+      0 4px 0 #0a0706;
+  }
+  :global(.js) [data-inv-panel][data-hidden-js='true'] {
+    display: none;
+  }
+  /* Sin JS: separación entre fichas */
+  .inv-panel + .inv-panel {
+    margin-top: 1.5rem;
+  }
+  :global(.js) .inv-panel + .inv-panel {
+    margin-top: 0;
+  }
+</style>

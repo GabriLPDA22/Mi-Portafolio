@@ -282,3 +282,100 @@ export function initLevelSelect() {
     });
   });
 }
+
+/* ------------------------------------------------------------------ */
+/* Inventario de tecnologías: ficha del objeto elegido                  */
+/* ------------------------------------------------------------------ */
+
+export function initInventory() {
+  const root = document.querySelector<HTMLElement>('[data-inventory]');
+  if (!root) return;
+  const items = [...root.querySelectorAll<HTMLButtonElement>('[data-inv-item]')];
+  const panels = [...root.querySelectorAll<HTMLElement>('[data-inv-panel]')];
+  const hover = window.matchMedia('(hover: hover)');
+
+  const select = (id: string, reveal = false) => {
+    items.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.invItem === id)));
+    panels.forEach((p) => {
+      if (p.dataset.invPanel === id) p.removeAttribute('data-hidden-js');
+      else p.setAttribute('data-hidden-js', 'true');
+    });
+    // En móvil la ficha está encima del inventario: si ha quedado fuera de pantalla, se acerca.
+    const panel = panels[0]?.parentElement;
+    if (reveal && panel && !hover.matches) {
+      const top = panel.getBoundingClientRect().top;
+      if (top < 80) window.scrollBy({ top: top - 96, behavior: reduced() ? 'auto' : 'smooth' });
+    }
+  };
+
+  items.forEach((b) => {
+    const id = b.dataset.invItem!;
+    b.addEventListener('click', () => select(id, true));
+    b.addEventListener('mouseenter', () => hover.matches && select(id));
+  });
+}
+
+/* ------------------------------------------------------------------ */
+/* Diálogo del contacto: texto que se escribe solo y opciones            */
+/* ------------------------------------------------------------------ */
+
+export function initDialog() {
+  const box = document.querySelector<HTMLElement>('[data-dialog]');
+  if (!box) return;
+  const text = box.querySelector<HTMLElement>('[data-dialog-text]')!;
+  const typed = box.querySelector<HTMLElement>('[data-dialog-typed]')!;
+  const yes = box.querySelector<HTMLAnchorElement>('[data-choice-yes]');
+  const no = box.querySelector<HTMLButtonElement>('[data-choice-no]');
+  let timer = 0;
+
+  // El texto real se queda en el flujo (invisible) para reservar su altura: sin saltos de layout.
+  const say = (line: string) => {
+    window.clearInterval(timer);
+    text.textContent = line;
+    if (reduced()) {
+      text.style.visibility = '';
+      typed.textContent = '';
+      return;
+    }
+    text.style.visibility = 'hidden';
+    box.classList.add('is-typing');
+    let i = 0;
+    timer = window.setInterval(() => {
+      i += 2;
+      typed.textContent = line.slice(0, i);
+      if (i >= line.length) {
+        window.clearInterval(timer);
+        text.style.visibility = '';
+        typed.textContent = '';
+        box.classList.remove('is-typing');
+      }
+    }, 26);
+  };
+
+  if (!reduced() && 'IntersectionObserver' in window) {
+    const intro = text.textContent ?? '';
+    text.style.visibility = 'hidden';
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        io.disconnect();
+        say(intro);
+      },
+      { threshold: 0.5 },
+    );
+    io.observe(box);
+  }
+
+  if (no) {
+    no.hidden = false;
+    no.addEventListener('click', () => say(box.dataset.lineNo ?? ''));
+  }
+  yes?.addEventListener('click', (e) => {
+    const form = document.getElementById('contacto-form');
+    if (!form) return;
+    e.preventDefault();
+    say(box.dataset.lineYes ?? '');
+    form.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' });
+    window.setTimeout(() => document.getElementById('name')?.focus({ preventScroll: true }), reduced() ? 0 : 600);
+  });
+}

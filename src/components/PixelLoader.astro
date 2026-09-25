@@ -4,6 +4,7 @@
  * Animación solo con CSS (fotogramas a 8 fps).
  */
 import { MASCOT_PALETTE, MASCOT_TYPING } from '@/data/mascot';
+import { pixelPaths } from '@/lib/pixel';
 
 interface Props {
   label: string;
@@ -17,24 +18,9 @@ interface Props {
 }
 const { label, class: className = '', size = 'h-[126px]', once = false, readyLabel = '¡Listo!' } = Astro.props;
 
-const toRects = (rows: readonly string[]) => {
-  const rects: string[] = [];
-  rows.forEach((row, y) => {
-    let x = 0;
-    while (x < row.length) {
-      const ch = row[x];
-      let x2 = x;
-      while (x2 < row.length && row[x2] === ch) x2++;
-      const fill = MASCOT_PALETTE[ch];
-      if (fill) rects.push(`<rect x="${x}" y="${y}" width="${x2 - x}" height="1" fill="${fill}"/>`);
-      x = x2;
-    }
-  });
-  return rects.join('');
-};
 // Secuencia de 8 pasos: teclea, alterna manos y parpadea de vez en cuando.
 const sequence = [0, 1, 0, 1, 2, 0, 1, 3];
-const frames = MASCOT_TYPING.map(toRects);
+const frames = MASCOT_TYPING.map((f) => pixelPaths(f, MASCOT_PALETTE));
 const W = MASCOT_TYPING[0][0].length;
 const H = MASCOT_TYPING[0].length;
 ---

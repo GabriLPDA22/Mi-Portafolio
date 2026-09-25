@@ -675,13 +675,6 @@ textarea:focus-visible {
   animation-delay: calc(var(--d, 0s) + var(--i, 0) * 120ms);
 }
 
-/* "Sobre mí" en móvil: fija mientras "Capacidades" la tapa. */
-@media (max-width: 639px) and (prefers-reduced-motion: no-preference) {
-  [data-pin-cover] {
-    position: sticky;
-    top: var(--pin-top, 0px);
-  }
-}
 
 /* ============================================
    INTERFAZ DE VIDEOJUEGO — piezas compartidas

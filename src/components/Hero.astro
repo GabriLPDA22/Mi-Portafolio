@@ -18,8 +18,28 @@ const es = locale === 'es';
 const d = (order: number) => `--d:${(order * 0.4).toFixed(2)}s`;
 // Frases del monigote al pulsarlo (van rotando)
 const phrases = es
-  ? ['¡Hola! Soy Gabriel', '¿Buscas full-stack? 👀', 'git push --force? Nunca', 'Café ☕ → código', 'Compila a la primera… a veces', 'Descarga mi CV ↓', 'Hecho con Astro ⚡', '¡Ey, que hace cosquillas!', 'Psst… ↑↑↓↓←→←→BA 🎮']
-  : ["Hi! I'm Gabriel", 'Looking for a full-stack? 👀', 'git push --force? Never', 'Coffee ☕ → code', 'Compiles first try… sometimes', 'Grab my CV ↓', 'Built with Astro ⚡', 'Hey, that tickles!', 'Psst… ↑↑↓↓←→←→BA 🎮'];
+  ? [
+      '¡Hola! Soy Gabriel.',
+      '¿Buscas un full-stack? Aquí estoy.',
+      '¿git push --force? Jamás.',
+      'Café dentro, código fuera.',
+      'Compila a la primera… a veces.',
+      'Descarga mi CV, que no muerde.',
+      'Esta web está hecha con Astro.',
+      '¡Ey, que me haces cosquillas!',
+      'Psst… prueba el código Konami.',
+    ]
+  : [
+      "Hi! I'm Gabriel.",
+      'Looking for a full-stack dev? Right here.',
+      'git push --force? Never.',
+      'Coffee in, code out.',
+      'Compiles first try… sometimes.',
+      "Grab my CV, it doesn't bite.",
+      'This site is built with Astro.',
+      'Hey, that tickles!',
+      'Psst… try the Konami code.',
+    ];
 ---
 
 <section class="relative isolate flex min-h-svh w-full flex-col overflow-hidden" data-scrub-scope>
@@ -174,8 +194,11 @@ const phrases = es
     margin-bottom: 1.6rem;
     background: #fff3e6;
     color: #120e0b;
+    max-width: 15rem;
     padding: 0.55rem 0.8rem;
     font-size: 11px;
+    line-height: 1.5;
+    text-align: center;
     text-transform: uppercase;
     box-shadow:
       0 -3px 0 #120e0b,

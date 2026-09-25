@@ -1,6 +1,11 @@
 ---
-import Icon from './Icon.astro';
+/**
+ * "Cómo trabajo" como pantalla de controles: un mando pixel (SVG generado en build) y cada
+ * forma de trabajar asignada a un botón A/B/X/Y. Al pasar por una regla se ilumina su botón
+ * (CSS :has, sin JS); en reposo los botones se van pulsando en bucle.
+ */
 import GameHeading from './GameHeading.astro';
+import { pixelPaths } from '@/lib/pixel';
 import { gameLabels, getT, type Locale } from '@/i18n';
 
 interface Props {
@@ -9,42 +14,176 @@ interface Props {
 const { locale } = Astro.props;
 const t = getT(locale);
 const g = gameLabels[locale];
+const es = locale === 'es';
 const r = t.results.items;
-const blocks = [
-  { icon: 'MessageSquare', ...r.communication },
-  { icon: 'Repeat', ...r.iterations },
-  { icon: 'Code2', ...r.code },
-  { icon: 'Target', ...r.product },
+
+const PAD = [
+  '............................................',
+  '............................................',
+  '.......KKKKKKKKKKKKKKKKKKKKKKKKKKKKKK.......',
+  '......KBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBK......',
+  '.....KBBLLLLLLLLLLLLLLLLLLLLLLLYYYLLBBK.....',
+  '....KBBBBBDDDBBBBBBBBBBBBBBBBBBYYYBBBBBK....',
+  '....KBBBBBDDDBBBBBBBBBBBBBBBBBBYYYBBBBBK....',
+  '....KBBBBBDDDBBBBBBBBBBBBBBBBBBBBBBBBBBK....',
+  '....KBBDDDDDDDDDBBBBBBBBBBBXXXBBBBBRRRBK....',
+  '...KBBBDDDDdDDDDBBBDDBBBDDBXXXBBBBBRRRBBK...',
+  '...KBBBDDDDDDDDDBBBBBBBBBBBXXXBBBBBRRRBBK...',
+  '...KBBBBBBDDDBBBBBBBBBBBBBBBBBBBBBBBBBBBK...',
+  '...KBBBBBBDDDBBBBBBBBBBBBBBBBBBAAABBBBBBK...',
+  '...KBBBBBBDDDBBBKKKKKKKKKKKKBBBAAABBBBBBK...',
+  '...KBBBBBBBBBBBBK..........KBBBAAABBBBBBK...',
+  '...KBBBBBBBBBBBBK..........KBBBBBBBBBBBBK...',
+  '...KSBBBBBBBBBBSK..........KSBBBBBBBBBBSK...',
+  '....KBBBBBBBBBBK............KBBBBBBBBBBK....',
+  '....KSBBBBBBBBSK............KSBBBBBBBBSK....',
+  '.....KSBBBBBBSK..............KSBBBBBBSK.....',
+  '......KSBBBBSK................KSBBBBSK......',
+  '.......KSSSSK..................KSSSSK.......',
+  '........KKKK....................KKKK........',
+  '............................................',
 ];
+const PAL: Record<string, string> = {
+  K: '#0a0706',
+  B: '#3a2d22',
+  L: '#4d3b2c',
+  S: '#2a2019',
+  D: '#120e0b',
+  d: '#221c17',
+};
+// Botones: letra del mando → carácter del sprite y color
+const BUTTONS = [
+  { k: 'a', ch: 'A', color: '#3ecf6e', ...r.communication },
+  { k: 'b', ch: 'R', color: '#e0457b', ...r.iterations },
+  { k: 'x', ch: 'X', color: '#4aa3ff', ...r.code },
+  { k: 'y', ch: 'Y', color: '#f0b429', ...r.product },
+];
+
+const btnChars = BUTTONS.map((b) => b.ch).join('');
+const btnPalette = Object.fromEntries(BUTTONS.map((b) => [b.ch, b.color]));
+const base = pixelPaths(PAD, PAL, { skip: btnChars });
 ---
 
-<section id="resultados" data-scrub-scope class="relative scroll-mt-24 py-20 sm:py-28">
+<section id="resultados" class="relative scroll-mt-24 py-20 sm:py-28">
   <div class="container-main">
-    <GameHeading level={`${g.level} 05`} eyebrow={g.results} title={t.results.title} subtitle={t.results.headline} scrub={{ y: -24, x: -14, mobileX: -6 }} />
+    <GameHeading level={`${g.level} 05`} eyebrow={es ? 'Controles' : 'Controls'} title={t.results.title} subtitle={t.results.headline} />
 
-    <div class="grid gap-4 sm:grid-cols-2 lg:gap-5">
-      {
-        blocks.map((block, i) => (
-          <div class="result-card-gsap" data-scrub={JSON.stringify({ y: 28, scale: 0.96 })}>
-            <div
+    <div class="controls grid items-center gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-14">
+      <figure class="mx-auto w-full max-w-[22rem] lg:max-w-none" data-reveal style="--ry:24px">
+        <svg viewBox="0 0 44 24" shape-rendering="crispEdges" class="pad h-auto w-full" role="img" aria-label={es ? 'Mando de consola pixel art' : 'Pixel art game controller'}>
+          <g set:html={base} />
+          {BUTTONS.map((b) => <g class:list={['pad-btn', `pad-${b.k}`]} set:html={pixelPaths(PAD, btnPalette, { only: b.ch })} />)}
+        </svg>
+        <figcaption class="font-pixel mt-3 text-center text-[10px] uppercase tracking-wider text-ink/50">
+          {es ? 'Mis controles en un equipo' : 'My controls in a team'}
+        </figcaption>
+      </figure>
+
+      <ul class="flex flex-col gap-3">
+        {
+          BUTTONS.map((b, i) => (
+            <li
+              data-k={b.k}
               data-reveal
-              data-reveal-margin="-80px"
-              style={`--ry:30px;--d:${(0.1 + i * 0.1).toFixed(2)}s;--ease:cubic-bezier(0.22,1,0.36,1)`}
-              class="h-full"
+              data-reveal-margin="-40px"
+              style={`--ry:20px;--d:${(i * 0.08).toFixed(2)}s;--b:${b.color}`}
+              class="control-row flex items-start gap-4 rounded-2xl border-[3px] border-noir bg-noir-elevated p-4 shadow-[0_5px_0_#0a0706] sm:p-5"
             >
-              <div class="game-panel game-panel-hover group relative h-full overflow-hidden p-6 sm:p-8">
-              <div class="relative">
-                <div class="mb-5 flex items-center justify-between"><div class="flex h-11 w-11 items-center justify-center rounded-xl border-[3px] border-noir bg-acid text-noir shadow-[0_3px_0_#0a0706]">
-                  <Icon name={block.icon} class="h-5 w-5" strokeWidth={2} />
-                </div><span class="pixel-tag">Rule {String(i + 1).padStart(2, "0")}</span></div>
-                <h3 class="mb-2 font-display text-lg font-semibold tracking-tight text-ink">{block.title}</h3>
-                <p class="text-[14px] leading-relaxed text-ink/65 sm:text-[15px]">{block.text}</p>
+              <span class="face-btn" aria-hidden="true">
+                {b.k.toUpperCase()}
+              </span>
+              <div class="min-w-0">
+                <h3 class="text-[17px] font-black leading-tight text-ink sm:text-lg">
+                  <span class="sr-only">{es ? 'Botón' : 'Button'} {b.k.toUpperCase()}: </span>
+                  {b.title}
+                </h3>
+                <p class="mt-1.5 text-[14px] leading-relaxed text-ink/65">{b.text}</p>
               </div>
-              </div>
-            </div>
-          </div>
-        ))
-      }
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </div>
 </section>
+
+<style>
+  .pad {
+    image-rendering: pixelated;
+    filter: drop-shadow(0 6px 0 rgba(10, 7, 6, 0.8));
+  }
+  .pad-btn {
+    transition:
+      transform 0.12s steps(2),
+      filter 0.12s steps(2);
+  }
+  /* En reposo: se "pulsa" un botón detrás de otro */
+  @media (prefers-reduced-motion: no-preference) {
+    .pad-btn {
+      animation: pad-press 4s steps(1) infinite;
+    }
+    .pad-b {
+      animation-delay: 1s;
+    }
+    .pad-x {
+      animation-delay: 2s;
+    }
+    .pad-y {
+      animation-delay: 3s;
+    }
+    .controls:has(.control-row:hover) .pad-btn {
+      animation: none;
+    }
+  }
+  @keyframes pad-press {
+    0% {
+      transform: translateY(1px);
+      filter: brightness(1.45);
+    }
+    12% {
+      transform: none;
+      filter: none;
+    }
+  }
+  .controls:has([data-k='a']:hover) .pad-a,
+  .controls:has([data-k='b']:hover) .pad-b,
+  .controls:has([data-k='x']:hover) .pad-x,
+  .controls:has([data-k='y']:hover) .pad-y {
+    transform: translateY(1px);
+    filter: brightness(1.5);
+  }
+
+  .control-row {
+    transition:
+      transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.2s ease;
+  }
+  .control-row:hover {
+    border-color: var(--b);
+    transform: translateX(4px);
+  }
+  .face-btn {
+    display: grid;
+    height: 2.75rem;
+    width: 2.75rem;
+    flex-shrink: 0;
+    place-items: center;
+    border-radius: 999px;
+    border: 3px solid #0a0706;
+    background: var(--b);
+    color: #0a0706;
+    font-family: var(--font-pixel);
+    font-size: 16px;
+    box-shadow:
+      inset 0 -4px 0 rgba(0, 0, 0, 0.25),
+      inset 0 3px 0 rgba(255, 255, 255, 0.35),
+      0 3px 0 #0a0706;
+  }
+  .control-row:hover .face-btn {
+    transform: translateY(2px);
+    box-shadow:
+      inset 0 -2px 0 rgba(0, 0, 0, 0.25),
+      inset 0 3px 0 rgba(255, 255, 255, 0.35),
+      0 1px 0 #0a0706;
+  }
+</style>
