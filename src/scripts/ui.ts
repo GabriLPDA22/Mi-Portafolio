@@ -126,10 +126,12 @@ export function initContactForm() {
   const idle = button.querySelector<HTMLElement>('[data-idle]')!;
   const loading = button.querySelector<HTMLElement>('[data-loading]')!;
 
+  const sending = root.querySelector<HTMLElement>('[data-contact-sending]');
   const setLoading = (on: boolean) => {
     button.disabled = on;
     idle.hidden = on;
     loading.hidden = !on;
+    if (sending) sending.hidden = !on;
   };
   const showError = (message: string) => {
     errorText.textContent = message;

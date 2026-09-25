@@ -1,0 +1,86 @@
+---
+/**
+ * Monigote pixel art animado (SVG generado en build, animación solo con CSS).
+ * Respira (sube/baja 1 píxel) y parpadea cada pocos segundos.
+ */
+import { MASCOT_FRAMES, MASCOT_PALETTE } from '@/data/mascot';
+
+interface Props {
+  class?: string;
+  /** Texto alternativo; vacío = decorativo. */
+  label?: string;
+}
+const { class: className = '', label } = Astro.props;
+
+const W = MASCOT_FRAMES.idle[0].length;
+const H = MASCOT_FRAMES.idle.length;
+
+/** Convierte las filas de caracteres en rectángulos (agrupando píxeles contiguos del mismo color). */
+const toRects = (rows: readonly string[]) => {
+  const rects: string[] = [];
+  rows.forEach((row, y) => {
+    let x = 0;
+    while (x < row.length) {
+      const ch = row[x];
+      let x2 = x;
+      while (x2 < row.length && row[x2] === ch) x2++;
+      const fill = MASCOT_PALETTE[ch];
+      if (fill) rects.push(`<rect x="${x}" y="${y}" width="${x2 - x}" height="1" fill="${fill}"/>`);
+      x = x2;
+    }
+  });
+  return rects.join('');
+};
+const idle = toRects(MASCOT_FRAMES.idle);
+const blink = toRects(MASCOT_FRAMES.blink);
+---
+
+<svg
+  viewBox={`0 0 ${W} ${H}`}
+  shape-rendering="crispEdges"
+  class:list={['mascot', className]}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+>
+  <g class="mascot-body">
+    <g class="mascot-idle" set:html={idle} />
+    <g class="mascot-blink" set:html={blink} />
+  </g>
+</svg>
+
+<style>
+  .mascot {
+    image-rendering: pixelated;
+    overflow: visible;
+  }
+  .mascot-blink {
+    opacity: 0;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    /* Respiración: 1 píxel de sprite arriba/abajo, a saltos (como un juego de 16 bits) */
+    .mascot-body {
+      animation: mascot-breathe 1.2s steps(1) infinite;
+    }
+    .mascot-blink {
+      animation: mascot-blink 4.2s steps(1) infinite;
+    }
+    .mascot-idle {
+      animation: mascot-open 4.2s steps(1) infinite;
+    }
+  }
+  @keyframes mascot-breathe {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(1px); }
+  }
+  @keyframes mascot-blink {
+    0%, 93% { opacity: 0; }
+    94%, 97% { opacity: 1; }
+    98% { opacity: 0; }
+  }
+  @keyframes mascot-open {
+    0%, 93% { opacity: 1; }
+    94%, 97% { opacity: 0; }
+    98% { opacity: 1; }
+  }
+</style>

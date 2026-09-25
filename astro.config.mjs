@@ -32,6 +32,16 @@ export default defineConfig({
         variants: [{ src: ['./src/assets/fonts/caveat-latin-600.woff2'], weight: '600', style: 'normal' }],
       },
     },
+    {
+      // Fuente pixel para los textos tipo HUD (OFL-1.1, 8 KB).
+      provider: fontProviders.local(),
+      name: 'Silkscreen',
+      cssVariable: '--font-silk',
+      fallbacks: ['ui-monospace', 'monospace'],
+      options: {
+        variants: [{ src: ['./src/assets/fonts/silkscreen-latin-400-normal.woff2'], weight: '400', style: 'normal' }],
+      },
+    },
   ],
   vite: {
     plugins: [tailwindcss()],

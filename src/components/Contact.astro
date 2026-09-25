@@ -1,6 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import Footer from './Footer.astro';
+import PixelLoader from './PixelLoader.astro';
 import { getT, type Locale } from '@/i18n';
 
 interface Props {
@@ -86,6 +87,11 @@ const label = 'mb-2 block text-[13px] font-medium text-ink/75';
           >
             <div class="relative max-sm:bg-transparent sm:overflow-hidden sm:rounded-3xl sm:border sm:border-white/[0.09] sm:bg-white/[0.025] sm:p-8 sm:backdrop-blur-xl">
               <div aria-hidden="true" class="absolute inset-x-0 top-0 hidden h-px bg-gradient-to-r from-transparent via-acid/50 to-transparent sm:block"></div>
+
+              <!-- Pantalla de carga 8-bit mientras se envía -->
+              <div data-contact-sending hidden class="absolute inset-0 z-10 flex items-center justify-center bg-noir/95 sm:rounded-3xl">
+                <PixelLoader label={f.sending.replace(/\.+$/, '')} />
+              </div>
 
               <div data-contact-success hidden class="py-12 text-center" role="status">
                 <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-acid/15">
