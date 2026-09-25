@@ -1,13 +1,14 @@
 ---
 import Icon from './Icon.astro';
-import SectionHeading from './SectionHeading.astro';
-import { getT, type Locale } from '@/i18n';
+import GameHeading from './GameHeading.astro';
+import { gameLabels, getT, type Locale } from '@/i18n';
 
 interface Props {
   locale: Locale;
 }
 const { locale } = Astro.props;
 const t = getT(locale);
+const g = gameLabels[locale];
 ---
 
 <section id="trayectoria" data-scrub-scope class="relative z-10 scroll-mt-24 bg-noir/40 py-20 sm:py-28 xl:bg-transparent">
@@ -16,14 +17,15 @@ const t = getT(locale);
   </div>
 
   <div class="container-main">
-    <SectionHeading
-      tag={t.experience.title}
-      headline={t.experience.headline}
+    <GameHeading
+      level={`${g.level} 04`}
+      eyebrow={g.experience}
+      title={t.experience.title}
       subtitle={t.experience.subtitle}
       scrub={{ y: -28, x: -18, mobileX: -8 }}
     />
 
-    <ol class="divide-y divide-white/[0.07] border-y border-white/[0.07]">
+    <ol class="flex flex-col gap-6">
       {
         t.experience.items.map((item, index) => (
           <li class="exp-item-gsap" data-scrub={JSON.stringify({ y: 22 })}>
@@ -31,10 +33,13 @@ const t = getT(locale);
               data-reveal
               data-reveal-margin="-60px"
               style={`--ry:30px;--dur:.7s;--d:${(index * 0.06).toFixed(2)}s;--ease:cubic-bezier(0.22,1,0.36,1)`}
-              class="grid gap-4 py-10 sm:grid-cols-[minmax(0,14rem)_1fr] sm:gap-10 lg:grid-cols-[minmax(0,18rem)_1fr]"
+              class="game-panel grid gap-4 p-6 sm:grid-cols-[minmax(0,13rem)_1fr] sm:gap-10 sm:p-8 lg:grid-cols-[minmax(0,17rem)_1fr]"
             >
               <div>
-                <p class="font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">{item.period}</p>
+                <p class="pixel-tag mb-4 w-fit border-2 border-acid/60 text-acid">
+                  <span aria-hidden="true">✓</span> {g.completed}
+                </p>
+                <p class="game-title text-3xl sm:text-4xl">{item.period}</p>
                 <p class="mt-2 text-[12px] font-medium uppercase tracking-[0.18em] text-ink/60">{item.location}</p>
               </div>
 

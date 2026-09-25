@@ -1,13 +1,14 @@
 ---
 import Icon from './Icon.astro';
 import SplitTitle from './SplitTitle.astro';
-import { getT, type Locale } from '@/i18n';
+import { gameLabels, getT, type Locale } from '@/i18n';
 
 interface Props {
   locale: Locale;
 }
 const { locale } = Astro.props;
 const t = getT(locale);
+const g = gameLabels[locale];
 
 const serviceIcons: Record<string, string> = {
   mobile: 'Smartphone',
@@ -40,9 +41,12 @@ const ribbon = `${t.services.ribbon}  ·  ${t.services.ribbon}  ·  ${t.services
     </div>
 
     <div class="text-center">
-      <h2 class="services-title-gsap font-code text-[clamp(2.4rem,8vw,5.5rem)] font-bold uppercase tracking-tight text-ink" data-scrub={JSON.stringify({ y: -50, x: -50, rotate: -5 })}>
-        <SplitTitle text={t.services.title} />
-      </h2>
+      <div class="services-title-gsap" data-scrub={JSON.stringify({ y: -50, x: -50, rotate: -5 })}>
+        <p class="hud-chip mx-auto" data-reveal style="--ry:12px"><span class="text-ink/70">{g.level} 02</span> · {g.services}</p>
+        <h2 class="game-title mt-5 -rotate-1 text-[clamp(2.4rem,8vw,5.2rem)]">
+          <SplitTitle text={t.services.title} class="pb-[0.2em] pr-[0.12em]" />
+        </h2>
+      </div>
       <p class="services-description-gsap mx-auto mt-5 max-w-[34rem] text-[15px] leading-relaxed text-ink/65 xl:text-xl" data-scrub={JSON.stringify({ scale: 0.85 })}>
         {t.services.subtitle}
       </p>
@@ -61,12 +65,12 @@ const ribbon = `${t.services.ribbon}  ·  ${t.services.ribbon}  ·  ${t.services
                 data-reveal
                 data-reveal-margin="-60px"
                 style={`--ry:32px;--d:${(i * 0.07).toFixed(2)}s;--ease:cubic-bezier(0.22,1,0.36,1)`}
-                class="group flex h-full flex-col justify-between rounded-[3rem] border border-white/15 bg-noir-soft p-7 shadow-[0_20px_50px_-28px_rgba(0,0,0,0.8)] xl:p-8 xl:hover:-translate-y-6"
+                class="game-panel group flex h-full flex-col justify-between p-7 transition-[translate,border-color] duration-300 hover:border-acid xl:p-8 xl:hover:-translate-y-6"
               >
                 <div>
                   <div class="mb-4 flex items-start justify-between">
-                    <span class="font-code text-base text-ink/60 xl:text-xl">{String(i + 1).padStart(2, '0')}</span>
-                    <span class="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-ink/70">
+                    <span class="pixel-tag">Skill {String(i + 1).padStart(2, '0')}</span>
+                    <span class="flex h-11 w-11 items-center justify-center rounded-xl border-[3px] border-noir bg-acid text-noir shadow-[0_3px_0_#0a0706]">
                       <Icon name={serviceIcons[service.id] ?? 'Monitor'} class="h-5 w-5" strokeWidth={1.6} />
                     </span>
                   </div>

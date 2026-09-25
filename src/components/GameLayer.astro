@@ -1,0 +1,173 @@
+---
+/**
+ * Piezas de la capa "videojuego" que viven en el layout: pantalla de carga (portada),
+ * aviso de logro desbloqueado y cortinilla pixel de PRESS START.
+ */
+import PixelLoader from './PixelLoader.astro';
+import type { Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+  /** Mostrar la pantalla de carga (solo portada). */
+  boot?: boolean;
+}
+const { locale, boot = false } = Astro.props;
+const es = locale === 'es';
+
+const achievements = es
+  ? [
+      { id: 'start', title: 'Partida iniciada', desc: 'Has pulsado START' },
+      { id: 'explorer', title: 'Explorador', desc: 'Has visto los proyectos' },
+      { id: 'cv', title: 'Reclutador pro', desc: 'CV descargado' },
+      { id: 'friend', title: 'Amigo del monigote', desc: '5 saludos a Gabriel' },
+      { id: 'boss', title: 'Jefe final', desc: 'Has llegado al contacto' },
+      { id: 'konami', title: 'Código secreto', desc: '↑↑↓↓←→←→BA · modo dorado' },
+    ]
+  : [
+      { id: 'start', title: 'Game started', desc: 'You pressed START' },
+      { id: 'explorer', title: 'Explorer', desc: 'You checked the projects' },
+      { id: 'cv', title: 'Pro recruiter', desc: 'CV downloaded' },
+      { id: 'friend', title: "Mascot's buddy", desc: '5 hellos to Gabriel' },
+      { id: 'boss', title: 'Final boss', desc: 'You reached the contact form' },
+      { id: 'konami', title: 'Secret code', desc: '↑↑↓↓←→←→BA · golden mode' },
+    ];
+const data = { achievements, unlocked: es ? 'Logro desbloqueado' : 'Achievement unlocked' };
+---
+
+<script is:inline type="application/json" id="game-data" set:html={JSON.stringify(data)} />
+
+{
+  boot && (
+    <div data-boot class="boot" aria-hidden="true">
+      <PixelLoader label={es ? 'Cargando partida' : 'Loading game'} size="h-[168px] sm:h-[210px]" />
+      <p class="boot-skip font-pixel">{es ? 'Pulsa cualquier tecla para saltar' : 'Press any key to skip'}</p>
+    </div>
+  )
+}
+
+<!-- Aviso de logro (arriba a la derecha, estilo consola) -->
+<div data-achievement hidden class="achievement" role="status" aria-live="polite">
+  <span class="achievement-icon" aria-hidden="true">🏆</span>
+  <span class="flex min-w-0 flex-col">
+    <span class="font-pixel text-[10px] uppercase tracking-wider text-acid">
+      {data.unlocked} · <span data-ach-count></span>
+    </span>
+    <span data-ach-title class="truncate text-[15px] font-black text-ink"></span>
+    <span data-ach-desc class="truncate text-[12px] text-ink/70"></span>
+  </span>
+</div>
+
+<!-- Cortinilla pixel de PRESS START -->
+<div data-wipe hidden class="wipe" aria-hidden="true"></div>
+
+<style>
+  /* Pantalla de carga: solo con JS y en la primera visita (clase no-boot desde <head>) */
+  .boot {
+    display: none;
+  }
+  :global(html.js:not(.no-boot)) .boot {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    background: #120e0b;
+    cursor: pointer;
+    /* red de seguridad: si el JS fallase, se quita sola */
+    animation: boot-auto-out 0.4s steps(4) 2.4s forwards;
+  }
+  .boot.is-leaving {
+    animation: boot-out 0.4s steps(5) forwards !important;
+  }
+  .boot-skip {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 243, 230, 0.6);
+  }
+  @keyframes boot-out {
+    to {
+      clip-path: inset(0 0 100% 0);
+      visibility: hidden;
+    }
+  }
+  @keyframes boot-auto-out {
+    to {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+  }
+
+  .achievement {
+    position: fixed;
+    top: 5.5rem;
+    right: 1rem;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    max-width: min(22rem, calc(100vw - 2rem));
+    border: 3px solid #0a0706;
+    border-radius: 1rem;
+    background: #221c17;
+    padding: 0.7rem 1rem 0.7rem 0.8rem;
+    box-shadow:
+      inset 0 2px 0 rgba(255, 243, 230, 0.08),
+      0 6px 0 #0a0706,
+      0 0 0 2px rgba(240, 180, 41, 0.35);
+    transform: translateX(120%);
+    transition: transform 0.35s steps(6);
+  }
+  .achievement.is-in {
+    transform: translateX(0);
+  }
+  .achievement-icon {
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    flex-shrink: 0;
+    border: 3px solid #0a0706;
+    border-radius: 0.7rem;
+    background: #f0b429;
+    font-size: 1.2rem;
+  }
+
+  /* Cortinilla: bloques que barren la pantalla a saltos (8 pasos) */
+  .wipe {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    pointer-events: none;
+    background:
+      repeating-linear-gradient(90deg, #f0b429 0 48px, #d4921f 48px 96px),
+      #f0b429;
+    clip-path: inset(0 100% 0 0);
+  }
+  .wipe.is-in {
+    animation: wipe-in 0.42s steps(8) forwards;
+  }
+  .wipe.is-out {
+    clip-path: inset(0 0 0 0);
+    animation: wipe-out 0.42s steps(8) forwards;
+  }
+  @keyframes wipe-in {
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+  @keyframes wipe-out {
+    to {
+      clip-path: inset(0 0 0 100%);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .achievement {
+      transition: none;
+    }
+  }
+</style>

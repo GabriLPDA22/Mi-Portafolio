@@ -34,6 +34,9 @@ const year = new Date().getFullYear();
           class="pointer-events-none absolute inset-x-0 top-0 h-10 bg-ink/[0.06] max-sm:[clip-path:polygon(0_100%,100%_0,100%_12%,0_100%)] sm:hidden"
         />
         <div class="container-main relative z-10 flex flex-col items-center gap-7 sm:gap-8 xl:gap-12">
+          <a href={home} class="font-pixel text-[12px] uppercase tracking-widest text-acid transition-colors hover:text-acid-light">
+            {es ? '¿Continuar?' : 'Continue?'} <span aria-hidden="true">▶</span> {es ? 'Volver al inicio' : 'Back to start'}
+          </a>
           <nav class="flex max-w-xs flex-wrap justify-center gap-x-8 gap-y-3 sm:max-w-none" aria-label={es ? 'Pie de página' : 'Footer'}>
             {routes.map((r) => (
               <a href={r.href} class="text-base text-ink/65 transition-colors hover:text-ink xl:text-lg">
@@ -55,7 +58,7 @@ const year = new Date().getFullYear();
         <p
           aria-hidden="true"
           data-scrub={JSON.stringify({ y: 20, scale: 1.03 })}
-          class="footer-watermark-gsap pointer-events-none relative z-0 -mb-6 mt-8 bg-gradient-to-t from-noir from-20% to-transparent text-center font-code text-[clamp(4rem,16vw,14rem)] font-extrabold leading-none text-ink/[0.08] sm:mt-10 xl:-mb-10"
+          class="footer-watermark-gsap pointer-events-none relative z-0 -mb-6 mt-8 bg-gradient-to-t from-noir from-20% to-transparent text-center font-pixel uppercase text-[clamp(3rem,13vw,12rem)] leading-none text-ink/[0.08] sm:mt-10 xl:-mb-10"
         >
           Developer
         </p>
@@ -64,7 +67,10 @@ const year = new Date().getFullYear();
   ) : (
     <footer data-scrub-scope class="relative overflow-hidden border-t border-white/[0.06] pt-16 xl:pt-24">
       <div class="container-main relative z-10 flex flex-col items-center gap-8 pb-14 xl:gap-12 xl:pb-20">
-        <nav class="flex max-w-xs flex-wrap justify-center gap-x-8 gap-y-3 sm:max-w-none" aria-label={es ? 'Pie de página' : 'Footer'}>
+        <a href={home} class="font-pixel text-[12px] uppercase tracking-widest text-acid transition-colors hover:text-acid-light">
+            {es ? '¿Continuar?' : 'Continue?'} <span aria-hidden="true">▶</span> {es ? 'Volver al inicio' : 'Back to start'}
+          </a>
+          <nav class="flex max-w-xs flex-wrap justify-center gap-x-8 gap-y-3 sm:max-w-none" aria-label={es ? 'Pie de página' : 'Footer'}>
           {routes.map((r) => (
             <a href={r.href} class="text-base text-ink/65 transition-colors hover:text-ink xl:text-lg">
               {r.label}
@@ -85,7 +91,7 @@ const year = new Date().getFullYear();
       <p
         aria-hidden="true"
         data-scrub={JSON.stringify({ y: 20, scale: 1.03 })}
-        class="footer-watermark-gsap pointer-events-none relative z-0 -mb-6 bg-gradient-to-t from-noir from-15% to-transparent text-center font-code text-[clamp(4rem,14vw,14rem)] font-extrabold leading-none text-ink/[0.06] xl:-mb-10"
+        class="footer-watermark-gsap pointer-events-none relative z-0 -mb-6 bg-gradient-to-t from-noir from-15% to-transparent text-center font-pixel uppercase text-[clamp(3rem,12vw,12rem)] leading-none text-ink/[0.06] xl:-mb-10"
       >
         Developer
       </p>

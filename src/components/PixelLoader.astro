@@ -8,8 +8,10 @@ import { MASCOT_PALETTE, MASCOT_TYPING } from '@/data/mascot';
 interface Props {
   label: string;
   class?: string;
+  /** Clases de tamaño del sprite. */
+  size?: string;
 }
-const { label, class: className = '' } = Astro.props;
+const { label, class: className = '', size = 'h-[126px]' } = Astro.props;
 
 const toRects = (rows: readonly string[]) => {
   const rects: string[] = [];
@@ -34,7 +36,7 @@ const H = MASCOT_TYPING[0].length;
 ---
 
 <div class:list={['pixel-loader flex flex-col items-center gap-4', className]} role="status" aria-live="polite">
-  <svg viewBox={`0 0 ${W} ${H}`} shape-rendering="crispEdges" class="h-[126px] w-auto" aria-hidden="true">
+  <svg viewBox={`0 0 ${W} ${H}`} shape-rendering="crispEdges" class:list={[size, 'w-auto']} aria-hidden="true">
     {sequence.map((f, i) => <g class="pl-frame" style={`--i:${i}`} set:html={frames[f]} />)}
   </svg>
   <div class="pl-bar" aria-hidden="true"><span></span></div>

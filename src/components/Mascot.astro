@@ -3,7 +3,7 @@
  * Monigote pixel art animado (SVG generado en build, animación solo con CSS).
  * Respira (sube/baja 1 píxel) y parpadea cada pocos segundos.
  */
-import { MASCOT_FRAMES, MASCOT_PALETTE } from '@/data/mascot';
+import { MASCOT_CROWN, MASCOT_FRAMES, MASCOT_PALETTE } from '@/data/mascot';
 
 interface Props {
   class?: string;
@@ -46,6 +46,7 @@ const blink = toRects(MASCOT_FRAMES.blink);
   <g class="mascot-body">
     <g class="mascot-idle" set:html={idle} />
     <g class="mascot-blink" set:html={blink} />
+    <g class="mascot-crown" set:html={MASCOT_CROWN} />
   </g>
 </svg>
 
@@ -56,6 +57,17 @@ const blink = toRects(MASCOT_FRAMES.blink);
   }
   .mascot-blink {
     opacity: 0;
+  }
+  /* Corona: solo con el código Konami (clase en <html>) */
+  .mascot-crown {
+    display: none;
+  }
+  :global(html.konami) .mascot-crown {
+    display: inline;
+  }
+  /* Salto al hacer clic (lo activa el script añadiendo .is-jumping al svg) */
+  :global(.mascot.is-jumping) {
+    animation: mascot-jump 0.5s steps(5) both;
   }
   @media (prefers-reduced-motion: no-preference) {
     /* Respiración: 1 píxel de sprite arriba/abajo, a saltos (como un juego de 16 bits) */
@@ -68,6 +80,11 @@ const blink = toRects(MASCOT_FRAMES.blink);
     .mascot-idle {
       animation: mascot-open 4.2s steps(1) infinite;
     }
+  }
+  @keyframes mascot-jump {
+    0%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-18%); }
+    60% { transform: translateY(-18%); }
   }
   @keyframes mascot-breathe {
     0%, 100% { transform: translateY(0); }

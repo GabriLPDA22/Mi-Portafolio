@@ -4,13 +4,14 @@ import Icon from './Icon.astro';
 import ScriptQuote from './ScriptQuote.astro';
 import SplitTitle from './SplitTitle.astro';
 import photo from '@/assets/img/Yo.webp';
-import { getT, type Locale } from '@/i18n';
+import { gameLabels, getT, type Locale } from '@/i18n';
 
 interface Props {
   locale: Locale;
 }
 const { locale } = Astro.props;
 const t = getT(locale);
+const g = gameLabels[locale];
 
 const techGroups = {
   es: {
@@ -29,8 +30,7 @@ const techGroups = {
 
 const scrub = (vars: Record<string, number>) => JSON.stringify(vars);
 
-const card =
-  'group relative z-[1] overflow-hidden rounded-[2.5rem] border border-white/15 bg-noir-soft/80 p-6 xl:rounded-[3rem] xl:p-8';
+const card = 'game-panel group relative z-[1] overflow-hidden p-6 xl:p-8';
 const cardFill =
   'absolute inset-0 -z-[1] scale-x-0 bg-ink transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-x-100';
 const cardTitle = 'relative z-10 text-xl font-medium text-ink/80 transition-colors duration-300 group-hover:text-noir xl:text-2xl';
@@ -49,9 +49,12 @@ const photoAlt =
 >
   <div class="container-main flex flex-col gap-12 xl:gap-24">
     <div class="flex w-full flex-col gap-8 md:flex-row md:items-end md:justify-between md:gap-20 2xl:w-[85%]">
-      <h2 class="section-name-gsap font-code text-3xl text-ink xl:text-5xl" data-scrub={scrub({ x: -100, y: -100, mobileX: -40 })}>
-        ../<SplitTitle text={t.about.title.toLowerCase()} />
-      </h2>
+      <div class="section-name-gsap" data-scrub={scrub({ x: -100, y: -100, mobileX: -40 })}>
+        <p class="hud-chip" data-reveal style="--ry:12px"><span class="text-ink/70">{g.level} 01</span> · {g.about}</p>
+        <h2 class="game-title mt-5 origin-left -rotate-[1.5deg] text-[clamp(2.3rem,7vw,4.6rem)]">
+          <SplitTitle text={t.about.title} class="pb-[0.2em] pr-[0.12em]" />
+        </h2>
+      </div>
       <p
         class="description-gsap max-w-xl whitespace-pre-line text-base leading-relaxed text-ink/65 xl:text-xl"
         data-scrub={scrub({ x: 100, y: -100, mobileX: 40 })}
@@ -64,6 +67,7 @@ const photoAlt =
       <div class="flex w-full flex-col gap-6 xl:w-1/2 xl:gap-8">
         <div class="front-gsap" data-scrub={scrub({ scale: 0.9, rotate: 5, x: 100, mobileX: 40 })}>
           <div class={card}>
+            <p class="pixel-tag relative z-10 mb-3 w-fit group-hover:bg-noir">{g.slot} 1</p>
             <p class={cardTitle}>{techGroups.front.label}</p>
             <p class={cardItems}>{techGroups.front.items}</p>
             <div class:list={[cardFill, 'origin-left']}></div>
@@ -73,7 +77,8 @@ const photoAlt =
         <div class="flex items-center justify-between gap-4">
           <div class="styles-gsap w-1/2" data-scrub={scrub({ scale: 0.9, rotate: -5, x: -100, mobileX: -40 })}>
             <div class={card}>
-              <p class={cardTitle}>{techGroups.styles.label}</p>
+              <p class="pixel-tag relative z-10 mb-3 w-fit group-hover:bg-noir">{g.slot} 2</p>
+            <p class={cardTitle}>{techGroups.styles.label}</p>
               <p class={cardItems}>{techGroups.styles.items}</p>
               <div class:list={[cardFill, 'origin-right']}></div>
             </div>
@@ -106,7 +111,8 @@ const photoAlt =
           </p>
           <div class="back-gsap w-1/2" data-scrub={scrub({ scale: 0.9, rotate: 5, x: 100, mobileX: 40 })}>
             <div class={card}>
-              <p class={cardTitle}>{techGroups.back.label}</p>
+              <p class="pixel-tag relative z-10 mb-3 w-fit group-hover:bg-noir">{g.slot} 3</p>
+            <p class={cardTitle}>{techGroups.back.label}</p>
               <p class={cardItems}>{techGroups.back.items}</p>
               <div class:list={[cardFill, 'origin-left']}></div>
             </div>
@@ -115,6 +121,7 @@ const photoAlt =
 
         <div class="tools-gsap" data-scrub={scrub({ scale: 0.9, rotate: -5, x: -100, mobileX: -40 })}>
           <div class={card}>
+            <p class="pixel-tag relative z-10 mb-3 w-fit group-hover:bg-noir">{g.slot} 4</p>
             <p class={cardTitle}>{techGroups.tools.label}</p>
             <p class={cardItems}>{techGroups.tools.items}</p>
             <div class:list={[cardFill, 'origin-right']}></div>
@@ -123,7 +130,8 @@ const photoAlt =
       </div>
 
       <div class="personal-image-gsap relative w-full max-w-sm xl:max-w-md" data-scrub={scrub({ y: -50, x: 50, rotate: -5 })}>
-        <div class="anime-panel relative mx-auto p-3 md:p-4">
+        <div class="game-panel relative mx-auto p-3 md:p-4">
+          <p class="pixel-tag absolute -top-3 left-5 z-10 border-2 border-acid text-acid">P1 · Gabriel</p>
           <div class="relative h-[24rem] w-full overflow-hidden rounded-[1.35rem] md:h-[30rem] xl:h-[34rem]">
             <Picture
               src={photo}

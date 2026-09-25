@@ -8,6 +8,7 @@ import '@/styles/globals.css';
 import Header from '@/components/Header.astro';
 import CookieBanner from '@/components/CookieBanner.astro';
 import ScrollToTop from '@/components/ScrollToTop.astro';
+import GameLayer from '@/components/GameLayer.astro';
 import { localePath, type Locale } from '@/i18n';
 
 interface Props {
@@ -21,6 +22,8 @@ interface Props {
   jsonLd?: Record<string, unknown>;
   /** Mostrar el botón "volver arriba" (portada). */
   scrollTop?: boolean;
+  /** Pantalla de carga de videojuego (portada, primera visita de la sesión). */
+  boot?: boolean;
 }
 
 const siteUrl = 'https://gabrielcodes.dev';
@@ -45,7 +48,7 @@ const meta = {
   },
 };
 
-const { locale, path = '/', title, description, noindex = false, jsonLd, scrollTop = false } = Astro.props;
+const { locale, path = '/', title, description, noindex = false, jsonLd, scrollTop = false, boot = false } = Astro.props;
 const m = meta[locale];
 const fullTitle = title ? `${title} | Gabriel Saiz` : m.title;
 const desc = description ?? m.description;
@@ -81,7 +84,18 @@ const keywords = [
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Con JS, las entradas animadas empiezan ocultas; sin JS todo es visible. -->
-    <script is:inline>document.documentElement.classList.add('js')</script>
+    <script is:inline>
+      (function () {
+        var h = document.documentElement;
+        h.classList.add('js');
+        // La pantalla de carga solo se ve en la primera visita de la sesión y nunca con "reducir movimiento".
+        try {
+          if (sessionStorage.getItem('gs-boot') || matchMedia('(prefers-reduced-motion: reduce)').matches) h.classList.add('no-boot');
+        } catch (e) {
+          h.classList.add('no-boot');
+        }
+      })();
+    </script>
     <title>{fullTitle}</title>
     <meta name="description" content={desc} />
     <meta name="keywords" content={keywords} />
@@ -136,6 +150,7 @@ const keywords = [
     <slot />
     {scrollTop && <ScrollToTop locale={locale} />}
     <CookieBanner locale={locale} />
+    <GameLayer locale={locale} boot={boot} />
     <script>
       import '@/scripts/site';
     </script>

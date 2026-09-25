@@ -20,3 +20,33 @@ export const localePath = (locale: Locale, path = '/') => {
 export const homePath = (locale: Locale) => (locale === 'es' ? '/' : '/en');
 
 export const otherLocale = (locale: Locale): Locale => (locale === 'es' ? 'en' : 'es');
+
+/** Rótulos "de videojuego" de cada sección (chip HUD de la cabecera). */
+export const gameLabels = {
+  es: {
+    level: 'Nivel',
+    about: 'Perfil del jugador',
+    services: 'Habilidades',
+    projects: 'Selecciona nivel',
+    experience: 'Misiones completadas',
+    results: 'Reglas del equipo',
+    contact: 'Modo cooperativo',
+    selected: 'Selected',
+    slot: 'Slot',
+    completed: 'Completada',
+    current: 'En curso',
+  },
+  en: {
+    level: 'Level',
+    about: 'Player profile',
+    services: 'Skills',
+    projects: 'Select a level',
+    experience: 'Completed quests',
+    results: 'House rules',
+    contact: 'Co-op mode',
+    selected: 'Selected',
+    slot: 'Slot',
+    completed: 'Completed',
+    current: 'Ongoing',
+  },
+} as const;
