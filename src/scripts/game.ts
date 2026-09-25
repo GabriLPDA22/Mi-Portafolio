@@ -4,7 +4,8 @@
  */
 
 type Achievement = { id: string; title: string; desc: string };
-type GameData = { achievements: Achievement[]; unlocked: string; phrasesLabel?: string };
+type ArcadeTexts = { title: string; start: string; over: string; retry: string; score: string; best: string; close: string; hint: string };
+type GameData = { achievements: Achievement[]; arcade?: ArcadeTexts; unlocked: string };
 
 const STORE = 'gs-achievements';
 const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -44,7 +45,8 @@ export function initBoot() {
 
   window.addEventListener('keydown', finish);
   boot.addEventListener('click', finish);
-  window.setTimeout(finish, 950);
+  // La barra llega al 100 % a los ~1,7 s; se deja ver el "¡Listo!" y se abre.
+  window.setTimeout(finish, 2150);
 }
 
 /* ------------------------------------------------------------------ */
@@ -121,7 +123,7 @@ export function initAchievements() {
     );
     io.observe(el);
   };
-  watch('#proyectos .project-card', 'explorer');
+  watch('#proyectos [data-level-select]', 'explorer');
   watch('#contacto-form', 'boss');
 
   // Reclutador pro: descargar el CV
@@ -207,19 +209,76 @@ export function initMascot() {
 }
 
 /* ------------------------------------------------------------------ */
-/* Código Konami: ↑↑↓↓←→←→BA                                           */
+/* Modo arcade: BUG RUN (código Konami ↑↑↓↓←→←→BA o botón del pie)      */
 /* ------------------------------------------------------------------ */
 
-export function initKonami() {
+const openArcadeLazy = () => {
+  const texts = readData()?.arcade;
+  if (!texts) return;
+  unlock('konami');
+  // Import dinámico: el juego no pesa nada hasta que alguien lo abre.
+  void import('./arcade').then(({ openArcade }) =>
+    openArcade(texts, (score) => {
+      if (score >= 300) unlock('bughunter');
+    }),
+  );
+};
+
+export function initArcade() {
+  document.querySelectorAll<HTMLButtonElement>('[data-arcade-open]').forEach((btn) => {
+    btn.hidden = false;
+    btn.addEventListener('click', openArcadeLazy);
+  });
+
   const code = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
   let pos = 0;
   window.addEventListener('keydown', (e) => {
+    if (document.querySelector('.arcade')) return;
     const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
     pos = key === code[pos] ? pos + 1 : key === code[0] ? 1 : 0;
     if (pos === code.length) {
       pos = 0;
-      document.documentElement.classList.toggle('konami');
-      unlock('konami');
+      openArcadeLazy();
     }
+  });
+}
+
+/* ------------------------------------------------------------------ */
+/* Selección de nivel (proyectos): pestañas accesibles                  */
+/* ------------------------------------------------------------------ */
+
+export function initLevelSelect() {
+  const root = document.querySelector<HTMLElement>('[data-level-select]');
+  if (!root) return;
+  const tabs = [...root.querySelectorAll<HTMLButtonElement>('[data-level-tab]')];
+  const panels = [...root.querySelectorAll<HTMLElement>('[data-level-panel]')];
+
+  const select = (i: number, focus = false) => {
+    tabs.forEach((tab, j) => {
+      const on = i === j;
+      tab.setAttribute('aria-selected', String(on));
+      tab.tabIndex = on ? 0 : -1;
+    });
+    panels.forEach((panel, j) => {
+      if (i === j) panel.removeAttribute('data-hidden-js');
+      else panel.setAttribute('data-hidden-js', 'true');
+    });
+    if (focus) tabs[i].focus();
+    tabs[i].scrollIntoView({ block: 'nearest', inline: 'center', behavior: reduced() ? 'auto' : 'smooth' });
+  };
+
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => select(i));
+    tab.addEventListener('keydown', (e) => {
+      const last = tabs.length - 1;
+      let next = -1;
+      if (e.key === 'ArrowRight') next = i === last ? 0 : i + 1;
+      else if (e.key === 'ArrowLeft') next = i === 0 ? last : i - 1;
+      else if (e.key === 'Home') next = 0;
+      else if (e.key === 'End') next = last;
+      if (next < 0) return;
+      e.preventDefault();
+      select(next, true);
+    });
   });
 }

@@ -3,7 +3,7 @@
  * Monigote pixel art animado (SVG generado en build, animación solo con CSS).
  * Respira (sube/baja 1 píxel) y parpadea cada pocos segundos.
  */
-import { MASCOT_CROWN, MASCOT_FRAMES, MASCOT_PALETTE } from '@/data/mascot';
+import { MASCOT_FRAMES, MASCOT_PALETTE } from '@/data/mascot';
 
 interface Props {
   class?: string;
@@ -46,7 +46,6 @@ const blink = toRects(MASCOT_FRAMES.blink);
   <g class="mascot-body">
     <g class="mascot-idle" set:html={idle} />
     <g class="mascot-blink" set:html={blink} />
-    <g class="mascot-crown" set:html={MASCOT_CROWN} />
   </g>
 </svg>
 
@@ -57,13 +56,6 @@ const blink = toRects(MASCOT_FRAMES.blink);
   }
   .mascot-blink {
     opacity: 0;
-  }
-  /* Corona: solo con el código Konami (clase en <html>) */
-  .mascot-crown {
-    display: none;
-  }
-  :global(html.konami) .mascot-crown {
-    display: inline;
   }
   /* Salto al hacer clic (lo activa el script añadiendo .is-jumping al svg) */
   :global(.mascot.is-jumping) {

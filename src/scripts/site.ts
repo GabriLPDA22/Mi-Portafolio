@@ -1,5 +1,5 @@
-import { initAchievements, initBoot, initKonami, initMascot, initPressStart } from './game';
-import { initArcMarquee, initContactCurtain, initPinnedAbout, initProjectsStack, initReveal, initScrub } from './motion';
+import { initAchievements, initBoot, initArcade, initLevelSelect, initMascot, initPressStart } from './game';
+import { initArcMarquee, initContactCurtain, initPinnedAbout, initReveal, initScrub } from './motion';
 import { initContactForm, initCookieBanner, initHeader, initScrollToTop } from './ui';
 
 initHeader();
@@ -11,11 +11,11 @@ initReveal();
 initScrub();
 initArcMarquee();
 initPinnedAbout();
-initProjectsStack();
 initContactCurtain();
 
 initBoot();
 initAchievements();
 initPressStart();
 initMascot();
-initKonami();
+initArcade();
+initLevelSelect();

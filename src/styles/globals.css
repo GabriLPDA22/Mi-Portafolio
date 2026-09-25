@@ -369,15 +369,6 @@ body::after {
   will-change: transform, opacity;
 }
 
-.projects-stack .project-card {
-  position: relative;
-  will-change: transform;
-}
-
-.project-card-content {
-  transform-origin: center center;
-}
-
 .text-reflect {
   transform: scaleY(-1);
   opacity: 0.45;
@@ -945,11 +936,6 @@ textarea:focus-visible {
     display: none;
   }
 
-  .projects-stack .project-card {
-    position: relative;
-    top: auto;
-    height: auto;
-  }
 
   .card-acid:hover {
     transform: none;

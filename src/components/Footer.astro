@@ -45,6 +45,7 @@ const year = new Date().getFullYear();
             ))}
           </nav>
           <SocialPills compact />
+          <button type="button" data-arcade-open hidden class="arcade-open font-pixel">🎮 {es ? 'Modo arcade' : 'Arcade mode'} <span class="text-ink/50">· ↑↑↓↓←→←→BA</span></button>
           <div class="flex flex-col items-center gap-4 text-[12.5px] text-ink/65 sm:flex-row sm:gap-8">
             <p>
               © {year} Gabriel Saiz. {t.footer.copyright}
@@ -78,6 +79,7 @@ const year = new Date().getFullYear();
           ))}
         </nav>
         <SocialPills compact />
+          <button type="button" data-arcade-open hidden class="arcade-open font-pixel">🎮 {es ? 'Modo arcade' : 'Arcade mode'} <span class="text-ink/50">· ↑↑↓↓←→←→BA</span></button>
         <div class="flex flex-col items-center gap-4 text-[12.5px] text-ink/65 sm:flex-row sm:gap-8">
           <p>
             © {year} Gabriel Saiz. {t.footer.copyright}
@@ -98,3 +100,27 @@ const year = new Date().getFullYear();
     </footer>
   )
 }
+
+<style>
+  .arcade-open {
+    border: 3px solid #0a0706;
+    border-radius: 0.8rem;
+    background: #221c17;
+    color: #f0b429;
+    padding: 0.5rem 0.9rem;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    box-shadow: 0 4px 0 #0a0706;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .arcade-open:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #0a0706;
+  }
+  .arcade-open:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #0a0706;
+  }
+</style>

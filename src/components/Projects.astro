@@ -1,8 +1,13 @@
 ---
+/**
+ * Proyectos como pantalla de "selección de nivel": tarjetas de nivel arriba y panel de misión
+ * con el detalle del seleccionado. Accesible como pestañas (flechas del teclado).
+ * Sin JS se ven todos los paneles uno detrás de otro.
+ */
 import { Picture } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Icon from './Icon.astro';
-import SplitTitle from './SplitTitle.astro';
+import GameHeading from './GameHeading.astro';
 import archImg from '@/assets/img/Arch.webp';
 import huvegrymImg from '@/assets/img/Huvegrym.webp';
 import tarotImg from '@/assets/img/divinidad-hero.webp';
@@ -14,28 +19,37 @@ interface Props {
 const { locale } = Astro.props;
 const t = getT(locale);
 const g = gameLabels[locale];
-// Tipo de "nivel" de cada proyecto (etiqueta pixel como DAY/DUSK del ejemplo)
-const kind: Record<string, string> = { arch: 'App iOS', huvegrym: 'Web', 'tarot-divinidad': 'Web' };
+const es = locale === 'es';
 
-const projectImages: Record<string, { src: ImageMetadata; alt: string; type: 'mockup' | 'photo' }> = {
+const meta: Record<string, { img: ImageMetadata; alt: string; kind: string; icon: string; fit: 'contain' | 'cover'; pos?: string; time: string }> = {
   arch: {
-    src: archImg,
+    img: archImg,
     alt: 'ARCH App iOS - Aplicación móvil para comunidad de Oxford University desarrollada con React Native y Expo',
-    type: 'mockup',
+    kind: 'App iOS',
+    icon: '★',
+    fit: 'contain',
+    time: es ? 'En producción' : 'Live',
   },
   huvegrym: {
-    src: huvegrymImg,
-    alt: 'Huvegrym - Sitio web de escuela de danza desarrollado con Next.js, optimizado para SEO y rendimiento',
-    type: 'photo',
+    img: huvegrymImg,
+    alt: 'Huvegrym - Sitio web de escuela de danza, optimizado para SEO y rendimiento',
+    kind: 'Web',
+    icon: '◆',
+    fit: 'cover',
+    pos: 'object-[center_30%]',
+    time: 'Online',
   },
   'tarot-divinidad': {
-    src: tarotImg,
+    img: tarotImg,
     alt: 'Tarot Divinidad — web de consultas de tarot con reservas y WhatsApp',
-    type: 'photo',
+    kind: 'Web',
+    icon: '◆',
+    fit: 'cover',
+    time: 'Online',
   },
 };
 
-const projectCtaHrefs: Record<string, Record<string, string>> = {
+const hrefs: Record<string, Record<string, string>> = {
   arch: {
     'Descargar en App Store': 'https://apps.apple.com/us/app/the-arch/id6753820007',
     'Download on App Store': 'https://apps.apple.com/us/app/the-arch/id6753820007',
@@ -46,165 +60,193 @@ const projectCtaHrefs: Record<string, Record<string, string>> = {
   'tarot-divinidad': { 'Ver sitio web': 'https://divinidad000.com', 'View website': 'https://divinidad000.com' },
 };
 
-const projects = t.projects.items.map((item) => {
-  const ctaHref = projectCtaHrefs[item.id]?.[item.cta] || '#';
+const projects = t.projects.items.map((item, i) => {
+  const href = hrefs[item.id]?.[item.cta] || '#';
   const secondary = 'secondaryCta' in item && item.secondaryCta ? (item.secondaryCta as string) : undefined;
   return {
     ...item,
-    image: projectImages[item.id],
-    cta: { label: item.cta, href: ctaHref, external: ctaHref.startsWith('http') },
-    secondaryCta: secondary ? { label: secondary, href: projectCtaHrefs[item.id]?.[secondary] || '#contacto' } : undefined,
+    n: i + 1,
+    m: meta[item.id],
+    cta: { label: item.cta, href, external: href.startsWith('http') },
+    secondary: secondary ? { label: secondary, href: hrefs[item.id]?.[secondary] || '#contacto' } : undefined,
   };
 });
 ---
 
-<section id="proyectos" class="relative scroll-mt-24 pt-16 xl:pt-10">
+<section id="proyectos" class="relative scroll-mt-24 py-20 sm:py-28">
   <div class="container-main">
-    <div class="mb-4 flex xl:mb-2 xl:gap-20">
-      <div class="hidden xl:block xl:w-[60%]"></div>
-      <div class="xl:w-full">
-        <p class="hud-chip" data-reveal style="--ry:12px"><span class="text-ink/70">{g.level} 03</span> · {g.projects}</p>
-        <h2 class="game-title mt-5 origin-left -rotate-[1.5deg] text-[clamp(2.3rem,7vw,4.6rem)]">
-          <SplitTitle text={t.projects.title} class="pb-[0.2em] pr-[0.12em]" />
-        </h2>
-      </div>
-    </div>
-  </div>
+    <GameHeading level={`${g.level} 03`} eyebrow={g.projects} title={t.projects.title} subtitle={t.projects.subtitle} />
 
-  <div class="projects-stack">
-    {
-      projects.map((project, index) => {
-        const odd = index % 2 === 1;
-        const isLast = index === projects.length - 1;
-        const img = project.image;
-        return (
-          <div
-            class="project-card relative flex h-svh items-center overflow-hidden bg-noir pt-4 xl:h-[calc(100svh-5.25rem)] xl:pt-0"
-            style={`z-index:${index + 1}`}
-          >
-            {index > 0 && (
-              <div
-                aria-hidden="true"
-                class="pointer-events-none absolute left-0 top-[-3.5rem] z-20 h-16 w-full bg-gradient-to-t from-noir via-noir to-transparent xl:top-[-1.5rem] xl:h-8"
-              />
-            )}
-
-            <article
-              class:list={[
-                'project-card-content mx-auto flex h-full w-full max-w-[var(--container-max)] flex-col-reverse items-start justify-end gap-6 px-5 sm:px-6 xl:flex-row xl:items-center xl:gap-16 xl:px-8 xl:will-change-transform',
-                odd && 'xl:flex-row-reverse',
-                isLast ? 'pb-10 pt-8' : 'py-8',
-              ]}
+    <div data-level-select>
+      <!-- Tarjetas de nivel -->
+      <div
+        role="tablist"
+        aria-label={g.projects}
+        class="scrollbar-hide -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 pt-5 sm:mx-0 sm:grid sm:grid-cols-3 sm:gap-5 sm:overflow-visible sm:px-0"
+      >
+        {
+          projects.map((p, i) => (
+            <button
+              type="button"
+              role="tab"
+              id={`lvl-tab-${p.id}`}
+              aria-controls={`lvl-panel-${p.id}`}
+              aria-selected={i === 0 ? 'true' : 'false'}
+              tabindex={i === 0 ? 0 : -1}
+              data-level-tab
+              class="level-card group relative w-[78%] shrink-0 snap-center text-left sm:w-auto"
             >
-              <div class="flex w-full flex-col justify-center gap-4 xl:w-[45%] xl:gap-7">
-                <div class="flex flex-col gap-4 xl:gap-5">
-                  <div class="flex flex-wrap items-center gap-2">
-                    <span class="pixel-tag">
-                      <span aria-hidden="true">{index === 0 ? '★' : '◆'}</span>
-                      {kind[project.id] ?? 'Web'}
-                    </span>
-                    <span class="pixel-tag bg-transparent text-ink/60">{g.level} 3-{index + 1}</span>
-                    {index === 0 && (
-                      <span class="pixel-tag border-2 border-noir bg-acid text-noir">✓ {g.selected}</span>
-                    )}
-                  </div>
-                  <h3 class="game-title origin-left -rotate-1 text-3xl xl:text-5xl">{project.title}</h3>
-                  <div class="flex flex-wrap gap-2 xl:gap-2.5">
-                    {project.chips.map((chip) => (
-                      <span class="rounded-lg border-2 border-white/15 bg-noir-soft px-2.5 py-1 text-[11px] font-semibold text-ink/80 xl:text-[13px]">{chip}</span>
-                    ))}
-                  </div>
-                </div>
+              <span class="level-selected pixel-tag absolute -top-3 right-4 z-10 border-2 border-noir bg-acid text-noir">✓ {g.selected}</span>
+              <span class="relative block aspect-[16/10] overflow-hidden rounded-t-[1.05rem] bg-noir-elevated">
+                <Picture
+                  src={p.m.img}
+                  alt=""
+                  formats={['avif', 'webp']}
+                  fallbackFormat="webp"
+                  widths={[320, 480, 720]}
+                  sizes="(max-width: 640px) 78vw, 360px"
+                  loading="lazy"
+                  class:list={[
+                    'img-fill transition-transform duration-500 group-hover:scale-105',
+                    p.m.fit === 'contain' ? 'object-contain p-6' : 'object-cover',
+                    p.m.pos,
+                  ]}
+                />
+                <span class="pixel-tag absolute left-3 top-3">
+                  <span aria-hidden="true">{p.m.icon}</span>
+                  {p.m.kind}
+                </span>
+              </span>
+              <span class="block p-4 sm:p-5">
+                <span class="font-pixel block text-[10px] uppercase tracking-wider text-acid">
+                  {g.level} 3-{p.n} · {p.m.time}
+                </span>
+                <span class="mt-1.5 block text-xl font-black uppercase leading-tight text-ink sm:text-2xl">{p.title}</span>
+                <span class="mt-1 block text-[13px] leading-snug text-ink/70">{p.subtitle}</span>
+              </span>
+            </button>
+          ))
+        }
+      </div>
 
-                <p class="max-w-xl text-[14px] leading-relaxed text-ink/70 xl:text-lg">
-                  <span class="font-medium text-ink/85">{project.subtitle}. </span>
-                  {project.description}
-                </p>
+      <!-- Panel de misión -->
+      {
+        projects.map((p, i) => (
+          <article
+            role="tabpanel"
+            id={`lvl-panel-${p.id}`}
+            aria-labelledby={`lvl-tab-${p.id}`}
+            data-level-panel
+            data-hidden-js={i === 0 ? undefined : 'true'}
+            class="game-panel mt-6 grid gap-8 p-6 sm:p-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:gap-10"
+          >
+            <div class="flex flex-col gap-5">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="pixel-tag">
+                  <span aria-hidden="true">{p.m.icon}</span> {p.m.kind}
+                </span>
+                <span class="pixel-tag bg-transparent text-ink/60">{g.level} 3-{p.n}</span>
+              </div>
+              <h3 class="game-title origin-left -rotate-1 text-4xl sm:text-5xl">{p.title}</h3>
+              <p class="max-w-xl text-[15px] leading-relaxed text-ink/75 sm:text-base">
+                <span class="font-semibold text-ink">{p.subtitle}. </span>
+                {p.description}
+              </p>
 
-                <ul class="hidden space-y-2 xl:block">
-                  {project.bullets.slice(0, 4).map((bullet) => (
-                    <li class="flex items-start gap-3 text-[13px] text-ink/65 xl:text-[15px]">
-                      <span class="mt-[7px] h-1 w-1 flex-shrink-0 rounded-full bg-acid" />
-                      {bullet}
+              <div>
+                <p class="font-pixel mb-3 text-[11px] uppercase tracking-wider text-ink/60">{es ? 'Objetivos de la misión' : 'Mission objectives'}</p>
+                <ul class="grid gap-2 sm:grid-cols-2">
+                  {p.bullets.map((b) => (
+                    <li class="flex items-start gap-2.5 text-[14px] leading-snug text-ink/80">
+                      <span class="mt-0.5 grid h-4 w-4 shrink-0 place-items-center rounded-[3px] border-2 border-noir bg-acid text-[10px] font-black text-noir">
+                        ✓
+                      </span>
+                      {b}
                     </li>
                   ))}
                 </ul>
-
-                <div class="mt-1 flex flex-wrap items-center gap-3">
-                  <a
-                    href={project.cta.href}
-                    target={project.cta.external ? '_blank' : undefined}
-                    rel={project.cta.external ? 'noopener noreferrer' : undefined}
-                    class="start-btn group !gap-3 !py-2.5 !pl-4 !pr-5 text-[15px] font-black uppercase"
-                  >
-                    <Icon name="Play" class="h-5 w-5 fill-current" strokeWidth={2.5} />
-                    {project.cta.label}
-                    <Icon name="ArrowUpRight" class="h-4 w-4 transition-transform duration-300 group-hover:rotate-45" strokeWidth={2.6} />
-                  </a>
-                  {project.secondaryCta && (
-                    <a
-                      href={project.secondaryCta.href}
-                      class="text-[13px] text-ink/65 underline-offset-4 transition-colors hover:text-acid hover:underline"
-                    >
-                      {project.secondaryCta.label}
-                    </a>
-                  )}
-                </div>
               </div>
 
-              {img.type === 'mockup' ? (
-                <div class="relative flex h-[38%] w-full items-center justify-center xl:h-[70%] xl:w-[55%]">
-                  <div class="relative aspect-[9/19] h-full min-w-[12rem]">
-                    <Picture
-                      src={img.src}
-                      alt={img.alt}
-                      formats={['avif', 'webp']}
-                      fallbackFormat="webp"
-                      widths={[320, 560, 800, 1024]}
-                      sizes="(max-width: 1280px) 55vw, 32vw"
-                      loading="lazy"
-                      class="img-fill rounded-[1.6rem] object-contain drop-shadow-[0_24px_60px_rgba(0,0,0,0.55)]"
-                    />
-                  </div>
-                </div>
-              ) : project.id === 'tarot-divinidad' ? (
-                <div class="relative w-full overflow-hidden rounded-2xl border-[3px] border-noir shadow-[0_6px_0_#0a0706,0_0_0_2px_rgba(240,180,41,0.25)] xl:w-[62%]">
-                  <div class="relative aspect-[2/1] w-full sm:aspect-[21/10]">
-                    <Picture
-                      src={img.src}
-                      alt={img.alt}
-                      formats={['avif', 'webp']}
-                      fallbackFormat="webp"
-                      widths={[480, 768, 1024]}
-                      sizes="(max-width: 1280px) 100vw, 62vw"
-                      loading="lazy"
-                      class="img-fill object-cover object-center transition-transform duration-700 hover:scale-[1.03]"
-                    />
-                  </div>
-                </div>
-              ) : (
-                <div class="relative h-[36%] w-full overflow-hidden rounded-2xl border-[3px] border-noir shadow-[0_6px_0_#0a0706,0_0_0_2px_rgba(240,180,41,0.25)] xl:h-[72%] xl:w-[55%]">
-                  <Picture
-                    src={img.src}
-                    alt={img.alt}
-                    formats={['avif', 'webp']}
-                    fallbackFormat="webp"
-                    widths={[480, 720, 900]}
-                    sizes="(max-width: 1280px) 100vw, 55vw"
-                    loading="lazy"
-                    class:list={[
-                      'img-fill object-cover transition-transform duration-700 hover:scale-105',
-                      project.id === 'huvegrym' ? 'object-[center_30%]' : 'object-center',
-                    ]}
-                  />
-                </div>
-              )}
-            </article>
-          </div>
-        );
-      })
-    }
-  </div>
+              <div class="mt-1 flex flex-wrap items-center gap-4">
+                <a
+                  href={p.cta.href}
+                  target={p.cta.external ? '_blank' : undefined}
+                  rel={p.cta.external ? 'noopener noreferrer' : undefined}
+                  class="start-btn group !gap-3 !py-2.5 !pl-4 !pr-5 text-[15px] font-black uppercase"
+                >
+                  <Icon name="Play" class="h-5 w-5 fill-current" strokeWidth={2.5} />
+                  {p.cta.label}
+                  <Icon name="ArrowUpRight" class="h-4 w-4 transition-transform duration-300 group-hover:rotate-45" strokeWidth={2.6} />
+                </a>
+                {p.secondary && (
+                  <a href={p.secondary.href} class="text-[14px] font-semibold text-ink/70 underline-offset-4 hover:text-acid hover:underline">
+                    {p.secondary.label}
+                  </a>
+                )}
+              </div>
+            </div>
 
-  <div aria-hidden="true" class="relative z-[20] h-16 bg-noir xl:h-24"></div>
+            <div class="flex flex-col gap-5">
+              <div class="relative aspect-[16/10] overflow-hidden rounded-2xl border-[3px] border-noir bg-noir-elevated shadow-[0_6px_0_#0a0706]">
+                <Picture
+                  src={p.m.img}
+                  alt={p.m.alt}
+                  formats={['avif', 'webp']}
+                  fallbackFormat="webp"
+                  widths={[480, 720, 1024]}
+                  sizes="(max-width: 1024px) 100vw, 480px"
+                  loading="lazy"
+                  class:list={['img-fill', p.m.fit === 'contain' ? 'object-contain p-8' : 'object-cover', p.m.pos]}
+                />
+              </div>
+              <div>
+                <p class="font-pixel mb-3 text-[11px] uppercase tracking-wider text-ink/60">{es ? 'Equipamiento usado' : 'Gear used'}</p>
+                <ul class="flex flex-wrap gap-2">
+                  {p.chips.map((c) => (
+                    <li class="rounded-lg border-2 border-white/15 bg-noir px-2.5 py-1 text-[12px] font-bold text-ink/85">{c}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
 </section>
+
+<style>
+  .level-card {
+    border: 3px solid #0a0706;
+    border-radius: 1.3rem;
+    background: #221c17;
+    box-shadow:
+      inset 0 2px 0 rgba(255, 243, 230, 0.08),
+      0 6px 0 #0a0706;
+    transition:
+      transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  .level-card:hover {
+    transform: translateY(-4px);
+  }
+  .level-card[aria-selected='true'] {
+    border-color: #f0b429;
+    box-shadow:
+      inset 0 2px 0 rgba(255, 243, 230, 0.08),
+      0 6px 0 #8a5f10,
+      0 0 0 4px rgba(240, 180, 41, 0.25);
+    transform: translateY(-6px);
+  }
+  .level-selected {
+    display: none;
+  }
+  .level-card[aria-selected='true'] .level-selected {
+    display: inline-flex;
+  }
+  /* Con JS solo se ve el panel del nivel elegido */
+  :global(.js) [data-level-panel][data-hidden-js='true'] {
+    display: none;
+  }
+</style>

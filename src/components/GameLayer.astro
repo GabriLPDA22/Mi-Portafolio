@@ -21,7 +21,8 @@ const achievements = es
       { id: 'cv', title: 'Reclutador pro', desc: 'CV descargado' },
       { id: 'friend', title: 'Amigo del monigote', desc: '5 saludos a Gabriel' },
       { id: 'boss', title: 'Jefe final', desc: 'Has llegado al contacto' },
-      { id: 'konami', title: 'Código secreto', desc: '↑↑↓↓←→←→BA · modo dorado' },
+      { id: 'konami', title: 'Modo arcade', desc: 'Has encontrado BUG RUN' },
+      { id: 'bughunter', title: 'Cazabugs', desc: '300 puntos en BUG RUN' },
     ]
   : [
       { id: 'start', title: 'Game started', desc: 'You pressed START' },
@@ -29,9 +30,31 @@ const achievements = es
       { id: 'cv', title: 'Pro recruiter', desc: 'CV downloaded' },
       { id: 'friend', title: "Mascot's buddy", desc: '5 hellos to Gabriel' },
       { id: 'boss', title: 'Final boss', desc: 'You reached the contact form' },
-      { id: 'konami', title: 'Secret code', desc: '↑↑↓↓←→←→BA · golden mode' },
+      { id: 'konami', title: 'Arcade mode', desc: 'You found BUG RUN' },
+      { id: 'bughunter', title: 'Bug hunter', desc: '300 points in BUG RUN' },
     ];
-const data = { achievements, unlocked: es ? 'Logro desbloqueado' : 'Achievement unlocked' };
+const arcade = es
+  ? {
+      title: 'BUG RUN',
+      start: 'Salta para empezar',
+      over: 'GAME OVER',
+      retry: 'Salta para reintentar',
+      score: 'Puntos',
+      best: 'Récord',
+      close: 'Salir',
+      hint: 'Espacio, ↑ o toca para saltar los bugs',
+    }
+  : {
+      title: 'BUG RUN',
+      start: 'Jump to start',
+      over: 'GAME OVER',
+      retry: 'Jump to retry',
+      score: 'Score',
+      best: 'Best',
+      close: 'Quit',
+      hint: 'Space, ↑ or tap to jump the bugs',
+    };
+const data = { achievements, arcade, unlocked: es ? 'Logro desbloqueado' : 'Achievement unlocked' };
 ---
 
 <script is:inline type="application/json" id="game-data" set:html={JSON.stringify(data)} />
@@ -39,7 +62,7 @@ const data = { achievements, unlocked: es ? 'Logro desbloqueado' : 'Achievement 
 {
   boot && (
     <div data-boot class="boot" aria-hidden="true">
-      <PixelLoader label={es ? 'Cargando partida' : 'Loading game'} size="h-[168px] sm:h-[210px]" />
+      <PixelLoader label={es ? 'Cargando partida' : 'Loading game'} size="h-[168px] sm:h-[210px]" once readyLabel={es ? '¡Listo!' : 'Ready!'} />
       <p class="boot-skip font-pixel">{es ? 'Pulsa cualquier tecla para saltar' : 'Press any key to skip'}</p>
     </div>
   )
@@ -77,7 +100,7 @@ const data = { achievements, unlocked: es ? 'Logro desbloqueado' : 'Achievement 
     background: #120e0b;
     cursor: pointer;
     /* red de seguridad: si el JS fallase, se quita sola */
-    animation: boot-auto-out 0.4s steps(4) 2.4s forwards;
+    animation: boot-auto-out 0.4s steps(4) 3.4s forwards;
   }
   .boot.is-leaving {
     animation: boot-out 0.4s steps(5) forwards !important;

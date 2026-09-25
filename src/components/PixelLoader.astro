@@ -10,8 +10,12 @@ interface Props {
   class?: string;
   /** Clases de tamaño del sprite. */
   size?: string;
+  /** Barra que se llena una sola vez (0 → 100 %) y termina en "¡Listo!" (pantalla de carga). */
+  once?: boolean;
+  /** Texto final en modo `once`. */
+  readyLabel?: string;
 }
-const { label, class: className = '', size = 'h-[126px]' } = Astro.props;
+const { label, class: className = '', size = 'h-[126px]', once = false, readyLabel = '¡Listo!' } = Astro.props;
 
 const toRects = (rows: readonly string[]) => {
   const rects: string[] = [];
@@ -39,8 +43,23 @@ const H = MASCOT_TYPING[0].length;
   <svg viewBox={`0 0 ${W} ${H}`} shape-rendering="crispEdges" class:list={[size, 'w-auto']} aria-hidden="true">
     {sequence.map((f, i) => <g class="pl-frame" style={`--i:${i}`} set:html={frames[f]} />)}
   </svg>
-  <div class="pl-bar" aria-hidden="true"><span></span></div>
-  <p class="font-pixel text-[12px] uppercase tracking-widest text-acid">{label}<span class="pl-dots">...</span></p>
+  <div class:list={['pl-bar', once && 'pl-once']} aria-hidden="true"><span></span></div>
+  {
+    once ? (
+      <p class="pl-once-text font-pixel text-[12px] uppercase tracking-widest text-acid">
+        <span class="pl-loading">
+          {label}
+          <span class="pl-pct" aria-hidden="true" />
+        </span>
+        <span class="pl-ready text-ink">{readyLabel} ▶</span>
+      </p>
+    ) : (
+      <p class="font-pixel text-[12px] uppercase tracking-widest text-acid">
+        {label}
+        <span class="pl-dots">...</span>
+      </p>
+    )
+  }
 </div>
 
 <style>
@@ -89,6 +108,59 @@ const H = MASCOT_TYPING[0].length;
     width: 100%;
     background: repeating-linear-gradient(90deg, #f0b429 0 10px, transparent 10px 12px);
     transform-origin: left;
+  }
+  /* Modo "una vez": 0 → 100 % en 1,6 s a saltos, contador con CSS y "¡Listo!" al final */
+  @property --pl-p {
+    syntax: '<integer>';
+    initial-value: 0;
+    inherits: false;
+  }
+  .pl-once span {
+    width: 0;
+    transform: none;
+    animation: pl-width 1.6s steps(16) 0.1s forwards !important;
+  }
+  @keyframes pl-width {
+    to {
+      width: 100%;
+    }
+  }
+  .pl-pct {
+    margin-left: 0.6em;
+    counter-reset: plp var(--pl-p);
+    animation: pl-count 1.6s steps(16) 0.1s forwards;
+  }
+  .pl-pct::after {
+    content: counter(plp) '%';
+  }
+  .pl-once-text {
+    display: grid;
+    justify-items: center;
+  }
+  .pl-once-text > span {
+    grid-area: 1 / 1;
+  }
+  .pl-ready {
+    visibility: hidden;
+    animation: pl-show 0s linear 1.75s forwards;
+  }
+  .pl-loading {
+    animation: pl-hide 0s linear 1.75s forwards;
+  }
+  @keyframes pl-count {
+    to {
+      --pl-p: 100;
+    }
+  }
+  @keyframes pl-show {
+    to {
+      visibility: visible;
+    }
+  }
+  @keyframes pl-hide {
+    to {
+      visibility: hidden;
+    }
   }
   @keyframes pl-fill {
     from {
