@@ -1,11 +1,24 @@
 ---
 /**
- * Trayectoria como mapa de misiones: un camino pixel une cada misión (de la más reciente a la
- * primera). Arriba, la "próxima misión" apunta al contacto. Móvil: camino a la izquierda;
- * escritorio: misiones alternas a ambos lados del camino.
+ * Trayectoria como mapa del mundo pixel (estilo Super Mario World): una isla con un camino que
+ * une cada misión en orden cronológico. Al elegir un nivel, el monigote camina hasta él y debajo
+ * se ve la ficha de la misión. Accesible como pestañas (flechas del teclado).
+ * Sin JS: el mapa es decorativo y se ven todas las fichas.
  */
 import Icon from './Icon.astro';
+import Mascot from './Mascot.astro';
 import GameHeading from './GameHeading.astro';
+import { pixelPaths } from '@/lib/pixel';
+import {
+  SPRITE_HOUSE,
+  SPRITE_OFFICE,
+  SPRITE_PALETTE,
+  SPRITE_PHONE,
+  SPRITE_QBLOCK,
+  WORLD_MAP,
+  WORLD_NODES,
+  WORLD_PALETTE,
+} from '@/data/worldmap';
 import { gameLabels, getT, homePath, type Locale } from '@/i18n';
 
 interface Props {
@@ -15,57 +28,121 @@ const { locale } = Astro.props;
 const t = getT(locale);
 const g = gameLabels[locale];
 const es = locale === 'es';
-const total = t.experience.items.length;
+
+const MW = WORLD_MAP[0].length;
+const MH = WORLD_MAP.length;
+const pct = (v: number, total: number) => `${((v / total) * 100).toFixed(3)}%`;
+
+// Orden cronológico (las traducciones van de la más reciente a la primera).
+const quests = [...t.experience.items].reverse();
+const sprites = [SPRITE_OFFICE, SPRITE_HOUSE, SPRITE_PHONE, SPRITE_QBLOCK];
+const shortName: Record<string, string> = { golive: 'GOLIVE', freelance: 'Freelance', deveco: 'Deveco.it' };
+
+const nodes = [
+  ...quests.map((q, i) => ({
+    id: q.id,
+    label: `${es ? 'Nivel' : 'Level'} 1-${i + 1}`,
+    tag: shortName[q.id] ?? q.company,
+    year: q.period.replace(/\s*—\s*/, '–'),
+  })),
+  { id: 'next', label: es ? 'Próximo nivel' : 'Next level', tag: '???', year: '?' },
+];
+const current = quests.length - 1; // la misión más reciente
+
+const map =
+  pixelPaths(WORLD_MAP, WORLD_PALETTE) +
+  sprites
+    .map((s, i) => {
+      const [x, y] = WORLD_NODES[i];
+      return `<g transform="translate(${x + 4} ${y - 16})">${pixelPaths(s, SPRITE_PALETTE)}</g>`;
+    })
+    .join('');
+const [hx, hy] = WORLD_NODES[current];
 ---
 
 <section id="trayectoria" class="relative z-10 scroll-mt-24 py-20 sm:py-28">
   <div class="container-main">
-    <GameHeading
-      level={`${g.level} 04`}
-      eyebrow={es ? 'Mapa de misiones' : 'Quest map'}
-      title={t.experience.title}
-      subtitle={t.experience.subtitle}
-    />
+    <GameHeading level={`${g.level} 04`} eyebrow={es ? 'Mapa del mundo' : 'World map'} title={t.experience.title} subtitle={t.experience.subtitle} />
 
-    <ol class="quest-map relative">
-      <!-- Próxima misión -->
-      <li class="quest-row">
-        <span class="quest-node node-next" aria-hidden="true">?</span>
-        <a
-          href={`${homePath(locale)}#contacto`}
-          class="quest-card group block border-dashed !border-acid/70 !bg-noir/70 p-5 sm:p-6"
-        >
-          <p class="font-pixel text-[10px] uppercase tracking-wider text-acid">{es ? 'Próxima misión' : 'Next quest'}</p>
-          <p class="mt-1.5 text-xl font-black text-ink sm:text-2xl">{es ? '¿Tu equipo?' : 'Your team?'}</p>
-          <p class="mt-1 flex items-center gap-1.5 text-[14px] font-semibold text-ink/70 transition-colors group-hover:text-acid">
-            {es ? 'Desbloquéala escribiéndome' : 'Unlock it by messaging me'}
-            <Icon name="ArrowRight" class="h-4 w-4 transition-transform group-hover:translate-x-1" strokeWidth={2.4} />
+    <div data-world data-current={current} class="grid items-start gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:gap-8">
+      <!-- Mapa -->
+      <div class="world-frame lg:sticky lg:top-28">
+        <div class="flex items-center justify-between gap-3 px-2 pb-2 pt-1 font-pixel text-[10px] uppercase tracking-wider sm:px-3 sm:text-[11px]">
+          <span class="text-acid">{es ? 'Mundo 1 · Zaragoza' : 'World 1 · Zaragoza'}</span>
+          <span class="text-ink/60">✓ {quests.length} {es ? 'misiones' : 'quests'}</span>
+        </div>
+
+        <div class="world relative overflow-hidden rounded-[0.8rem]">
+          <svg viewBox={`0 0 ${MW} ${MH}`} shape-rendering="crispEdges" class="block h-auto w-full" aria-hidden="true" set:html={map} />
+
+          <!-- Monigote: se mueve de nivel en nivel -->
+          <div data-wm-hero class="wm-hero" style={`left:${pct(hx, MW)};top:${pct(hy, MH)}`} aria-hidden="true">
+            <Mascot class="h-auto w-full" />
+          </div>
+
+          <!-- Niveles (pestañas) -->
+          <div role="tablist" aria-label={es ? 'Niveles de la trayectoria' : 'Career levels'}>
+            {
+              nodes.map((n, i) => {
+                const [x, y] = WORLD_NODES[i];
+                return (
+                  <button
+                    type="button"
+                    role="tab"
+                    id={`wm-tab-${n.id}`}
+                    aria-controls={`wm-panel-${n.id}`}
+                    aria-selected={i === current ? 'true' : 'false'}
+                    tabindex={i === current ? 0 : -1}
+                    data-wm-node={i}
+                    data-x={pct(x, MW)}
+                    data-y={pct(y, MH)}
+                    class:list={['wm-node', i === nodes.length - 1 && 'wm-node-next']}
+                    style={`left:${pct(x, MW)};top:${pct(y, MH)}`}
+                  >
+                    <span class="sr-only">
+                      {n.label} · {n.tag}
+                    </span>
+                    <span class="wm-label font-pixel" aria-hidden="true">
+                      {n.year}
+                    </span>
+                  </button>
+                );
+              })
+            }
+          </div>
+        </div>
+
+        <!-- Mando: anterior / siguiente -->
+        <div class="flex items-center justify-between gap-3 px-1 pt-3">
+          <button type="button" data-wm-prev class="wm-arrow" aria-label={es ? 'Nivel anterior' : 'Previous level'}>◀</button>
+          <p class="font-pixel min-w-0 truncate text-center text-[10px] uppercase tracking-wider text-ink/70 sm:text-[11px]" data-wm-status aria-hidden="true">
+            {nodes[current].label} · {nodes[current].tag}
           </p>
-        </a>
-      </li>
+          <button type="button" data-wm-next class="wm-arrow" aria-label={es ? 'Nivel siguiente' : 'Next level'}>▶</button>
+        </div>
+      </div>
 
+      <!-- Fichas de misión -->
+      <div class="flex min-w-0 flex-col gap-6">
       {
-        t.experience.items.map((item, i) => (
-          <li class="quest-row">
-            <span class="quest-node" aria-hidden="true">
-              <Icon name="Flag" class="h-4 w-4" strokeWidth={2.6} />
-            </span>
-            <article
-              data-reveal
-              data-reveal-margin="-60px"
-              style={`--ry:26px;--d:${(i * 0.05).toFixed(2)}s;--ease:cubic-bezier(0.22,1,0.36,1)`}
-              class="quest-card p-5 sm:p-7"
-            >
+        quests.map((item, i) => (
+          <article
+            role="tabpanel"
+            id={`wm-panel-${item.id}`}
+            aria-labelledby={`wm-tab-${item.id}`}
+            data-wm-panel
+            data-status={`${nodes[i].label} · ${nodes[i].tag}`}
+            data-hidden-js={i === current ? undefined : 'true'}
+            class="game-panel wm-panel flex flex-col gap-6 p-5 sm:p-7"
+          >
+            <div>
               <div class="flex flex-wrap items-center gap-2">
-                <span class="pixel-tag border-2 border-acid/60 text-acid">
-                  {es ? 'Misión' : 'Quest'} {String(total - i).padStart(2, '0')}
-                </span>
+                <span class="pixel-tag border-2 border-acid/60 text-acid">{nodes[i].label}</span>
                 <span class="pixel-tag bg-transparent text-ink/65">{item.period}</span>
                 <span class="font-pixel text-[10px] uppercase tracking-wider text-ink/50">{item.location}</span>
               </div>
-
-              <h3 class="mt-4 text-[1.35rem] font-black leading-tight text-ink sm:text-2xl">{item.role}</h3>
-              <p class="mt-1 text-[14px] font-semibold text-ink/60">
+              <h3 class="mt-4 text-[1.4rem] font-black leading-tight text-ink sm:text-3xl">{item.role}</h3>
+              <p class="mt-1.5 text-[14px] font-semibold text-ink/60">
                 {es ? 'Gremio' : 'Guild'}:{' '}
                 {'url' in item && item.url ? (
                   <a href={item.url as string} target="_blank" rel="noopener noreferrer" class="text-acid underline-offset-4 hover:underline">
@@ -76,133 +153,161 @@ const total = t.experience.items.length;
                   <span class="text-acid">{item.company}</span>
                 )}
               </p>
-
               <p class="mt-4 text-[14.5px] leading-relaxed text-ink/70">{item.description}</p>
-
-              <p class="font-pixel mb-2.5 mt-5 text-[10px] uppercase tracking-wider text-ink/55">{es ? 'Recompensas' : 'Rewards'}</p>
-              <ul class="space-y-2">
-                {item.bullets.map((b) => (
-                  <li class="flex items-start gap-2.5 text-[14px] leading-snug text-ink/80">
-                    <span class="mt-[5px] h-2 w-2 shrink-0 rotate-45 bg-acid" aria-hidden="true" />
-                    {b}
-                  </li>
-                ))}
-              </ul>
-
               <ul class="mt-5 flex flex-wrap gap-1.5" aria-label={es ? 'Botín' : 'Loot'}>
                 {item.chips.map((c) => (
                   <li class="rounded-md border-2 border-noir bg-noir px-2 py-1 font-pixel text-[9.5px] uppercase tracking-wider text-ink/80">{c}</li>
                 ))}
               </ul>
-            </article>
-          </li>
+            </div>
+            <div>
+              <p class="font-pixel mb-3 text-[10px] uppercase tracking-wider text-ink/55">{es ? 'Recompensas' : 'Rewards'}</p>
+              <ul class="flex flex-col gap-2">
+                {item.bullets.map((b) => (
+                  <li class="flex items-start gap-3 rounded-xl border-2 border-white/10 bg-noir/50 px-3 py-2.5 text-[14px] leading-snug text-ink/85">
+                    <span class="mt-[5px] h-2 w-2 shrink-0 rotate-45 bg-acid" aria-hidden="true" />
+                    {b}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </article>
         ))
       }
-
-      <!-- Punto de partida -->
-      <li class="quest-row">
-        <span class="quest-node node-start" aria-hidden="true">▶</span>
-        <p class="font-pixel self-center py-2 text-[11px] uppercase tracking-widest text-ink/55">
-          {es ? 'Inicio de la partida · 2024' : 'Game start · 2024'}
-        </p>
-      </li>
-    </ol>
+      <article
+        role="tabpanel"
+        id="wm-panel-next"
+        aria-labelledby="wm-tab-next"
+        data-wm-panel
+        data-status={`${nodes[nodes.length - 1].label} · ???`}
+        data-hidden-js="true"
+        class="game-panel wm-panel flex flex-col items-start gap-4 border-dashed !border-acid/70 p-6 sm:p-8"
+      >
+        <div>
+          <p class="font-pixel text-[10px] uppercase tracking-wider text-acid">{nodes[nodes.length - 1].label} · {es ? 'Bloqueado' : 'Locked'}</p>
+          <h3 class="mt-2 text-2xl font-black text-ink sm:text-3xl">{es ? '¿Tu equipo?' : 'Your team?'}</h3>
+          <p class="mt-1.5 max-w-md text-[14.5px] text-ink/70">
+            {es ? 'Este nivel se desbloquea cuando formemos equipo.' : 'This level unlocks when we team up.'}
+          </p>
+        </div>
+        <a href={`${homePath(locale)}#contacto`} class="start-btn !py-2.5 text-[15px] font-black uppercase">
+          ▶ {es ? 'Desbloquear' : 'Unlock'}
+        </a>
+      </article>
+      </div>
+    </div>
   </div>
 </section>
 
 <style>
-  .quest-map {
-    display: flex;
-    flex-direction: column;
-    gap: 1.75rem;
-  }
-  /* Camino pixel: línea de puntos gruesos */
-  .quest-map::before {
-    content: '';
-    position: absolute;
-    top: 1.5rem;
-    bottom: 1.5rem;
-    left: 1.25rem;
-    width: 6px;
-    transform: translateX(-50%);
-    background: repeating-linear-gradient(180deg, #f0b429 0 8px, transparent 8px 16px);
-    opacity: 0.55;
-  }
-  .quest-row {
-    position: relative;
-    display: grid;
-    grid-template-columns: 2.5rem minmax(0, 1fr);
-    gap: 1rem;
-  }
-  .quest-node {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    height: 2.5rem;
-    width: 2.5rem;
-    place-items: center;
-    margin-top: 1rem;
+  .world-frame {
     border: 3px solid #0a0706;
-    border-radius: 0.6rem;
-    background: #f0b429;
-    color: #120e0b;
-    box-shadow: 0 4px 0 #0a0706;
-    font-family: var(--font-pixel);
-    font-size: 16px;
-  }
-  .node-next {
+    border-radius: 1.3rem;
     background: #221c17;
-    color: #f0b429;
-    border-color: #f0b429;
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .node-next {
-      animation: node-bob 1s steps(2) infinite;
-    }
-  }
-  @keyframes node-bob {
-    50% {
-      transform: translateY(-3px);
-    }
-  }
-  .node-start {
-    margin-top: 0;
-    background: #fff3e6;
-    font-size: 12px;
-  }
-  .quest-card {
-    border: 3px solid #0a0706;
-    border-radius: 1.2rem;
-    background: #221c17;
+    padding: 0.6rem;
     box-shadow:
       inset 0 2px 0 rgba(255, 243, 230, 0.08),
       0 6px 0 #0a0706;
   }
+  .world {
+    background: #1a1511;
+    border: 3px solid #0a0706;
+    image-rendering: pixelated;
+  }
 
-  /* Escritorio: camino centrado y misiones alternas */
-  @media (min-width: 1024px) {
-    .quest-map::before {
-      left: 50%;
+  /* Monigote sobre el mapa (ancho relativo al mapa, pies en la baldosa) */
+  .wm-hero {
+    position: absolute;
+    z-index: 2;
+    width: max(7%, 26px);
+    transform: translate(-50%, -88%);
+    pointer-events: none;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .wm-hero {
+      transition:
+        left 0.42s steps(6),
+        top 0.42s steps(6);
     }
-    .quest-row {
-      grid-template-columns: minmax(0, 1fr) 3rem minmax(0, 1fr);
-      gap: 2rem;
+    :global(.wm-hero.is-walking) :global(.mascot) {
+      animation: wm-step 0.14s steps(1) infinite;
     }
-    .quest-node {
-      grid-column: 2;
-      grid-row: 1;
-      height: 3rem;
-      width: 3rem;
+  }
+  :global(.wm-hero.is-left) :global(.mascot) {
+    transform: scaleX(-1);
+  }
+  @keyframes wm-step {
+    50% {
+      translate: 0 -6%;
     }
-    .quest-row > :last-child {
-      grid-row: 1;
-      grid-column: 3;
+  }
+
+  /* Baldosas pulsables (área táctil ≥ 44 px) */
+  .wm-node {
+    position: absolute;
+    z-index: 3;
+    display: flex;
+    height: 44px;
+    width: 44px;
+    transform: translate(-50%, -50%);
+    align-items: flex-end;
+    justify-content: center;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .wm-node:focus-visible {
+    outline: 3px solid #fff3e6;
+    outline-offset: -6px;
+  }
+  .wm-label {
+    transform: translateY(95%);
+    border: 2px solid #0a0706;
+    border-radius: 0.3rem;
+    background: #120e0b;
+    padding: 0.1rem 0.3rem;
+    font-size: 8px;
+    color: #fff3e6;
+    white-space: nowrap;
+    box-shadow: 0 2px 0 #0a0706;
+  }
+  @media (min-width: 640px) {
+    .wm-label {
+      font-size: 10px;
+      padding: 0.15rem 0.4rem;
     }
-    .quest-row:nth-child(even) > :last-child {
-      grid-column: 1;
-    }
-    .quest-row:nth-child(even) > p:last-child {
-      text-align: right;
-    }
+  }
+  .wm-node[aria-selected='true'] .wm-label {
+    background: #f0b429;
+    color: #120e0b;
+  }
+  .wm-node-next .wm-label {
+    color: #f0b429;
+  }
+
+  .wm-arrow {
+    display: grid;
+    height: 2.5rem;
+    width: 2.75rem;
+    flex-shrink: 0;
+    place-items: center;
+    border: 3px solid #0a0706;
+    border-radius: 0.7rem;
+    background: #f0b429;
+    color: #120e0b;
+    font-size: 12px;
+    box-shadow: 0 4px 0 #0a0706;
+    cursor: pointer;
+  }
+  .wm-arrow:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #0a0706;
+  }
+
+  :global(.js) [data-wm-panel][data-hidden-js='true'] {
+    display: none;
+  }
+  /* Sin JS no hay mando: se ven todas las fichas */
+  :global(html:not(.js)) .wm-arrow {
+    visibility: hidden;
   }
 </style>

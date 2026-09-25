@@ -1,4 +1,9 @@
 ---
+/**
+ * Cabecera como HUD de videojuego: barra de XP que se llena con el scroll, indicador del
+ * nivel (sección) actual y enlaces en fuente pixel. En móvil/tablet el menú es una
+ * pantalla de "PAUSA" con cursor ▶.
+ */
 import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
 import brandMark from '@/assets/img/brand-mark-64.png';
@@ -12,143 +17,338 @@ interface Props {
 
 const { locale, path = '/' } = Astro.props;
 const t = getT(locale);
+const es = locale === 'es';
 const home = homePath(locale);
 const other = otherLocale(locale);
 
-const navItems = [
-  { label: t.nav.about, href: `${home}#sobre-mi` },
-  { label: t.nav.projects, href: `${home}#proyectos` },
-  { label: t.nav.services, href: `${home}#servicios` },
-  { label: t.nav.process, href: `${home}#resultados` },
-];
-const menuItems = [...navItems, { label: t.nav.contact, href: `${home}#contacto` }];
+// Mismo orden que la portada; el número es el "nivel" de cada sección.
+const levels = [
+  { id: 'sobre-mi', label: t.nav.about },
+  { id: 'servicios', label: t.nav.services },
+  { id: 'proyectos', label: t.nav.projects },
+  { id: 'trayectoria', label: es ? 'Trayectoria' : 'Experience' },
+  { id: 'resultados', label: es ? 'Cómo trabajo' : 'How I work' },
+  { id: 'contacto', label: t.nav.contact },
+].map((l, i) => ({ ...l, n: String(i + 1).padStart(2, '0'), href: `${home}#${l.id}` }));
+const navItems = levels.slice(0, 5);
 
 const langLabel = other === 'en' ? 'Read in English' : 'Leer en español';
-const labels = locale === 'es' ? { open: 'Abrir menú', close: 'Cerrar menú' } : { open: 'Open menu', close: 'Close menu' };
+const labels = es ? { open: 'Abrir menú', close: 'Cerrar menú' } : { open: 'Open menu', close: 'Close menu' };
 ---
 
 <header class="fixed inset-x-0 top-0 z-50 w-full">
   <div class="container-main">
-    <div
-      data-header-bar
-      class="mt-3 flex items-center justify-between gap-2 rounded-full border border-transparent bg-transparent px-4 py-2.5 transition-all duration-500 data-[scrolled=true]:glass data-[scrolled=true]:border-white/10 data-[scrolled=true]:shadow-[0_8px_40px_-12px_rgba(0,0,0,0.7)] sm:mt-4 sm:px-5"
-    >
-      <!-- Wordmark -->
-      <a
-        href={home}
-        data-home-link
-        class="group flex items-center gap-2.5 font-display text-lg font-bold tracking-tight text-ink"
-        aria-label={locale === 'es' ? 'gabriel.codes — Gabriel Saiz, inicio' : 'gabriel.codes — Gabriel Saiz, home'}
-      >
-        <span class="relative inline-block h-7 w-7 shrink-0 text-ink transition-transform duration-300 group-hover:scale-105">
-          <Image src={brandMark} alt="" width={28} densities={[1, 2]} class="h-full w-full object-contain" loading="eager" />
-        </span>
-        <span>
-          gabriel<span class="text-acid">.</span><span class="text-ink/65">codes</span>
-        </span>
-      </a>
-
-      <!-- Navegación de escritorio (lg+) -->
-      <nav class="hidden items-center gap-1 lg:flex" aria-label={locale === 'es' ? 'Navegación principal' : 'Main navigation'}>
-        {
-          navItems.map((item) => (
-            <a
-              href={item.href}
-              class="rounded-full px-3.5 py-1.5 text-[13px] font-medium text-ink/70 transition-all duration-200 hover:bg-white/[0.06] hover:text-ink"
-            >
-              {item.label}
-            </a>
-          ))
-        }
-        <div class="mx-2 h-4 w-px bg-white/10"></div>
+    <div data-header-bar class="hud-bar mt-2.5 sm:mt-3.5">
+      <div class="flex items-center justify-between gap-2 px-2.5 py-2 sm:px-3.5">
+        <!-- Marca -->
         <a
-          href={localePath(other, path)}
-          hreflang={other}
-          lang={other}
-          data-lang-switch
-          class="relative flex h-9 flex-shrink-0 items-center gap-1.5 rounded-full border border-white/[0.1] bg-white/[0.03] px-3 text-[12px] font-semibold text-ink/75 transition-all duration-200 hover:border-acid/40 hover:text-acid"
-          aria-label={`${locale.toUpperCase()} — ${langLabel}`}
-          title={langLabel}
+          href={home}
+          data-home-link
+          class="group flex min-w-0 items-center gap-2 font-display text-[16px] font-bold tracking-tight text-ink sm:text-lg"
+          aria-label={es ? 'gabriel.codes — Gabriel Saiz, inicio' : 'gabriel.codes — Gabriel Saiz, home'}
         >
-          <Icon name="Languages" class="h-3.5 w-3.5 flex-shrink-0" strokeWidth={1.7} />
-          <span class="whitespace-nowrap uppercase tracking-wide">{locale}</span>
-        </a>
-        <a href={`${home}#contacto`} class="btn-arrow ml-2 h-9 px-4 text-[13px]">{t.nav.contact}</a>
-      </nav>
-
-      <!-- Controles móvil/tablet -->
-      <div class="flex items-center gap-2 lg:hidden">
-        <a
-          href={localePath(other, path)}
-          hreflang={other}
-          lang={other}
-          data-lang-switch
-          class="relative flex h-9 flex-shrink-0 items-center gap-1 rounded-full border border-white/[0.1] bg-white/[0.03] px-2.5 text-[11px] font-semibold text-ink/75 transition-all duration-200 hover:border-acid/40 hover:text-acid sm:gap-1.5 sm:px-3 sm:text-[12px]"
-          aria-label={`${locale.toUpperCase()} — ${langLabel}`}
-          title={langLabel}
-        >
-          <Icon name="Languages" class="h-3 w-3 flex-shrink-0 sm:h-3.5 sm:w-3.5" strokeWidth={1.7} />
-          <span class="whitespace-nowrap uppercase tracking-wide">{locale}</span>
-        </a>
-        <button
-          type="button"
-          data-menu-toggle
-          data-label-open={labels.open}
-          data-label-close={labels.close}
-          class="group/btn relative z-50 flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] transition-colors duration-200 hover:border-acid/40"
-          aria-label={labels.open}
-          aria-expanded="false"
-          aria-controls="mobile-menu"
-        >
-          <span class="flex w-4 flex-col items-center gap-[5px]" aria-hidden="true">
-            <span
-              class="h-[1.5px] w-full origin-center rounded-full bg-ink transition-all duration-300 group-aria-expanded/btn:translate-y-[6.5px] group-aria-expanded/btn:rotate-45 group-aria-expanded/btn:bg-acid"
-            ></span>
-            <span class="h-[1.5px] w-full rounded-full bg-ink transition-all duration-300 group-aria-expanded/btn:scale-0 group-aria-expanded/btn:opacity-0"
-            ></span>
-            <span
-              class="h-[1.5px] w-full origin-center rounded-full bg-ink transition-all duration-300 group-aria-expanded/btn:-translate-y-[6.5px] group-aria-expanded/btn:-rotate-45 group-aria-expanded/btn:bg-acid"
-            ></span>
+          <span class="relative inline-block h-7 w-7 shrink-0 transition-transform duration-300 group-hover:rotate-[-8deg]">
+            <Image src={brandMark} alt="" width={28} densities={[1, 2]} class="h-full w-full object-contain" loading="eager" />
           </span>
-        </button>
+          <span class="truncate">
+            gabriel<span class="text-acid">.</span><span class="text-ink/65">codes</span>
+          </span>
+        </a>
+
+        <!-- Navegación de escritorio -->
+        <nav class="hidden items-center gap-0.5 lg:flex" aria-label={es ? 'Navegación principal' : 'Main navigation'}>
+          {
+            navItems.map((item) => (
+              <a href={item.href} data-nav-link={item.id} class="hud-link font-pixel">
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+
+        <div class="flex shrink-0 items-center gap-1.5 sm:gap-2">
+          <!-- Nivel actual (lo actualiza el script al hacer scroll) -->
+          <span data-hud-level class="hud-level font-pixel" aria-hidden="true">
+            {es ? 'Nv' : 'Lv'} <span data-hud-level-n>00</span>
+          </span>
+          <a
+            href={localePath(other, path)}
+            hreflang={other}
+            lang={other}
+            data-lang-switch
+            class="hud-chip-btn font-pixel"
+            aria-label={`${locale.toUpperCase()} — ${langLabel}`}
+            title={langLabel}
+          >
+            {locale}
+          </a>
+          <span class="hidden lg:contents">
+            <a href={`${home}#contacto`} class="start-btn !gap-1.5 !rounded-xl !px-3.5 !py-1.5 text-[13px] font-black uppercase">
+              ▶ {t.nav.contact}
+            </a>
+          </span>
+          <button
+            type="button"
+            data-menu-toggle
+            data-label-open={labels.open}
+            data-label-close={labels.close}
+            class="hud-menu-btn font-pixel lg:hidden"
+            aria-label={labels.open}
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+          >
+            <span class="hud-menu-icon" aria-hidden="true"><span></span><span></span></span>
+            <span aria-hidden="true">{es ? 'Menú' : 'Menu'}</span>
+          </button>
+        </div>
       </div>
+
+      <!-- Barra de XP: progreso de la página -->
+      <div class="hud-xp" aria-hidden="true"><span></span></div>
     </div>
   </div>
 </header>
 
-<!-- Menú a pantalla completa (móvil/tablet) -->
-<div
-  id="mobile-menu"
-  data-menu
-  data-open="false"
-  inert
-  aria-hidden="true"
-  class="group/menu pointer-events-none fixed inset-0 z-40 flex flex-col bg-noir/[0.98] pt-28 opacity-0 backdrop-blur-xl transition-opacity duration-300 data-[open=true]:pointer-events-auto data-[open=true]:opacity-100 lg:hidden"
->
-  <nav class="container-main flex-1" aria-label={locale === 'es' ? 'Menú móvil' : 'Mobile menu'}>
-    <ul class="flex flex-col gap-1">
-      {
-        menuItems.map((item, i) => (
-          <li
-            class="translate-y-6 border-b border-white/[0.06] opacity-0 transition-all duration-500 group-data-[open=true]/menu:translate-y-0 group-data-[open=true]/menu:opacity-100 group-data-[open=true]/menu:[transition-delay:var(--delay)]"
-            style={`--delay:${i * 60 + 100}ms`}
-          >
-            <a href={item.href} class="group flex items-baseline justify-between py-4">
-              <span class="font-display text-4xl font-semibold tracking-tight text-ink transition-colors group-hover:text-acid">{item.label}</span>
-              <span class="font-display text-sm text-acid/70" aria-hidden="true">0{i + 1}</span>
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-  </nav>
+<!-- Menú de pausa (móvil/tablet) -->
+<div id="mobile-menu" data-menu data-open="false" inert aria-hidden="true" class="pause group/menu lg:hidden">
+  <div class="container-main flex min-h-full flex-col pb-8 pt-28">
+    <p class="font-pixel text-[11px] uppercase tracking-[0.3em] text-acid">— {es ? 'Juego en pausa' : 'Game paused'} —</p>
+    <p class="game-title mt-2 text-[3.4rem] leading-none">{es ? 'Pausa' : 'Pause'}</p>
 
-  <div
-    class="container-main translate-y-6 pb-10 opacity-0 transition-all duration-500 group-data-[open=true]/menu:translate-y-0 group-data-[open=true]/menu:opacity-100 group-data-[open=true]/menu:[transition-delay:500ms]"
-  >
-    <a href="mailto:gsaiz.bajo@gmail.com" class="inline-flex items-center gap-2 text-[13px] tracking-[0.08em] text-ink/70 transition-colors hover:text-acid">
-      <span class="text-[11px] uppercase tracking-[0.2em] text-ink/60">Email</span>
-      gsaiz.bajo@gmail.com
-    </a>
+    <nav class="mt-8 flex-1" aria-label={es ? 'Menú móvil' : 'Mobile menu'}>
+      <ul class="flex flex-col gap-1.5">
+        {
+          levels.map((item, i) => (
+            <li class="pause-item" style={`--i:${i}`}>
+              <a href={item.href} data-nav-link={item.id} class="pause-link">
+                <span class="pause-cursor" aria-hidden="true">
+                  ▶
+                </span>
+                <span class="font-pixel w-12 shrink-0 text-[10px] uppercase tracking-wider text-ink/45">
+                  {es ? 'Nv' : 'Lv'} {item.n}
+                </span>
+                <span class="min-w-0 flex-1 truncate">{item.label}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="pause-item mt-8 flex flex-col gap-4" style="--i:6">
+      <button type="button" data-menu-close class="start-btn w-full justify-center text-[16px] font-black uppercase">
+        ▶ {es ? 'Continuar' : 'Resume'}
+      </button>
+      <div class="flex items-center justify-between gap-3 text-[13px] text-ink/65">
+        <a href={localePath(other, path)} hreflang={other} lang={other} data-lang-switch class="inline-flex items-center gap-2 hover:text-acid">
+          <Icon name="Languages" class="h-4 w-4" strokeWidth={1.8} />
+          {langLabel}
+        </a>
+        <a href="mailto:gsaiz.bajo@gmail.com" class="hover:text-acid">gsaiz.bajo@gmail.com</a>
+      </div>
+    </div>
   </div>
 </div>
+
+<style>
+  /* ---------- Barra HUD ---------- */
+  .hud-bar {
+    position: relative;
+    overflow: hidden;
+    border: 3px solid #0a0706;
+    border-radius: 1rem;
+    background: rgba(34, 28, 23, 0.92);
+    box-shadow:
+      inset 0 2px 0 rgba(255, 243, 230, 0.07),
+      0 4px 0 #0a0706;
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  .hud-xp {
+    height: 5px;
+    background: repeating-linear-gradient(90deg, #120e0b 0 10px, #0a0706 10px 12px);
+  }
+  .hud-xp span {
+    display: block;
+    height: 100%;
+    width: 100%;
+    transform-origin: left;
+    transform: scaleX(var(--xp, 0));
+    background: repeating-linear-gradient(90deg, #f0b429 0 10px, #d4921f 10px 12px);
+  }
+
+  .hud-link {
+    border-radius: 0.5rem;
+    padding: 0.45rem 0.6rem;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(255, 243, 230, 0.7);
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease;
+  }
+  .hud-link:hover {
+    background: rgba(255, 243, 230, 0.07);
+    color: #fff3e6;
+  }
+  .hud-link[aria-current='true'] {
+    background: #f0b429;
+    color: #120e0b;
+  }
+
+  .hud-level {
+    display: inline-flex;
+    height: 2.1rem;
+    align-items: center;
+    gap: 0.3rem;
+    border-radius: 0.55rem;
+    background: #120e0b;
+    padding: 0 0.55rem;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: rgba(255, 243, 230, 0.55);
+  }
+  .hud-level [data-hud-level-n] {
+    color: #f0b429;
+  }
+  .hud-chip-btn {
+    display: inline-grid;
+    height: 2.1rem;
+    min-width: 2.4rem;
+    place-items: center;
+    border: 2px solid rgba(255, 243, 230, 0.15);
+    border-radius: 0.55rem;
+    padding: 0 0.45rem;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: rgba(255, 243, 230, 0.8);
+    transition:
+      border-color 0.15s ease,
+      color 0.15s ease;
+  }
+  .hud-chip-btn:hover {
+    border-color: #f0b429;
+    color: #f0b429;
+  }
+
+  .hud-menu-btn {
+    position: relative;
+    z-index: 50;
+    display: inline-flex;
+    height: 2.1rem;
+    align-items: center;
+    gap: 0.45rem;
+    border: 2px solid #0a0706;
+    border-radius: 0.55rem;
+    background: #f0b429;
+    padding: 0 0.6rem;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #120e0b;
+    box-shadow: 0 3px 0 #0a0706;
+    cursor: pointer;
+  }
+  @media (min-width: 1024px) {
+    .hud-menu-btn {
+      display: none;
+    }
+  }
+  .hud-menu-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 #0a0706;
+  }
+  /* Icono de pausa ⏸ que pasa a ✕ al abrir */
+  .hud-menu-icon {
+    position: relative;
+    display: inline-flex;
+    height: 10px;
+    width: 10px;
+    justify-content: space-between;
+  }
+  .hud-menu-icon span {
+    height: 10px;
+    width: 3px;
+    background: currentColor;
+    transition: transform 0.2s steps(3);
+  }
+  .hud-menu-btn[aria-expanded='true'] .hud-menu-icon {
+    justify-content: center;
+  }
+  .hud-menu-btn[aria-expanded='true'] .hud-menu-icon span {
+    position: absolute;
+    left: 3.5px;
+  }
+  .hud-menu-btn[aria-expanded='true'] .hud-menu-icon span:first-child {
+    transform: rotate(45deg);
+  }
+  .hud-menu-btn[aria-expanded='true'] .hud-menu-icon span:last-child {
+    transform: rotate(-45deg);
+  }
+
+  /* ---------- Pantalla de pausa ---------- */
+  .pause {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    overflow-y: auto;
+    background:
+      repeating-linear-gradient(0deg, rgba(10, 7, 6, 0.35) 0 2px, transparent 2px 4px),
+      radial-gradient(ellipse at 80% 0%, rgba(240, 180, 41, 0.14), transparent 55%),
+      #120e0b;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s steps(4);
+  }
+  .pause[data-open='true'] {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .pause-item {
+    opacity: 0;
+    transform: translateX(-12px);
+    transition:
+      opacity 0.25s steps(3),
+      transform 0.25s steps(3);
+  }
+  .pause[data-open='true'] .pause-item {
+    opacity: 1;
+    transform: none;
+    transition-delay: calc(var(--i) * 45ms + 80ms);
+  }
+  .pause-link {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    border: 3px solid transparent;
+    border-radius: 0.9rem;
+    padding: 0.8rem 0.9rem;
+    font-size: 1.45rem;
+    font-weight: 900;
+    color: #fff3e6;
+  }
+  .pause-cursor {
+    width: 1rem;
+    font-size: 0.7em;
+    color: #f0b429;
+    opacity: 0;
+  }
+  .pause-link:hover,
+  .pause-link:focus-visible,
+  .pause-link[aria-current='true'] {
+    border-color: #0a0706;
+    background: #221c17;
+    box-shadow: 0 4px 0 #0a0706;
+    outline: none;
+  }
+  .pause-link:hover .pause-cursor,
+  .pause-link:focus-visible .pause-cursor,
+  .pause-link[aria-current='true'] .pause-cursor {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pause-item {
+      transform: none;
+    }
+  }
+</style>

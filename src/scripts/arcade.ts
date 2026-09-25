@@ -157,7 +157,7 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
   };
 
   const drawText = (txt: string, x: number, yy: number, size = 8, color = '#fff3e6', align: CanvasTextAlign = 'center') => {
-    ctx.font = `${size}px ${getComputedStyle(document.documentElement).getPropertyValue('--font-silk') || 'monospace'}, monospace`;
+    ctx.font = `${size}px ${getComputedStyle(document.documentElement).getPropertyValue('--font-tiny') || 'monospace'}, monospace`;
     ctx.textAlign = align;
     ctx.fillStyle = '#0a0706';
     ctx.fillText(txt, x + 1, yy + 1);

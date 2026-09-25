@@ -379,3 +379,74 @@ export function initDialog() {
     window.setTimeout(() => document.getElementById('name')?.focus({ preventScroll: true }), reduced() ? 0 : 600);
   });
 }
+
+/* ------------------------------------------------------------------ */
+/* Mapa del mundo (trayectoria): el monigote camina de nivel en nivel   */
+/* ------------------------------------------------------------------ */
+
+export function initWorldMap() {
+  const root = document.querySelector<HTMLElement>('[data-world]');
+  if (!root) return;
+  const tabs = [...root.querySelectorAll<HTMLButtonElement>('[data-wm-node]')];
+  const panels = [...root.querySelectorAll<HTMLElement>('[data-wm-panel]')];
+  const hero = root.querySelector<HTMLElement>('[data-wm-hero]');
+  const status = root.querySelector<HTMLElement>('[data-wm-status]');
+  let at = Number(root.dataset.current ?? 0);
+  let target = at;
+  let walking = 0;
+  const STEP = reduced() ? 0 : 440;
+
+  const place = (i: number) => {
+    if (!hero) return;
+    hero.classList.toggle('is-left', i < at);
+    hero.style.left = tabs[i].dataset.x!;
+    hero.style.top = tabs[i].dataset.y!;
+    at = i;
+  };
+
+  // Recorre el camino baldosa a baldosa (no en línea recta por el mapa).
+  const walk = () => {
+    window.clearTimeout(walking);
+    if (at === target) {
+      hero?.classList.remove('is-walking');
+      return;
+    }
+    hero?.classList.add('is-walking');
+    place(at + (target > at ? 1 : -1));
+    walking = window.setTimeout(walk, STEP);
+  };
+
+  const select = (i: number, focus = false) => {
+    const n = (i + tabs.length) % tabs.length;
+    tabs.forEach((tab, j) => {
+      tab.setAttribute('aria-selected', String(j === n));
+      tab.tabIndex = j === n ? 0 : -1;
+    });
+    panels.forEach((panel, j) => {
+      if (j === n) panel.removeAttribute('data-hidden-js');
+      else panel.setAttribute('data-hidden-js', 'true');
+    });
+    if (status) status.textContent = panels[n].dataset.status ?? '';
+    if (focus) tabs[n].focus();
+    target = n;
+    if (STEP) walk();
+    else while (at !== target) place(at + (target > at ? 1 : -1));
+  };
+
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => select(i));
+    tab.addEventListener('keydown', (e) => {
+      const last = tabs.length - 1;
+      let next = -1;
+      if (e.key === 'ArrowRight') next = i === last ? 0 : i + 1;
+      else if (e.key === 'ArrowLeft') next = i === 0 ? last : i - 1;
+      else if (e.key === 'Home') next = 0;
+      else if (e.key === 'End') next = last;
+      if (next < 0) return;
+      e.preventDefault();
+      select(next, true);
+    });
+  });
+  root.querySelector('[data-wm-prev]')?.addEventListener('click', () => select(target - 1));
+  root.querySelector('[data-wm-next]')?.addEventListener('click', () => select(target + 1));
+}

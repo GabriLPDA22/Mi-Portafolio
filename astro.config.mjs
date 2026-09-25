@@ -33,13 +33,13 @@ export default defineConfig({
       },
     },
     {
-      // Fuente pixel para los textos tipo HUD (OFL-1.1, 8 KB).
+      // Fuente pixel para los textos tipo HUD (Tiny5, OFL-1.1, 9 KB): C y O bien distintas.
       provider: fontProviders.local(),
-      name: 'Silkscreen',
-      cssVariable: '--font-silk',
+      name: 'Tiny5',
+      cssVariable: '--font-tiny',
       fallbacks: ['ui-monospace', 'monospace'],
       options: {
-        variants: [{ src: ['./src/assets/fonts/silkscreen-latin-400-normal.woff2'], weight: '400', style: 'normal' }],
+        variants: [{ src: ['./src/assets/fonts/tiny5-latin-400-normal.woff2'], weight: '400', style: 'normal' }],
       },
     },
   ],

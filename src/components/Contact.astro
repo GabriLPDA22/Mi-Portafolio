@@ -45,11 +45,14 @@ const label = 'font-pixel mb-2 block text-[10px] uppercase tracking-wider text-i
     <div class="mx-auto flex max-w-[52rem] flex-col gap-8">
       <!-- Diálogo del NPC -->
       <div data-dialog data-line-no={lines.no} data-line-yes={lines.yes} class="dialog">
-        <div class="dialog-portrait" aria-hidden="true">
-          <Mascot class="h-[84px] w-auto sm:h-[110px]" />
+        <div class="dialog-head">
+          <div class="dialog-portrait" aria-hidden="true">
+            <Mascot class="h-[92px] w-auto sm:h-[110px]" />
+          </div>
+          <p class="dialog-name name-mobile font-pixel">Gabriel</p>
         </div>
         <div class="min-w-0 flex-1">
-          <p class="dialog-name font-pixel">Gabriel</p>
+          <p class="dialog-name name-desk font-pixel">Gabriel</p>
           <p class="relative pb-1 pr-5 text-[16px] font-semibold leading-relaxed text-noir sm:text-[17px]">
             <span data-dialog-text>{lines.intro}</span>
             <span data-dialog-typed aria-hidden="true" class="absolute inset-0 pr-5"></span>
@@ -177,25 +180,55 @@ const label = 'font-pixel mb-2 block text-[10px] uppercase tracking-wider text-i
       padding: 1.6rem 1.75rem 1.75rem;
     }
   }
+  /* Móvil: el monigote asoma de pie sobre el borde superior de la caja */
+  .dialog {
+    margin-top: 3.5rem;
+  }
+  .dialog-head {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.75rem;
+    margin-top: -4.9rem;
+  }
   .dialog-portrait {
-    display: grid;
-    place-items: end center;
-    align-self: flex-start;
-    height: 104px;
-    width: 104px;
     flex-shrink: 0;
-    overflow: hidden;
-    border-radius: 0.9rem;
-    border: 3px solid #0a0706;
-    background:
-      linear-gradient(180deg, transparent 62%, #6b4a2e 62%, #6b4a2e 66%, #4a3320 66%),
-      linear-gradient(180deg, #3a2a1c, #221a14);
-    box-shadow: 0 4px 0 #0a0706;
+    filter: drop-shadow(0 3px 0 #0a0706);
+  }
+  .name-desk {
+    display: none !important;
   }
   @media (min-width: 640px) {
+    .name-mobile {
+      display: none !important;
+    }
+    .name-desk {
+      display: inline-block !important;
+    }
+  }
+  .dialog-head .dialog-name {
+    margin-bottom: 0.35rem;
+  }
+  /* Escritorio: retrato enmarcado a la izquierda */
+  @media (min-width: 640px) {
+    .dialog {
+      margin-top: 0;
+    }
+    .dialog-head {
+      margin-top: 0;
+    }
     .dialog-portrait {
+      display: grid;
+      place-items: end center;
       height: 136px;
       width: 136px;
+      overflow: hidden;
+      border-radius: 0.9rem;
+      border: 3px solid #0a0706;
+      background:
+        linear-gradient(180deg, transparent 62%, #6b4a2e 62%, #6b4a2e 66%, #4a3320 66%),
+        linear-gradient(180deg, #3a2a1c, #221a14);
+      box-shadow: 0 4px 0 #0a0706;
+      filter: none;
     }
   }
   .dialog-name {

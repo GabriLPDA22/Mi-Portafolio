@@ -14,7 +14,7 @@
   --font-sans: var(--font-nunito), system-ui, sans-serif;
   --font-display: var(--font-nunito), system-ui, sans-serif;
   --font-script: var(--font-caveat), "Segoe Print", cursive;
-  --font-pixel: var(--font-silk), ui-monospace, monospace;
+  --font-pixel: var(--font-tiny), ui-monospace, monospace;
   --font-code: ui-monospace, "Cascadia Code", "Fira Code", "SF Mono", Consolas,
     monospace;
 

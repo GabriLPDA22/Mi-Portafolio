@@ -8,9 +8,11 @@ export function initHeader() {
   const bar = document.querySelector<HTMLElement>('[data-header-bar]');
   if (bar) {
     let frame = 0;
+    // Barra de XP: progreso de lectura de la página (solo transform, sin reflow).
     const update = () => {
       frame = 0;
-      bar.dataset.scrolled = String(window.scrollY > 20);
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.setProperty('--xp', max > 0 ? Math.min(1, window.scrollY / max).toFixed(4) : '0');
     };
     update();
     window.addEventListener(
@@ -36,6 +38,10 @@ export function initHeader() {
       document.body.style.overflow = open ? 'hidden' : '';
     };
     toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+    menu.querySelector('[data-menu-close]')?.addEventListener('click', () => {
+      setOpen(false);
+      toggle.focus();
+    });
     menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
     document.querySelector('[data-home-link]')?.addEventListener('click', () => setOpen(false));
     document.addEventListener('keydown', (e) => {
@@ -44,6 +50,31 @@ export function initHeader() {
         toggle.focus();
       }
     });
+  }
+
+  // Nivel actual: la sección que ocupa el centro de la pantalla.
+  const levelEl = document.querySelector<HTMLElement>('[data-hud-level]');
+  const levelN = document.querySelector<HTMLElement>('[data-hud-level-n]');
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]')];
+  const ids = [...new Set(links.map((a) => a.dataset.navLink!))];
+  const sections = ids.map((id) => document.getElementById(id)).filter((el): el is HTMLElement => !!el);
+  if (!sections.length || !('IntersectionObserver' in window)) {
+    if (levelEl) levelEl.hidden = true;
+  } else {
+    const setLevel = (id: string | null) => {
+      links.forEach((a) => a.setAttribute('aria-current', String(a.dataset.navLink === id)));
+      if (levelN) levelN.textContent = id ? String(ids.indexOf(id) + 1).padStart(2, '0') : '00';
+    };
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setLevel(entry.target.id);
+          else if (entry.target === sections[0] && entry.boundingClientRect.top > 0) setLevel(null);
+        });
+      },
+      { rootMargin: '-45% 0px -50% 0px' },
+    );
+    sections.forEach((el) => io.observe(el));
   }
 
   // Al cambiar de idioma se conserva la sección en la que estás.
