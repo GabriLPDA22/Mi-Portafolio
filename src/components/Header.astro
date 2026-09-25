@@ -290,7 +290,7 @@ const labels = es ? { open: 'Abrir menú', close: 'Cerrar menú' } : { open: 'Op
   .pause {
     position: fixed;
     inset: 0;
-    z-index: 40;
+    z-index: 48; /* por encima del aviso de cookies (45), por debajo de la cabecera (50) */
     overflow-y: auto;
     background:
       repeating-linear-gradient(0deg, rgba(10, 7, 6, 0.35) 0 2px, transparent 2px 4px),

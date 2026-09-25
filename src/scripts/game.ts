@@ -9,6 +9,8 @@ type GameData = { achievements: Achievement[]; arcade?: ArcadeTexts; unlocked: s
 
 const STORE = 'gs-achievements';
 const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+/** Antes de un salto programático: renderiza las secciones con content-visibility para que el destino sea exacto. */
+const renderAll = () => document.documentElement.classList.add('cv-all');
 
 const readData = (): GameData | null => {
   const el = document.getElementById('game-data');
@@ -143,6 +145,7 @@ export function initPressStart() {
     const target = document.querySelector<HTMLElement>(start.hash);
     unlock('start');
     if (!target) return;
+    renderAll();
     if (!wipe || reduced()) {
       target.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth' });
       return;
@@ -374,6 +377,7 @@ export function initDialog() {
     const form = document.getElementById('contacto-form');
     if (!form) return;
     e.preventDefault();
+    renderAll();
     say(box.dataset.lineYes ?? '');
     form.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' });
     window.setTimeout(() => document.getElementById('name')?.focus({ preventScroll: true }), reduced() ? 0 : 600);

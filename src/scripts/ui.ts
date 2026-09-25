@@ -14,7 +14,8 @@ export function initHeader() {
       const max = document.documentElement.scrollHeight - window.innerHeight;
       bar.style.setProperty('--xp', max > 0 ? Math.min(1, window.scrollY / max).toFixed(4) : '0');
     };
-    update();
+    // Primera medida en el siguiente frame: no fuerza un layout síncrono durante la carga.
+    frame = requestAnimationFrame(update);
     window.addEventListener(
       'scroll',
       () => {
@@ -52,6 +53,18 @@ export function initHeader() {
     });
   }
 
+  // Enlaces internos (#seccion): con content-visibility las secciones lejanas aún no tienen su
+  // altura real y el salto no caería exacto. Se renderiza todo justo antes (captura: va primero).
+  document.addEventListener(
+    'click',
+    (e) => {
+      const a = (e.target as Element | null)?.closest?.('a[href*="#"]') as HTMLAnchorElement | null;
+      if (a && a.pathname === location.pathname && a.hash) document.documentElement.classList.add('cv-all');
+    },
+    true,
+  );
+  if (location.hash) document.documentElement.classList.add('cv-all');
+
   // Nivel actual: la sección que ocupa el centro de la pantalla.
   const levelEl = document.querySelector<HTMLElement>('[data-hud-level]');
   const levelN = document.querySelector<HTMLElement>('[data-hud-level-n]');
@@ -77,10 +90,22 @@ export function initHeader() {
     sections.forEach((el) => io.observe(el));
   }
 
-  // Al cambiar de idioma se conserva la sección en la que estás.
+  // Al cambiar de idioma se conserva la sección que estás VIENDO (no el #ancla de la URL,
+  // que se queda antiguo al hacer scroll: p. ej. #contacto tras pulsar "Contacto" y volver arriba).
   document.querySelectorAll<HTMLAnchorElement>('[data-lang-switch]').forEach((a) => {
     a.addEventListener('click', () => {
-      if (location.hash) a.href = a.href.split('#')[0] + location.hash;
+      const base = a.href.split('#')[0];
+      if (!sections.length) {
+        a.href = base + location.hash;
+        return;
+      }
+      // Sección que ocupa el centro de la pantalla ahora mismo (en la portada: ninguna).
+      const mid = window.innerHeight / 2;
+      const visible = sections.find((el) => {
+        const r = el.getBoundingClientRect();
+        return r.top <= mid && r.bottom >= mid;
+      });
+      a.href = base + (visible ? `#${visible.id}` : '');
     });
   });
 }

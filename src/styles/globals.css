@@ -100,16 +100,6 @@ body {
   position: relative;
 }
 
-/* Secciones bajo el fold: menos trabajo de layout en móvil.
-   #proyectos y #contacto quedan fuera: tienen animaciones ligadas al
-   scroll que leen getBoundingClientRect() en cada frame, y su alto real
-   (varios viewports) no encaja con el placeholder de content-visibility,
-   forzando relayouts caros justo durante el scroll (lag en móvil). */
-#trayectoria,
-#resultados {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 900px;
-}
 
 ::selection {
   background-color: #f0b429;
@@ -937,3 +927,15 @@ textarea:focus-visible {
 
 
 
+
+/* Secciones fuera de pantalla: el navegador no calcula su estilo/layout/pintado hasta que
+   se acercan al viewport (menos trabajo en la carga, sobre todo en móvil). `auto` recuerda
+   la altura real una vez renderizada para que el scroll no salte. */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1100px;
+}
+/* Al navegar por anclas se renderiza todo antes del scroll, para que el destino sea exacto. */
+.cv-all .cv-auto {
+  content-visibility: visible;
+}

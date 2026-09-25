@@ -41,7 +41,7 @@ const serviceIcons: Record<string, string> = {
 const ticker = t.services.ribbon.split('·').map((s) => s.trim().replace(' & ', ' + '));
 ---
 
-<section id="servicios" class="relative z-10 scroll-mt-24 overflow-hidden py-20 sm:py-28">
+<section id="servicios" class="cv-auto relative z-10 scroll-mt-24 overflow-hidden py-20 sm:py-28">
   <!-- Logos del inventario: se definen una vez y se reutilizan con <use> -->
   <svg aria-hidden="true" width="0" height="0" class="absolute">
     {
@@ -63,7 +63,7 @@ const ticker = t.services.ribbon.split('·').map((s) => s.trim().replace(' & ', 
       {
         [0, 1].map(() => (
           <span class="led-run">
-            {ticker.map((w) => (
+            {[...ticker, ...ticker, ...ticker].map((w) => (
               <span class="px-5">
                 {w} <span class="text-noir/50">✦</span>
               </span>
@@ -200,7 +200,7 @@ const ticker = t.services.ribbon.split('·').map((s) => s.trim().replace(' & ', 
   }
   @media (prefers-reduced-motion: no-preference) {
     .led-track {
-      animation: led-scroll 26s linear infinite;
+      animation: led-scroll 75s linear infinite;
     }
   }
   @keyframes led-scroll {
