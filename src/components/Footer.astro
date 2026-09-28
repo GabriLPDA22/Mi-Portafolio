@@ -37,7 +37,12 @@ const year = new Date().getFullYear();
     </nav>
     <SocialPills compact />
     <button type="button" data-arcade-open hidden class="arcade-open font-pixel">
-      🎮 {es ? 'Modo arcade' : 'Arcade mode'} <span class="text-ink/50">· ↑↑↓↓←→←→BA</span>
+      <svg viewBox="0 0 9 9" width="18" height="18" shape-rendering="crispEdges" aria-hidden="true" class="joy">
+        <rect x="3" y="0" width="3" height="3" fill="#e0457b" /><rect x="4" y="3" width="1" height="3" fill="#fff3e6" />
+        <rect x="1" y="6" width="7" height="2" fill="#f0b429" /><rect x="0" y="8" width="9" height="1" fill="#d4921f" />
+      </svg>
+      {es ? 'Modo arcade' : 'Arcade mode'}
+      <span class="coin" aria-hidden="true">{es ? 'Jugar' : 'Play'}</span>
     </button>
     <div class="flex flex-col items-center gap-4 text-[12.5px] text-ink/65 sm:flex-row sm:gap-8">
       <p>© {year} Gabriel Saiz. {t.footer.copyright}</p>
@@ -58,11 +63,14 @@ const year = new Date().getFullYear();
 
 <style>
   .arcade-open {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
     border: 3px solid #0a0706;
     border-radius: 0.8rem;
     background: #221c17;
     color: #f0b429;
-    padding: 0.5rem 0.9rem;
+    padding: 0.45rem 0.5rem 0.45rem 0.75rem;
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -77,5 +85,32 @@ const year = new Date().getFullYear();
   .arcade-open:active {
     transform: translateY(3px);
     box-shadow: 0 1px 0 #0a0706;
+  }
+  .arcade-open[hidden] {
+    display: none;
+  }
+  .joy {
+    image-rendering: pixelated;
+  }
+  /* "botón" de la recreativa: pastilla dorada con parpadeo tipo INSERT COIN */
+  .coin {
+    border-radius: 0.45rem;
+    background: #f0b429;
+    color: #120e0b;
+    padding: 0.2rem 0.5rem;
+    box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.25);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .coin {
+      animation: coin-blink 1.2s steps(1) infinite;
+    }
+    .arcade-open:hover .coin {
+      animation: none;
+    }
+  }
+  @keyframes coin-blink {
+    50% {
+      background: #ffd06a;
+    }
   }
 </style>

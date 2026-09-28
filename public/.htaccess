@@ -9,6 +9,13 @@ RewriteCond %{REQUEST_URI} ^/(.+)/$
 RewriteCond %{DOCUMENT_ROOT}/%1.html -f
 RewriteRule ^(.+)/$ /$1 [R=301,L]
 
+# Markdown para agentes: con "Accept: text/markdown" la portada se sirve en markdown
+# (/index.md, /en.md). Los navegadores no lo piden, así que siguen recibiendo HTML.
+RewriteCond %{HTTP_ACCEPT} text/markdown [NC]
+RewriteRule ^(index\.html)?$ /index.md [L]
+RewriteCond %{HTTP_ACCEPT} text/markdown [NC]
+RewriteRule ^en(\.html)?$ /en.md [L]
+
 # URLs sin extensión → fichero .html (también si existe una carpeta con el mismo nombre)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME}.html -f
@@ -17,15 +24,18 @@ RewriteRule ^(.+?)$ $1.html [L]
 # 404 fallback
 ErrorDocument 404 /404.html
 
+AddType text/markdown .md
+AddCharset utf-8 .md .txt
+
 # ----------------------------------------------------------------------
 # Compresión (gzip / brotli si está disponible)
 # ----------------------------------------------------------------------
 <IfModule mod_brotli.c>
-  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css text/javascript application/javascript application/json image/svg+xml application/xml application/manifest+json
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/markdown text/plain text/css text/javascript application/javascript application/json image/svg+xml application/xml application/manifest+json
 </IfModule>
 
 <IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript application/javascript application/json image/svg+xml application/xml application/manifest+json
+  AddOutputFilterByType DEFLATE text/html text/markdown text/plain text/css text/javascript application/javascript application/json image/svg+xml application/xml application/manifest+json
 </IfModule>
 
 # ----------------------------------------------------------------------
@@ -54,9 +64,18 @@ ErrorDocument 404 /404.html
     Header set Cache-Control "public, max-age=86400"
   </FilesMatch>
 
-  # HTML siempre fresco
-  <FilesMatch "\.(html)$">
+  # HTML y markdown siempre frescos; varían según Accept (HTML vs markdown para agentes)
+  <FilesMatch "\.(html|md)$">
     Header set Cache-Control "no-cache, must-revalidate"
+    Header merge Vary Accept
+  </FilesMatch>
+
+  # Cabeceras Link (RFC 8288) en la portada: versión markdown y llms.txt para agentes
+  <FilesMatch "^index\.html$">
+    Header set Link "</index.md>; rel=\"alternate\"; type=\"text/markdown\", </llms.txt>; rel=\"describedby\"; type=\"text/plain\", </sitemap.xml>; rel=\"sitemap\""
+  </FilesMatch>
+  <FilesMatch "^en\.html$">
+    Header set Link "</en.md>; rel=\"alternate\"; type=\"text/markdown\", </llms.txt>; rel=\"describedby\"; type=\"text/plain\", </sitemap.xml>; rel=\"sitemap\""
   </FilesMatch>
 </IfModule>
 
