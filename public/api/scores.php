@@ -2,9 +2,9 @@
 /**
  * Ranking global de BUG RUN (PHP + MySQL en el propio Hostinger).
  *
- *   GET  /api/scores.php                         → { scores: [{ name, score }] }  (top 10)
+ *   GET  /api/scores.php?page=N                  → { scores: [{ rank, name, score }], page, pages, total }
  *   POST /api/scores.php { action: "start" }     → { token }                      (al empezar partida)
- *   POST /api/scores.php { action: "submit", token, name, score } → { ok, rank, scores }
+ *   POST /api/scores.php { action: "submit", token, name, score } → { ok, rank, name, ...página donde ha quedado }
  *
  * Antitrampas (razonable, no perfecto: el juego corre en el navegador):
  *  - cada partida necesita un token de un solo uso, ligado a la IP que lo pidió;
@@ -14,6 +14,7 @@
  * La IP nunca se guarda en claro: HMAC-SHA256 con un secreto, y se borra a las 24 h.
  *
  * Credenciales fuera de public_html: ~/arcade-config.php (ver scripts/arcade-config.example.php).
+ * Las tablas se crean y actualizan solas (ver MIGRATIONS): basta con crear la base de datos vacía.
  */
 declare(strict_types=1);
 
@@ -21,7 +22,7 @@ header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
 header('X-Content-Type-Options: nosniff');
 
-const TOP = 10;
+const PER_PAGE = 10;
 const RUNS_PER_HOUR = 60;
 const TOKEN_TTL = 1800; // s: una partida más larga que esto no es realista
 
@@ -30,6 +31,69 @@ function out(int $code, array $body): void
     http_response_code($code);
     echo json_encode($body, JSON_UNESCAPED_UNICODE);
     exit;
+}
+
+/**
+ * Migraciones automáticas del esquema. Cada paso numerado se aplica UNA sola vez, en orden, y la
+ * versión aplicada se guarda en arcade_meta. Para cambiar las tablas: añade un paso nuevo al final
+ * (nunca edites ni borres uno ya publicado). Se ejecutan solas en la primera petición tras subir el PHP.
+ */
+const MIGRATIONS = [
+    1 => [
+        'CREATE TABLE IF NOT EXISTS arcade_runs (
+            token      CHAR(32)     NOT NULL PRIMARY KEY,
+            ip_hash    CHAR(64)     NOT NULL,
+            started_at INT UNSIGNED NOT NULL,
+            used       TINYINT(1)   NOT NULL DEFAULT 0,
+            KEY idx_ip_time (ip_hash, started_at),
+            KEY idx_started (started_at)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4',
+        'CREATE TABLE IF NOT EXISTS arcade_scores (
+            id         INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            name       CHAR(3)      NOT NULL,
+            score      INT UNSIGNED NOT NULL,
+            created_at INT UNSIGNED NOT NULL,
+            KEY idx_score (score)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4',
+    ],
+    // Nombres de 3-12 caracteres en lugar de 3 iniciales
+    2 => ['ALTER TABLE arcade_scores MODIFY name VARCHAR(12) NOT NULL'],
+    // Ranking paginado: orden estable por puntos y llegada
+    3 => ['ALTER TABLE arcade_scores DROP INDEX idx_score, ADD INDEX idx_rank (score DESC, id)'],
+];
+
+function migrate(PDO $db): void
+{
+    $latest = max(array_keys(MIGRATIONS));
+    $version = static function () use ($db): int {
+        try {
+            return (int) $db->query("SELECT v FROM arcade_meta WHERE k = 'schema'")->fetchColumn();
+        } catch (PDOException $e) {
+            return -1; // aún no existe arcade_meta
+        }
+    };
+    if ($version() >= $latest) {
+        return; // caso normal: una sola consulta rápida por petición
+    }
+    // Evita que dos peticiones simultáneas migren a la vez
+    if ((int) $db->query("SELECT GET_LOCK('arcade_migrate', 10)")->fetchColumn() !== 1) {
+        throw new RuntimeException('migration_lock');
+    }
+    try {
+        $db->exec('CREATE TABLE IF NOT EXISTS arcade_meta (k VARCHAR(32) NOT NULL PRIMARY KEY, v VARCHAR(64) NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4');
+        $current = max(0, $version());
+        foreach (MIGRATIONS as $n => $steps) {
+            if ($n <= $current) {
+                continue;
+            }
+            foreach ($steps as $sql) {
+                $db->exec($sql); // en MySQL cada ALTER/CREATE confirma solo: por eso se guarda la versión paso a paso
+            }
+            $db->prepare("REPLACE INTO arcade_meta (k, v) VALUES ('schema', ?)")->execute([(string) $n]);
+        }
+    } finally {
+        $db->query("SELECT RELEASE_LOCK('arcade_migrate')");
+    }
 }
 
 /** Deja el nombre en su forma "básica" para compararlo: minúsculas, sin tildes, leetspeak → letras, sin repeticiones. */
@@ -80,23 +144,38 @@ $cfg = require $cfgFile;
 
 try {
     $db = new PDO(
-        $cfg['dsn'] ?? "mysql:host={$cfg['db_host']};dbname={$cfg['db_name']};charset=utf8mb4",
-        $cfg['db_user'] ?? null,
-        $cfg['db_pass'] ?? null,
+        "mysql:host={$cfg['db_host']};dbname={$cfg['db_name']};charset=utf8mb4",
+        $cfg['db_user'],
+        $cfg['db_pass'],
         [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_EMULATE_PREPARES => false],
     );
 } catch (Throwable $e) {
     out(503, ['error' => 'db_unavailable']);
 }
+try {
+    migrate($db);
+} catch (Throwable $e) {
+    error_log('arcade migrate: ' . $e->getMessage());
+    out(503, ['error' => 'db_migration']);
+}
 
-$top = static function () use ($db): array {
-    $rows = $db->query('SELECT name, score FROM arcade_scores ORDER BY score DESC, created_at ASC LIMIT ' . TOP)->fetchAll(PDO::FETCH_ASSOC);
-    return array_map(static fn($r) => ['name' => $r['name'], 'score' => (int) $r['score']], $rows);
+/** Una página del ranking. Orden estable: más puntos primero y, a igualdad, quien llegó antes. */
+$page = static function (int $n) use ($db): array {
+    $total = (int) $db->query('SELECT COUNT(*) FROM arcade_scores')->fetchColumn();
+    $pages = max(1, (int) ceil($total / PER_PAGE));
+    $n = min(max(1, $n), $pages);
+    $offset = ($n - 1) * PER_PAGE;
+    $rows = $db->query('SELECT name, score FROM arcade_scores ORDER BY score DESC, id ASC LIMIT ' . PER_PAGE . ' OFFSET ' . $offset)->fetchAll(PDO::FETCH_ASSOC);
+    $scores = [];
+    foreach ($rows as $i => $r) {
+        $scores[] = ['rank' => $offset + $i + 1, 'name' => $r['name'], 'score' => (int) $r['score']];
+    }
+    return ['scores' => $scores, 'page' => $n, 'pages' => $pages, 'total' => $total];
 };
 
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 if ($method === 'GET') {
-    out(200, ['scores' => $top()]);
+    out(200, $page((int) ($_GET['page'] ?? 1)));
 }
 if ($method !== 'POST') {
     out(405, ['error' => 'method_not_allowed']);
@@ -159,9 +238,12 @@ try {
         }
 
         $db->prepare('INSERT INTO arcade_scores (name, score, created_at) VALUES (?, ?, ?)')->execute([$name, $score, $now]);
-        $r = $db->prepare('SELECT COUNT(*) FROM arcade_scores WHERE score > ?');
-        $r->execute([$score]);
-        out(200, ['ok' => true, 'rank' => (int) $r->fetchColumn() + 1, 'name' => $name, 'scores' => $top()]);
+        $id = (int) $db->lastInsertId();
+        $r = $db->prepare('SELECT COUNT(*) FROM arcade_scores WHERE score > ? OR (score = ? AND id < ?)');
+        $r->execute([$score, $score, $id]);
+        $rank = (int) $r->fetchColumn() + 1;
+        // Devuelve directamente la página donde ha quedado la nueva puntuación
+        out(200, ['ok' => true, 'rank' => $rank, 'name' => $name] + $page((int) ceil($rank / PER_PAGE)));
     }
 } catch (Throwable $e) {
     out(500, ['error' => 'server']);

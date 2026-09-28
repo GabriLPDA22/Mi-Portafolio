@@ -4,24 +4,7 @@
  */
 
 type Achievement = { id: string; title: string; desc: string };
-type ArcadeTexts = {
-  title: string;
-  start: string;
-  over: string;
-  retry: string;
-  score: string;
-  best: string;
-  close: string;
-  hint: string;
-  top: string;
-  name: string;
-  save: string;
-  saved: string;
-  failed: string;
-  empty: string;
-  invalid: string;
-  rude: string;
-};
+type ArcadeTexts = Parameters<typeof import('./arcade').openArcade>[0];
 type GameData = { achievements: Achievement[]; arcade?: ArcadeTexts; unlocked: string };
 
 const STORE = 'gs-achievements';

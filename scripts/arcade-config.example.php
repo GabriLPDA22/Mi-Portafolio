@@ -1,6 +1,7 @@
 <?php
 /**
  * Plantilla de configuración del ranking de BUG RUN.
+ * Las tablas se crean y actualizan solas (migraciones en public/api/scores.php): solo hace falta la base de datos vacía.
  * Copiar a la carpeta de inicio de la cuenta de Hostinger (un nivel POR ENCIMA de public_html),
  * con el nombre arcade-config.php, y rellenar los datos. Nunca subirla al repositorio.
  */

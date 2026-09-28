@@ -51,6 +51,47 @@ const arcade = es
       empty: 'Aún no hay puntuaciones. ¡Sé el primero!',
       invalid: 'De 3 a 12 letras o números, sin espacios',
       rude: 'Ese nombre no está permitido. Prueba con otro',
+      pause: 'PAUSA',
+      resume: 'Salta para continuar',
+      tabPlay: 'Jugar',
+      tabRank: 'Ranking',
+      tabHelp: 'Cómo jugar',
+      sound: 'Sonido',
+      on: 'Sí',
+      off: 'No',
+      page: 'Pág. {page}/{pages}',
+      prev: 'Página anterior',
+      next: 'Página siguiente',
+      players: '{n} puntuaciones',
+      worldBest: 'Récord mundial',
+      loading: 'Cargando…',
+      offline: 'El ranking no está disponible ahora mismo. Puedes seguir jugando.',
+      help: [
+        {
+          title: 'Controles',
+          items: [
+            '<kbd>Espacio</kbd>, <kbd>↑</kbd> o toca la pantalla para saltar',
+            '<kbd>M</kbd> activa o silencia el sonido',
+            '<kbd>Esc</kbd> sale del juego',
+          ],
+        },
+        {
+          title: 'Reglas',
+          items: [
+            'Salta los bugs: si te toca uno, se acaba la partida',
+            'Cada vez vas más rápido y a partir de 150 puntos salen bugs en pareja',
+            'Cada 100 puntos suena la moneda',
+          ],
+        },
+        {
+          title: 'Ranking',
+          items: [
+            'Al terminar, escribe tu nombre (3-12 letras o números) y guarda la puntuación',
+            'Ranking global con todas las partidas guardadas, 10 por página',
+            'Juego limpio: cada partida se valida en el servidor y los nombres ofensivos se rechazan',
+          ],
+        },
+      ],
     }
   : {
       title: 'BUG RUN',
@@ -69,6 +110,47 @@ const arcade = es
       empty: 'No scores yet. Be the first!',
       invalid: '3 to 12 letters or numbers, no spaces',
       rude: 'That name is not allowed. Try another one',
+      pause: 'PAUSED',
+      resume: 'Jump to continue',
+      tabPlay: 'Play',
+      tabRank: 'Ranking',
+      tabHelp: 'How to play',
+      sound: 'Sound',
+      on: 'On',
+      off: 'Off',
+      page: 'Page {page}/{pages}',
+      prev: 'Previous page',
+      next: 'Next page',
+      players: '{n} scores',
+      worldBest: 'World record',
+      loading: 'Loading…',
+      offline: 'The ranking is not available right now. You can keep playing.',
+      help: [
+        {
+          title: 'Controls',
+          items: [
+            '<kbd>Space</kbd>, <kbd>↑</kbd> or tap the screen to jump',
+            '<kbd>M</kbd> toggles sound',
+            '<kbd>Esc</kbd> quits the game',
+          ],
+        },
+        {
+          title: 'Rules',
+          items: [
+            'Jump over the bugs: touch one and the run is over',
+            'You keep speeding up, and from 150 points bugs come in pairs',
+            'Every 100 points the coin chimes',
+          ],
+        },
+        {
+          title: 'Ranking',
+          items: [
+            'When the run ends, enter your name (3-12 letters or numbers) and save your score',
+            'Global ranking with every saved run, 10 per page',
+            'Fair play: every run is validated on the server and offensive names are rejected',
+          ],
+        },
+      ],
     };
 const data = { achievements, arcade, unlocked: es ? 'Logro desbloqueado' : 'Achievement unlocked' };
 ---
