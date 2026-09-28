@@ -11,8 +11,11 @@ CREATE TABLE IF NOT EXISTS arcade_runs (
 
 CREATE TABLE IF NOT EXISTS arcade_scores (
   id         INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  name       CHAR(3)      NOT NULL,           -- 3 letras A-Z, estilo recreativa
+  name       VARCHAR(12)  NOT NULL,           -- 3-12 letras/números, filtrado de insultos en la API
   score      INT UNSIGNED NOT NULL,
   created_at INT UNSIGNED NOT NULL,
   KEY idx_score (score)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Si ya creaste la tabla con la versión anterior (iniciales de 3 letras), ejecuta solo esto:
+-- ALTER TABLE arcade_scores MODIFY name VARCHAR(12) NOT NULL;

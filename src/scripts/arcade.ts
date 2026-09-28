@@ -21,6 +21,8 @@ type Texts = {
   saved: string;
   failed: string;
   empty: string;
+  invalid: string;
+  rude: string;
 };
 
 const BEST_KEY = 'gs-bugrun-best';
@@ -32,11 +34,18 @@ type Row = { name: string; score: number };
 
 const api = async (body?: object) => {
   const res = await fetch(API, body ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) } : {});
-  if (!res.ok || !res.headers.get('content-type')?.includes('json')) throw new Error(String(res.status));
-  return res.json();
+  if (!res.headers.get('content-type')?.includes('json')) throw new Error(String(res.status));
+  const data = await res.json();
+  if (!res.ok) throw new Error(data?.error ?? String(res.status));
+  return data;
 };
 
-const esc = (s: string) => s.replace(/[^A-Z0-9 ]/gi, '');
+/** Nombre del ranking: 3-12 letras (con tildes/ñ), números, "_" o "-". Mismas reglas que el servidor. */
+const NAME_RE = /^[\p{L}\p{N}_-]{3,12}$/u;
+const cleanName = (s: string) => s.replace(/[^\p{L}\p{N}_-]/gu, '').slice(0, 12);
+
+const esc = (s: string) =>
+  s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
 const VH = 140;
 const GROUND = 118;
 
@@ -78,7 +87,10 @@ const STYLE = `
 .arcade-board li.me{background:#f0b429;color:#120e0b}
 .arcade-board li.me b{color:#120e0b}
 .arcade-form{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;margin-bottom:.7rem}
-.arcade-form input{width:4.2em;border:3px solid #0a0706;border-radius:.5rem;background:#fff3e6;color:#120e0b;padding:.3rem .4rem;font-family:var(--font-pixel);font-size:14px;text-transform:uppercase;letter-spacing:.2em;text-align:center}
+.arcade-form input{width:12.5em;max-width:100%;border:3px solid #0a0706;border-radius:.5rem;background:#fff3e6;color:#120e0b;padding:.3rem .5rem;font-family:var(--font-pixel);font-size:14px;text-transform:uppercase;letter-spacing:.08em}
+.arcade-form input[aria-invalid="true"]{border-color:#e0457b}
+.arcade-hint{flex-basis:100%;font-size:10px;color:rgba(255,243,230,.55)}
+.arcade-hint.err{color:#ff8fb1}
 .arcade-form button{border:3px solid #0a0706;border-radius:.6rem;background:#f0b429;color:#120e0b;padding:.3rem .7rem;font-family:var(--font-pixel);font-size:11px;text-transform:uppercase;box-shadow:0 3px 0 #0a0706;cursor:pointer}
 .arcade-msg{margin:0 0 .5rem;color:rgba(255,243,230,.7)}
 .arcade-msg:empty{display:none}
@@ -112,8 +124,9 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
       <section class="arcade-board" data-board hidden aria-live="polite">
         <form class="arcade-form" data-form hidden>
           <label for="arcade-name">${texts.name}</label>
-          <input id="arcade-name" name="name" maxlength="3" autocomplete="off" autocapitalize="characters" spellcheck="false" pattern="[A-Za-z]{3}" required />
+          <input id="arcade-name" name="name" maxlength="12" autocomplete="nickname" spellcheck="false" aria-describedby="arcade-name-hint" />
           <button type="submit">${texts.save}</button>
+          <small id="arcade-name-hint" class="arcade-hint">${texts.invalid}</small>
         </form>
         <p class="arcade-msg" data-msg></p>
         <h3>★ ${texts.top}</h3>
@@ -185,26 +198,51 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
     nameInput.select();
   };
 
+  const hint = form.querySelector<HTMLElement>('.arcade-hint')!;
+  const nameError = (text: string | null) => {
+    hint.textContent = text ?? texts.invalid;
+    hint.classList.toggle('err', text !== null);
+    nameInput.setAttribute('aria-invalid', String(text !== null));
+    if (text) nameInput.focus();
+  };
+  // Solo caracteres permitidos mientras se escribe (sin el aviso genérico del navegador)
+  nameInput.addEventListener('input', () => {
+    const clean = cleanName(nameInput.value);
+    if (clean !== nameInput.value) nameInput.value = clean;
+    nameError(null);
+  });
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const name = nameInput.value.toUpperCase().replace(/[^A-Z]/g, '');
-    if (name.length !== 3 || !token || !pending) return;
+    const name = cleanName(nameInput.value.trim());
+    if (!NAME_RE.test(name)) return nameError(texts.invalid);
+    if (!token || !pending) return;
     const score = pending;
-    form.hidden = true;
-    try {
-      localStorage.setItem(NAME_KEY, name);
-    } catch {
-      /* sin almacenamiento */
-    }
+    const button = form.querySelector('button')!;
+    button.disabled = true;
     api({ action: 'submit', token, name, score })
-      .then((d: { rank: number; scores: Row[] }) => {
+      .then((d: { rank: number; scores: Row[]; name: string }) => {
+        try {
+          localStorage.setItem(NAME_KEY, name);
+        } catch {
+          /* sin almacenamiento */
+        }
+        form.hidden = true;
+        token = null;
+        pending = 0;
         msg.textContent = texts.saved.replace('{rank}', String(d.rank));
-        render(d.scores, { name, score });
+        render(d.scores, { name: d.name, score });
+        closeBtn.focus();
       })
-      .catch(() => (msg.textContent = texts.failed));
-    token = null;
-    pending = 0;
-    closeBtn.focus();
+      .catch((err: Error) => {
+        // Nombre rechazado: el token sigue valiendo, se puede corregir y reintentar
+        if (err.message === 'rude_name' || err.message === 'invalid') return nameError(err.message === 'rude_name' ? texts.rude : texts.invalid);
+        form.hidden = true;
+        token = null;
+        pending = 0;
+        msg.textContent = texts.failed;
+      })
+      .finally(() => (button.disabled = false));
   });
 
   const pal = { ...MASCOT_PALETTE };

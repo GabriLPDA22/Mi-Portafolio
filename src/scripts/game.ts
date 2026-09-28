@@ -19,6 +19,8 @@ type ArcadeTexts = {
   saved: string;
   failed: string;
   empty: string;
+  invalid: string;
+  rude: string;
 };
 type GameData = { achievements: Achievement[]; arcade?: ArcadeTexts; unlocked: string };
 
