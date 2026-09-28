@@ -25,6 +25,9 @@ type Texts = {
   name: string;
   save: string;
   saved: string;
+  notBest: string;
+  outOfRanking: string;
+  dailyLimit: string;
   failed: string;
   empty: string;
   invalid: string;
@@ -52,6 +55,7 @@ type Tab = 'play' | 'rank' | 'help';
 const BEST_KEY = 'gs-bugrun-best';
 const NAME_KEY = 'gs-bugrun-name';
 const API = '/api/scores.php';
+const MIN_SCORE = 10; // igual que en el servidor
 const VH = 140;
 const GROUND = 118;
 
@@ -360,7 +364,12 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
   };
 
   const offerSave = (sc: number) => {
-    if (!online || !token || sc < 1) return;
+    if (sc < MIN_SCORE) return;
+    // Sin conexión con el ranking: decirlo claro en vez de no mostrar nada
+    if (!online || !token) {
+      msg.textContent = texts.offline;
+      return;
+    }
     pending = sc;
     saveBox.hidden = false;
     nameError(null);
@@ -392,7 +401,7 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
     const button = form.querySelector('button')!;
     button.disabled = true;
     api({ action: 'submit', token, name, score })
-      .then((d: Page & { rank: number }) => {
+      .then((d: Page & { rank: number; best: number; improved: boolean }) => {
         try {
           localStorage.setItem(NAME_KEY, name);
         } catch {
@@ -402,9 +411,16 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
         pending = 0;
         saveBox.hidden = true;
         highlight = d.rank;
-        msg.textContent = texts.saved.replace('{rank}', String(d.rank));
         renderPage(d);
         if (d.rank === 1) worldBest = d.scores[0];
+        if (!d.rank) {
+          msg.textContent = texts.outOfRanking;
+          sfx.error();
+          return;
+        }
+        msg.textContent = d.improved
+          ? texts.saved.replace('{rank}', String(d.rank))
+          : texts.notBest.replace('{best}', String(d.best)).replace('{rank}', String(d.rank));
         sfx.save();
         setTab('rank', true);
       })
@@ -415,7 +431,7 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
         token = null;
         pending = 0;
         saveBox.hidden = true;
-        msg.textContent = texts.failed;
+        msg.textContent = err.message === 'daily_limit' ? texts.dailyLimit : texts.failed;
         sfx.error();
       })
       .finally(() => (button.disabled = false));
