@@ -17,10 +17,29 @@ const audio = () => {
   if (!ctx) {
     const AC = window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
     if (!AC) return null;
+    // iOS 17+: que el juego suene aunque el interruptor de silencio del iPhone esté activado,
+    // como un vídeo o un juego nativo (sin esto, Safari silencia todo el audio web)
+    const session = (navigator as Navigator & { audioSession?: { type: string } }).audioSession;
+    if (session) session.type = 'playback';
     ctx = new AC();
   }
   if (ctx.state === 'suspended') void ctx.resume();
   return ctx;
+};
+
+/**
+ * Desbloquea el audio en móvil. Los navegadores solo permiten arrancar el audio dentro de un gesto
+ * "de activación": en pantallas táctiles eso es pointerup/touchend/click, NO pointerdown (que es lo
+ * que usa el salto). Se llama en esos eventos y reproduce un buffer mudo (truco clásico para iOS).
+ */
+export const unlockAudio = () => {
+  const ac = audio();
+  if (!ac || (ac as AudioContext & { unlocked?: boolean }).unlocked) return;
+  const src = ac.createBufferSource();
+  src.buffer = ac.createBuffer(1, 1, 22050);
+  src.connect(ac.destination);
+  src.start(0);
+  if (ac.state === 'running') (ac as AudioContext & { unlocked?: boolean }).unlocked = true;
 };
 
 /** Una nota: frecuencia inicial, duración (s), forma de onda, volumen y deslizamiento opcional. */

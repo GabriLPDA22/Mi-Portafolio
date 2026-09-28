@@ -8,7 +8,7 @@
  */
 import { MASCOT_PALETTE } from '@/data/mascot';
 import { BUG_PALETTE, BUG_SPRITE, RUN_FRAMES } from '@/data/arcade';
-import { isMuted, setMuted, sfx } from './arcade-sound';
+import { isMuted, setMuted, sfx, unlockAudio } from './arcade-sound';
 
 type Texts = {
   title: string;
@@ -256,9 +256,9 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
   let tab: Tab = 'play';
   const setTab = (next: Tab, focus = false) => {
     if (next === tab) return;
-    // Mantener la altura para que la ventana no "salte" al cambiar de pestaña
-    const current = panels.find((p) => !p.hidden);
-    if (current) root.style.setProperty('--panel-h', `${current.offsetHeight}px`);
+    // Ranking y Cómo jugar ocupan como mínimo lo que ocupa Jugar (la ventana no encoge al cambiar);
+    // Jugar conserva siempre su altura natural, sin heredar la de pestañas más largas.
+    if (tab === 'play') root.style.setProperty('--play-h', `${panels[0].offsetHeight}px`);
     if (state === 'play') state = 'pause';
     tab = next;
     tabs.forEach((t) => {
@@ -269,7 +269,7 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
     });
     panels.forEach((p) => {
       p.hidden = p.dataset.panel !== next;
-      p.style.minHeight = p.hidden ? '' : 'var(--panel-h)';
+      p.style.minHeight = p.hidden || p.dataset.panel === 'play' ? '' : 'var(--play-h)';
     });
     sfx.select();
     if (next === 'rank') void loadPage(page);
@@ -658,6 +658,9 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
     e.preventDefault();
     jump();
   });
+  // Desbloqueo de audio en gestos válidos (en táctil el pointerdown del salto no cuenta)
+  const unlockEvents = ['pointerup', 'touchend', 'click', 'keydown'] as const;
+  unlockEvents.forEach((ev) => root.addEventListener(ev, unlockAudio, { passive: true }));
   closeBtn.addEventListener('click', close);
   root.addEventListener('click', (e) => {
     if (e.target === root) close();
@@ -668,4 +671,6 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
   reset();
   draw();
   raf = requestAnimationFrame(tick);
+  // Se abre desde un toque/clic (botón o código Konami): aún dentro del gesto, arrancar el audio
+  if (!isMuted()) unlockAudio();
 }
