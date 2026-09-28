@@ -15,9 +15,28 @@ type Texts = {
   best: string;
   close: string;
   hint: string;
+  top: string;
+  name: string;
+  save: string;
+  saved: string;
+  failed: string;
+  empty: string;
 };
 
 const BEST_KEY = 'gs-bugrun-best';
+const NAME_KEY = 'gs-bugrun-name';
+/** Ranking global (PHP + MySQL en el mismo Hostinger). Si no responde, el juego funciona igual sin él. */
+const API = '/api/scores.php';
+
+type Row = { name: string; score: number };
+
+const api = async (body?: object) => {
+  const res = await fetch(API, body ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) } : {});
+  if (!res.ok || !res.headers.get('content-type')?.includes('json')) throw new Error(String(res.status));
+  return res.json();
+};
+
+const esc = (s: string) => s.replace(/[^A-Z0-9 ]/gi, '');
 const VH = 140;
 const GROUND = 118;
 
@@ -48,6 +67,21 @@ const STYLE = `
 .arcade-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.75rem;margin-top:.75rem;font-family:var(--font-pixel);font-size:10px;text-transform:uppercase;color:rgba(255,243,230,.65);letter-spacing:.06em}
 .arcade-close{border:3px solid #0a0706;border-radius:.7rem;background:#fff3e6;color:#120e0b;padding:.35rem .8rem;font-family:var(--font-pixel);font-size:11px;box-shadow:0 4px 0 #0a0706;cursor:pointer}
 .arcade-close:active{transform:translateY(3px);box-shadow:0 1px 0 #0a0706}
+.arcade{overflow-y:auto}
+.arcade-board{margin-top:.75rem;border:3px solid #0a0706;border-radius:.8rem;background:#1a1511;padding:.7rem .9rem;font-family:var(--font-pixel);text-transform:uppercase;letter-spacing:.06em;font-size:11px;color:#fff3e6}
+.arcade-board[hidden],.arcade-form[hidden]{display:none}
+.arcade-board h3{margin:0 0 .5rem;font-size:12px;color:#f0b429}
+.arcade-board ol{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr;gap:.25rem .9rem}
+@media (min-width:560px){.arcade-board ol{grid-template-columns:1fr 1fr;grid-auto-flow:column;grid-template-rows:repeat(5,auto)}}
+.arcade-board li{display:flex;justify-content:space-between;gap:.5rem;padding:.15rem .35rem;border-radius:.35rem}
+.arcade-board li b{display:inline-block;color:#f0b429;font-weight:400;min-width:2.4em}
+.arcade-board li.me{background:#f0b429;color:#120e0b}
+.arcade-board li.me b{color:#120e0b}
+.arcade-form{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;margin-bottom:.7rem}
+.arcade-form input{width:4.2em;border:3px solid #0a0706;border-radius:.5rem;background:#fff3e6;color:#120e0b;padding:.3rem .4rem;font-family:var(--font-pixel);font-size:14px;text-transform:uppercase;letter-spacing:.2em;text-align:center}
+.arcade-form button{border:3px solid #0a0706;border-radius:.6rem;background:#f0b429;color:#120e0b;padding:.3rem .7rem;font-family:var(--font-pixel);font-size:11px;text-transform:uppercase;box-shadow:0 3px 0 #0a0706;cursor:pointer}
+.arcade-msg{margin:0 0 .5rem;color:rgba(255,243,230,.7)}
+.arcade-msg:empty{display:none}
 `;
 
 export function openArcade(texts: Texts, onScore?: (score: number) => void) {
@@ -75,6 +109,16 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
       <div class="arcade-top"><span class="arcade-title">${texts.title}</span><span data-score aria-live="off"></span></div>
       <canvas width="${VW}" height="${VH}" aria-label="${texts.hint}"></canvas>
       <div class="arcade-foot"><span>${texts.hint}</span><span class="sr-only" data-announce aria-live="polite"></span><button type="button" class="arcade-close">${touch ? '✕' : 'Esc ·'} ${texts.close}</button></div>
+      <section class="arcade-board" data-board hidden aria-live="polite">
+        <form class="arcade-form" data-form hidden>
+          <label for="arcade-name">${texts.name}</label>
+          <input id="arcade-name" name="name" maxlength="3" autocomplete="off" autocapitalize="characters" spellcheck="false" pattern="[A-Za-z]{3}" required />
+          <button type="submit">${texts.save}</button>
+        </form>
+        <p class="arcade-msg" data-msg></p>
+        <h3>★ ${texts.top}</h3>
+        <ol data-list></ol>
+      </section>
     </div>`;
   document.body.appendChild(root);
   document.documentElement.style.overflow = 'hidden';
@@ -86,6 +130,82 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
   const announce = root.querySelector<HTMLElement>('[data-announce]')!;
   const closeBtn = root.querySelector<HTMLButtonElement>('.arcade-close')!;
   closeBtn.focus();
+
+  // --- Ranking global -------------------------------------------------
+  const board = root.querySelector<HTMLElement>('[data-board]')!;
+  const form = root.querySelector<HTMLFormElement>('[data-form]')!;
+  const nameInput = form.querySelector('input')!;
+  const msg = root.querySelector<HTMLElement>('[data-msg]')!;
+  const list = root.querySelector<HTMLOListElement>('[data-list]')!;
+  let token: string | null = null;
+  let pending = 0; // puntuación de la partida terminada, pendiente de guardar
+  try {
+    nameInput.value = localStorage.getItem(NAME_KEY) ?? '';
+  } catch {
+    /* sin almacenamiento */
+  }
+
+  const render = (rows: Row[], highlight?: { name: string; score: number }) => {
+    let marked = false;
+    list.innerHTML = rows.length
+      ? rows
+          .map((r, i) => {
+            const me = !marked && highlight && r.name === highlight.name && r.score === highlight.score;
+            if (me) marked = true;
+            return `<li${me ? ' class="me"' : ''}><span><b>${i + 1}.</b>${esc(r.name)}</span><span>${String(r.score).padStart(5, '0')}</span></li>`;
+          })
+          .join('')
+      : `<li>${texts.empty}</li>`;
+    board.hidden = false;
+  };
+
+  api()
+    .then((d: { scores: Row[] }) => render(d.scores))
+    .catch(() => {
+      /* sin backend (p. ej. en local): el juego sigue funcionando sin ranking */
+    });
+
+  const newRun = () => {
+    token = null;
+    pending = 0;
+    form.hidden = true;
+    msg.textContent = '';
+    if (board.hidden) return;
+    api({ action: 'start' })
+      .then((d: { token: string }) => (token = d.token))
+      .catch(() => (token = null));
+  };
+
+  const offerSave = (sc: number) => {
+    if (board.hidden || !token || sc < 1) return;
+    pending = sc;
+    form.hidden = false;
+    msg.textContent = '';
+    nameInput.focus({ preventScroll: true });
+    nameInput.select();
+  };
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = nameInput.value.toUpperCase().replace(/[^A-Z]/g, '');
+    if (name.length !== 3 || !token || !pending) return;
+    const score = pending;
+    form.hidden = true;
+    try {
+      localStorage.setItem(NAME_KEY, name);
+    } catch {
+      /* sin almacenamiento */
+    }
+    api({ action: 'submit', token, name, score })
+      .then((d: { rank: number; scores: Row[] }) => {
+        msg.textContent = texts.saved.replace('{rank}', String(d.rank));
+        render(d.scores, { name, score });
+      })
+      .catch(() => (msg.textContent = texts.failed));
+    token = null;
+    pending = 0;
+    closeBtn.focus();
+  });
 
   const pal = { ...MASCOT_PALETTE };
   const run = [spriteCanvas(RUN_FRAMES.runA, pal), spriteCanvas(RUN_FRAMES.runB, pal)];
@@ -126,14 +246,10 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
   };
 
   const jump = () => {
-    if (state === 'ready') {
+    if (state === 'ready' || state === 'over') {
       state = 'play';
       reset();
-      return;
-    }
-    if (state === 'over') {
-      state = 'play';
-      reset();
+      newRun();
       return;
     }
     if (y === 0) vy = 360;
@@ -241,6 +357,7 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
         }
         announce.textContent = `${texts.over}. ${texts.score} ${sc}. ${texts.best} ${best}.`;
         onScore?.(sc);
+        offerSave(sc);
       }
     }
     draw();
@@ -251,6 +368,9 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
     if (e.key === 'Escape') {
       e.preventDefault();
       close();
+    } else if (form.contains(e.target as Node)) {
+      // escribiendo el nombre: las teclas no controlan el juego
+      return;
     } else if (e.key === ' ' || e.key === 'ArrowUp' || e.key === 'w' || (e.key === 'Enter' && document.activeElement !== closeBtn)) {
       e.preventDefault();
       jump();

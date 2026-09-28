@@ -42,3 +42,6 @@ __pycache__/
 # astro
 /dist/
 /.astro/
+
+# Credenciales del ranking (van fuera de public_html en el servidor)
+arcade-config.php

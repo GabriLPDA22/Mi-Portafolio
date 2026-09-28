@@ -51,6 +51,11 @@ const emailLink = 'text-ink underline decoration-white/20 underline-offset-[3px]
       <LegalList items={p.dataCollected.cookies.items} />
       <p>{p.dataCollected.cookies.note}</p>
     </LegalSub>
+    <LegalSub title={p.dataCollected.arcade.title}>
+      <p>{p.dataCollected.arcade.description}</p>
+      <LegalList items={p.dataCollected.arcade.items} />
+      <p>{p.dataCollected.arcade.note}</p>
+    </LegalSub>
   </LegalSection>
 
   <LegalSection id="purpose" title={p.purpose.title}>

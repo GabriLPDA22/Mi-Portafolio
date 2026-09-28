@@ -493,6 +493,15 @@ export const translations = {
             ],
             note: 'Estas cookies son necesarias y no requieren consentimiento según el RGPD, ya que son estrictamente necesarias para el funcionamiento del sitio.',
           },
+          arcade: {
+            title: '2.3. Ranking del minijuego',
+            description: 'Si juegas al minijuego BUG RUN, el ranking se gestiona en el propio servidor de este sitio:',
+            items: [
+              'Al empezar cada partida: un identificador anónimo derivado de tu IP (hash irreversible) para evitar trampas y abusos. Se elimina a las 24 horas.',
+              'Solo si decides guardar tu puntuación: las iniciales de 3 letras que tú elijas y la puntuación, visibles públicamente en el ranking.',
+            ],
+            note: 'Tu IP no se guarda en claro ni se comparte con terceros.',
+          },
         },
         purpose: {
           title: '3. Finalidad del tratamiento',
@@ -1102,6 +1111,15 @@ export const translations = {
               'cookie-consent: Stores your preference regarding cookie usage',
             ],
             note: 'These cookies are necessary and do not require consent under GDPR, as they are strictly necessary for the site operation.',
+          },
+          arcade: {
+            title: '2.3. Mini-game ranking',
+            description: 'If you play the BUG RUN mini-game, the ranking is handled on this site’s own server:',
+            items: [
+              'When each run starts: an anonymous identifier derived from your IP (irreversible hash) to prevent cheating and abuse. It is deleted after 24 hours.',
+              'Only if you choose to save your score: the 3-letter initials you pick and the score, publicly visible in the ranking.',
+            ],
+            note: 'Your IP is never stored in plain text or shared with third parties.',
           },
         },
         purpose: {
