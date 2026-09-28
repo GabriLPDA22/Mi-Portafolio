@@ -570,7 +570,7 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
     ctx.fillText(txt, x, yy);
   };
 
-  // --- Día y noche: paletas que se mezclan en 6 pasos (sin degradados suaves: estética pixel)
+  // --- Día y noche: las paletas se mezclan de forma continua (64 niveles precalculados)
   const DAY = {
     sky: ['#1a1511', '#221a14', '#2c2118', '#3a2a1c', '#4a3320'],
     cloud: '#5a4230',
@@ -590,9 +590,9 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
     const [x, z] = [rgb(a), rgb(b)];
     return `rgb(${x.map((v, i) => Math.round(v + (z[i] - v) * k)).join(',')})`;
   };
-  const STEPS = 6;
-  const themes = Array.from({ length: STEPS + 1 }, (_, i) => {
-    const k = i / STEPS;
+  const LEVELS = 64;
+  const themes = Array.from({ length: LEVELS + 1 }, (_, i) => {
+    const k = i / LEVELS;
     return {
       sky: DAY.sky.map((c, j) => mix(c, NIGHT.sky[j], k)),
       cloud: mix(DAY.cloud, NIGHT.cloud, k),
@@ -610,9 +610,8 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
   let cloudOffset = 0;
 
   const draw = () => {
-    const step = Math.round(night * STEPS);
-    const th = themes[step];
-    const k = step / STEPS;
+    const k = night * night * (3 - 2 * night); // smoothstep: arranca y termina suave
+    const th = themes[Math.round(k * LEVELS)];
     th.sky.forEach((c, i) => {
       ctx.fillStyle = c;
       ctx.fillRect(0, (i * GROUND) / th.sky.length, VW, GROUND / th.sky.length + 1);
@@ -629,7 +628,7 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
     }
     // sol que se pone y luna que sale (quedan ocultos tras el suelo)
     const sx = VW - 70;
-    const sy = 26 + k * 100;
+    const sy = Math.round(26 + k * 100);
     ctx.fillStyle = '#f0b429';
     ctx.fillRect(sx + 6, sy, 16, 28);
     ctx.fillRect(sx + 2, sy + 4, 24, 20);
@@ -637,7 +636,7 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
     ctx.fillStyle = '#ffd06a';
     ctx.fillRect(sx + 8, sy + 4, 8, 6);
     const mx = VW - 120;
-    const my = 20 + (1 - k) * 110;
+    const my = Math.round(20 + (1 - k) * 110);
     ctx.fillStyle = '#fff3e6';
     ctx.fillRect(mx + 4, my, 12, 20);
     ctx.fillRect(mx, my + 4, 20, 12);
@@ -747,7 +746,7 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
     }
     // transición día/noche (también continúa en pausa o game over hasta completarse)
     const target = isNight ? 1 : 0;
-    if (night !== target) night = target > night ? Math.min(1, night + dt / 1.5) : Math.max(0, night - dt / 1.5);
+    if (night !== target) night = target > night ? Math.min(1, night + dt / 3) : Math.max(0, night - dt / 3);
     draw();
     raf = requestAnimationFrame(tick);
   };
