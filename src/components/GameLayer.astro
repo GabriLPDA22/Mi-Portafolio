@@ -42,7 +42,10 @@ const arcade = es
       score: 'Puntos',
       best: 'Récord',
       close: 'Salir',
-      hint: 'Espacio, ↑ o toca para saltar los bugs',
+      hint: 'Espacio o ↑ para saltar · ↓ para agacharte',
+      hintTouch: 'Toca la pantalla o ▲ para saltar · mantén ▼ para agacharte',
+      jump: 'Saltar',
+      duck: 'Agachar',
       top: 'Ranking global',
       name: 'Tu nombre',
       save: 'Guardar',
@@ -74,6 +77,7 @@ const arcade = es
           title: 'Controles',
           items: [
             '<kbd>Espacio</kbd>, <kbd>↑</kbd> o toca la pantalla para saltar',
+            '<kbd>↓</kbd> para agacharte; en el aire, caes más rápido. En el móvil, botones ▲ y ▼',
             '<kbd>M</kbd> activa o silencia el sonido',
             '<kbd>Esc</kbd> sale del juego',
           ],
@@ -81,9 +85,10 @@ const arcade = es
         {
           title: 'Reglas',
           items: [
-            'Salta los bugs: si te toca uno, se acaba la partida',
-            'Cada vez vas más rápido y a partir de 150 puntos salen bugs en pareja',
-            'Cada 100 puntos suena la moneda',
+            'Esquiva todo lo que venga: si un bicho te toca, se acaba la partida',
+            'Cada vez vas más rápido: bugs en pareja (100 puntos), torres y bichos voladores (250) y tríos (450)',
+            'Voladores: al bajo lo saltas, al del medio lo saltas o te agachas y bajo el alto pasas sin saltar',
+            'A los 700 puntos se hace de noche y el ciclo se repite. Cada 100 puntos suena la moneda',
           ],
         },
         {
@@ -104,7 +109,10 @@ const arcade = es
       score: 'Score',
       best: 'Best',
       close: 'Quit',
-      hint: 'Space, ↑ or tap to jump the bugs',
+      hint: 'Space or ↑ to jump · ↓ to duck',
+      hintTouch: 'Tap the screen or ▲ to jump · hold ▼ to duck',
+      jump: 'Jump',
+      duck: 'Duck',
       top: 'Global ranking',
       name: 'Your name',
       save: 'Save',
@@ -136,6 +144,7 @@ const arcade = es
           title: 'Controls',
           items: [
             '<kbd>Space</kbd>, <kbd>↑</kbd> or tap the screen to jump',
+            '<kbd>↓</kbd> to duck; in the air, you drop faster. On mobile, ▲ and ▼ buttons',
             '<kbd>M</kbd> toggles sound',
             '<kbd>Esc</kbd> quits the game',
           ],
@@ -143,9 +152,10 @@ const arcade = es
         {
           title: 'Rules',
           items: [
-            'Jump over the bugs: touch one and the run is over',
-            'You keep speeding up, and from 150 points bugs come in pairs',
-            'Every 100 points the coin chimes',
+            'Dodge everything: if a bug touches you, the run is over',
+            'You keep speeding up: bug pairs (100 points), towers and flying bugs (250) and trios (450)',
+            'Flyers: jump the low one, jump or duck the middle one, and just run under the high one',
+            'At 700 points night falls and the cycle repeats. Every 100 points the coin chimes',
           ],
         },
         {

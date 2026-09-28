@@ -74,6 +74,8 @@ export const sfx = {
   select: () => tone(660, 0.05, 0, 'square', 0.03),
   error: () => seq([220, 185], 0.09, 0.1, 'square', 0.04),
   save: () => seq([523, 659, 784, 1047, 1319], 0.08, 0.12, 'square', 0.045),
+  night: () => seq([784, 659, 523, 392], 0.11, 0.16, 'triangle', 0.06),
+  day: () => seq([392, 523, 659, 784], 0.09, 0.12, 'triangle', 0.06),
 };
 
 export const isMuted = () => muted;

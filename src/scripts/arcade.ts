@@ -7,7 +7,7 @@
  * paginado contra /api/scores.php. Sin backend (p. ej. en local) el juego funciona igual sin ranking.
  */
 import { MASCOT_PALETTE } from '@/data/mascot';
-import { BUG_PALETTE, BUG_SPRITE, RUN_FRAMES } from '@/data/arcade';
+import { BUG_PALETTE, BUG_SPRITE, DUCK_FRAMES, FLY_FRAMES, RUN_FRAMES } from '@/data/arcade';
 import { isMuted, setMuted, sfx, unlockAudio } from './arcade-sound';
 
 type Texts = {
@@ -21,6 +21,9 @@ type Texts = {
   best: string;
   close: string;
   hint: string;
+  hintTouch: string;
+  jump: string;
+  duck: string;
   top: string;
   name: string;
   save: string;
@@ -139,6 +142,10 @@ const STYLE = `
 .arcade-help{display:grid;gap:.75rem}
 .arcade-help ul{margin:.4rem 0 0;padding:0;list-style:none;display:grid;gap:.3rem;text-transform:none;font-family:var(--font-sans);font-size:14px;letter-spacing:0;color:rgba(255,243,230,.85)}
 .arcade-help li::before{content:'▸ ';color:#f0b429}
+.arcade-pad{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.6rem}
+.arcade-pad button{min-height:3.4rem;border:3px solid #0a0706;border-radius:.8rem;background:#f0b429;color:#120e0b;font-size:12px;box-shadow:0 4px 0 #0a0706;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.arcade-pad button[data-duck]{background:#fff3e6}
+.arcade-pad button.is-down{transform:translateY(3px);box-shadow:0 1px 0 #0a0706}
 .arcade-help kbd{font-family:var(--font-pixel);font-size:11px;border:2px solid #0a0706;border-radius:.3rem;background:#fff3e6;color:#120e0b;padding:0 .3rem}
 @media (min-width:560px){.arcade-help{grid-template-columns:1fr 1fr}.arcade-help section:last-child{grid-column:1/-1}}
 `;
@@ -182,8 +189,9 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
       </div>
 
       <div role="tabpanel" id="arcade-p-play" aria-labelledby="arcade-t-play" data-panel="play">
-        <canvas width="${VW}" height="${VH}" aria-label="${texts.hint}"></canvas>
-        <p class="arcade-line">${texts.hint}</p>
+        <canvas width="${VW}" height="${VH}" aria-label="${touch ? texts.hintTouch : texts.hint}"></canvas>
+        ${touch ? `<div class="arcade-pad"><button type="button" data-jump>▲ ${texts.jump}</button><button type="button" data-duck>▼ ${texts.duck}</button></div>` : ''}
+        <p class="arcade-line">${touch ? texts.hintTouch : texts.hint}</p>
         <span class="sr-only" data-announce aria-live="polite"></span>
         <div class="arcade-card arcade-save" data-save hidden>
           <form class="arcade-form" data-form>
@@ -441,7 +449,9 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
   const pal = { ...MASCOT_PALETTE };
   const run = [spriteCanvas(RUN_FRAMES.runA, pal), spriteCanvas(RUN_FRAMES.runB, pal)];
   const jumpImg = spriteCanvas(RUN_FRAMES.jump, pal);
+  const duckImg = DUCK_FRAMES.map((f) => spriteCanvas(f, pal));
   const bugImg = spriteCanvas(BUG_SPRITE, BUG_PALETTE);
+  const flyImg = FLY_FRAMES.map((f) => spriteCanvas(f, BUG_PALETTE));
 
   let best = 0;
   try {
@@ -450,31 +460,49 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
     best = 0;
   }
 
-  type Bug = { x: number; y: number; w: number; h: number };
+  /**
+   * Obstáculos: bug (en el suelo, en grupos de 1-3), torre (dos bugs apilados) y volador a tres
+   * alturas (bajo: se salta; medio: se salta o se esquiva agachado; alto: se pasa por debajo sin saltar).
+   * Con solo saltar siempre se puede pasar: agacharse es una ayuda, como en el dinosaurio de Chrome.
+   */
+  type Obstacle = { kind: 'bug' | 'tower' | 'fly'; x: number; y: number; w: number; h: number; vx: number };
   let state: 'ready' | 'play' | 'pause' | 'over' = 'ready';
   let y = 0; // altura del salto (0 = suelo)
   let vy = 0;
-  let speed = 150; // px/s en resolución interna
+  let speed = 160; // px/s en resolución interna
   let dist = 0;
-  let bugs: Bug[] = [];
-  let nextBug = 1.2;
+  let obstacles: Obstacle[] = [];
+  let nextSpawn = 1.1;
   let frame = 0;
   let raf = 0;
   let last = performance.now();
   let groundOffset = 0;
   let milestone = 0;
+  let duckKey = false; // ↓ / S
+  let duckPad = false; // botón táctil
+  let night = 0; // 0 = día, 1 = noche (transición progresiva)
+  let isNight = false;
 
+  // Velocidad: igual que en el servidor (maxScore en scores.php); si cambia aquí, cambiarla allí
+  const START_SPEED = 160;
+  const ACCEL = 8;
+  const MAX_SPEED = 480;
   const P = { x: 22, w: 32, h: 42 }; // sprite a escala 1:1 (pixel art sin deformar)
+  const DUCK_H = DUCK_FRAMES[0].length;
   const score = () => Math.floor(dist / 8);
+  const ducking = () => duckKey || duckPad;
+  // Noche entre los puntos 700-999, 1400-1699…
+  const nightAt = (sc: number) => sc >= 700 && sc % 700 < 300;
 
   const reset = () => {
     y = 0;
     vy = 0;
-    speed = reduced ? 120 : 150;
+    speed = reduced ? 120 : START_SPEED;
     dist = 0;
-    bugs = [];
-    nextBug = 1.1;
+    obstacles = [];
+    nextSpawn = 1.1;
     milestone = 0;
+    isNight = false;
   };
 
   const jump = () => {
@@ -497,21 +525,40 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
   };
 
   const spawn = () => {
-    // A partir de 150 puntos pueden salir parejas de bugs (hay que saltar más largo).
-    const pair = score() > 150 && Math.random() < 0.35;
-    bugs.push({ x: VW + 10, y: GROUND - 12, w: 14, h: 12 });
-    if (pair) bugs.push({ x: VW + 26, y: GROUND - 12, w: 14, h: 12 });
-    // separación aleatoria que se acorta con la velocidad (siempre saltable)
-    nextBug = Math.max(0.55, 1.35 - speed / 600) + Math.random() * 0.9;
+    const sc = score();
+    const r = Math.random();
+    const x = VW + 10;
+    let width: number;
+    if (sc >= 250 && r < (sc >= 450 ? 0.3 : 0.2)) {
+      // volador: bajo y medio desde 250 puntos, también alto desde 450
+      const alts = sc >= 450 ? [4, 28, 40] : [4, 28];
+      const alt = alts[Math.floor(Math.random() * alts.length)];
+      obstacles.push({ kind: 'fly', x, y: GROUND - alt - 10, w: 16, h: 10, vx: sc >= 600 ? Math.random() * 25 : 0 });
+      width = 16;
+    } else if (sc >= 250 && r < 0.42) {
+      obstacles.push({ kind: 'tower', x, y: GROUND - 24, w: 14, h: 24, vx: 0 });
+      width = 14;
+    } else {
+      // parejas desde 100 puntos y tríos desde 450
+      let n = sc >= 100 && Math.random() < 0.35 ? 2 : 1;
+      if (n === 2 && sc >= 450 && Math.random() < 0.4) n = 3;
+      for (let i = 0; i < n; i++) obstacles.push({ kind: 'bug', x: x + i * 16, y: GROUND - 12, w: 14, h: 12, vx: 0 });
+      width = 14 + (n - 1) * 16;
+    }
+    // Hueco mínimo = lo que se recorre en un salto (0,72 s) + margen: siempre saltable.
+    // Con los puntos el hueco se acerca a ese mínimo y varía menos.
+    const coef = Math.max(0.76, 0.95 - sc / 4000);
+    const spread = Math.max(0.45, 0.9 - sc / 5000);
+    nextSpawn = (speed * coef + width + 24) / speed + Math.random() * spread;
   };
 
-  const hit = (b: Bug) => {
-    const px = P.x + 9;
-    const py = GROUND - P.h - y + 4;
-    const pw = P.w - 18;
-    const ph = P.h - 6;
-    return px < b.x + b.w - 2 && px + pw > b.x + 2 && py < b.y + b.h - 2 && py + ph > b.y + 2;
-  };
+  // Cajas de colisión algo más pequeñas que los sprites (se perdonan los píxeles de las esquinas)
+  const playerBox = () =>
+    ducking() && y === 0
+      ? { x: P.x + 12, y: GROUND - DUCK_H + 4, w: 14, h: DUCK_H - 6 }
+      : { x: P.x + 9, y: GROUND - P.h - y + 4, w: P.w - 18, h: P.h - 6 };
+  const hit = (o: Obstacle, p: ReturnType<typeof playerBox>) =>
+    p.x < o.x + o.w - 2 && p.x + p.w > o.x + 2 && p.y < o.y + o.h - 2 && p.y + p.h > o.y + 2;
 
   const font = getComputedStyle(document.documentElement).getPropertyValue('--font-tiny') || 'monospace';
   const drawText = (txt: string, x: number, yy: number, size = 8, color = '#fff3e6') => {
@@ -523,34 +570,111 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
     ctx.fillText(txt, x, yy);
   };
 
+  // --- Día y noche: paletas que se mezclan en 6 pasos (sin degradados suaves: estética pixel)
+  const DAY = {
+    sky: ['#1a1511', '#221a14', '#2c2118', '#3a2a1c', '#4a3320'],
+    cloud: '#5a4230',
+    line: '#f0b429',
+    ground: '#6b4a2e',
+    mark: '#8a6242',
+  };
+  const NIGHT = {
+    sky: ['#07060d', '#0b0914', '#100d1c', '#161226', '#1d1830'],
+    cloud: '#262040',
+    line: '#9d86d8',
+    ground: '#2e2433',
+    mark: '#4a3b52',
+  };
+  const rgb = (c: string) => [1, 3, 5].map((i) => parseInt(c.slice(i, i + 2), 16));
+  const mix = (a: string, b: string, k: number) => {
+    const [x, z] = [rgb(a), rgb(b)];
+    return `rgb(${x.map((v, i) => Math.round(v + (z[i] - v) * k)).join(',')})`;
+  };
+  const STEPS = 6;
+  const themes = Array.from({ length: STEPS + 1 }, (_, i) => {
+    const k = i / STEPS;
+    return {
+      sky: DAY.sky.map((c, j) => mix(c, NIGHT.sky[j], k)),
+      cloud: mix(DAY.cloud, NIGHT.cloud, k),
+      line: mix(DAY.line, NIGHT.line, k),
+      ground: mix(DAY.ground, NIGHT.ground, k),
+      mark: mix(DAY.mark, NIGHT.mark, k),
+    };
+  });
+  const stars = Array.from({ length: 22 }, (_, i) => ({ x: (i * 97) % VW, y: 6 + ((i * 53) % 70), t: i * 0.7 }));
+  const clouds = [
+    { x: 40, y: 22 },
+    { x: 170, y: 40 },
+    { x: 290, y: 16 },
+  ];
+  let cloudOffset = 0;
+
   const draw = () => {
-    // cielo de atardecer por bandas (sin degradados suaves: estética pixel)
-    const bands = ['#1a1511', '#221a14', '#2c2118', '#3a2a1c', '#4a3320'];
-    bands.forEach((c, i) => {
+    const step = Math.round(night * STEPS);
+    const th = themes[step];
+    const k = step / STEPS;
+    th.sky.forEach((c, i) => {
       ctx.fillStyle = c;
-      ctx.fillRect(0, (i * GROUND) / bands.length, VW, GROUND / bands.length + 1);
+      ctx.fillRect(0, (i * GROUND) / th.sky.length, VW, GROUND / th.sky.length + 1);
     });
-    // sol pixel
+    // estrellas (aparecen con la noche y parpadean)
+    if (k > 0) {
+      ctx.fillStyle = '#fff3e6';
+      stars.forEach((s) => {
+        const tw = reduced ? 1 : 0.55 + 0.45 * Math.sin(frame * 3 + s.t);
+        ctx.globalAlpha = k * tw;
+        ctx.fillRect(s.x, s.y, 1, 1);
+      });
+      ctx.globalAlpha = 1;
+    }
+    // sol que se pone y luna que sale (quedan ocultos tras el suelo)
     const sx = VW - 70;
+    const sy = 26 + k * 100;
     ctx.fillStyle = '#f0b429';
-    ctx.fillRect(sx + 6, 26, 16, 28);
-    ctx.fillRect(sx + 2, 30, 24, 20);
-    ctx.fillRect(sx, 34, 28, 12);
+    ctx.fillRect(sx + 6, sy, 16, 28);
+    ctx.fillRect(sx + 2, sy + 4, 24, 20);
+    ctx.fillRect(sx, sy + 8, 28, 12);
     ctx.fillStyle = '#ffd06a';
-    ctx.fillRect(sx + 8, 30, 8, 6);
+    ctx.fillRect(sx + 8, sy + 4, 8, 6);
+    const mx = VW - 120;
+    const my = 20 + (1 - k) * 110;
+    ctx.fillStyle = '#fff3e6';
+    ctx.fillRect(mx + 4, my, 12, 20);
+    ctx.fillRect(mx, my + 4, 20, 12);
+    ctx.fillRect(mx + 2, my + 2, 16, 16);
+    ctx.fillStyle = '#d8cdbb';
+    ctx.fillRect(mx + 5, my + 5, 4, 4);
+    ctx.fillRect(mx + 12, my + 11, 3, 3);
+    // nubes con paralaje
+    ctx.fillStyle = th.cloud;
+    clouds.forEach((c) => {
+      const cx = ((((c.x - cloudOffset) % (VW + 60)) + VW + 60) % (VW + 60)) - 40;
+      ctx.fillRect(cx + 6, c.y, 18, 4);
+      ctx.fillRect(cx, c.y + 4, 32, 4);
+    });
     // suelo con marcas que se desplazan
-    ctx.fillStyle = '#f0b429';
+    ctx.fillStyle = th.line;
     ctx.fillRect(0, GROUND, VW, 2);
-    ctx.fillStyle = '#6b4a2e';
+    ctx.fillStyle = th.ground;
     ctx.fillRect(0, GROUND + 2, VW, VH - GROUND - 2);
-    ctx.fillStyle = '#8a6242';
+    ctx.fillStyle = th.mark;
     for (let x = -groundOffset % 24; x < VW; x += 24) ctx.fillRect(x, GROUND + 6, 6, 2);
     for (let x = (-groundOffset * 0.6) % 40; x < VW; x += 40) ctx.fillRect(x + 12, GROUND + 13, 4, 2);
 
-    bugs.forEach((b) => ctx.drawImage(bugImg, Math.round(b.x), Math.round(b.y), b.w, b.h));
+    const wing = Math.floor(frame * 8) % 2;
+    obstacles.forEach((o) => {
+      const ox = Math.round(o.x);
+      const oy = Math.round(o.y);
+      if (o.kind === 'fly') ctx.drawImage(flyImg[wing], ox, oy);
+      else {
+        ctx.drawImage(bugImg, ox, oy);
+        if (o.kind === 'tower') ctx.drawImage(bugImg, ox, oy + 12);
+      }
+    });
 
-    const img = y > 0 ? jumpImg : run[Math.floor(frame * 10) % 2];
-    ctx.drawImage(img, P.x, Math.round(GROUND - P.h - y + 1));
+    const stride = Math.floor(frame * 10) % 2;
+    if (state === 'play' && ducking() && y === 0) ctx.drawImage(duckImg[stride], P.x + 3, GROUND - DUCK_H + 1);
+    else ctx.drawImage(y > 0 ? jumpImg : run[stride], P.x, Math.round(GROUND - P.h - y + 1));
 
     scoreEl.textContent = `${texts.score} ${pad(score())} · ${texts.best} ${pad(best)}`;
 
@@ -585,30 +709,45 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
     offerSave(sc);
   };
 
+  /** Un paso de simulación (pasos cortos: a velocidad máxima nada atraviesa a nadie entre dos frames). */
+  const step = (dt: number) => {
+    frame += dt;
+    speed = Math.min(MAX_SPEED, speed + dt * ACCEL);
+    dist += speed * dt;
+    groundOffset += speed * dt;
+    cloudOffset += speed * dt * 0.15;
+    const sc = score();
+    if (Math.floor(sc / 100) > milestone) {
+      milestone = Math.floor(sc / 100);
+      sfx.point();
+    }
+    if (nightAt(sc) !== isNight) {
+      isNight = !isNight;
+      (isNight ? sfx.night : sfx.day)();
+    }
+    // física del salto; agachado en el aire = caída rápida
+    if (y > 0 || vy > 0) {
+      vy -= (ducking() ? 3000 : 1000) * dt;
+      y = Math.max(0, y + vy * dt);
+      if (y === 0) vy = 0;
+    }
+    nextSpawn -= dt;
+    if (nextSpawn <= 0) spawn();
+    obstacles.forEach((o) => (o.x -= (speed + o.vx) * dt));
+    obstacles = obstacles.filter((o) => o.x > -40);
+    const p = playerBox();
+    if (obstacles.some((o) => hit(o, p))) gameOver();
+  };
+
   const tick = (now: number) => {
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;
     if (state === 'play') {
-      frame += dt;
-      speed = Math.min(420, speed + dt * 9);
-      dist += speed * dt;
-      groundOffset += speed * dt;
-      if (Math.floor(score() / 100) > milestone) {
-        milestone = Math.floor(score() / 100);
-        sfx.point();
-      }
-      // física del salto
-      if (y > 0 || vy > 0) {
-        vy -= 1000 * dt;
-        y = Math.max(0, y + vy * dt);
-        if (y === 0) vy = 0;
-      }
-      nextBug -= dt;
-      if (nextBug <= 0) spawn();
-      bugs.forEach((b) => (b.x -= speed * dt));
-      bugs = bugs.filter((b) => b.x > -30);
-      if (bugs.some(hit)) gameOver();
+      for (let rest = dt; rest > 0 && state === 'play'; rest -= 1 / 120) step(Math.min(rest, 1 / 120));
     }
+    // transición día/noche (también continúa en pausa o game over hasta completarse)
+    const target = isNight ? 1 : 0;
+    if (night !== target) night = target > night ? Math.min(1, night + dt / 1.5) : Math.max(0, night - dt / 1.5);
     draw();
     raf = requestAnimationFrame(tick);
   };
@@ -627,12 +766,22 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
     }
     if (tab !== 'play') return; // en Ranking / Cómo jugar el teclado navega por la interfaz
     const onButton = document.activeElement instanceof HTMLButtonElement;
-    if (e.key === ' ' || e.key === 'ArrowUp' || e.key === 'w' || (e.key === 'Enter' && !onButton)) {
+    if (e.key === 'ArrowDown' || e.key === 's') {
+      e.preventDefault();
+      duckKey = true;
+    } else if (e.key === ' ' || e.key === 'ArrowUp' || e.key === 'w' || (e.key === 'Enter' && !onButton)) {
       e.preventDefault();
       jump();
     } else if (e.key === 'r' && state === 'over') {
       jump();
     }
+  };
+  const onKeyUp = (e: KeyboardEvent) => {
+    if (e.key === 'ArrowDown' || e.key === 's') duckKey = false;
+  };
+  const onBlur = () => {
+    duckKey = false;
+    duckPad = false;
   };
   const onVisibility = () => {
     if (document.hidden) {
@@ -648,6 +797,8 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
   function close() {
     cancelAnimationFrame(raf);
     window.removeEventListener('keydown', onKey, true);
+    window.removeEventListener('keyup', onKeyUp, true);
+    window.removeEventListener('blur', onBlur);
     document.removeEventListener('visibilitychange', onVisibility);
     document.documentElement.style.overflow = '';
     root.remove();
@@ -658,6 +809,31 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
     e.preventDefault();
     jump();
   });
+  // Mandos táctiles: saltar al pulsar y agacharse mientras se mantiene
+  const padJump = root.querySelector<HTMLButtonElement>('[data-jump]');
+  const padDuck = root.querySelector<HTMLButtonElement>('[data-duck]');
+  if (padJump && padDuck) {
+    const press = (b: HTMLButtonElement, down: boolean) => b.classList.toggle('is-down', down);
+    padJump.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      press(padJump, true);
+      jump();
+    });
+    padDuck.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      padDuck.setPointerCapture(e.pointerId);
+      press(padDuck, true);
+      duckPad = true;
+    });
+    (['pointerup', 'pointercancel', 'lostpointercapture'] as const).forEach((ev) => {
+      padJump.addEventListener(ev, () => press(padJump, false));
+      padDuck.addEventListener(ev, () => {
+        press(padDuck, false);
+        duckPad = false;
+      });
+    });
+    padDuck.addEventListener('contextmenu', (e) => e.preventDefault());
+  }
   // Desbloqueo de audio en gestos válidos (en táctil el pointerdown del salto no cuenta)
   const unlockEvents = ['pointerup', 'touchend', 'click', 'keydown'] as const;
   unlockEvents.forEach((ev) => root.addEventListener(ev, unlockAudio, { passive: true }));
@@ -666,7 +842,19 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
     if (e.target === root) close();
   });
   window.addEventListener('keydown', onKey, true);
+  window.addEventListener('keyup', onKeyUp, true);
+  window.addEventListener('blur', onBlur);
   document.addEventListener('visibilitychange', onVisibility);
+
+  // Solo en desarrollo (se elimina del build): saltar a una puntuación para probar noche y obstáculos
+  if (import.meta.env.DEV) {
+    (window as unknown as { __bugrun: object }).__bugrun = {
+      setScore: (sc: number) => (dist = sc * 8),
+      clear: () => (obstacles = []),
+      list: () => obstacles,
+      spawn,
+    };
+  }
 
   reset();
   draw();

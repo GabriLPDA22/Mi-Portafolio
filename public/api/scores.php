@@ -142,8 +142,8 @@ function isRude(string $name): bool
 /** Máxima puntuación alcanzable en $t segundos (misma física que src/scripts/arcade.ts). */
 function maxScore(float $t): int
 {
-    // velocidad = min(420, 150 + 9t) px/s; puntos = distancia / 8
-    $dist = $t <= 30 ? 150 * $t + 4.5 * $t * $t : 8550 + 420 * ($t - 30);
+    // Igual que el juego (arcade.ts): velocidad = min(480, 160 + 8t) px/s; puntos = distancia / 8
+    $dist = $t <= 40 ? 160 * $t + 4 * $t * $t : 12800 + 480 * ($t - 40);
     return (int) ceil($dist / 8 * 1.05) + 10;
 }
 

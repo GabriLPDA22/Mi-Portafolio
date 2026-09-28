@@ -134,6 +134,58 @@ export const RUN_FRAMES = {
   ],
 } as const;
 
+// Agachado: la misma cabeza sobre un cuerpo encogido (28 px de alto en vez de 42), dos zancadas
+const HEAD = RUN_FRAMES.runA.slice(1, 23);
+const CROUCH = [
+  '.......KKKCCCCSTTSCCCCKKK.......',
+  '......KcCCcCcTTTTTTCCcCCwK......',
+  '......KsSSPPPPPPPPPPPPsSSK......',
+];
+export const DUCK_FRAMES = [
+  [
+    ...HEAD,
+    ...CROUCH,
+    '........KBBBBBBKBBBBBBK.........',
+    '........KbbbbbbKbbbbbbK.........',
+    '.........KKKKKK.KKKKKK..........',
+  ],
+  [
+    ...HEAD,
+    ...CROUCH,
+    '......KBBBBBBK...KBBBBBBK.......',
+    '......KbbbbbbK...KbbbbbbK.......',
+    '.......KKKKKK.....KKKKKK........',
+  ],
+];
+
+/** Bicho volador (16×10): alas arriba / alas abajo. */
+export const FLY_FRAMES = [
+  [
+    '..kk........kk..',
+    '.kvvk......kvvk.',
+    '.kvvvk....kvvvk.',
+    '..kvvvkkkkvvvk..',
+    '....krRwerRk....',
+    '...krrrrrrrrk...',
+    '....krryyrrk....',
+    '.....kkkkkk.....',
+    '....k......k....',
+    '................',
+  ],
+  [
+    '................',
+    '................',
+    '................',
+    '....kkkkkkkk....',
+    '..kvkrRwerRkvk..',
+    '.kvvkrrrrrrkvvk.',
+    '.kvvkrryyrrkvvk.',
+    '..kk.kkkkkk.kk..',
+    '....k......k....',
+    '................',
+  ],
+];
+
 export const BUG_SPRITE = [
   '...k......k...',
   '....k....k....',
@@ -156,5 +208,6 @@ export const BUG_PALETTE: Record<string, string> = {
   "w": "#fff3e6",
   "e": "#120e0b",
   "l": "#241813",
-  "y": "#f0b429"
+  "y": "#f0b429",
+  "v": "#cfe2ee"
 };
