@@ -40,6 +40,10 @@ export function homeMarkdown(locale: Locale): string {
     })
     .join('\n\n');
 
+  const stack = (Object.keys(STACK_GROUPS) as StackGroup[])
+    .map((g) => `- **${getPro(locale).stack.groups[g]}:** ${stackItems(g).map((i) => i.name).join(', ')}`)
+    .join('\n');
+
   const r = t.results.items;
   const ways = [r.communication, r.iterations, r.code, r.product].map((w) => `**${w.title}.** ${w.text}`);
 
@@ -63,10 +67,7 @@ ${list(t.about.bullets)}
 
 ## ${es ? 'Stack' : 'Tech stack'}
 
-${(Object.keys(STACK_GROUPS) as StackGroup[])
-  .map((g) => `- **${getPro(locale).stack.groups[g]}:** ${stackItems(g).map((i) => i.name).join(', ')}`)
-  .join('
-')}
+${stack}
 
 ## ${es ? 'Experiencia' : 'Experience'}
 
