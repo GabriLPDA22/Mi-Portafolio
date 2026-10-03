@@ -1,0 +1,31 @@
+---
+/**
+ * Texto de "letras vivas": cada letra es un span cuya anchura y peso (ejes de Archivo variable)
+ * cambian según lo cerca que pase el ratón; sin ratón, una ola suave las hace respirar
+ * (scripts/stretch.ts). Para lectores de pantalla el texto se lee entero, no letra a letra.
+ */
+interface Props {
+  text: string;
+  class?: string;
+  /** Ola en reposo cuando no hay ratón cerca (hero). */
+  idle?: boolean;
+}
+const { text, class: className, idle = false } = Astro.props;
+const words = text.split(' ');
+let n = 0;
+---
+
+<span class:list={['stretch', className]} data-stretch data-idle={idle ? '' : undefined}>
+  <span class="sr-only">{text}</span>
+  {
+    words.map((w) => (
+      <span class="sw" aria-hidden="true">
+        {[...w].map((ch) => (
+          <span class="sl" style={`--i:${n++}`}>
+            {ch}
+          </span>
+        ))}
+      </span>
+    ))
+  }
+</span>

@@ -298,4 +298,52 @@ body {
   background: radial-gradient(var(--glow-size, 520px) circle at var(--mx, 70%) var(--my, 20%), rgba(139, 92, 246, var(--glow-alpha, 0.16)), transparent 60%);
   transition: opacity 0.3s ease;
 }
+
+/* Letras vivas (StretchText + scripts/stretch.ts): anchura y peso por letra */
+.stretch {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.22em;
+}
+.stretch .sw {
+  display: inline-block;
+  white-space: nowrap;
+}
+.stretch .sl {
+  display: inline-block;
+  font-stretch: var(--w, 100%);
+  font-weight: var(--g, 700);
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* Entrada: de condensada y fina a su sitio, letra a letra (backwards: luego manda el script) */
+  .stretch .sl {
+    animation: sl-in 0.9s cubic-bezier(0.22, 0.8, 0.12, 1) backwards;
+    animation-delay: calc(var(--i) * 45ms);
+  }
+}
+@keyframes sl-in {
+  from {
+    opacity: 0;
+    font-stretch: 62%;
+    font-weight: 250;
+  }
+}
+
+/* Títulos de sección: se estiran al entrar en pantalla con el scroll (mismo gesto que el hero) */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .h2 {
+      animation: h2-stretch linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 38%;
+    }
+  }
+}
+@keyframes h2-stretch {
+  from {
+    font-stretch: 70%;
+    font-weight: 400;
+    opacity: 0.35;
+  }
+}
 }

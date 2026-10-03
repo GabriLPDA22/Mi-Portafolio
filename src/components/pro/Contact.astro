@@ -4,6 +4,7 @@
  * (Formspree, lo gestiona initContactForm en scripts/ui.ts) a la derecha.
  */
 import Icon from '../Icon.astro';
+import StretchText from '../StretchText.astro';
 import { getT, type Locale } from '@/i18n';
 import { getPro, LINKS } from '@/lib/pro-content';
 
@@ -27,7 +28,7 @@ const msgFailed = es
       <div class="aura" aria-hidden="true"></div>
 
       <div class="min-w-0">
-        <h2 class="contact-title">{p.contact.title}</h2>
+        <h2 class="contact-title"><StretchText text={p.contact.title} /></h2>
         <p class="lead mt-5">{p.contact.lead}</p>
 
         <p class="mt-10 text-[14px] font-medium text-muted">{p.contact.emailLabel}</p>
@@ -141,10 +142,13 @@ const msgFailed = es
     font-stretch: 125%;
     letter-spacing: -0.045em;
     line-height: 0.92;
+  }
+  .contact-title :global(.sl) {
     background: linear-gradient(180deg, #ffffff 20%, #9d9db0 120%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    padding-bottom: 0.06em;
   }
   .email {
     display: inline-block;
