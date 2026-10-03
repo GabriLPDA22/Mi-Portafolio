@@ -20,6 +20,8 @@ const t = getT(locale);
 const es = locale === 'es';
 const home = homePath(locale);
 const other = otherLocale(locale);
+// La 404 solo existe en español: el cambio de idioma lleva a la portada del otro idioma.
+const switchPath = path === '/404' ? '/' : path;
 
 // Mismo orden que la portada; el número es el "nivel" de cada sección.
 const levels = [
@@ -72,7 +74,7 @@ const labels = es ? { open: 'Abrir menú', close: 'Cerrar menú' } : { open: 'Op
             {es ? 'Nv' : 'Lv'} <span data-hud-level-n>00</span>
           </span>
           <a
-            href={localePath(other, path)}
+            href={localePath(other, switchPath)}
             hreflang={other}
             lang={other}
             data-lang-switch
@@ -140,7 +142,7 @@ const labels = es ? { open: 'Abrir menú', close: 'Cerrar menú' } : { open: 'Op
         ▶ {es ? 'Continuar' : 'Resume'}
       </button>
       <div class="flex items-center justify-between gap-3 text-[13px] text-ink/65">
-        <a href={localePath(other, path)} hreflang={other} lang={other} data-lang-switch class="inline-flex items-center gap-2 hover:text-acid">
+        <a href={localePath(other, switchPath)} hreflang={other} lang={other} data-lang-switch class="inline-flex items-center gap-2 hover:text-acid">
           <Icon name="Languages" class="h-4 w-4" strokeWidth={1.8} />
           {langLabel}
         </a>

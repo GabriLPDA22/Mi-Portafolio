@@ -51,6 +51,10 @@ export function initHeader() {
         toggle.focus();
       }
     });
+    // Al pasar a escritorio (lg: 1024 px) el menú se oculta por CSS: cerrarlo para devolver el scroll.
+    window.matchMedia('(min-width: 1024px)').addEventListener('change', (e) => {
+      if (e.matches && toggle.getAttribute('aria-expanded') === 'true') setOpen(false);
+    });
   }
 
   // Enlaces internos (#seccion): con content-visibility las secciones lejanas aún no tienen su

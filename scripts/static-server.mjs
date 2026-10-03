@@ -1,7 +1,7 @@
 // Servidor estático mínimo para auditar el build (carpeta dist/)
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
-import { extname, join, normalize } from "node:path";
+import { extname, isAbsolute, join, normalize, relative } from "node:path";
 import { gzipSync } from "node:zlib";
 
 const ROOT = new URL("../dist", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1");
@@ -28,6 +28,12 @@ createServer(async (req, res) => {
     let path = decodeURIComponent(new URL(req.url, "http://x").pathname);
     if (path.endsWith("/")) path += "index.html";
     let file = normalize(join(ROOT, path));
+    // Nada fuera de dist/ (p. ej. /..%2f.env.local)
+    const rel = relative(ROOT, file);
+    if (rel.startsWith("..") || isAbsolute(rel)) {
+      res.writeHead(403).end("forbidden");
+      return;
+    }
     let body;
     try {
       body = await readFile(file);
@@ -54,4 +60,4 @@ createServer(async (req, res) => {
   } catch {
     res.writeHead(500).end();
   }
-}).listen(PORT, () => console.log("static server on http://localhost:" + PORT));
+}).listen(PORT, "127.0.0.1", () => console.log("static server on http://localhost:" + PORT));

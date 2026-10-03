@@ -296,9 +296,11 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
   // --- Ranking --------------------------------------------------------
   let online = false;
   let page = 1;
-  let pages = 1;
+  let pageReq = 0; // solo se pinta la respuesta de la última petición de página
   let highlight = 0; // puesto de la última puntuación guardada
   let worldBest: Row | null = null;
+  let runId = 0; // cada partida tiene su id: las respuestas de partidas anteriores se ignoran
+  let runToken: Promise<string | null> = Promise.resolve(null);
   let token: string | null = null;
   let pending = 0;
   try {
@@ -309,7 +311,6 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
 
   const renderPage = (d: Page) => {
     page = d.page;
-    pages = d.pages;
     if (d.page === 1) worldBest = d.scores[0] ?? null;
     list.innerHTML = d.scores.length
       ? d.scores
@@ -333,13 +334,15 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
       totalEl.textContent = '';
       return;
     }
+    const id = ++pageReq;
     list.setAttribute('aria-busy', 'true');
     try {
-      renderPage(await api(undefined, `?page=${n}`));
+      const d = await api(undefined, `?page=${n}`);
+      if (id === pageReq) renderPage(d);
     } catch {
-      list.innerHTML = `<li class="info">${texts.offline}</li>`;
+      if (id === pageReq) list.innerHTML = `<li class="info">${texts.offline}</li>`;
     } finally {
-      list.removeAttribute('aria-busy');
+      if (id === pageReq) list.removeAttribute('aria-busy');
     }
   };
   prevBtn.addEventListener('click', () => {
@@ -351,38 +354,51 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
     void loadPage(page + 1);
   });
 
+  let noBackend = false;
+  const firstPage = ++pageReq;
   api(undefined, '?page=1')
     .then((d: Page) => {
       online = true;
-      renderPage(d);
+      if (firstPage === pageReq) renderPage(d);
     })
-    .catch(() => {
-      /* sin backend: el juego sigue funcionando sin ranking */
-    });
+    .catch(() => (noBackend = true)); // sin backend: el juego sigue funcionando sin ranking
 
+  // El token se pide en cuanto empieza la partida (sin esperar al ranking): el servidor mide el
+  // tiempo de juego desde ese momento, y si llegara tarde la puntuación parecería imposible.
   const newRun = () => {
+    const id = ++runId;
     token = null;
     pending = 0;
     saveBox.hidden = true;
     msg.textContent = '';
-    if (!online) return;
-    api({ action: 'start' })
-      .then((d: { token: string }) => (token = d.token))
-      .catch(() => (token = null));
+    runToken = noBackend
+      ? Promise.resolve(null)
+      : api({ action: 'start' })
+          .then((d: { token: string }) => d.token)
+          .catch(() => null);
+    void runToken.then((t) => {
+      if (id === runId) token = t;
+    });
   };
 
   const offerSave = (sc: number) => {
     if (sc < MIN_SCORE) return;
-    // Sin conexión con el ranking: decirlo claro en vez de no mostrar nada
-    if (!online || !token) {
-      msg.textContent = texts.offline;
-      return;
-    }
-    pending = sc;
-    saveBox.hidden = false;
-    nameError(null);
-    nameInput.focus({ preventScroll: true });
-    nameInput.select();
+    const id = runId;
+    // Si la partida fue muy corta, el token puede seguir en camino: se espera a que llegue
+    void runToken.then((t) => {
+      if (id !== runId) return; // ya ha empezado otra partida
+      // Sin conexión con el ranking: decirlo claro en vez de no mostrar nada
+      if (!t) {
+        msg.textContent = texts.offline;
+        return;
+      }
+      token = t;
+      pending = sc;
+      saveBox.hidden = false;
+      nameError(null);
+      nameInput.focus({ preventScroll: true });
+      nameInput.select();
+    });
   };
 
   const nameError = (text: string | null) => {
@@ -406,6 +422,12 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
     if (!NAME_RE.test(name)) return nameError(texts.invalid);
     if (!token || !pending) return;
     const score = pending;
+    const id = runId;
+    const done = () => {
+      token = null;
+      pending = 0;
+      saveBox.hidden = true;
+    };
     const button = form.querySelector('button')!;
     button.disabled = true;
     api({ action: 'submit', token, name, score })
@@ -415,10 +437,10 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
         } catch {
           /* sin almacenamiento */
         }
-        token = null;
-        pending = 0;
-        saveBox.hidden = true;
+        if (id !== runId) return; // ya se juega otra partida: no tocar su interfaz ni su token
+        done();
         highlight = d.rank;
+        pageReq++; // descarta cualquier página pedida antes que llegue después
         renderPage(d);
         if (d.rank === 1) worldBest = d.scores[0];
         if (!d.rank) {
@@ -433,14 +455,19 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
         setTab('rank', true);
       })
       .catch((err: Error) => {
+        if (id !== runId) return;
         // Nombre rechazado: el token sigue valiendo, se puede corregir y reintentar
         if (err.message === 'rude_name') return nameError(texts.rude);
         if (err.message === 'invalid') return nameError(texts.invalid);
-        token = null;
-        pending = 0;
-        saveBox.hidden = true;
-        msg.textContent = err.message === 'daily_limit' ? texts.dailyLimit : texts.failed;
-        sfx.error();
+        // Errores definitivos: esta partida ya no se puede guardar
+        if (['invalid_token', 'implausible', 'daily_limit'].includes(err.message)) {
+          done();
+          msg.textContent = err.message === 'daily_limit' ? texts.dailyLimit : texts.failed;
+          sfx.error();
+          return;
+        }
+        // Red caída, servidor ocupado o error interno (la transacción se deshizo): se puede reintentar
+        nameError(texts.failed);
       })
       .finally(() => (button.disabled = false));
   });

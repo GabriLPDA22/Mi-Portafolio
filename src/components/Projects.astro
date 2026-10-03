@@ -24,7 +24,9 @@ const es = locale === 'es';
 const meta: Record<string, { img: ImageMetadata; alt: string; kind: string; icon: string; fit: 'contain' | 'cover'; pos?: string; time: string }> = {
   arch: {
     img: archImg,
-    alt: 'ARCH App iOS - Aplicación móvil para comunidad de Oxford University desarrollada con React Native y Expo',
+    alt: es
+      ? 'ARCH App iOS - Aplicación móvil para comunidad de Oxford University desarrollada con React Native y Expo'
+      : 'ARCH iOS app - Mobile app for an Oxford University community, built with React Native and Expo',
     kind: 'App iOS',
     icon: '★',
     fit: 'contain',
@@ -32,7 +34,9 @@ const meta: Record<string, { img: ImageMetadata; alt: string; kind: string; icon
   },
   huvegrym: {
     img: huvegrymImg,
-    alt: 'Huvegrym - Sitio web de escuela de danza, optimizado para SEO y rendimiento',
+    alt: es
+      ? 'Huvegrym - Sitio web de escuela de danza, optimizado para SEO y rendimiento'
+      : 'Huvegrym - Dance school website, optimized for SEO and performance',
     kind: 'Web',
     icon: '◆',
     fit: 'cover',
@@ -41,7 +45,9 @@ const meta: Record<string, { img: ImageMetadata; alt: string; kind: string; icon
   },
   'tarot-divinidad': {
     img: tarotImg,
-    alt: 'Tarot Divinidad — web de consultas de tarot con reservas y WhatsApp',
+    alt: es
+      ? 'Tarot Divinidad — web de consultas de tarot con reservas y WhatsApp'
+      : 'Tarot Divinidad — tarot reading website with bookings and WhatsApp',
     kind: 'Web',
     icon: '◆',
     fit: 'cover',

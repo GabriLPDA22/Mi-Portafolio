@@ -128,11 +128,14 @@ function isRude(string $name): bool
         'fuck', 'shit', 'cunt', 'nigg', 'niga', 'fag', 'dick', 'cock', 'pussy', 'whore', 'bitch', 'slut', 'retard',
         'porn', 'penis', 'vagina', 'asshole', 'bastard', 'wank',
         // odio
-        'nazi', 'hitler', 'kkk', 'heil',
+        'nigger', 'nazi', 'hitler', 'kkk', 'heil',
     ];
     $n = normalizeName($name);
     foreach ($words as $w) {
-        if (str_contains($n, normalizeName($w))) {
+        $w = normalizeName($w);
+        // Formas muy cortas tras normalizar ("kkk" → "k", "fag", "nigg" → "nig") solo cuentan como nombre
+        // completo: por subcadena bloquearían MARK, JACK, KNIGHT...
+        if (strlen($w) >= 4 ? str_contains($n, $w) : $n === $w) {
             return true;
         }
     }
@@ -207,6 +210,12 @@ $now = time();
 $ip = hash_hmac('sha256', $_SERVER['REMOTE_ADDR'] ?? '', $cfg['secret']);
 
 try {
+    // Una petición de escritura a la vez por IP: así los límites (contar y luego insertar) no se
+    // saltan con peticiones simultáneas. El bloqueo se libera solo al cerrar la conexión.
+    if ((int) $db->query("SELECT GET_LOCK('arcade_" . substr($ip, 0, 48) . "', 5)")->fetchColumn() !== 1) {
+        out(503, ['error' => 'busy']);
+    }
+
     if (($input['action'] ?? '') === 'start') {
         $db->prepare('DELETE FROM arcade_runs WHERE started_at < ?')->execute([$now - 86400]);
         $q = $db->prepare('SELECT COUNT(*) FROM arcade_runs WHERE ip_hash = ? AND started_at > ?');
@@ -247,7 +256,6 @@ try {
             out(422, ['error' => 'implausible']);
         }
 
-        // Marcar el token como usado de forma atómica (evita enviar dos veces la misma partida)
         // Límite diario de puntuaciones guardadas por IP (el token no se gasta: puede seguir jugando)
         $q = $db->prepare('SELECT COUNT(*) FROM arcade_runs WHERE ip_hash = ? AND used = 1 AND started_at > ?');
         $q->execute([$ip, $now - 86400]);
@@ -255,9 +263,12 @@ try {
             out(429, ['error' => 'daily_limit']);
         }
 
+        // Gastar el token y guardar la puntuación van juntos: si algo falla, el token sigue valiendo
+        $db->beginTransaction();
         $u = $db->prepare('UPDATE arcade_runs SET used = 1 WHERE token = ? AND used = 0');
         $u->execute([$token]);
         if ($u->rowCount() !== 1) {
+            $db->rollBack();
             out(403, ['error' => 'invalid_token']);
         }
 
@@ -272,9 +283,16 @@ try {
              ON DUPLICATE KEY UPDATE created_at = IF(VALUES(score) > score, VALUES(created_at), created_at),
                                      score = GREATEST(score, VALUES(score))',
         )->execute([$name, $score, $now]);
+        $db->commit();
 
-        // Tope de filas: por debajo del puesto MAX_ROWS no se guarda nada (la tabla nunca crece sin límite)
-        $db->exec('DELETE FROM arcade_scores WHERE id NOT IN (SELECT id FROM (SELECT id FROM arcade_scores ORDER BY score DESC, id ASC LIMIT ' . MAX_ROWS . ') keep)');
+        // Tope de filas: por debajo del puesto MAX_ROWS no se guarda nada (la tabla nunca crece sin límite).
+        // Fuera de la transacción (recorre toda la tabla: dentro podría interbloquearse con otro envío);
+        // si falla, la puntuación ya está guardada y el próximo envío recorta.
+        try {
+            $db->exec('DELETE FROM arcade_scores WHERE id NOT IN (SELECT id FROM (SELECT id FROM arcade_scores ORDER BY score DESC, id ASC LIMIT ' . MAX_ROWS . ') keep)');
+        } catch (PDOException $e) {
+            error_log('arcade trim: ' . $e->getMessage());
+        }
 
         $q = $db->prepare('SELECT id, score FROM arcade_scores WHERE name = ?');
         $q->execute([$name]);
@@ -289,6 +307,10 @@ try {
         out(200, ['ok' => true, 'rank' => $rank, 'name' => $name, 'best' => (int) $row['score'], 'improved' => $improved] + $page((int) ceil($rank / PER_PAGE)));
     }
 } catch (Throwable $e) {
+    if ($db->inTransaction()) {
+        $db->rollBack();
+    }
+    error_log('arcade: ' . $e->getMessage());
     out(500, ['error' => 'server']);
 }
 

@@ -111,9 +111,16 @@ const keywords = [
       )
     }
     <link rel="canonical" href={canonical} />
-    <link rel="alternate" hreflang="es" href={url('es')} />
-    <link rel="alternate" hreflang="en" href={url('en')} />
-    <link rel="alternate" hreflang="x-default" href={url('es')} />
+    {
+      // La 404 no tiene versión en inglés (/en/404 no existe)
+      path !== '/404' && (
+        <>
+          <link rel="alternate" hreflang="es" href={url('es')} />
+          <link rel="alternate" hreflang="en" href={url('en')} />
+          <link rel="alternate" hreflang="x-default" href={url('es')} />
+        </>
+      )
+    }
     <meta name="google-site-verification" content="tl7fbd-SUdovbuPNFSkybxDcu_TQs9maMuc0x9ar04c" />
     <meta name="theme-color" content="#120e0b" />
     <meta name="color-scheme" content="dark" />
