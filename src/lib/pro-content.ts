@@ -22,7 +22,7 @@ const content = {
     nav: { projects: 'Proyectos', experience: 'Experiencia', stack: 'Stack', about: 'Sobre mí', contact: 'Contacto', cv: 'Descargar CV' },
     hero: {
       role: 'Desarrollador full-stack',
-      lead: 'Llevo apps y webs hasta producción: móvil con React Native, web con Next.js y Astro, y backend en .NET.',
+      lead: 'Llevo productos hasta producción: backend en .NET, webs con Vue o Astro y apps móviles con React Native.',
       availability: 'Disponible para incorporarme, en Zaragoza o en remoto',
       cv: 'Descargar CV',
       projects: 'Ver proyectos',
@@ -57,9 +57,10 @@ const content = {
       title: 'Stack',
       intro: 'Agrupado por dónde lo he usado de verdad, no por lo que he probado una tarde.',
       groups: {
-        legendary: 'En producción en ARCH',
-        epic: 'En producción con empresas y clientes',
-        common: 'Día a día',
+        daily: 'Mi día a día',
+        arch: 'En producción en ARCH',
+        clients: 'En producción con empresas y clientes',
+        also: 'También he trabajado con',
       },
     },
     about: {
@@ -85,7 +86,7 @@ const content = {
     nav: { projects: 'Projects', experience: 'Experience', stack: 'Stack', about: 'About', contact: 'Contact', cv: 'Download CV' },
     hero: {
       role: 'Full-stack developer',
-      lead: 'I take apps and websites all the way to production: mobile with React Native, web with Next.js and Astro, and .NET on the backend.',
+      lead: 'I take products all the way to production: .NET on the backend, websites with Vue or Astro and mobile apps with React Native.',
       availability: 'Available to join a team, in Zaragoza or remote',
       cv: 'Download CV',
       projects: 'See projects',
@@ -120,9 +121,10 @@ const content = {
       title: 'Stack',
       intro: 'Grouped by where I have actually used it, not by what I tried one afternoon.',
       groups: {
-        legendary: 'In production at ARCH',
-        epic: 'In production with companies and clients',
-        common: 'Everyday tools',
+        daily: 'What I use every day',
+        arch: 'In production at ARCH',
+        clients: 'In production with companies and clients',
+        also: 'I have also worked with',
       },
     },
     about: {

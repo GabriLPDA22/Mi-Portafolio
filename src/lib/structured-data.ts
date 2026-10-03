@@ -5,7 +5,7 @@ export const personData = {
   name: "Gabriel Saiz",
   jobTitle: "Full-Stack Developer",
   description:
-    "Desarrollador Full-Stack con experiencia en React Native, Next.js y .NET. Apps en producción y abierto a oportunidades laborales.",
+    "Desarrollador Full-Stack con experiencia en .NET, Vue, Astro y React Native. Apps en producción y abierto a oportunidades laborales.",
   url: siteUrl,
   image: `${siteUrl}/img/Yo-480.webp`,
   sameAs: [

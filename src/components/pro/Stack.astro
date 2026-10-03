@@ -1,7 +1,7 @@
 ---
-/** Stack agrupado por dónde se ha usado (datos y logos de data/inventory.ts, SVG en build). */
+/** Stack agrupado por uso real: el día a día primero (logos de data/inventory.ts, SVG en build). */
 import Icon from '../Icon.astro';
-import { INVENTORY, type Rarity } from '@/data/inventory';
+import { INVENTORY } from '@/data/inventory';
 import type { Locale } from '@/i18n';
 import { getPro } from '@/lib/pro-content';
 
@@ -10,10 +10,16 @@ interface Props {
 }
 const { locale } = Astro.props;
 const p = getPro(locale);
-const groups = (['legendary', 'epic', 'common'] as Rarity[]).map((r) => ({
-  id: r,
-  label: p.stack.groups[r],
-  items: INVENTORY.filter((i) => i.rarity === r),
+const GROUPS = {
+  daily: ['dotnet', 'vue', 'astro', 'tailwind', 'typescript'],
+  arch: ['react-native', 'expo', 'postgresql', 'signalr', 'stripe', 'aws', 'apple-wallet'],
+  clients: ['flutter', 'codemagic', 'symfony', 'wordpress', 'joomla'],
+  also: ['nextjs', 'docker', 'github-actions'],
+} as const;
+const groups = (Object.keys(GROUPS) as (keyof typeof GROUPS)[]).map((id) => ({
+  id,
+  label: p.stack.groups[id],
+  items: GROUPS[id].map((itemId) => INVENTORY.find((i) => i.id === itemId)!),
 }));
 ---
 
@@ -25,7 +31,7 @@ const groups = (['legendary', 'epic', 'common'] as Rarity[]).map((r) => ({
     <div class="mt-14 grid gap-px overflow-hidden rounded-[1.25rem] border border-white/[0.08] bg-white/[0.08]">
       {
         groups.map((g) => (
-          <div class="group-row">
+          <div class:list={['group-row', g.id === 'daily' && 'is-daily']}>
             <h3 class="text-[15px] font-semibold leading-snug">{g.label}</h3>
             <ul class="tiles">
               {g.items.map((item) => (
@@ -61,6 +67,14 @@ const groups = (['legendary', 'epic', 'common'] as Rarity[]).map((r) => ({
       gap: 2.5rem;
       padding: 2rem 2.25rem;
     }
+  }
+  .is-daily {
+    background:
+      radial-gradient(500px circle at 0% 0%, rgba(139, 92, 246, 0.16), transparent 70%),
+      #16161b;
+  }
+  .is-daily h3 {
+    color: #c4b5fd;
   }
   .tiles {
     display: flex;

@@ -1,11 +1,13 @@
 ---
 /**
- * Proyectos: ARCH como caso grande, las dos webs de cliente en pareja y BUG RUN como proyecto
- * personal (su botón abre el minijuego; lo muestra initArcade solo con JS).
+ * Proyectos como índice: nombres enormes en letras vivas, una fila por proyecto. Al pasar el
+ * ratón aparece una vista previa que sigue al cursor (scripts/projects.ts) y al hacer clic se
+ * despliega el detalle (<details>, accesible sin JS). En móvil la imagen va dentro del detalle.
  */
 import { Image } from 'astro:assets';
 import Icon from '../Icon.astro';
 import Mascot from '../Mascot.astro';
+import StretchText from '../StretchText.astro';
 import archImg from '@/assets/img/Arch.webp';
 import huvegrymImg from '@/assets/img/Huvegrym.webp';
 import tarotImg from '@/assets/img/divinidad-hero.webp';
@@ -19,24 +21,28 @@ const { locale } = Astro.props;
 const t = getT(locale);
 const p = getPro(locale);
 const es = locale === 'es';
+const byId = (id: string) => t.projects.items.find((i) => i.id === id)!;
+const [arch, huvegrym, tarot] = ['arch', 'huvegrym', 'tarot-divinidad'].map(byId);
+const live = es ? 'En producción' : 'Live';
 
-const [arch, huvegrym, tarot] = ['arch', 'huvegrym', 'tarot-divinidad'].map((id) => t.projects.items.find((i) => i.id === id)!);
-
-const webs = [
-  {
-    ...huvegrym,
-    img: huvegrymImg,
-    href: LINKS.huvegrym,
-    pos: 'object-[center_35%]',
-    alt: es ? 'Huvegrym: web de escuela de danza' : 'Huvegrym: dance school website',
-  },
-  {
-    ...tarot,
-    img: tarotImg,
-    href: LINKS.divinidad,
-    pos: 'object-top',
-    alt: es ? 'Tarot Divinidad 000: web con reservas' : 'Tarot Divinidad 000: website with bookings',
-  },
+type Row = {
+  id: string;
+  title: string;
+  kind: string;
+  status: string;
+  personal?: boolean;
+  description: string;
+  bullets: readonly string[];
+  chips: readonly string[];
+  link?: { href: string; label: string };
+  img?: ImageMetadata;
+  imgClass?: string;
+};
+const rows: Row[] = [
+  { id: 'arch', title: arch.title, kind: arch.subtitle, status: live, description: arch.description, bullets: arch.bullets, chips: arch.chips, link: { href: LINKS.appStore, label: arch.cta }, img: archImg, imgClass: 'is-icon' },
+  { id: 'huvegrym', title: huvegrym.title, kind: huvegrym.subtitle, status: live, description: huvegrym.description, bullets: huvegrym.bullets, chips: huvegrym.chips, link: { href: LINKS.huvegrym, label: 'huvegrym.es' }, img: huvegrymImg, imgClass: 'object-[center_35%]' },
+  { id: 'tarot', title: tarot.title, kind: tarot.subtitle, status: live, description: tarot.description, bullets: tarot.bullets, chips: tarot.chips, link: { href: LINKS.divinidad, label: 'divinidad000.com' }, img: tarotImg, imgClass: 'object-top' },
+  { id: 'bugrun', title: p.projects.bugrun.name, kind: p.projects.bugrun.kind, status: p.projects.bugrun.kind, personal: true, description: p.projects.bugrun.text, bullets: [], chips: p.projects.bugrun.stack },
 ];
 ---
 
@@ -45,112 +51,232 @@ const webs = [
     <h2 class="h2">{p.projects.title}</h2>
     <p class="lead mt-5">{p.projects.intro}</p>
 
-    <!-- ARCH -->
-    <article data-glow class="card feature mt-14">
-      <div class="feature-visual" aria-hidden="true">
-        <Image src={archImg} alt="" widths={[280, 440]} sizes="(min-width: 1024px) 220px, 160px" class="arch-icon" />
-      </div>
-      <div class="min-w-0">
-        <p class="text-[15px] font-medium text-violet-light">{arch.subtitle}</p>
-        <h3 class="mt-2 text-[clamp(2.2rem,4.5vw,3.25rem)] font-[820] leading-none tracking-[-0.035em] [font-stretch:122%]">{arch.title}</h3>
-        <p class="mt-4 max-w-[36rem] text-muted">{arch.description}</p>
-
-        <ul class="mt-6 grid gap-2.5 sm:grid-cols-2">
-          {
-            arch.bullets.map((b) => (
-              <li class="flex gap-2.5 text-[15.5px] leading-snug">
-                <Icon name="Check" class="mt-[3px] h-4 w-4 shrink-0 text-violet-light" strokeWidth={2.6} />
-                {b}
-              </li>
-            ))
-          }
-        </ul>
-
-        <ul class="chips mt-6" aria-label={p.projects.stack}>
-          {arch.chips.map((c) => <li>{c}</li>)}
-        </ul>
-
-        <a href={LINKS.appStore} target="_blank" rel="noopener noreferrer" class="btn btn-primary mt-8">
-          <Icon name="ArrowUpRight" strokeWidth={2.2} />
-          {arch.cta}
-        </a>
-      </div>
-    </article>
-
-    <!-- Webs de cliente -->
-    <div class="mt-6 grid gap-6 md:grid-cols-2">
+    <ol class="index mt-14" data-project-index>
       {
-        webs.map((w) => (
-          <article class="card web">
-            <a href={w.href} target="_blank" rel="noopener noreferrer" class="web-shot" tabindex="-1" aria-hidden="true">
-              <Image src={w.img} alt="" widths={[480, 760]} sizes="(min-width: 768px) 560px, 92vw" class:list={['h-full w-full object-cover', w.pos]} />
-            </a>
-            <div class="p-6 sm:p-8">
-              <h3 class="text-[1.65rem] font-[780] leading-tight tracking-[-0.03em] [font-stretch:115%]">{w.title}</h3>
-              <p class="mt-1.5 text-[15px] font-medium text-violet-light">{w.subtitle}</p>
-              <p class="mt-3 text-[15.5px] text-muted">{w.description}</p>
-              <ul class="chips mt-5" aria-label={p.projects.stack}>
-                {w.chips.map((c) => <li>{c}</li>)}
-              </ul>
-              <a href={w.href} target="_blank" rel="noopener noreferrer" class="link mt-6 inline-flex items-center gap-1.5 text-[15px] font-semibold" aria-label={`${w.cta}: ${w.title}`}>
-                {w.href.replace('https://', '')}
-                <Icon name="ArrowUpRight" class="h-4 w-4" strokeWidth={2.2} />
-              </a>
-            </div>
-          </article>
+        rows.map((r, i) => (
+          <li class="row" data-row={i}>
+            <details open={i === 0}>
+              <summary class="row-head">
+                <StretchText text={r.title} class="row-name" />
+                <span class="row-kind">{r.kind}</span>
+                <span class:list={['row-status', r.personal && 'is-personal']}>{r.personal ? (es ? 'Personal' : 'Personal') : r.status}</span>
+                <span class="row-toggle" aria-hidden="true">
+                  <Icon name="Plus" strokeWidth={2} />
+                </span>
+              </summary>
+
+              <div class="row-body">
+                <div class="thumb md:hidden" aria-hidden="true">
+                  {r.img ? (
+                    <Image src={r.img} alt="" widths={[420, 760]} sizes="92vw" class:list={['thumb-img', r.imgClass]} />
+                  ) : (
+                    <div class="thumb-game">
+                      <Mascot class="h-20 w-auto" />
+                    </div>
+                  )}
+                </div>
+
+                <div class="min-w-0">
+                  <p class="max-w-[38rem] text-[17px] text-text">{r.description}</p>
+                  {r.bullets.length > 0 && (
+                    <ul class="mt-5 grid max-w-[40rem] gap-2.5 sm:grid-cols-2">
+                      {r.bullets.map((b) => (
+                        <li class="flex gap-2.5 text-[15px] leading-snug text-muted">
+                          <Icon name="Check" class="mt-[3px] h-4 w-4 shrink-0 text-violet-light" strokeWidth={2.6} />
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+
+                <div class="flex flex-col gap-5 md:items-end md:text-right">
+                  <ul class="chips md:justify-end" aria-label={p.projects.stack}>
+                    {r.chips.map((c) => <li>{c}</li>)}
+                  </ul>
+                  {r.link ? (
+                    <a href={r.link.href} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                      {r.link.label}
+                      <Icon name="ArrowUpRight" strokeWidth={2.2} />
+                    </a>
+                  ) : (
+                    <button type="button" data-arcade-open hidden class="btn btn-violet">
+                      <Icon name="Gamepad2" strokeWidth={2} />
+                      {p.projects.bugrun.play}
+                    </button>
+                  )}
+                </div>
+              </div>
+            </details>
+          </li>
         ))
       }
-    </div>
+    </ol>
+  </div>
 
-    <!-- BUG RUN: el juego escondido, presentado como lo que es -->
-    <article data-glow class="card bugrun mt-6">
-      <div class="min-w-0">
-        <p class="text-[15px] font-medium text-violet-light">{p.projects.bugrun.kind}</p>
-        <h3 class="font-pixel mt-2 text-[2rem] uppercase leading-none tracking-wider">{p.projects.bugrun.name}</h3>
-        <p class="mt-4 max-w-[40rem] text-[15.5px] text-muted">{p.projects.bugrun.text}</p>
-        <ul class="chips mt-5" aria-label={p.projects.stack}>
-          {p.projects.bugrun.stack.map((c) => <li>{c}</li>)}
-        </ul>
-        <button type="button" data-arcade-open hidden class="btn btn-violet mt-7">
-          <Icon name="Gamepad2" strokeWidth={2} />
-          {p.projects.bugrun.play}
-        </button>
-      </div>
-      <Mascot class="bugrun-mascot" />
-    </article>
+  <!-- Vista previa que sigue al cursor (solo escritorio con ratón) -->
+  <div class="preview" data-project-preview aria-hidden="true">
+    {
+      rows.map((r, i) => (
+        <div class:list={['preview-item', r.id === 'arch' && 'is-arch', r.personal && 'is-game']} data-preview={i}>
+          {r.img ? (
+            <Image src={r.img} alt="" widths={[440, 720]} sizes="22rem" class:list={['preview-img', r.imgClass]} />
+          ) : (
+            <>
+              <Mascot class="h-24 w-auto" />
+              <span class="font-pixel mt-3 text-[18px] uppercase tracking-widest text-violet-light">BUG RUN</span>
+            </>
+          )}
+        </div>
+      ))
+    }
   </div>
 </section>
 
+<script>
+  import { initProjectPreview } from '@/scripts/projects';
+  initProjectPreview();
+</script>
+
 <style>
-  .feature {
-    display: grid;
-    gap: 2.5rem;
-    overflow: hidden;
-    padding: 1.75rem;
+  .index {
+    border-bottom: 1px solid rgba(237, 237, 242, 0.1);
   }
-  @media (min-width: 900px) {
-    .feature {
-      grid-template-columns: 17rem minmax(0, 1fr);
-      gap: 3.5rem;
-      padding: 3rem;
-    }
-  }
-  .feature-visual {
-    display: grid;
-    place-items: center;
-    border-radius: 1rem;
-    background: radial-gradient(circle at 50% 40%, rgba(139, 92, 246, 0.28), transparent 70%), #0c0c0f;
-    border: 1px solid rgba(237, 237, 242, 0.06);
-    padding: 2rem;
-    min-height: 13rem;
-  }
-  .arch-icon {
-    width: min(100%, 13rem);
-    height: auto;
-    border-radius: 2.2rem;
-    filter: drop-shadow(0 20px 40px rgba(139, 92, 246, 0.35));
+  .row {
+    border-top: 1px solid rgba(237, 237, 242, 0.1);
   }
 
+  /* ---------- Cabecera de cada fila ---------- */
+  .row-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.5rem 1.5rem;
+    padding: 1.6rem 0;
+    cursor: pointer;
+    list-style: none;
+  }
+  .row-head::-webkit-details-marker {
+    display: none;
+  }
+  @media (min-width: 900px) {
+    .row-head {
+      grid-template-columns: minmax(0, 1fr) 17rem 8.5rem 2.5rem;
+      gap: 2rem;
+      padding: 2rem 0;
+    }
+  }
+  .row-head :global(.row-name) {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: clamp(2.3rem, 6vw, 5rem);
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    text-transform: uppercase;
+    color: #ededf2;
+    transition: color 0.25s ease;
+  }
+  .row:hover :global(.row-name),
+  details[open] :global(.row-name) {
+    color: #c4b5fd;
+  }
+  .row-kind {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    font-size: 15px;
+    color: #8a8a99;
+  }
+  .row-status {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border: 1px solid rgba(52, 211, 153, 0.3);
+    border-radius: 999px;
+    padding: 0.25rem 0.7rem;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #6ee7b7;
+  }
+  .row-status::before {
+    content: '';
+    height: 0.4rem;
+    width: 0.4rem;
+    border-radius: 999px;
+    background: currentColor;
+  }
+  .row-status.is-personal {
+    border-color: rgba(167, 139, 250, 0.35);
+    color: #c4b5fd;
+  }
+  .row-toggle {
+    grid-column: 2;
+    grid-row: 1;
+    display: grid;
+    height: 2.5rem;
+    width: 2.5rem;
+    place-items: center;
+    border: 1px solid rgba(237, 237, 242, 0.15);
+    border-radius: 999px;
+    color: #ededf2;
+    transition:
+      transform 0.3s ease,
+      background-color 0.2s ease,
+      border-color 0.2s ease;
+  }
+  .row-toggle :global(svg) {
+    height: 1.1rem;
+    width: 1.1rem;
+  }
+  .row:hover .row-toggle {
+    border-color: rgba(167, 139, 250, 0.6);
+  }
+  details[open] .row-toggle {
+    transform: rotate(45deg);
+    background: #7c3aed;
+    border-color: #7c3aed;
+  }
+  @media (min-width: 900px) {
+    .row-kind {
+      grid-column: 2;
+      grid-row: 1;
+    }
+    .row-status {
+      grid-column: 3;
+      grid-row: 1;
+    }
+    .row-toggle {
+      grid-column: 4;
+      grid-row: 1;
+    }
+  }
+
+  /* ---------- Detalle ---------- */
+  .row-body {
+    display: grid;
+    gap: 1.75rem;
+    padding: 0 0 2.25rem;
+  }
+  @media (min-width: 900px) {
+    .row-body {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 20rem);
+      gap: 3rem;
+      padding-bottom: 2.75rem;
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    details[open] .row-body {
+      animation: open 0.4s ease both;
+    }
+  }
+  @keyframes open {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+  }
   .chips {
     display: flex;
     flex-wrap: wrap;
@@ -165,45 +291,92 @@ const webs = [
     color: #b4b4c2;
   }
 
-  .web {
-    overflow: hidden;
-  }
-  .web-shot {
-    display: block;
+  /* Imagen dentro del detalle (móvil) */
+  .thumb {
     aspect-ratio: 16 / 10;
     overflow: hidden;
-    border-bottom: 1px solid rgba(237, 237, 242, 0.06);
+    border-radius: 1rem;
+    border: 1px solid rgba(237, 237, 242, 0.08);
+    background: radial-gradient(circle at 50% 40%, rgba(139, 92, 246, 0.35), #0c0c0f 70%);
   }
-  .web-shot :global(img) {
-    transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  .thumb :global(.thumb-img) {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
   }
-  .web:hover .web-shot :global(img) {
-    transform: scale(1.03);
+  .thumb :global(.thumb-img.is-icon) {
+    object-fit: contain;
+    padding: 1.5rem;
   }
-
-  .bugrun {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
-    overflow: hidden;
-    padding: 1.75rem;
+  .thumb-game {
+    display: grid;
+    height: 100%;
+    place-items: center;
   }
-  @media (min-width: 900px) {
-    .bugrun {
-      padding: 2.5rem 3rem;
-    }
-  }
-  .bugrun :global(.bugrun-mascot) {
-    display: none;
-    height: 9rem;
-    width: auto;
-    flex-shrink: 0;
+  .thumb-game :global(svg),
+  .preview :global(.mascot) {
     image-rendering: pixelated;
   }
-  @media (min-width: 768px) {
-    .bugrun :global(.bugrun-mascot) {
-      display: block;
+
+  /* ---------- Vista previa flotante ---------- */
+  .preview {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 40;
+    width: 22rem;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 1.1rem;
+    background: #16161b;
+    box-shadow:
+      0 0 0 1px rgba(237, 237, 242, 0.1),
+      0 40px 80px -20px rgba(0, 0, 0, 0.8),
+      0 0 60px -10px rgba(139, 92, 246, 0.45);
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(var(--px, -999px), var(--py, -999px)) rotate(var(--pr, 0deg)) scale(0.85);
+    transition:
+      opacity 0.25s ease,
+      scale 0.25s ease;
+  }
+  .preview.is-on {
+    opacity: 1;
+    transform: translate(var(--px, -999px), var(--py, -999px)) rotate(var(--pr, 0deg)) scale(1);
+  }
+  .preview-item {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  .preview-item.is-active {
+    opacity: 1;
+  }
+  .preview-item :global(.preview-img) {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+  .preview-item.is-arch,
+  .preview-item.is-game {
+    background: radial-gradient(circle at 50% 45%, rgba(139, 92, 246, 0.45), #0c0c0f 72%);
+  }
+  .preview-item.is-arch :global(.preview-img) {
+    position: static;
+    height: 72%;
+    width: auto;
+    object-fit: contain;
+    border-radius: 1.4rem;
+  }
+  @media (max-width: 899px), (hover: none) {
+    .preview {
+      display: none;
     }
   }
 </style>

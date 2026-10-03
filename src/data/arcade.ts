@@ -202,12 +202,12 @@ export const BUG_SPRITE = [
 ] as const;
 
 export const BUG_PALETTE: Record<string, string> = {
-  "k": "#241813",
+  "k": "#1a1625",
   "r": "#c8553d",
   "R": "#e07a5f",
-  "w": "#fff3e6",
-  "e": "#120e0b",
-  "l": "#241813",
+  "w": "#ededf2",
+  "e": "#0c0c0f",
+  "l": "#1a1625",
   "y": "#f0b429",
   "v": "#cfe2ee"
 };
