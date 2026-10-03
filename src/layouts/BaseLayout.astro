@@ -113,7 +113,7 @@ const keywords = [
     <meta name="color-scheme" content="dark" />
 
     <Font cssVariable="--font-archivo" preload />
-    <Font cssVariable="--font-tiny" preload />
+    <Font cssVariable="--font-tiny" />
 
     <link rel="icon" href="/favicon-96.png" type="image/png" sizes="96x96" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
@@ -142,7 +142,7 @@ const keywords = [
     <!-- Primer elemento con Tab: salta la navegación (solo visible al recibir el foco) -->
     <a
       href="#main-content"
-      class="font-pixel sr-only text-[12px] uppercase tracking-widest focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-xl focus:bg-acid focus:px-4 focus:py-2 focus:text-[#120e0b]"
+      class="sr-only text-[14px] font-semibold focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-xl focus:bg-violet-light focus:px-4 focus:py-2 focus:text-bg"
     >
       {locale === 'es' ? 'Saltar al contenido' : 'Skip to content'}
     </a>

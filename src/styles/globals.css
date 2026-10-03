@@ -184,6 +184,7 @@ body {
 @layer components {
 /* Titulares: Archivo expandido y pesado; el cuerpo, en anchura normal */
 .h2 {
+  transform-origin: left center;
   font-stretch: 116%;
   font-weight: 780;
   font-size: clamp(2.3rem, 5.2vw, 4rem);
@@ -311,25 +312,30 @@ body {
 }
 .stretch .sl {
   display: inline-block;
+  text-align: center; /* el glifo crece centrado dentro de su hueco fijo */
+  /* margen para que el glifo ensanchado no se recorte (el degradado se pinta dentro de la caja);
+     el margen negativo compensa: lo que ocupa cada letra no cambia */
+  padding-inline: 0.15em;
+  margin-inline: -0.15em;
   font-stretch: var(--w, 100%);
   font-weight: var(--g, 700);
 }
 @media (prefers-reduced-motion: no-preference) {
-  /* Entrada: de condensada y fina a su sitio, letra a letra (backwards: luego manda el script) */
+  /* Entrada letra a letra, solo con transform: sin saltos de diseño y la letra se pinta
+     desde el primer fotograma (no retrasa el LCP). backwards: luego manda el script. */
   .stretch .sl {
-    animation: sl-in 0.9s cubic-bezier(0.22, 0.8, 0.12, 1) backwards;
-    animation-delay: calc(var(--i) * 45ms);
+    animation: sl-in 0.8s cubic-bezier(0.22, 0.8, 0.12, 1) backwards;
+    animation-delay: calc(var(--i) * 40ms);
   }
 }
 @keyframes sl-in {
   from {
-    opacity: 0;
-    font-stretch: 62%;
-    font-weight: 250;
+    transform: translateY(0.18em) scaleX(0.7);
   }
 }
 
-/* Títulos de sección: se estiran al entrar en pantalla con el scroll (mismo gesto que el hero) */
+/* Títulos de sección: se estiran al entrar en pantalla con el scroll (mismo gesto que el hero;
+   con transform para no mover el diseño) */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .h2 {
@@ -341,9 +347,8 @@ body {
 }
 @keyframes h2-stretch {
   from {
-    font-stretch: 70%;
-    font-weight: 400;
-    opacity: 0.35;
+    opacity: 0.25;
+    transform: translateY(0.35em) scaleX(0.82);
   }
 }
 }

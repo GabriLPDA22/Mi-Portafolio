@@ -16,6 +16,14 @@ const GROUPS = {
   clients: ['flutter', 'codemagic', 'symfony', 'wordpress', 'joomla'],
   also: ['nextjs', 'docker', 'github-actions'],
 } as const;
+// Logos de marca demasiado oscuros para el fondo grafito: misma tinta, más clara
+const ON_DARK: Record<string, string> = {
+  '#512BD4': '#9d7bff', // .NET
+  '#4169E1': '#7b9cff', // PostgreSQL
+  '#21759B': '#5aa9d6', // WordPress
+  '#02569B': '#4aa8f0', // Flutter
+};
+const logoColor = (c: string) => ON_DARK[c.toUpperCase()] ?? c;
 const groups = (Object.keys(GROUPS) as (keyof typeof GROUPS)[]).map((id) => ({
   id,
   label: p.stack.groups[id],
@@ -38,7 +46,7 @@ const groups = (Object.keys(GROUPS) as (keyof typeof GROUPS)[]).map((id) => ({
                 <li class="tile" title={item.note[locale]}>
                   {item.path ? (
                     <svg viewBox="0 0 24 24" class="h-[18px] w-[18px] shrink-0" aria-hidden="true">
-                      <path d={item.path} fill={item.color} />
+                      <path d={item.path} fill={logoColor(item.color)} />
                     </svg>
                   ) : (
                     <Icon name={item.lucide ?? 'Code'} class="h-[18px] w-[18px] shrink-0" strokeWidth={2} />
@@ -75,6 +83,16 @@ const groups = (Object.keys(GROUPS) as (keyof typeof GROUPS)[]).map((id) => ({
   }
   .is-daily h3 {
     color: #c4b5fd;
+  }
+  /* Lo que más importa a quien contrata: fichas más grandes */
+  .is-daily .tile {
+    padding: 0.75rem 1.1rem;
+    font-size: 16px;
+    border-color: rgba(167, 139, 250, 0.25);
+  }
+  .is-daily .tile :global(svg) {
+    height: 22px;
+    width: 22px;
   }
   .tiles {
     display: flex;

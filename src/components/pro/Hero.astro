@@ -255,10 +255,10 @@ const h = p.hero;
       animation: ping 2.4s ease-out infinite;
     }
   }
+  /* Solo transform: el texto se pinta desde el primer fotograma (es el LCP de la página) */
   @keyframes row-in {
     from {
-      opacity: 0;
-      transform: translateY(8px);
+      transform: translateY(14px);
     }
   }
   @keyframes ping {

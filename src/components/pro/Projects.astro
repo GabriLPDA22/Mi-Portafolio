@@ -1,14 +1,13 @@
 ---
 /**
- * Proyectos como índice: nombres enormes en letras vivas, una fila por proyecto. Al pasar el
- * ratón aparece una vista previa que sigue al cursor (scripts/projects.ts) y al hacer clic se
- * despliega el detalle (<details>, accesible sin JS). En móvil la imagen va dentro del detalle.
+ * Proyectos como índice: una fila por proyecto con su imagen siempre visible, el nombre enorme
+ * en letras vivas y el detalle desplegable (<details>, accesible y sin JS).
  */
 import { Image } from 'astro:assets';
 import Icon from '../Icon.astro';
 import Mascot from '../Mascot.astro';
 import StretchText from '../StretchText.astro';
-import archImg from '@/assets/img/Arch.webp';
+import archImg from '@/assets/img/arch-icon.webp';
 import huvegrymImg from '@/assets/img/Huvegrym.webp';
 import tarotImg from '@/assets/img/divinidad-hero.webp';
 import { getT, type Locale } from '@/i18n';
@@ -40,8 +39,8 @@ type Row = {
 };
 const rows: Row[] = [
   { id: 'arch', title: arch.title, kind: arch.subtitle, status: live, description: arch.description, bullets: arch.bullets, chips: arch.chips, link: { href: LINKS.appStore, label: arch.cta }, img: archImg, imgClass: 'is-icon' },
-  { id: 'huvegrym', title: huvegrym.title, kind: huvegrym.subtitle, status: live, description: huvegrym.description, bullets: huvegrym.bullets, chips: huvegrym.chips, link: { href: LINKS.huvegrym, label: 'huvegrym.es' }, img: huvegrymImg, imgClass: 'object-[center_35%]' },
-  { id: 'tarot', title: tarot.title, kind: tarot.subtitle, status: live, description: tarot.description, bullets: tarot.bullets, chips: tarot.chips, link: { href: LINKS.divinidad, label: 'divinidad000.com' }, img: tarotImg, imgClass: 'object-top' },
+  { id: 'huvegrym', title: huvegrym.title, kind: huvegrym.subtitle, status: live, description: huvegrym.description, bullets: huvegrym.bullets, chips: huvegrym.chips, link: { href: LINKS.huvegrym, label: 'huvegrym.es' }, img: huvegrymImg, imgClass: 'object-[center_78%]' },
+  { id: 'tarot', title: tarot.title, kind: tarot.subtitle, status: live, description: tarot.description, bullets: tarot.bullets, chips: tarot.chips, link: { href: LINKS.divinidad, label: 'divinidad000.com' }, img: tarotImg, imgClass: 'object-center' },
   { id: 'bugrun', title: p.projects.bugrun.name, kind: p.projects.bugrun.kind, status: p.projects.bugrun.kind, personal: true, description: p.projects.bugrun.text, bullets: [], chips: p.projects.bugrun.stack },
 ];
 ---
@@ -57,6 +56,13 @@ const rows: Row[] = [
           <li class="row" data-row={i}>
             <details open={i === 0}>
               <summary class="row-head">
+                <span class:list={['thumb', !r.img && 'is-game']} aria-hidden="true">
+                  {r.img ? (
+                    <Image src={r.img} alt="" widths={[160, 320, 480]} sizes="(min-width: 900px) 11rem, 5.5rem" class:list={['thumb-img', r.imgClass]} />
+                  ) : (
+                    <Mascot class="thumb-mascot" />
+                  )}
+                </span>
                 <StretchText text={r.title} class="row-name" />
                 <span class="row-kind">{r.kind}</span>
                 <span class:list={['row-status', r.personal && 'is-personal']}>{r.personal ? (es ? 'Personal' : 'Personal') : r.status}</span>
@@ -66,16 +72,6 @@ const rows: Row[] = [
               </summary>
 
               <div class="row-body">
-                <div class="thumb md:hidden" aria-hidden="true">
-                  {r.img ? (
-                    <Image src={r.img} alt="" widths={[420, 760]} sizes="92vw" class:list={['thumb-img', r.imgClass]} />
-                  ) : (
-                    <div class="thumb-game">
-                      <Mascot class="h-20 w-auto" />
-                    </div>
-                  )}
-                </div>
-
                 <div class="min-w-0">
                   <p class="max-w-[38rem] text-[17px] text-text">{r.description}</p>
                   {r.bullets.length > 0 && (
@@ -113,30 +109,7 @@ const rows: Row[] = [
       }
     </ol>
   </div>
-
-  <!-- Vista previa que sigue al cursor (solo escritorio con ratón) -->
-  <div class="preview" data-project-preview aria-hidden="true">
-    {
-      rows.map((r, i) => (
-        <div class:list={['preview-item', r.id === 'arch' && 'is-arch', r.personal && 'is-game']} data-preview={i}>
-          {r.img ? (
-            <Image src={r.img} alt="" widths={[440, 720]} sizes="22rem" class:list={['preview-img', r.imgClass]} />
-          ) : (
-            <>
-              <Mascot class="h-24 w-auto" />
-              <span class="font-pixel mt-3 text-[18px] uppercase tracking-widest text-violet-light">BUG RUN</span>
-            </>
-          )}
-        </div>
-      ))
-    }
-  </div>
 </section>
-
-<script>
-  import { initProjectPreview } from '@/scripts/projects';
-  initProjectPreview();
-</script>
 
 <style>
   .index {
@@ -146,13 +119,13 @@ const rows: Row[] = [
     border-top: 1px solid rgba(237, 237, 242, 0.1);
   }
 
-  /* ---------- Cabecera de cada fila ---------- */
+  /* ---------- Cabecera de cada fila: miniatura · nombre · tipo · estado · + ---------- */
   .row-head {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: 5.5rem minmax(0, 1fr) auto;
     align-items: center;
-    gap: 0.5rem 1.5rem;
-    padding: 1.6rem 0;
+    gap: 0.35rem 1.1rem;
+    padding: 1.4rem 0;
     cursor: pointer;
     list-style: none;
   }
@@ -161,15 +134,71 @@ const rows: Row[] = [
   }
   @media (min-width: 900px) {
     .row-head {
-      grid-template-columns: minmax(0, 1fr) 17rem 8.5rem 2.5rem;
+      grid-template-columns: 11rem minmax(0, 1fr) 15rem 8.5rem 2.5rem;
       gap: 2rem;
-      padding: 2rem 0;
+      padding: 1.75rem 0;
     }
   }
-  .row-head :global(.row-name) {
+  .thumb {
     grid-column: 1;
+    grid-row: 1 / span 3;
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 0.8rem;
+    border: 1px solid rgba(237, 237, 242, 0.1);
+    background: radial-gradient(circle at 50% 45%, rgba(139, 92, 246, 0.4), #0c0c0f 72%);
+    transition:
+      border-color 0.25s ease,
+      transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  @media (min-width: 900px) {
+    .thumb {
+      grid-row: 1;
+      border-radius: 1rem;
+    }
+  }
+  .row:hover .thumb,
+  details[open] .thumb {
+    border-color: rgba(167, 139, 250, 0.5);
+  }
+  .row:hover .thumb {
+    transform: rotate(-2deg) scale(1.03);
+  }
+  .thumb :global(.thumb-img) {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+  /* Todo el contenido de la miniatura va posicionado: centrado sea cual sea el tamaño */
+  .thumb :global(.thumb-img.is-icon) {
+    inset: auto;
+    left: 50%;
+    top: 50%;
+    height: 74%;
+    width: auto;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    border-radius: 22%; /* esquinas del icono de iOS */
+    box-shadow: 0 10px 30px -8px rgba(139, 92, 246, 0.5);
+  }
+  .thumb :global(.thumb-mascot) {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: 72%;
+    width: auto;
+    transform: translate(-50%, -45%);
+    image-rendering: pixelated;
+  }
+  .row-head :global(.row-name) {
+    grid-column: 2;
     grid-row: 1;
-    font-size: clamp(2.3rem, 6vw, 5rem);
+    font-size: clamp(1.75rem, 5.5vw, 4.5rem);
     letter-spacing: -0.04em;
     line-height: 0.95;
     text-transform: uppercase;
@@ -181,13 +210,14 @@ const rows: Row[] = [
     color: #c4b5fd;
   }
   .row-kind {
-    grid-column: 1 / -1;
+    grid-column: 2 / -1;
     grid-row: 2;
-    font-size: 15px;
+    font-size: 14.5px;
+    line-height: 1.4;
     color: #8a8a99;
   }
   .row-status {
-    grid-column: 1 / -1;
+    grid-column: 2 / -1;
     grid-row: 3;
     justify-self: start;
     display: inline-flex;
@@ -195,7 +225,7 @@ const rows: Row[] = [
     gap: 0.45rem;
     border: 1px solid rgba(52, 211, 153, 0.3);
     border-radius: 999px;
-    padding: 0.25rem 0.7rem;
+    padding: 0.2rem 0.65rem;
     font-size: 12.5px;
     font-weight: 600;
     color: #6ee7b7;
@@ -212,7 +242,7 @@ const rows: Row[] = [
     color: #c4b5fd;
   }
   .row-toggle {
-    grid-column: 2;
+    grid-column: 3;
     grid-row: 1;
     display: grid;
     height: 2.5rem;
@@ -240,15 +270,15 @@ const rows: Row[] = [
   }
   @media (min-width: 900px) {
     .row-kind {
-      grid-column: 2;
-      grid-row: 1;
-    }
-    .row-status {
       grid-column: 3;
       grid-row: 1;
     }
-    .row-toggle {
+    .row-status {
       grid-column: 4;
+      grid-row: 1;
+    }
+    .row-toggle {
+      grid-column: 5;
       grid-row: 1;
     }
   }
@@ -264,6 +294,7 @@ const rows: Row[] = [
       grid-template-columns: minmax(0, 1fr) minmax(0, 20rem);
       gap: 3rem;
       padding-bottom: 2.75rem;
+      padding-left: 13rem;
     }
   }
   @media (prefers-reduced-motion: no-preference) {
@@ -291,92 +322,4 @@ const rows: Row[] = [
     color: #b4b4c2;
   }
 
-  /* Imagen dentro del detalle (móvil) */
-  .thumb {
-    aspect-ratio: 16 / 10;
-    overflow: hidden;
-    border-radius: 1rem;
-    border: 1px solid rgba(237, 237, 242, 0.08);
-    background: radial-gradient(circle at 50% 40%, rgba(139, 92, 246, 0.35), #0c0c0f 70%);
-  }
-  .thumb :global(.thumb-img) {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-  }
-  .thumb :global(.thumb-img.is-icon) {
-    object-fit: contain;
-    padding: 1.5rem;
-  }
-  .thumb-game {
-    display: grid;
-    height: 100%;
-    place-items: center;
-  }
-  .thumb-game :global(svg),
-  .preview :global(.mascot) {
-    image-rendering: pixelated;
-  }
-
-  /* ---------- Vista previa flotante ---------- */
-  .preview {
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 40;
-    width: 22rem;
-    aspect-ratio: 4 / 3;
-    overflow: hidden;
-    border-radius: 1.1rem;
-    background: #16161b;
-    box-shadow:
-      0 0 0 1px rgba(237, 237, 242, 0.1),
-      0 40px 80px -20px rgba(0, 0, 0, 0.8),
-      0 0 60px -10px rgba(139, 92, 246, 0.45);
-    pointer-events: none;
-    opacity: 0;
-    transform: translate(var(--px, -999px), var(--py, -999px)) rotate(var(--pr, 0deg)) scale(0.85);
-    transition:
-      opacity 0.25s ease,
-      scale 0.25s ease;
-  }
-  .preview.is-on {
-    opacity: 1;
-    transform: translate(var(--px, -999px), var(--py, -999px)) rotate(var(--pr, 0deg)) scale(1);
-  }
-  .preview-item {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    align-content: center;
-    opacity: 0;
-    transition: opacity 0.25s ease;
-  }
-  .preview-item.is-active {
-    opacity: 1;
-  }
-  .preview-item :global(.preview-img) {
-    position: absolute;
-    inset: 0;
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-  }
-  .preview-item.is-arch,
-  .preview-item.is-game {
-    background: radial-gradient(circle at 50% 45%, rgba(139, 92, 246, 0.45), #0c0c0f 72%);
-  }
-  .preview-item.is-arch :global(.preview-img) {
-    position: static;
-    height: 72%;
-    width: auto;
-    object-fit: contain;
-    border-radius: 1.4rem;
-  }
-  @media (max-width: 899px), (hover: none) {
-    .preview {
-      display: none;
-    }
-  }
 </style>

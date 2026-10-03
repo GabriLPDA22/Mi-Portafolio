@@ -13,15 +13,16 @@ export default defineConfig({
   },
   fonts: [
     {
-      // Archivo variable (OFL-1.1, subset latino): ejes de peso 100-900 y anchura 62-125 %.
-      // La anchura es parte del diseño: el nombre del hero pasa de condensado a expandido.
+      // Archivo variable (OFL-1.1), recortada a lo que usa la web: latín básico + Latin-1,
+      // peso 400-900 y anchura 100-125 % (54 KB en vez de 90). La anchura es parte del diseño:
+      // las "letras vivas" se ensanchan con ella.
       provider: fontProviders.local(),
       name: 'Archivo',
       cssVariable: '--font-archivo',
       fallbacks: ['system-ui', 'sans-serif'],
       options: {
         variants: [
-          { src: ['./src/assets/fonts/archivo-latin-wdth-wght.woff2'], weight: '100 900', stretch: '62% 125%', style: 'normal' },
+          { src: ['./src/assets/fonts/archivo-latin-wdth-wght.woff2'], weight: '400 900', stretch: '100% 125%', style: 'normal' },
         ],
       },
     },
