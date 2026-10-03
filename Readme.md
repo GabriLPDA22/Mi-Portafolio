@@ -72,7 +72,7 @@
 ## 🚀 Inicio Rápido
 
 ### Prerrequisitos
-- Node.js 18+ 
+- Node.js 22.12+ (lo exige Astro 7)
 - npm o yarn
 
 ### Instalación
@@ -173,8 +173,6 @@ mi-portafolio/
 - ✅ Alt text descriptivo en todas las imágenes
 - ✅ Semantic HTML (header, main, nav, section, footer)
 
-### Próximos Pasos
-Ver `SEO-RECOMMENDATIONS.md` para guía completa de optimización SEO.
 
 ---
 
