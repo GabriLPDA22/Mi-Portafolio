@@ -4,8 +4,8 @@
   "description": "Desarrollador full-stack con experiencia en React Native, Next.js y .NET. Portfolio y trayectoria profesional.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#120e0b",
-  "theme_color": "#f0b429",
+  "background_color": "#0c0c0f",
+  "theme_color": "#0c0c0f",
   "lang": "es",
   "icons": [
     { "src": "/icon.png", "sizes": "any", "type": "image/png", "purpose": "any" },

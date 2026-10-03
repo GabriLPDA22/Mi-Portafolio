@@ -3,7 +3,9 @@
  * Cabecera: transparente sobre el hero y barra grafito translúcida al hacer scroll.
  * En móvil, menú a pantalla completa (lo gestiona initHeader en scripts/ui.ts).
  */
+import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
+import logo from '@/assets/img/logo-g.webp';
 import { homePath, localePath, otherLocale, type Locale } from '@/i18n';
 import { getPro, LINKS } from '@/lib/pro-content';
 
@@ -36,7 +38,7 @@ const labels = es ? { open: 'Abrir menú', close: 'Cerrar menú' } : { open: 'Op
 <header data-site-header class="site-header fixed inset-x-0 top-0 z-50">
   <div class="container-main flex h-[4.5rem] items-center justify-between gap-4">
     <a href={home} data-home-link class="brand flex shrink-0 items-center gap-2.5" aria-label={es ? 'Gabriel Saiz, inicio' : 'Gabriel Saiz, home'}>
-      <span class="logo-mark" aria-hidden="true">g</span>
+      <Image src={logo} alt="" height={34} widths={[34, 68]} sizes="34px" class="logo-mark" loading="eager" />
       <span class="text-[17px] font-bold tracking-[-0.01em] [font-stretch:112%]">gabriel<span class="opacity-60">.codes</span></span>
     </a>
 
@@ -127,20 +129,14 @@ const labels = es ? { open: 'Abrir menú', close: 'Cerrar menú' } : { open: 'Op
 </script>
 
 <style>
-  .logo-mark {
-    display: inline-grid;
-    height: 2rem;
-    width: 2rem;
-    place-items: center;
-    border-radius: 0.6rem;
-    background: linear-gradient(145deg, #a78bfa, #6d28d9);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
-    font-size: 19px;
-    font-weight: 850;
-    font-stretch: 125%;
-    line-height: 1;
-    color: #fff;
-    padding-bottom: 0.15em;
+  .brand :global(.logo-mark) {
+    height: 2.1rem;
+    width: auto;
+    filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.45));
+    transition: transform 0.4s cubic-bezier(0.3, 1.5, 0.5, 1);
+  }
+  .brand:hover :global(.logo-mark) {
+    transform: rotate(-8deg) scale(1.06);
   }
   .site-header {
     color: #ededf2;

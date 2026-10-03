@@ -1,12 +1,13 @@
 ---
 /**
- * Hero: el nombre en Archivo, que al cargar pasa de condensado a expandido (único momento
- * animado de la página), foto en duotono violeta y la lista de lo que está en producción hoy.
- * La luz violeta del fondo sigue al ratón (scripts/glow.ts).
+ * Hero "figura de coleccionista": el nombre a todo el ancho y, delante, el bobblehead de Gabriel
+ * sobre su peana. La figura gira en 3D con el ratón y la cabeza va sobre un muelle de verdad
+ * (física en scripts/bobble.ts): rebota al moverse, al pasar por encima y al tocarla.
  */
 import { Image } from 'astro:assets';
 import Icon from '../Icon.astro';
-import photo from '@/assets/img/Yo.webp';
+import head from '@/assets/img/bobble-head.webp';
+import body from '@/assets/img/bobble-body.webp';
 import type { Locale } from '@/i18n';
 import { getPro, LINKS } from '@/lib/pro-content';
 
@@ -16,43 +17,58 @@ interface Props {
 const { locale } = Astro.props;
 const p = getPro(locale);
 const h = p.hero;
+const es = locale === 'es';
+const sizes = '(min-width: 1024px) 300px, 210px';
 ---
 
 <section id="inicio" data-glow class="hero relative overflow-hidden">
-  <div class="aura" aria-hidden="true"></div>
-  <div class="container-main hero-grid">
-    <div class="hero-copy">
-      <h1 class="hero-name" aria-label="Gabriel Saiz">
-        <span class="w w1" aria-hidden="true">Gabriel</span>
-        <span class="w w2" aria-hidden="true">Saiz</span>
-      </h1>
-      <p class="hero-role">{h.role}</p>
-      <p class="lead mt-5">{h.lead}</p>
+  <div class="spot" aria-hidden="true"></div>
 
-      <p class="avail mt-7">
-        <span class="live" aria-hidden="true"></span>
-        {h.availability}
+  <div class="container-main relative">
+    <h1 class="hero-name" aria-label="Gabriel Saiz">
+      <span class="w w1" aria-hidden="true">Gabriel</span>
+      <span class="w w2" aria-hidden="true">Saiz</span>
+    </h1>
+
+    <!-- La figura -->
+    <div class="stage" data-bobble>
+      <button type="button" class="figure" data-bobble-figure aria-label={es ? 'Darle un toque a la cabeza del muñeco' : 'Give the bobblehead a tap'}>
+        <span class="tilt" data-bobble-tilt>
+          <Image src={body} alt="" widths={[220, 440, 600]} sizes={sizes} class="layer" loading="eager" />
+          <span class="head" data-bobble-head>
+            <Image src={head} alt="" widths={[220, 440, 600]} sizes={sizes} class="layer" loading="eager" fetchpriority="high" />
+          </span>
+        </span>
+      </button>
+      <div class="floor" aria-hidden="true"></div>
+      <p class="bubble" data-bobble-bubble hidden>
+        {es ? 'Psst… en esta web hay un minijuego escondido.' : 'Psst… there is a hidden mini-game on this site.'}
+        <button type="button" data-arcade-open hidden class="bubble-btn">{es ? 'Jugar' : 'Play'}</button>
       </p>
-
-      <div class="mt-8 flex flex-wrap items-center gap-3">
-        <a href={LINKS.cv} download="Gabriel-Saiz-CV.pdf" class="btn btn-primary">
-          <Icon name="Download" strokeWidth={2.2} />
-          {h.cv}
-        </a>
-        <a href="#proyectos" class="btn btn-ghost">{h.projects}</a>
-        <a href={LINKS.linkedin} target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-icon" aria-label="LinkedIn">
-          <Icon name="Linkedin" strokeWidth={1.9} />
-        </a>
-        <a href={LINKS.github} target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-icon" aria-label="GitHub">
-          <Icon name="Github" strokeWidth={1.9} />
-        </a>
-      </div>
     </div>
 
-    <div class="hero-visual">
-      <figure class="portrait">
-        <Image src={photo} alt={h.photoAlt} widths={[360, 560, 760]} sizes="(min-width: 1024px) 34vw, 80vw" loading="eager" fetchpriority="high" />
-      </figure>
+    <div class="hero-bottom">
+      <div class="hero-copy">
+        <p class="hero-role">{h.role}</p>
+        <p class="lead mt-4">{h.lead}</p>
+        <p class="avail mt-6">
+          <span class="live" aria-hidden="true"></span>
+          {h.availability}
+        </p>
+        <div class="mt-7 flex flex-wrap items-center gap-3">
+          <a href={LINKS.cv} download="Gabriel-Saiz-CV.pdf" class="btn btn-primary">
+            <Icon name="Download" strokeWidth={2.2} />
+            {h.cv}
+          </a>
+          <a href="#proyectos" class="btn btn-ghost">{h.projects}</a>
+          <a href={LINKS.linkedin} target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-icon" aria-label="LinkedIn">
+            <Icon name="Linkedin" strokeWidth={1.9} />
+          </a>
+          <a href={LINKS.github} target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-icon" aria-label="GitHub">
+            <Icon name="Github" strokeWidth={1.9} />
+          </a>
+        </div>
+      </div>
 
       <section class="ledger" aria-labelledby="ledger-title">
         <h2 id="ledger-title" class="ledger-title">
@@ -79,75 +95,218 @@ const h = p.hero;
   </div>
 </section>
 
+<script>
+  import { initBobble } from '@/scripts/bobble';
+  initBobble();
+</script>
+
 <style>
   .hero {
-    --glow-size: 700px;
-    --glow-alpha: 0.13;
-    padding-top: 7.5rem;
-    padding-bottom: clamp(3.5rem, 8vw, 6rem);
+    --glow-size: 760px;
+    --glow-alpha: 0.12;
+    padding-top: 6.5rem;
+    padding-bottom: clamp(3rem, 7vw, 5rem);
   }
-  /* Halo fijo detrás de la foto: el color de la página sale de aquí */
-  .aura {
+  /* Foco cenital sobre la figura */
+  .spot {
     position: absolute;
-    right: -10%;
-    top: -20%;
+    left: 50%;
+    top: -12rem;
     z-index: -1;
-    height: 70rem;
-    width: 70rem;
-    max-width: 140vw;
-    border-radius: 999px;
-    background: radial-gradient(closest-side, rgba(124, 58, 237, 0.32), rgba(124, 58, 237, 0.08) 55%, transparent);
+    height: 62rem;
+    width: 58rem;
+    max-width: 160vw;
+    transform: translateX(-50%);
+    background:
+      radial-gradient(closest-side, rgba(139, 92, 246, 0.38), rgba(124, 58, 237, 0.1) 55%, transparent),
+      conic-gradient(from 180deg at 50% 0%, transparent 160deg, rgba(167, 139, 250, 0.07) 172deg, rgba(167, 139, 250, 0.07) 188deg, transparent 200deg);
     pointer-events: none;
   }
-  .hero-grid {
-    display: grid;
-    gap: 3.5rem;
-    align-items: center;
-  }
-  @media (min-width: 1024px) {
-    .hero {
-      min-height: min(100svh, 56rem);
-      display: flex;
-      align-items: center;
-      padding-top: 8.5rem;
-      padding-bottom: 5rem;
-    }
-    .hero-grid {
-      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-      gap: 3rem;
-    }
-  }
 
-  /* ---------- Nombre ---------- */
+  /* ---------- Nombre a todo el ancho, detrás de la figura ---------- */
   .hero-name {
-    margin-left: -0.04em; /* la G arranca alineada ópticamente con el texto de debajo */
-    font-size: min(17.5vw, 7rem);
-    font-weight: 850;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    column-gap: 0.25em;
+    font-size: min(15.5vw, 6.5rem);
+    font-weight: 860;
     font-stretch: 125%;
-    letter-spacing: -0.04em;
-    line-height: 0.88;
+    letter-spacing: -0.045em;
+    line-height: 0.85;
+    text-transform: uppercase;
   }
   @media (min-width: 1024px) {
     .hero-name {
-      font-size: min(9.4vw, 8.4rem);
+      flex-wrap: nowrap;
+      /* "GABRIEL SAIZ" mide ~8,7 em: cabe justo en el ancho del contenedor */
+      font-size: calc((min(100vw, 1200px) - 4rem) / 9);
     }
   }
   .hero-name .w {
     display: block;
-    padding-bottom: 0.04em;
-    /* metal: blanco arriba que se apaga hacia abajo */
-    background: linear-gradient(180deg, #ffffff 15%, #9d9db0 115%);
+    padding-bottom: 0.05em;
+    background: linear-gradient(180deg, #ffffff 10%, #8f8fa6 110%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
+
+  /* ---------- La figura ---------- */
+  .stage {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    justify-items: center;
+    margin-top: 0.75rem;
+    perspective: 1100px;
+  }
+  @media (min-width: 1024px) {
+    .stage {
+      position: absolute;
+      left: 50%;
+      /* la cabeza pisa solo la parte baja del nombre: se sigue leyendo */
+      top: calc((min(100vw, 1200px) - 4rem) / 9 * 0.62);
+      margin: 0;
+      transform: translateX(-50%);
+    }
+  }
+  .figure {
+    position: relative;
+    width: 210px;
+    aspect-ratio: 494 / 1145;
+    cursor: grab;
+    border-radius: 2rem;
+    -webkit-tap-highlight-color: transparent;
+  }
+  @media (min-width: 1024px) {
+    .figure {
+      width: 300px;
+    }
+  }
+  .figure:active {
+    cursor: grabbing;
+  }
+  .tilt {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+    will-change: transform;
+  }
+  .figure :global(.layer) {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+  /* La cabeza gira sobre el muelle (pivote medido en la imagen: 56 % / 52,6 %) */
+  .head {
+    position: absolute;
+    inset: 0;
+    transform-origin: 56% 52.6%;
+    transform: translate(var(--hx, 0px), var(--hy, 0px)) rotate(var(--ha, 0deg));
+    will-change: transform;
+    filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.35));
+  }
+  /* Sombra y reflejo violeta bajo la peana */
+  .floor {
+    height: 2.2rem;
+    width: 260px;
+    margin-top: -1.6rem;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(0, 0, 0, 0.75), transparent);
+    box-shadow: 0 0 60px 10px rgba(139, 92, 246, 0.18);
+    transform: scaleX(calc(1 - var(--tiltabs, 0) * 0.15));
+  }
+  @media (min-width: 1024px) {
+    .floor {
+      width: 340px;
+    }
+  }
+
+  /* Bocadillo del easter egg */
+  .bubble {
+    position: absolute;
+    top: 8%;
+    left: calc(50% + 120px);
+    z-index: 3;
+    width: 15rem;
+    border: 1px solid rgba(237, 237, 242, 0.12);
+    border-radius: 1rem 1rem 1rem 0.25rem;
+    background: #16161b;
+    padding: 0.75rem 0.9rem;
+    font-size: 14px;
+    line-height: 1.4;
+    box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.8);
+    animation: pop 0.35s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+  }
+  @media (max-width: 640px) {
+    .bubble {
+      left: auto;
+      right: 0;
+      top: 62%;
+      width: 12.5rem;
+    }
+  }
+  .bubble-btn {
+    margin-top: 0.5rem;
+    display: block;
+    border-radius: 999px;
+    background: #7c3aed;
+    padding: 0.35rem 0.8rem;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+  }
+  .bubble-btn:hover {
+    background: #8b5cf6;
+  }
+  @keyframes pop {
+    from {
+      opacity: 0;
+      transform: translateY(6px) scale(0.92);
+    }
+  }
+
+  /* ---------- Texto y lista abajo, a los lados de la figura ---------- */
+  .hero-bottom {
+    position: relative;
+    z-index: 3;
+    display: grid;
+    gap: 2.5rem;
+    margin-top: 2.5rem;
+  }
+  @media (min-width: 1024px) {
+    .hero-bottom {
+      grid-template-columns: minmax(0, 1fr) 21rem minmax(0, 1fr);
+      align-items: end;
+      gap: 2rem;
+      margin-top: 1rem;
+      /* alto de la figura (300 px de ancho → ~695 px) + peana */
+      min-height: 43rem;
+    }
+    .hero-copy {
+      grid-column: 1;
+    }
+    .ledger {
+      grid-column: 3;
+      justify-self: end;
+    }
+  }
   .hero-role {
-    margin-top: 1.25rem;
-    font-size: clamp(1.35rem, 2.6vw, 1.85rem);
-    font-weight: 620;
+    font-size: clamp(1.3rem, 2.2vw, 1.6rem);
+    font-weight: 640;
     font-stretch: 110%;
     letter-spacing: -0.02em;
     color: #a78bfa;
+  }
+  .hero-copy :global(.lead) {
+    font-size: 1.05rem;
   }
 
   .avail {
@@ -158,7 +317,6 @@ const h = p.hero;
     font-weight: 550;
     color: #ededf2;
   }
-  /* Punto verde de "en línea" (semántico: está publicado / disponible) */
   .live {
     position: relative;
     display: inline-block;
@@ -177,50 +335,15 @@ const h = p.hero;
     background: inherit;
   }
 
-  /* ---------- Foto en duotono violeta: la pared blanca se convierte en violeta ---------- */
-  .hero-visual {
-    position: relative;
-    display: grid;
-    justify-items: end;
-  }
-  .portrait {
-    width: min(100%, 26rem);
-    aspect-ratio: 4 / 5;
-    overflow: hidden;
-    border-radius: 1.5rem;
-    background: linear-gradient(160deg, #8b5cf6, #5b21b6);
-    box-shadow:
-      0 0 0 1px rgba(237, 237, 242, 0.08),
-      0 40px 120px -30px rgba(124, 58, 237, 0.55);
-  }
-  .portrait :global(img) {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    object-position: 50% 30%;
-    mix-blend-mode: multiply;
-    filter: grayscale(1) contrast(1.2) brightness(1.1);
-  }
-
-  /* ---------- Lo que está en producción ---------- */
   .ledger {
-    position: relative;
-    z-index: 1;
     width: min(100%, 24rem);
-    margin-top: -7rem;
-    justify-self: start;
     border: 1px solid rgba(237, 237, 242, 0.09);
     border-radius: 1.1rem;
-    background: rgba(22, 22, 27, 0.82);
+    background: rgba(22, 22, 27, 0.78);
     padding: 1.1rem 1.1rem 0.6rem;
     box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.8);
     -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
-  }
-  @media (min-width: 1024px) {
-    .ledger {
-      margin-left: -3rem;
-    }
   }
   .ledger-title {
     display: flex;
@@ -229,7 +352,6 @@ const h = p.hero;
     padding: 0 0.25rem 0.6rem;
     font-size: 14px;
     font-weight: 600;
-    color: #ededf2;
   }
   .ledger-row {
     display: flex;
@@ -238,7 +360,7 @@ const h = p.hero;
     gap: 1rem;
     border-top: 1px solid rgba(237, 237, 242, 0.07);
     border-radius: 0.5rem;
-    padding: 0.7rem 0.25rem;
+    padding: 0.65rem 0.25rem;
     transition: background-color 0.15s ease;
   }
   .ledger-row:hover {
@@ -252,17 +374,20 @@ const h = p.hero;
     text-align: right;
   }
 
-  /* ---------- Momento de carga: el nombre se ensancha y la lista se rellena ---------- */
+  /* ---------- Entrada: el nombre se ensancha y la figura cae sobre la peana ---------- */
   @media (prefers-reduced-motion: no-preference) {
     .hero-name .w {
       animation: name-in 1.15s cubic-bezier(0.22, 0.8, 0.12, 1) both;
     }
     .hero-name .w2 {
-      animation-delay: 0.12s;
+      animation-delay: 0.1s;
+    }
+    .figure {
+      animation: drop-in 0.9s cubic-bezier(0.3, 1.35, 0.5, 1) 0.35s both;
     }
     .ledger li {
       animation: row-in 0.5s ease both;
-      animation-delay: calc(0.75s + var(--i) * 0.09s);
+      animation-delay: calc(0.9s + var(--i) * 0.09s);
     }
     .live::after {
       animation: ping 2.4s ease-out infinite;
@@ -275,6 +400,15 @@ const h = p.hero;
       font-weight: 300;
     }
     35% {
+      opacity: 1;
+    }
+  }
+  @keyframes drop-in {
+    from {
+      opacity: 0;
+      transform: translateY(-60px) scale(0.96);
+    }
+    40% {
       opacity: 1;
     }
   }
