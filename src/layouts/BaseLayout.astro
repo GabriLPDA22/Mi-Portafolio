@@ -24,19 +24,20 @@ interface Props {
 const siteUrl = 'https://gabrielcodes.dev';
 const meta = {
   es: {
-    title: 'Gabriel Saiz — Desarrollador Full-Stack | Portfolio',
-    ogTitle: 'Gabriel Saiz — Desarrollador Full-Stack',
+    // Lo que buscan las empresas: rol + tecnologías + ciudad (≤ 60 caracteres el título, ≤ 155 la descripción)
+    title: 'Gabriel Saiz | Desarrollador Full-Stack .NET y Vue en Zaragoza',
+    ogTitle: 'Gabriel Saiz — Desarrollador Full-Stack .NET y Vue',
     description:
-      'Gabriel Saiz — desarrollador full-stack en Zaragoza. Backend en .NET, webs con Vue y Astro y apps con React Native. Apps en producción y abierto a oportunidades laborales.',
+      'Desarrollador full-stack en Zaragoza: backend .NET, webs con Vue y Astro y apps React Native en App Store. Disponible en Zaragoza o en remoto.',
     ogLocale: 'es_ES',
     ogAlt: 'Gabriel Saiz — Desarrollador full-stack',
     siteName: 'Gabriel Saiz — Portfolio',
   },
   en: {
-    title: 'Gabriel Saiz — Full-Stack Developer | Portfolio',
-    ogTitle: 'Gabriel Saiz — Full-Stack Developer',
+    title: 'Gabriel Saiz | Full-Stack Developer (.NET, Vue) – Spain & Remote',
+    ogTitle: 'Gabriel Saiz — Full-Stack Developer (.NET, Vue)',
     description:
-      'Gabriel Saiz — full-stack developer based in Zaragoza, Spain. .NET backend, Vue and Astro websites and React Native apps. Apps in production and open to job opportunities.',
+      'Full-stack developer in Zaragoza, Spain: .NET backend, Vue and Astro websites and React Native apps on the App Store. Available on-site or remote.',
     ogLocale: 'en_GB',
     ogAlt: 'Gabriel Saiz — Full-stack developer',
     siteName: 'Gabriel Saiz — Portfolio',
@@ -54,24 +55,20 @@ const url = (l: Locale) => {
   return p === '/' ? siteUrl : `${siteUrl}${p}`;
 };
 const canonical = url(locale);
-const ogImage = `${siteUrl}/img/og-image.jpg`;
+// Imagen al compartir (LinkedIn, WhatsApp, Slack…): una por idioma, generada con scripts/og-image.mjs
+const ogImage = `${siteUrl}/img/og-image${locale === 'en' ? '-en' : ''}.jpg`;
 const keywords = [
-  'desarrollador full stack',
-  'desarrollador React Native',
+  'desarrollador full stack Zaragoza',
+  'desarrollador .NET Zaragoza',
+  'programador .NET',
   'desarrollador Vue',
-  'desarrollador .NET',
-  'portfolio desarrollador',
-  'full stack developer España',
-  'desarrollador Zaragoza',
-  'empleo desarrollador full stack',
-  'junior mid full stack Zaragoza',
-  'React Native',
-  'Astro',
-  'TypeScript',
-  '.NET',
-  'PostgreSQL',
-  'Expo',
-  'gabriel saiz',
+  'desarrollador Astro',
+  'desarrollador React Native',
+  'desarrollador web Zaragoza',
+  'desarrollador full stack remoto',
+  'full stack developer Spain',
+  '.NET developer remote',
+  'Gabriel Saiz',
 ].join(',');
 ---
 

@@ -2,6 +2,7 @@ const siteUrl = "https://gabrielcodes.dev";
 
 export const personData = {
   "@type": "Person",
+  "@id": `${siteUrl}/#person`,
   name: "Gabriel Saiz",
   jobTitle: "Full-Stack Developer",
   description:
@@ -22,10 +23,12 @@ export const personData = {
     url: `${siteUrl}/cv/Gabriel-Saiz-CV.pdf`,
   },
   knowsAbout: [
-    "React Native",
-    "Next.js",
-    "TypeScript",
     ".NET",
+    "Vue.js",
+    "Astro",
+    "React Native",
+    "TypeScript",
+    "Tailwind CSS",
     "PostgreSQL",
     "Desarrollo móvil",
     "Desarrollo web",
@@ -44,15 +47,7 @@ export const personData = {
       "@type": "City",
       name: "Zaragoza",
     },
-    skills: [
-      "React Native",
-      "Expo",
-      "Next.js",
-      "TypeScript",
-      ".NET",
-      "PostgreSQL",
-      "AWS",
-    ],
+    skills: [".NET", "Vue.js", "Astro", "React Native", "Expo", "TypeScript", "Tailwind CSS", "PostgreSQL", "AWS"],
   },
 };
 
@@ -94,3 +89,12 @@ export const breadcrumbsData = (locale: "es" | "en") => {
     itemListElement: items.map((item, i) => ({ "@type": "ListItem", position: i + 1, name: names[i], item })),
   };
 };
+
+/** Página de perfil (Google la usa para perfiles de personas): apunta a personData. */
+export const profilePageData = (locale: "es" | "en") => ({
+  "@type": "ProfilePage",
+  url: locale === "es" ? siteUrl : `${siteUrl}/en`,
+  inLanguage: locale === "es" ? "es-ES" : "en-GB",
+  dateModified: new Date().toISOString().slice(0, 10),
+  mainEntity: { "@id": `${siteUrl}/#person` },
+});

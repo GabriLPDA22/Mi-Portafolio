@@ -1,75 +1,81 @@
 /**
- * Genera public/img/og-image.jpg (1200×630) con el estilo 8-bit actual de la web:
- * fondo noir, título con contorno dorado, fuente pixel Tiny5 y el monigote en pixel art.
- * Uso: node scripts/og-image.mjs   (requiere Playwright/Chromium)
+ * Genera las imágenes para compartir (Open Graph, 1200×630) con el diseño actual:
+ *   public/img/og-image.jpg (español) y public/img/og-image-en.jpg (inglés).
+ * Grafito + violeta, Archivo, logo G y el retrato en blanco y negro.
+ * Uso: node scripts/og-image.mjs
+ * Usa el Chrome instalado en el equipo (chrome-launcher + puppeteer-core, que ya vienen con
+ * Lighthouse en devDependencies).
  */
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { chromium } from 'playwright';
+import { Launcher } from 'chrome-launcher';
+import puppeteer from 'puppeteer-core';
+import sharp from 'sharp';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
-const font = (f) => readFileSync(`${root}src/assets/fonts/${f}`).toString('base64');
+const b64 = (file) => readFileSync(`${root}${file}`).toString('base64');
+const font = b64('src/assets/fonts/archivo-latin-wdth-wght.woff2');
+const logo = b64('brand/logo-g.png');
+// El retrato en JPEG para incrustarlo (el original es WebP)
+const photo = (await sharp(`${root}src/assets/img/Yo.webp`).resize(520).grayscale().jpeg({ quality: 88 }).toBuffer()).toString('base64');
 
-// Monigote: se lee el sprite de src/data/mascot.ts sin compilar TypeScript
-const src = readFileSync(`${root}src/data/mascot.ts`, 'utf8');
-const palette = JSON.parse(src.match(/MASCOT_PALETTE[^=]*=\s*(\{[\s\S]*?\});/)[1]);
-const idle = [...src.match(/idle:\s*\[([\s\S]*?)\]/)[1].matchAll(/'([^']+)'/g)].map((m) => m[1]);
+const texts = {
+  es: {
+    role: 'Desarrollador full-stack',
+    stack: '.NET · Vue · Astro · React Native',
+    status: 'Disponible · Zaragoza o remoto',
+    file: 'og-image.jpg',
+  },
+  en: {
+    role: 'Full-stack developer',
+    stack: '.NET · Vue · Astro · React Native',
+    status: 'Available · Spain or remote',
+    file: 'og-image-en.jpg',
+  },
+};
 
-const rects = idle
-  .flatMap((row, y) =>
-    [...row].map((ch, x) => (ch === '.' ? '' : `<rect x="${x}" y="${y}" width="1.02" height="1.02" fill="${palette[ch]}"/>`)),
-  )
-  .join('');
-const mascot = `<svg viewBox="0 0 32 42" width="352" height="462" shape-rendering="crispEdges">${rects}</svg>`;
-
-const html = `<!doctype html><html><head><meta charset="utf-8"><style>
-@font-face{font-family:Nunito;src:url(data:font/woff2;base64,${font('nunito-latin-wght-normal.woff2')}) format('woff2');font-weight:200 1000}
-@font-face{font-family:Tiny5;src:url(data:font/woff2;base64,${font('tiny5-latin-400-normal.woff2')}) format('woff2')}
+const page = (t) => `<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Archivo;src:url(data:font/woff2;base64,${font}) format('woff2');font-weight:400 900;font-stretch:100% 125%}
 *{margin:0;box-sizing:border-box}
-body{width:1200px;height:630px;overflow:hidden;background:#120e0b;font-family:Nunito;color:#fff3e6;position:relative}
+body{width:1200px;height:630px;overflow:hidden;background:#0c0c0f;font-family:Archivo;color:#ededf2;position:relative}
 .glow{position:absolute;inset:0;background:
-  radial-gradient(700px 420px at 88% 18%,rgba(240,180,41,.28),transparent 70%),
-  radial-gradient(500px 300px at 10% 110%,rgba(212,146,31,.16),transparent 70%)}
-.grid{position:absolute;inset:0;background-image:
-  linear-gradient(rgba(255,243,230,.035) 1px,transparent 1px),
-  linear-gradient(90deg,rgba(255,243,230,.035) 1px,transparent 1px);background-size:24px 24px}
-.scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 2px,transparent 2px 4px)}
-.frame{position:absolute;inset:22px;border:4px solid #0a0706;border-radius:28px;box-shadow:inset 0 0 0 3px #3a2d22}
-.left{position:absolute;left:78px;top:70px;width:640px}
-.tag{display:inline-flex;gap:12px;align-items:center;background:#0a0706;border:3px solid #f0b429;color:#f0b429;
-  font-family:Tiny5;font-size:22px;letter-spacing:.06em;text-transform:uppercase;padding:8px 16px;border-radius:999px}
-.dot{width:12px;height:12px;border-radius:50%;background:#3ecf6e;box-shadow:0 0 12px #3ecf6e}
-h1{margin-top:26px;font-weight:900;font-size:104px;line-height:.92;text-transform:uppercase;letter-spacing:-.01em;
-  -webkit-text-stroke:.08em #0a0706;paint-order:stroke fill;text-shadow:.035em .045em 0 #f0b429,.07em .09em 0 #0a0706}
-.role{margin-top:24px;font-size:40px;font-weight:800;color:#ffd06a}
-.stack{margin-top:22px;display:flex;gap:12px}
-.chip{font-family:Tiny5;font-size:22px;text-transform:uppercase;letter-spacing:.05em;background:#221c17;
-  border:3px solid #0a0706;box-shadow:0 4px 0 #0a0706;border-radius:12px;padding:8px 14px;color:#fff3e6}
-.foot{position:absolute;left:78px;bottom:58px;display:flex;gap:28px;align-items:center;font-family:Tiny5;font-size:24px;letter-spacing:.06em;text-transform:uppercase}
-.start{background:#f0b429;color:#120e0b;border:3px solid #0a0706;box-shadow:0 6px 0 #0a0706;border-radius:14px;padding:10px 18px}
-.url{color:rgba(255,243,230,.7)}
-.hero{position:absolute;right:96px;bottom:56px;display:flex;flex-direction:column;align-items:center}
-.hero svg{filter:drop-shadow(0 8px 0 rgba(10,7,6,.85))}
-.ground{width:380px;height:22px;margin-top:-6px;background:#3a2d22;border:4px solid #0a0706;border-radius:6px;box-shadow:inset 0 4px 0 #6b4a2e}
-.bubble{position:absolute;top:40px;left:-96px;background:#fff3e6;color:#120e0b;font-family:Tiny5;font-size:24px;
-  text-transform:uppercase;padding:12px 18px;border:4px solid #0a0706;border-radius:16px;box-shadow:0 6px 0 #0a0706;white-space:nowrap}
-.bubble:after{content:'';position:absolute;right:24px;bottom:-16px;border:10px solid transparent;border-top-color:#0a0706}
+  radial-gradient(620px 520px at 92% 8%,rgba(124,58,237,.42),transparent 70%),
+  radial-gradient(520px 360px at 0% 110%,rgba(124,58,237,.18),transparent 70%)}
+.brand{position:absolute;left:72px;top:58px;display:flex;align-items:center;gap:14px;font-size:26px;font-weight:700;font-stretch:112%}
+.brand img{height:46px;filter:drop-shadow(0 0 14px rgba(139,92,246,.6))}
+.brand span{opacity:.55}
+.name{position:absolute;left:66px;top:150px;font-size:132px;font-weight:860;font-stretch:125%;letter-spacing:-.045em;line-height:.86;text-transform:uppercase;
+  background:linear-gradient(180deg,#fff 10%,#9a9ab0 110%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.role{position:absolute;left:72px;top:398px;font-size:42px;font-weight:650;font-stretch:112%;letter-spacing:-.02em;color:#a78bfa}
+.stack{position:absolute;left:72px;top:460px;font-size:28px;font-weight:500;color:#b4b4c2}
+.status{position:absolute;left:72px;bottom:56px;display:flex;align-items:center;gap:14px;border:1.5px solid rgba(52,211,153,.35);border-radius:999px;padding:12px 22px;font-size:24px;font-weight:600;color:#a7f3d0}
+.status i{width:14px;height:14px;border-radius:50%;background:#34d399;box-shadow:0 0 16px rgba(52,211,153,.8)}
+.photo{position:absolute;right:66px;top:78px;width:330px;height:474px;border-radius:30px;overflow:hidden;background:#d9d9de;
+  box-shadow:0 0 0 2px rgba(237,237,242,.12),0 40px 120px -30px rgba(124,58,237,.8)}
+.photo img{width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.photo::after{content:'';position:absolute;inset:0;background:linear-gradient(200deg,rgba(139,92,246,.4),rgba(76,29,149,.15) 45%,transparent 70%);mix-blend-mode:multiply}
 </style></head><body>
-<div class="glow"></div><div class="grid"></div><div class="scan"></div><div class="frame"></div>
-<div class="left">
-  <span class="tag"><span class="dot"></span>P1 · Abierto a oportunidades</span>
-  <h1>Gabriel<br>Saiz</h1>
-  <p class="role">Desarrollador Full-Stack</p>
-  <div class="stack"><span class="chip">React Native</span><span class="chip">Next.js</span><span class="chip">.NET</span></div>
-</div>
-<div class="foot"><span class="start">▶ Press start</span><span class="url">gabrielcodes.dev</span></div>
-<div class="hero"><span class="bubble">¡Hola!</span>${mascot}<div class="ground"></div></div>
+<div class="glow"></div>
+<div class="brand"><img src="data:image/png;base64,${logo}" alt=""><b>gabriel<span>.codes</span></b></div>
+<div class="name">Gabriel<br>Saiz</div>
+<div class="role">${t.role}</div>
+<div class="stack">${t.stack}</div>
+<div class="status"><i></i>${t.status}</div>
+<div class="photo"><img src="data:image/jpeg;base64,${photo}" alt=""></div>
 </body></html>`;
 
-const browser = await chromium.launch();
-const page = await browser.newPage({ viewport: { width: 1200, height: 630 } });
-await page.setContent(html, { waitUntil: 'load' });
-await page.evaluate(() => document.fonts.ready);
-await page.screenshot({ path: `${root}public/img/og-image.jpg`, type: 'jpeg', quality: 88 });
-await browser.close();
-console.log('OK public/img/og-image.jpg');
+const [chrome] = Launcher.getInstallations();
+if (!chrome) throw new Error('No se ha encontrado Chrome instalado');
+const browser = await puppeteer.launch({ executablePath: chrome, headless: true });
+try {
+  const tab = await browser.newPage();
+  await tab.setViewport({ width: 1200, height: 630, deviceScaleFactor: 1 });
+  for (const t of Object.values(texts)) {
+    await tab.setContent(page(t), { waitUntil: 'load' });
+    await tab.evaluate(() => document.fonts.ready);
+    await tab.screenshot({ path: `${root}public/img/${t.file}`, type: 'jpeg', quality: 88 });
+    console.log(`OK public/img/${t.file}`);
+  }
+} finally {
+  await browser.close();
+}

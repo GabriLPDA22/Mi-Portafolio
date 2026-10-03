@@ -4,7 +4,8 @@
  * página, así nunca se desincroniza ni dice nada que la web no diga.
  */
 import { getT, type Locale } from '@/i18n';
-import { INVENTORY } from '@/data/inventory';
+import { STACK_GROUPS, stackItems, type StackGroup } from '@/data/inventory';
+import { getPro } from '@/lib/pro-content';
 import { personData } from '@/lib/structured-data';
 
 export const SITE = 'https://gabrielcodes.dev';
@@ -62,7 +63,10 @@ ${list(t.about.bullets)}
 
 ## ${es ? 'Stack' : 'Tech stack'}
 
-${INVENTORY.map((i) => i.name).join(', ')}
+${(Object.keys(STACK_GROUPS) as StackGroup[])
+  .map((g) => `- **${getPro(locale).stack.groups[g]}:** ${stackItems(g).map((i) => i.name).join(', ')}`)
+  .join('
+')}
 
 ## ${es ? 'Experiencia' : 'Experience'}
 

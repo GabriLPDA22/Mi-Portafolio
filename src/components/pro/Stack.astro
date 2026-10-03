@@ -1,7 +1,7 @@
 ---
 /** Stack agrupado por uso real: el día a día primero (logos de data/inventory.ts, SVG en build). */
 import Icon from '../Icon.astro';
-import { INVENTORY } from '@/data/inventory';
+import { STACK_GROUPS, stackItems, type StackGroup } from '@/data/inventory';
 import type { Locale } from '@/i18n';
 import { getPro } from '@/lib/pro-content';
 
@@ -10,12 +10,6 @@ interface Props {
 }
 const { locale } = Astro.props;
 const p = getPro(locale);
-const GROUPS = {
-  daily: ['dotnet', 'vue', 'astro', 'tailwind', 'typescript'],
-  arch: ['react-native', 'expo', 'postgresql', 'signalr', 'stripe', 'aws', 'apple-wallet'],
-  clients: ['flutter', 'codemagic', 'symfony', 'wordpress', 'joomla'],
-  also: ['nextjs', 'docker', 'github-actions'],
-} as const;
 // Logos de marca demasiado oscuros para el fondo grafito: misma tinta, más clara
 const ON_DARK: Record<string, string> = {
   '#512BD4': '#9d7bff', // .NET
@@ -24,10 +18,10 @@ const ON_DARK: Record<string, string> = {
   '#02569B': '#4aa8f0', // Flutter
 };
 const logoColor = (c: string) => ON_DARK[c.toUpperCase()] ?? c;
-const groups = (Object.keys(GROUPS) as (keyof typeof GROUPS)[]).map((id) => ({
+const groups = (Object.keys(STACK_GROUPS) as StackGroup[]).map((id) => ({
   id,
   label: p.stack.groups[id],
-  items: GROUPS[id].map((itemId) => INVENTORY.find((i) => i.id === itemId)!),
+  items: stackItems(id),
 }));
 ---
 

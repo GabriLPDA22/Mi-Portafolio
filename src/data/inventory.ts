@@ -221,3 +221,13 @@ export const RARITY_HINT = {
   es: { legendary: 'En producción en ARCH', epic: 'En producción con empresas y clientes', common: 'Caja de herramientas' },
   en: { legendary: 'In production at ARCH', epic: 'In production for companies & clients', common: 'Toolbox' },
 } as const;
+
+/** Grupos del stack por uso real (web y markdown para agentes): el día a día primero. */
+export const STACK_GROUPS = {
+  daily: ['dotnet', 'vue', 'astro', 'tailwind', 'typescript'],
+  arch: ['react-native', 'expo', 'postgresql', 'signalr', 'stripe', 'aws', 'apple-wallet'],
+  clients: ['flutter', 'codemagic', 'symfony', 'wordpress', 'joomla'],
+  also: ['nextjs', 'docker', 'github-actions'],
+} as const;
+export type StackGroup = keyof typeof STACK_GROUPS;
+export const stackItems = (group: StackGroup) => STACK_GROUPS[group].map((id) => INVENTORY.find((i) => i.id === id)!);

@@ -7,7 +7,7 @@ import Experience from './pro/Experience.astro';
 import Stack from './pro/Stack.astro';
 import About from './pro/About.astro';
 import Contact from './pro/Contact.astro';
-import { personData, organizationData, websiteData, breadcrumbsData } from '@/lib/structured-data';
+import { personData, organizationData, websiteData, breadcrumbsData, profilePageData } from '@/lib/structured-data';
 import type { Locale } from '@/i18n';
 
 interface Props {
@@ -16,7 +16,7 @@ interface Props {
 const { locale } = Astro.props;
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@graph': [personData, websiteData(locale), organizationData, breadcrumbsData(locale)],
+  '@graph': [profilePageData(locale), personData, websiteData(locale), organizationData, breadcrumbsData(locale)],
 };
 ---
 
