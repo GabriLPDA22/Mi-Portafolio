@@ -28,12 +28,17 @@ export function initHeader() {
   const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
   const menu = document.querySelector<HTMLElement>('[data-menu]');
   if (toggle && menu) {
+    const header = toggle.closest('header');
     const setOpen = (open: boolean) => {
       toggle.setAttribute('aria-expanded', String(open));
       toggle.setAttribute('aria-label', open ? toggle.dataset.labelClose! : toggle.dataset.labelOpen!);
       menu.dataset.open = String(open);
       menu.toggleAttribute('inert', !open);
       menu.setAttribute('aria-hidden', String(!open));
+      // Lo que queda tapado por el menú no recibe foco (la cabecera sigue activa: tiene el botón)
+      for (const el of document.body.children) {
+        if (el !== menu && el !== header && el.tagName !== 'SCRIPT') el.toggleAttribute('inert', open);
+      }
       // El scroll vive en <html> (overflow-x: hidden), así que se bloquean los dos.
       document.documentElement.style.overflow = open ? 'hidden' : '';
       document.body.style.overflow = open ? 'hidden' : '';

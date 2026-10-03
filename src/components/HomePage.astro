@@ -16,13 +16,13 @@ interface Props {
 const { locale } = Astro.props;
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@graph': [personData, websiteData, organizationData, breadcrumbsData],
+  '@graph': [personData, websiteData(locale), organizationData, breadcrumbsData(locale)],
 };
 ---
 
 <BaseLayout locale={locale} jsonLd={jsonLd} scrollTop boot>
   <div class="w-full max-w-[100vw]">
-    <main class="w-full max-w-[100vw]">
+    <main id="main-content" class="w-full max-w-[100vw]">
       <Hero locale={locale} />
       <div class="relative isolate">
         <About locale={locale} />

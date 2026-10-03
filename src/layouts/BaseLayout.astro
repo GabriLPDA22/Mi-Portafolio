@@ -52,6 +52,8 @@ const { locale, path = '/', title, description, noindex = false, jsonLd, scrollT
 const m = meta[locale];
 const fullTitle = title ? `${title} | Gabriel Saiz` : m.title;
 const desc = description ?? m.description;
+// Título para redes: el de la página si tiene uno propio (legales, 404); si no, el de la portada
+const socialTitle = title ? fullTitle : m.ogTitle;
 const url = (l: Locale) => {
   const p = localePath(l, path);
   return p === '/' ? siteUrl : `${siteUrl}${p}`;
@@ -139,20 +141,27 @@ const keywords = [
     <meta property="og:locale:alternate" content={meta[locale === 'es' ? 'en' : 'es'].ogLocale} />
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content={m.siteName} />
-    <meta property="og:title" content={m.ogTitle} />
-    <meta property="og:description" content={m.description} />
+    <meta property="og:title" content={socialTitle} />
+    <meta property="og:description" content={desc} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={m.ogAlt} />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={m.ogTitle} />
-    <meta name="twitter:description" content={m.description} />
+    <meta name="twitter:title" content={socialTitle} />
+    <meta name="twitter:description" content={desc} />
     <meta name="twitter:image" content={ogImage} />
 
     {jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd).replace(/</g, '\\u003c')} />}
   </head>
   <body class="min-h-screen max-w-[100vw] overflow-x-clip antialiased">
+    <!-- Primer elemento con Tab: salta la navegación (solo visible al recibir el foco) -->
+    <a
+      href="#main-content"
+      class="font-pixel sr-only text-[12px] uppercase tracking-widest focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-xl focus:bg-acid focus:px-4 focus:py-2 focus:text-[#120e0b]"
+    >
+      {locale === 'es' ? 'Saltar al contenido' : 'Skip to content'}
+    </a>
     <Header locale={locale} path={path} />
     <slot />
     {scrollTop && <ScrollToTop locale={locale} />}

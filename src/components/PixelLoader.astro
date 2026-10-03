@@ -104,7 +104,7 @@ const H = MASCOT_TYPING[0].length;
   .pl-once span {
     width: 0;
     transform: none;
-    animation: pl-width 1.6s steps(16) 0.1s forwards !important;
+    animation: pl-width 0.85s steps(16) 0.1s forwards !important;
   }
   @keyframes pl-width {
     to {
@@ -114,7 +114,7 @@ const H = MASCOT_TYPING[0].length;
   .pl-pct {
     margin-left: 0.6em;
     counter-reset: plp var(--pl-p);
-    animation: pl-count 1.6s steps(16) 0.1s forwards;
+    animation: pl-count 0.85s steps(16) 0.1s forwards;
   }
   .pl-pct::after {
     content: counter(plp) '%';
@@ -128,10 +128,10 @@ const H = MASCOT_TYPING[0].length;
   }
   .pl-ready {
     visibility: hidden;
-    animation: pl-show 0s linear 1.75s forwards;
+    animation: pl-show 0s linear 1s forwards;
   }
   .pl-loading {
-    animation: pl-hide 0s linear 1.75s forwards;
+    animation: pl-hide 0s linear 1s forwards;
   }
   @keyframes pl-count {
     to {

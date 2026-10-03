@@ -56,15 +56,18 @@ export const personData = {
   },
 };
 
-export const websiteData = {
+/** Datos del sitio en el idioma de la página (la web es bilingüe: /, /en). */
+export const websiteData = (locale: "es" | "en") => ({
   "@type": "WebSite",
   name: "Gabriel Saiz — Portfolio",
   url: siteUrl,
   description:
-    "Portfolio de Gabriel Saiz, desarrollador full-stack. Proyectos, trayectoria y contacto.",
-  inLanguage: "es-ES",
+    locale === "es"
+      ? "Portfolio de Gabriel Saiz, desarrollador full-stack. Proyectos, trayectoria y contacto."
+      : "Portfolio of Gabriel Saiz, full-stack developer. Projects, experience and contact.",
+  inLanguage: locale === "es" ? "es-ES" : "en-GB",
   author: { "@type": "Person", name: "Gabriel Saiz" },
-};
+});
 
 export const organizationData = {
   "@type": "Person",
@@ -79,13 +82,15 @@ export const organizationData = {
   ],
 };
 
-export const breadcrumbsData = {
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Inicio", item: siteUrl },
-    { "@type": "ListItem", position: 2, name: "Sobre mí", item: `${siteUrl}/#sobre-mi` },
-    { "@type": "ListItem", position: 3, name: "Proyectos", item: `${siteUrl}/#proyectos` },
-    { "@type": "ListItem", position: 4, name: "Trayectoria", item: `${siteUrl}/#trayectoria` },
-    { "@type": "ListItem", position: 5, name: "Contacto", item: `${siteUrl}/#contacto` },
-  ],
+export const breadcrumbsData = (locale: "es" | "en") => {
+  const home = locale === "es" ? siteUrl : `${siteUrl}/en`;
+  const names =
+    locale === "es"
+      ? ["Inicio", "Sobre mí", "Proyectos", "Trayectoria", "Contacto"]
+      : ["Home", "About", "Projects", "Experience", "Contact"];
+  const items = [home, `${home}#sobre-mi`, `${home}#proyectos`, `${home}#trayectoria`, `${home}#contacto`];
+  return {
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, i) => ({ "@type": "ListItem", position: i + 1, name: names[i], item })),
+  };
 };

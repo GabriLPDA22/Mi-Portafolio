@@ -222,6 +222,9 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
     </div>`;
   document.body.appendChild(root);
   document.documentElement.style.overflow = 'hidden';
+  // Modal de verdad: el resto de la página queda inerte (ni Tab ni el lector de pantalla llegan detrás)
+  const behind = [...document.body.children].filter((el) => el !== root && !el.hasAttribute('inert'));
+  behind.forEach((el) => el.setAttribute('inert', ''));
 
   const $ = <T extends HTMLElement>(sel: string) => root.querySelector<T>(sel)!;
   const canvas = $<HTMLCanvasElement>('canvas');
@@ -281,6 +284,14 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
     });
     sfx.select();
     if (next === 'rank') void loadPage(page);
+    // El canvas solo se dibuja en la pestaña Jugar (no gastar CPU/batería con él oculto)
+    if (next !== 'play') {
+      cancelAnimationFrame(raf);
+      raf = 0;
+    } else if (!raf && !document.hidden) {
+      last = performance.now();
+      raf = requestAnimationFrame(tick);
+    }
   };
   tabs.forEach((t, i) => {
     t.addEventListener('click', () => setTab(t.dataset.tab as Tab));
@@ -814,7 +825,7 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
       cancelAnimationFrame(raf);
       raf = 0;
       if (state === 'play') state = 'pause';
-    } else if (!raf) {
+    } else if (!raf && tab === 'play') {
       last = performance.now();
       raf = requestAnimationFrame(tick);
     }
@@ -827,6 +838,7 @@ export function openArcade(texts: Texts, onScore?: (score: number) => void) {
     window.removeEventListener('blur', onBlur);
     document.removeEventListener('visibilitychange', onVisibility);
     document.documentElement.style.overflow = '';
+    behind.forEach((el) => el.removeAttribute('inert'));
     root.remove();
     lastFocus?.focus?.();
   }

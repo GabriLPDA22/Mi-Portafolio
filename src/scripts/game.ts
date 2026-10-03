@@ -41,14 +41,16 @@ export function initBoot() {
     }
     boot.classList.add('is-leaving');
     window.setTimeout(() => boot.remove(), 450);
-    window.removeEventListener('keydown', finish);
+    skip.forEach((ev) => window.removeEventListener(ev, finish));
     boot.removeEventListener('click', finish);
   };
 
-  window.addEventListener('keydown', finish);
+  // Cualquier intento de usar la página (tecla, rueda, toque) la salta
+  const skip = ['keydown', 'wheel', 'touchstart'] as const;
+  skip.forEach((ev) => window.addEventListener(ev, finish, { passive: true }));
   boot.addEventListener('click', finish);
-  // La barra llega al 100 % a los ~1,7 s; se deja ver el "¡Listo!" y se abre.
-  window.setTimeout(finish, 2150);
+  // La barra llega al 100 % a los ~0,95 s; se deja ver el "¡Listo!" y se abre.
+  window.setTimeout(finish, 1250);
 }
 
 /* ------------------------------------------------------------------ */
