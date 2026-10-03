@@ -11,25 +11,18 @@ export default defineConfig({
     // CSS inline en el HTML: sin petición bloqueante antes del primer pintado.
     inlineStylesheets: 'always',
   },
-  // Nunito y Caveat autoalojadas (antes via next/font/google), mismas variables CSS.
   fonts: [
     {
+      // Archivo variable (OFL-1.1, subset latino): ejes de peso 100-900 y anchura 62-125 %.
+      // La anchura es parte del diseño: el nombre del hero pasa de condensado a expandido.
       provider: fontProviders.local(),
-      name: 'Nunito',
-      cssVariable: '--font-nunito',
+      name: 'Archivo',
+      cssVariable: '--font-archivo',
       fallbacks: ['system-ui', 'sans-serif'],
       options: {
-        variants: [{ src: ['./src/assets/fonts/nunito-latin-wght-normal.woff2'], weight: '200 1000', style: 'normal' }],
-      },
-    },
-    {
-      provider: fontProviders.local(),
-      name: 'Caveat',
-      cssVariable: '--font-caveat',
-      fallbacks: ['cursive'],
-      options: {
-        // Instancia estática del peso 600 (el único que se usa), subset latino.
-        variants: [{ src: ['./src/assets/fonts/caveat-latin-600.woff2'], weight: '600', style: 'normal' }],
+        variants: [
+          { src: ['./src/assets/fonts/archivo-latin-wdth-wght.woff2'], weight: '100 900', stretch: '62% 125%', style: 'normal' },
+        ],
       },
     },
     {

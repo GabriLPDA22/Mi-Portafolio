@@ -1,106 +1,57 @@
 ---
-import SocialPills from './SocialPills.astro';
-import { getT, homePath, localePath, type Locale } from '@/i18n';
+/** Pie: datos, enlaces legales y el guiño al minijuego (botón visible solo con JS). */
+import Mascot from './Mascot.astro';
+import { getT, localePath, type Locale } from '@/i18n';
+import { getPro, LINKS } from '@/lib/pro-content';
 
 interface Props {
   locale: Locale;
 }
 const { locale } = Astro.props;
 const t = getT(locale);
-const home = homePath(locale);
-const es = locale === 'es';
-
-const routes = [
-  { href: home, label: es ? 'Inicio' : 'Home' },
-  { href: `${home}#sobre-mi`, label: t.nav.about },
-  { href: `${home}#proyectos`, label: t.nav.projects },
-  { href: `${home}#servicios`, label: t.nav.services },
-  { href: `${home}#trayectoria`, label: es ? 'Trayectoria' : 'Experience' },
-  { href: `${home}#contacto`, label: t.nav.contact },
-];
+const p = getPro(locale);
 const year = new Date().getFullYear();
 ---
 
-<footer data-scrub-scope class="relative overflow-hidden border-t border-white/[0.06] pt-16 xl:pt-24">
-  <div class="container-main relative z-10 flex flex-col items-center gap-8 pb-14 xl:gap-12 xl:pb-20">
-    <a href={home} class="font-pixel text-[12px] uppercase tracking-widest text-acid transition-colors hover:text-acid-light">
-      {es ? '¿Continuar?' : 'Continue?'} <span aria-hidden="true">▶</span> {es ? 'Volver al inicio' : 'Back to start'}
-    </a>
-    <nav class="flex max-w-xs flex-wrap justify-center gap-x-8 gap-y-3 sm:max-w-none" aria-label={es ? 'Pie de página' : 'Footer'}>
-      {
-        routes.map((r) => (
-          <a href={r.href} class="text-base text-ink/65 transition-colors hover:text-ink xl:text-lg">
-            {r.label}
-          </a>
-        ))
-      }
-    </nav>
-    <SocialPills compact />
-    <button type="button" data-arcade-open hidden class="arcade-open font-pixel inline-flex items-center gap-2.5">
-      <svg viewBox="0 0 9 9" width="16" height="16" shape-rendering="crispEdges" aria-hidden="true" class="joy shrink-0">
-        <rect x="3" y="0" width="3" height="3" fill="#e0457b" /><rect x="4" y="3" width="1" height="3" fill="#fff3e6" />
-        <rect x="1" y="6" width="7" height="2" fill="#f0b429" /><rect x="0" y="8" width="9" height="1" fill="#d4921f" />
-      </svg>
-      <span class="leading-none">{es ? 'Modo arcade' : 'Arcade mode'}</span>
-      <span class="coin rounded-md bg-acid px-2 py-1 leading-none text-noir" aria-hidden="true">{es ? 'Jugar' : 'Play'}</span>
-    </button>
-    <div class="flex flex-col items-center gap-4 text-[12.5px] text-ink/65 sm:flex-row sm:gap-8">
-      <p>© {year} Gabriel Saiz. {t.footer.copyright}</p>
-      <div class="flex gap-5">
-        <a href={localePath(locale, '/privacidad')} class="hover:text-acid">{t.legalHub.privacy}</a>
-        <a href={localePath(locale, '/aviso-legal')} class="hover:text-acid">{t.legalHub.legalNotice}</a>
-      </div>
+<footer class="border-t border-white/[0.07]">
+  <div class="container-main flex flex-col gap-8 py-10 md:flex-row md:items-center md:justify-between">
+    <div class="text-[14px] text-muted">
+      <p class="font-semibold text-text">© {year} Gabriel Saiz</p>
+      <p class="mt-1"><a href={`mailto:${LINKS.email}`} class="link">{LINKS.email}</a></p>
+      <p class="mt-3 flex gap-5">
+        <a href={localePath(locale, '/privacidad')} class="hover:text-text">{t.legalHub.privacy}</a>
+        <a href={localePath(locale, '/aviso-legal')} class="hover:text-text">{t.legalHub.legalNotice}</a>
+      </p>
     </div>
+
+    <button type="button" data-arcade-open hidden class="egg" title={p.footer.konami}>
+      <Mascot class="h-10 w-auto shrink-0" />
+      <span>{p.footer.play}</span>
+    </button>
   </div>
-  <p
-    aria-hidden="true"
-    data-scrub={JSON.stringify({ y: 20, scale: 1.03 })}
-    class="footer-watermark-gsap pointer-events-none relative z-0 -mb-6 bg-gradient-to-t from-noir from-15% to-transparent text-center font-pixel uppercase text-[clamp(3rem,12vw,12rem)] leading-none text-ink/[0.06] xl:-mb-10"
-  >
-    Developer
-  </p>
 </footer>
 
 <style>
-  .arcade-open {
-    border: 3px solid #0a0706;
-    border-radius: 0.8rem;
-    background: #221c17;
-    color: #f0b429;
-    padding: 0.45rem 0.5rem 0.45rem 0.75rem;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    box-shadow: 0 4px 0 #0a0706;
+  .egg {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    border: 1px dashed rgba(237, 237, 242, 0.16);
+    border-radius: 1rem;
+    padding: 0.5rem 1rem 0.5rem 0.6rem;
+    font-size: 14px;
+    font-weight: 550;
+    color: #8a8a99;
     cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transition:
+      border-color 0.15s ease,
+      color 0.15s ease;
   }
-  .arcade-open:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 0 #0a0706;
+  .egg:hover {
+    border-color: rgba(167, 139, 250, 0.6);
+    color: #ededf2;
   }
-  .arcade-open:active {
-    transform: translateY(3px);
-    box-shadow: 0 1px 0 #0a0706;
-  }
-  .joy {
+  .egg :global(svg) {
     image-rendering: pixelated;
-  }
-  /* "botón" de la recreativa: pastilla dorada con parpadeo tipo INSERT COIN */
-  .coin {
-    box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.25);
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .coin {
-      animation: coin-blink 1.2s steps(1) infinite;
-    }
-    .arcade-open:hover .coin {
-      animation: none;
-    }
-  }
-  @keyframes coin-blink {
-    50% {
-      background: #ffd06a;
-    }
   }
 </style>

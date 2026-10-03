@@ -86,9 +86,9 @@ export const breadcrumbsData = (locale: "es" | "en") => {
   const home = locale === "es" ? siteUrl : `${siteUrl}/en`;
   const names =
     locale === "es"
-      ? ["Inicio", "Sobre mí", "Proyectos", "Trayectoria", "Contacto"]
+      ? ["Inicio", "Sobre mí", "Proyectos", "Experiencia", "Contacto"]
       : ["Home", "About", "Projects", "Experience", "Contact"];
-  const items = [home, `${home}#sobre-mi`, `${home}#proyectos`, `${home}#trayectoria`, `${home}#contacto`];
+  const items = [home, `${home}#sobre-mi`, `${home}#proyectos`, `${home}#experiencia`, `${home}#contacto`];
   return {
     "@type": "BreadcrumbList",
     itemListElement: items.map((item, i) => ({ "@type": "ListItem", position: i + 1, name: names[i], item })),

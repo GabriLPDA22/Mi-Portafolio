@@ -1,0 +1,144 @@
+---
+/** Experiencia: línea de tiempo (es una secuencia real, por eso lleva fechas y una línea). */
+import Icon from '../Icon.astro';
+import { getT, type Locale } from '@/i18n';
+import { getPro } from '@/lib/pro-content';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = getT(locale);
+const p = getPro(locale);
+---
+
+<section id="experiencia" class="section cv-auto scroll-mt-16">
+  <div class="container-main">
+    <h2 class="h2">{p.experience.title}</h2>
+    <p class="lead mt-5">{p.experience.intro}</p>
+
+    <ol class="timeline mt-14">
+      {
+        t.experience.items.map((job, i) => (
+          <li class:list={['job', i === 0 && 'is-latest']}>
+            <p class="job-period">{job.period}</p>
+            <div class="job-body">
+              <h3 class="text-[1.45rem] font-[750] leading-tight tracking-[-0.025em] [font-stretch:112%]">{job.role}</h3>
+              <p class="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[15px] text-muted">
+                {'url' in job && job.url ? (
+                  <a href={job.url} target="_blank" rel="noopener noreferrer" class="link font-semibold text-text">
+                    {job.company}
+                  </a>
+                ) : (
+                  <span class="font-semibold text-text">{job.company}</span>
+                )}
+                <span class="inline-flex items-center gap-1">
+                  <Icon name="MapPin" class="h-3.5 w-3.5" strokeWidth={2} />
+                  {job.location}
+                </span>
+              </p>
+              <p class="mt-4 max-w-[42rem] text-[16px]">{job.description}</p>
+              <ul class="mt-4 grid max-w-[44rem] gap-2">
+                {job.bullets.map((b) => (
+                  <li class="flex gap-2.5 text-[15.5px] leading-snug text-muted">
+                    <span class="mt-[0.55em] h-1 w-1 shrink-0 rounded-full bg-violet-light" aria-hidden="true" />
+                    {b}
+                  </li>
+                ))}
+              </ul>
+              <ul class="chips mt-5">
+                {job.chips.map((c) => <li>{c}</li>)}
+              </ul>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .timeline {
+    display: grid;
+  }
+  .job {
+    position: relative;
+    display: grid;
+    gap: 0.6rem;
+    padding-bottom: 3.25rem;
+    padding-left: 1.75rem;
+  }
+  .job:last-child {
+    padding-bottom: 0;
+  }
+  /* Línea y punto */
+  .job::before {
+    content: '';
+    position: absolute;
+    left: 0.28rem;
+    top: 0.6rem;
+    bottom: -0.6rem;
+    width: 1px;
+    background: linear-gradient(rgba(237, 237, 242, 0.14), rgba(237, 237, 242, 0.06));
+  }
+  .job:last-child::before {
+    display: none;
+  }
+  .job::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.45rem;
+    height: 0.6rem;
+    width: 0.6rem;
+    border-radius: 999px;
+    background: #16161b;
+    box-shadow: inset 0 0 0 1.5px rgba(237, 237, 242, 0.35);
+  }
+  .job.is-latest::after {
+    background: #8b5cf6;
+    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.2), 0 0 16px rgba(139, 92, 246, 0.7);
+  }
+  .job-period {
+    font-size: 15px;
+    font-weight: 600;
+    font-stretch: 110%;
+    color: #8a8a99;
+  }
+  @media (min-width: 900px) {
+    .job {
+      grid-template-columns: 11rem minmax(0, 1fr);
+      gap: 2.5rem;
+      padding-left: 0;
+    }
+    .job::before {
+      left: 12.2rem;
+    }
+    .job::after {
+      left: 11.95rem;
+    }
+    .job-body {
+      padding-left: 2.25rem;
+    }
+    .job-period {
+      font-size: 1.35rem;
+      line-height: 1.3;
+      text-align: right;
+      padding-right: 1.5rem;
+    }
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+  .chips li {
+    border: 1px solid rgba(237, 237, 242, 0.1);
+    border-radius: 999px;
+    padding: 0.3rem 0.7rem;
+    font-size: 13px;
+    font-weight: 500;
+    color: #b4b4c2;
+  }
+</style>

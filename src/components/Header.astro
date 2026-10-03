@@ -1,13 +1,11 @@
 ---
 /**
- * Cabecera como HUD de videojuego: barra de XP que se llena con el scroll, indicador del
- * nivel (sección) actual y enlaces en fuente pixel. En móvil/tablet el menú es una
- * pantalla de "PAUSA" con cursor ▶.
+ * Cabecera: transparente sobre el hero y barra grafito translúcida al hacer scroll.
+ * En móvil, menú a pantalla completa (lo gestiona initHeader en scripts/ui.ts).
  */
-import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
-import brandMark from '@/assets/img/brand-mark-64.png';
-import { getT, homePath, localePath, otherLocale, type Locale } from '@/i18n';
+import { homePath, localePath, otherLocale, type Locale } from '@/i18n';
+import { getPro, LINKS } from '@/lib/pro-content';
 
 interface Props {
   locale: Locale;
@@ -16,340 +14,271 @@ interface Props {
 }
 
 const { locale, path = '/' } = Astro.props;
-const t = getT(locale);
+const p = getPro(locale);
 const es = locale === 'es';
 const home = homePath(locale);
 const other = otherLocale(locale);
 // La 404 solo existe en español: el cambio de idioma lleva a la portada del otro idioma.
 const switchPath = path === '/404' ? '/' : path;
 
-// Mismo orden que la portada; el número es el "nivel" de cada sección.
-const levels = [
-  { id: 'sobre-mi', label: t.nav.about },
-  { id: 'servicios', label: t.nav.services },
-  { id: 'proyectos', label: t.nav.projects },
-  { id: 'trayectoria', label: es ? 'Trayectoria' : 'Experience' },
-  { id: 'resultados', label: es ? 'Cómo trabajo' : 'How I work' },
-  { id: 'contacto', label: t.nav.contact },
-].map((l, i) => ({ ...l, n: String(i + 1).padStart(2, '0'), href: `${home}#${l.id}` }));
-const navItems = levels.slice(0, 5);
+const items = [
+  { id: 'proyectos', label: p.nav.projects },
+  { id: 'experiencia', label: p.nav.experience },
+  { id: 'stack', label: p.nav.stack },
+  { id: 'sobre-mi', label: p.nav.about },
+  { id: 'contacto', label: p.nav.contact },
+].map((i) => ({ ...i, href: `${home}#${i.id}` }));
 
 const langLabel = other === 'en' ? 'Read in English' : 'Leer en español';
 const labels = es ? { open: 'Abrir menú', close: 'Cerrar menú' } : { open: 'Open menu', close: 'Close menu' };
 ---
 
-<header class="fixed inset-x-0 top-0 z-50 w-full">
-  <div class="container-main">
-    <div data-header-bar class="hud-bar mt-2.5 sm:mt-3.5">
-      <div class="flex items-center justify-between gap-2 px-2.5 py-2 sm:px-3.5">
-        <!-- Marca -->
-        <a
-          href={home}
-          data-home-link
-          class="group flex min-w-0 items-center gap-2 font-display text-[16px] font-bold tracking-tight text-ink sm:text-lg"
-          aria-label={es ? 'gabriel.codes — Gabriel Saiz, inicio' : 'gabriel.codes — Gabriel Saiz, home'}
-        >
-          <span class="relative inline-block h-7 w-7 shrink-0 transition-transform duration-300 group-hover:rotate-[-8deg]">
-            <Image src={brandMark} alt="" width={28} densities={[1, 2]} class="h-full w-full object-contain" loading="eager" />
-          </span>
-          <span class="truncate">
-            gabriel<span class="text-acid">.</span><span class="text-ink/65">codes</span>
-          </span>
-        </a>
+<header data-site-header class="site-header fixed inset-x-0 top-0 z-50">
+  <div class="container-main flex h-[4.5rem] items-center justify-between gap-4">
+    <a href={home} data-home-link class="brand flex shrink-0 items-center gap-2.5" aria-label={es ? 'Gabriel Saiz, inicio' : 'Gabriel Saiz, home'}>
+      <span class="logo-mark" aria-hidden="true">g</span>
+      <span class="text-[17px] font-bold tracking-[-0.01em] [font-stretch:112%]">gabriel<span class="opacity-60">.codes</span></span>
+    </a>
 
-        <!-- Navegación de escritorio -->
-        <nav class="hidden items-center gap-0.5 lg:flex" aria-label={es ? 'Navegación principal' : 'Main navigation'}>
-          {
-            navItems.map((item) => (
-              <a href={item.href} data-nav-link={item.id} class="hud-link font-pixel">
-                {item.label}
-              </a>
-            ))
-          }
-        </nav>
-
-        <div class="flex shrink-0 items-center gap-1.5 sm:gap-2">
-          <!-- Nivel actual (lo actualiza el script al hacer scroll) -->
-          <span data-hud-level class="hud-level font-pixel" aria-hidden="true">
-            {es ? 'Nv' : 'Lv'} <span data-hud-level-n>00</span>
-          </span>
-          <a
-            href={localePath(other, switchPath)}
-            hreflang={other}
-            lang={other}
-            data-lang-switch
-            class="hud-chip-btn font-pixel"
-            aria-label={`${locale.toUpperCase()} — ${langLabel}`}
-            title={langLabel}
-          >
-            {locale}
+    <nav class="hidden items-center gap-1 lg:flex" aria-label={es ? 'Principal' : 'Main'}>
+      {
+        items.map((item) => (
+          <a href={item.href} data-nav-link={item.id} class="nav-link">
+            {item.label}
           </a>
-          <span class="hidden lg:contents">
-            <a href={`${home}#contacto`} class="start-btn !gap-1.5 !rounded-xl !px-3.5 !py-1.5 text-[13px] font-black uppercase">
-              ▶ {t.nav.contact}
-            </a>
-          </span>
-          <button
-            type="button"
-            data-menu-toggle
-            data-label-open={labels.open}
-            data-label-close={labels.close}
-            class="hud-menu-btn font-pixel lg:hidden"
-            aria-label={labels.open}
-            aria-expanded="false"
-            aria-controls="mobile-menu"
-          >
-            <span class="hud-menu-icon" aria-hidden="true"><span></span><span></span></span>
-            <span aria-hidden="true">{es ? 'Menú' : 'Menu'}</span>
-          </button>
-        </div>
-      </div>
+        ))
+      }
+    </nav>
 
-      <!-- Barra de XP: progreso de la página -->
-      <div class="hud-xp" aria-hidden="true"><span></span></div>
+    <div class="flex items-center gap-2">
+      <a
+        href={localePath(other, switchPath)}
+        hreflang={other}
+        lang={other}
+        data-lang-switch
+        class="lang"
+        aria-label={langLabel}
+        title={langLabel}
+      >
+        {other.toUpperCase()}
+      </a>
+      <a href={LINKS.cv} download="Gabriel-Saiz-CV.pdf" class="btn btn-primary hidden !min-h-[2.5rem] !px-4 !text-[14px] sm:inline-flex">
+        <Icon name="Download" strokeWidth={2.2} />
+        {p.nav.cv}
+      </a>
+      <button
+        type="button"
+        data-menu-toggle
+        data-label-open={labels.open}
+        data-label-close={labels.close}
+        class="menu-btn lg:hidden"
+        aria-label={labels.open}
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span class="menu-icon" aria-hidden="true"><span></span><span></span></span>
+      </button>
     </div>
   </div>
 </header>
 
-<!-- Menú de pausa (móvil/tablet) -->
-<div id="mobile-menu" data-menu data-open="false" inert aria-hidden="true" class="pause group/menu lg:hidden">
-  <div class="container-main flex min-h-full flex-col pb-8 pt-28">
-    <p class="font-pixel text-[11px] uppercase tracking-[0.3em] text-acid">— {es ? 'Juego en pausa' : 'Game paused'} —</p>
-    <p class="game-title mt-2 text-[3.4rem] leading-none">{es ? 'Pausa' : 'Pause'}</p>
-
-    <nav class="mt-8 flex-1" aria-label={es ? 'Menú móvil' : 'Mobile menu'}>
-      <ul class="flex flex-col gap-1.5">
+<!-- Menú móvil a pantalla completa -->
+<div id="mobile-menu" data-menu data-open="false" inert aria-hidden="true" class="mobile-menu lg:hidden">
+  <div class="container-main flex min-h-full flex-col pb-10 pt-28">
+    <nav aria-label={es ? 'Menú móvil' : 'Mobile menu'} class="flex-1">
+      <ul class="flex flex-col">
         {
-          levels.map((item, i) => (
-            <li class="pause-item" style={`--i:${i}`}>
-              <a href={item.href} data-nav-link={item.id} class="pause-link">
-                <span class="pause-cursor" aria-hidden="true">
-                  ▶
-                </span>
-                <span class="font-pixel w-12 shrink-0 text-[10px] uppercase tracking-wider text-ink/45">
-                  {es ? 'Nv' : 'Lv'} {item.n}
-                </span>
-                <span class="min-w-0 flex-1 truncate">{item.label}</span>
+          items.map((item, i) => (
+            <li class="menu-item" style={`--i:${i}`}>
+              <a href={item.href} data-nav-link={item.id} class="menu-link">
+                {item.label}
               </a>
             </li>
           ))
         }
       </ul>
     </nav>
-
-    <div class="pause-item mt-8 flex flex-col gap-4" style="--i:6">
-      <button type="button" data-menu-close class="start-btn w-full justify-center text-[16px] font-black uppercase">
-        ▶ {es ? 'Continuar' : 'Resume'}
-      </button>
-      <div class="flex items-center justify-between gap-3 text-[13px] text-ink/65">
-        <a href={localePath(other, switchPath)} hreflang={other} lang={other} data-lang-switch class="inline-flex items-center gap-2 hover:text-acid">
-          <Icon name="Languages" class="h-4 w-4" strokeWidth={1.8} />
-          {langLabel}
-        </a>
-        <a href="mailto:gsaiz.bajo@gmail.com" class="hover:text-acid">gsaiz.bajo@gmail.com</a>
+    <div class="menu-item mt-10 flex flex-col gap-3" style="--i:5">
+      <a href={LINKS.cv} download="Gabriel-Saiz-CV.pdf" class="btn btn-primary w-full">
+        <Icon name="Download" strokeWidth={2.2} />
+        {p.nav.cv}
+      </a>
+      <div class="flex gap-3">
+        <a href={LINKS.linkedin} target="_blank" rel="noopener noreferrer" class="btn btn-ghost flex-1">LinkedIn</a>
+        <a href={LINKS.github} target="_blank" rel="noopener noreferrer" class="btn btn-ghost flex-1">GitHub</a>
       </div>
+      <a href={`mailto:${LINKS.email}`} class="link mt-2 text-center text-[15px] text-muted">{LINKS.email}</a>
     </div>
   </div>
 </div>
 
+<script>
+  // Fondo de la cabecera en cuanto se hace scroll (sobre el hero va transparente)
+  const header = document.querySelector<HTMLElement>('[data-site-header]');
+  if (header) {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      header.toggleAttribute('data-scrolled', window.scrollY > 24);
+    };
+    update();
+    window.addEventListener('scroll', () => (frame ||= requestAnimationFrame(update)), { passive: true });
+  }
+</script>
+
 <style>
-  /* ---------- Barra HUD ---------- */
-  .hud-bar {
-    position: relative;
-    overflow: hidden;
-    border: 3px solid #0a0706;
-    border-radius: 1rem;
-    background: rgba(34, 28, 23, 0.92);
-    box-shadow:
-      inset 0 2px 0 rgba(255, 243, 230, 0.07),
-      0 4px 0 #0a0706;
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
-  }
-  .hud-xp {
-    height: 5px;
-    background: repeating-linear-gradient(90deg, #120e0b 0 10px, #0a0706 10px 12px);
-  }
-  .hud-xp span {
-    display: block;
-    height: 100%;
-    width: 100%;
-    transform-origin: left;
-    transform: scaleX(var(--xp, 0));
-    background: repeating-linear-gradient(90deg, #f0b429 0 10px, #d4921f 10px 12px);
-  }
-
-  .hud-link {
-    border-radius: 0.5rem;
-    padding: 0.45rem 0.6rem;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: rgba(255, 243, 230, 0.7);
-    transition:
-      background-color 0.15s ease,
-      color 0.15s ease;
-  }
-  .hud-link:hover {
-    background: rgba(255, 243, 230, 0.07);
-    color: #fff3e6;
-  }
-  .hud-link[aria-current='true'] {
-    background: #f0b429;
-    color: #120e0b;
-  }
-
-  .hud-level {
-    display: inline-flex;
-    height: 2.1rem;
-    align-items: center;
-    gap: 0.3rem;
-    border-radius: 0.55rem;
-    background: #120e0b;
-    padding: 0 0.55rem;
-    font-size: 11px;
-    text-transform: uppercase;
-    color: rgba(255, 243, 230, 0.55);
-  }
-  .hud-level [data-hud-level-n] {
-    color: #f0b429;
-  }
-  .hud-chip-btn {
+  .logo-mark {
     display: inline-grid;
-    height: 2.1rem;
-    min-width: 2.4rem;
+    height: 2rem;
+    width: 2rem;
     place-items: center;
-    border: 2px solid rgba(255, 243, 230, 0.15);
-    border-radius: 0.55rem;
-    padding: 0 0.45rem;
-    font-size: 12px;
-    text-transform: uppercase;
-    color: rgba(255, 243, 230, 0.8);
-    transition:
-      border-color 0.15s ease,
-      color 0.15s ease;
+    border-radius: 0.6rem;
+    background: linear-gradient(145deg, #a78bfa, #6d28d9);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    font-size: 19px;
+    font-weight: 850;
+    font-stretch: 125%;
+    line-height: 1;
+    color: #fff;
+    padding-bottom: 0.15em;
   }
-  .hud-chip-btn:hover {
-    border-color: #f0b429;
-    color: #f0b429;
+  .site-header {
+    color: #ededf2;
+    transition:
+      background-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+  .site-header[data-scrolled] {
+    background: rgba(12, 12, 15, 0.78);
+    box-shadow: 0 1px 0 rgba(237, 237, 242, 0.07);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+  }
+  .nav-link {
+    border-radius: 999px;
+    padding: 0.5rem 0.85rem;
+    font-size: 15px;
+    font-weight: 550;
+    color: #8a8a99;
+    transition:
+      color 0.15s ease,
+      background-color 0.15s ease;
+  }
+  .nav-link:hover {
+    color: #ededf2;
+  }
+  .nav-link[aria-current='true'] {
+    color: #ededf2;
+    background: rgba(237, 237, 242, 0.07);
+  }
+  .lang {
+    display: inline-grid;
+    height: 2.5rem;
+    min-width: 2.5rem;
+    place-items: center;
+    border: 1px solid rgba(237, 237, 242, 0.16);
+    color: #8a8a99;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    transition: border-color 0.15s ease;
+  }
+  .lang:hover {
+    border-color: rgba(237, 237, 242, 0.4);
+    color: #ededf2;
   }
 
-  .hud-menu-btn {
+  .menu-btn {
     position: relative;
-    z-index: 50;
-    display: inline-flex;
-    height: 2.1rem;
-    align-items: center;
-    gap: 0.45rem;
-    border: 2px solid #0a0706;
-    border-radius: 0.55rem;
-    background: #f0b429;
-    padding: 0 0.6rem;
-    font-size: 11px;
-    text-transform: uppercase;
-    color: #120e0b;
-    box-shadow: 0 3px 0 #0a0706;
+    z-index: 60;
+    display: inline-grid;
+    height: 2.5rem;
+    width: 2.5rem;
+    place-items: center;
+    border-radius: 999px;
+    background: #ededf2;
+    color: #0c0c0f;
     cursor: pointer;
   }
   @media (min-width: 1024px) {
-    .hud-menu-btn {
+    .menu-btn {
       display: none;
     }
   }
-  .hud-menu-btn:active {
-    transform: translateY(2px);
-    box-shadow: 0 1px 0 #0a0706;
-  }
-  /* Icono de pausa ⏸ que pasa a ✕ al abrir */
-  .hud-menu-icon {
+  .menu-icon {
     position: relative;
-    display: inline-flex;
+    display: block;
     height: 10px;
-    width: 10px;
-    justify-content: space-between;
+    width: 18px;
   }
-  .hud-menu-icon span {
-    height: 10px;
-    width: 3px;
-    background: currentColor;
-    transition: transform 0.2s steps(3);
-  }
-  .hud-menu-btn[aria-expanded='true'] .hud-menu-icon {
-    justify-content: center;
-  }
-  .hud-menu-btn[aria-expanded='true'] .hud-menu-icon span {
+  .menu-icon span {
     position: absolute;
-    left: 3.5px;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    border-radius: 2px;
+    background: currentColor;
+    transition: transform 0.25s ease, top 0.25s ease;
   }
-  .hud-menu-btn[aria-expanded='true'] .hud-menu-icon span:first-child {
+  .menu-icon span:first-child {
+    top: 0;
+  }
+  .menu-icon span:last-child {
+    top: 8px;
+  }
+  .menu-btn[aria-expanded='true'] .menu-icon span {
+    top: 4px;
+  }
+  .menu-btn[aria-expanded='true'] .menu-icon span:first-child {
     transform: rotate(45deg);
   }
-  .hud-menu-btn[aria-expanded='true'] .hud-menu-icon span:last-child {
+  .menu-btn[aria-expanded='true'] .menu-icon span:last-child {
     transform: rotate(-45deg);
   }
 
-  /* ---------- Pantalla de pausa ---------- */
-  .pause {
+  .mobile-menu {
     position: fixed;
     inset: 0;
     z-index: 48; /* por encima del aviso de cookies (45), por debajo de la cabecera (50) */
     overflow-y: auto;
     background:
-      repeating-linear-gradient(0deg, rgba(10, 7, 6, 0.35) 0 2px, transparent 2px 4px),
-      radial-gradient(ellipse at 80% 0%, rgba(240, 180, 41, 0.14), transparent 55%),
-      #120e0b;
+      radial-gradient(600px circle at 90% 0%, rgba(139, 92, 246, 0.22), transparent 60%),
+      #0c0c0f;
+    color: #ededf2;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.2s steps(4);
+    transition: opacity 0.25s ease;
   }
-  .pause[data-open='true'] {
+  .mobile-menu[data-open='true'] {
     opacity: 1;
     pointer-events: auto;
   }
-  .pause-item {
-    opacity: 0;
-    transform: translateX(-12px);
-    transition:
-      opacity 0.25s steps(3),
-      transform 0.25s steps(3);
+  .menu-link {
+    display: block;
+    padding: 0.35rem 0;
+    font-size: clamp(2.2rem, 10vw, 3.2rem);
+    font-weight: 800;
+    font-stretch: 118%;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
   }
-  .pause[data-open='true'] .pause-item {
+  .menu-link[aria-current='true'] {
+    color: #a78bfa;
+  }
+  .menu-item {
+    opacity: 0;
+    transform: translateY(10px);
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
+  }
+  .mobile-menu[data-open='true'] .menu-item {
     opacity: 1;
     transform: none;
-    transition-delay: calc(var(--i) * 45ms + 80ms);
-  }
-  .pause-link {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    border: 3px solid transparent;
-    border-radius: 0.9rem;
-    padding: 0.8rem 0.9rem;
-    font-size: 1.45rem;
-    font-weight: 900;
-    color: #fff3e6;
-  }
-  .pause-cursor {
-    width: 1rem;
-    font-size: 0.7em;
-    color: #f0b429;
-    opacity: 0;
-  }
-  .pause-link:hover,
-  .pause-link:focus-visible,
-  .pause-link[aria-current='true'] {
-    border-color: #0a0706;
-    background: #221c17;
-    box-shadow: 0 4px 0 #0a0706;
-    outline: none;
-  }
-  .pause-link:hover .pause-cursor,
-  .pause-link:focus-visible .pause-cursor,
-  .pause-link[aria-current='true'] .pause-cursor {
-    opacity: 1;
+    transition-delay: calc(var(--i) * 40ms + 60ms);
   }
   @media (prefers-reduced-motion: reduce) {
-    .pause-item {
+    .menu-item {
       transform: none;
     }
   }

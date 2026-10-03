@@ -1,0 +1,298 @@
+---
+/**
+ * Hero: el nombre en Archivo, que al cargar pasa de condensado a expandido (único momento
+ * animado de la página), foto en duotono violeta y la lista de lo que está en producción hoy.
+ * La luz violeta del fondo sigue al ratón (scripts/glow.ts).
+ */
+import { Image } from 'astro:assets';
+import Icon from '../Icon.astro';
+import photo from '@/assets/img/Yo.webp';
+import type { Locale } from '@/i18n';
+import { getPro, LINKS } from '@/lib/pro-content';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const p = getPro(locale);
+const h = p.hero;
+---
+
+<section id="inicio" data-glow class="hero relative overflow-hidden">
+  <div class="aura" aria-hidden="true"></div>
+  <div class="container-main hero-grid">
+    <div class="hero-copy">
+      <h1 class="hero-name" aria-label="Gabriel Saiz">
+        <span class="w w1" aria-hidden="true">Gabriel</span>
+        <span class="w w2" aria-hidden="true">Saiz</span>
+      </h1>
+      <p class="hero-role">{h.role}</p>
+      <p class="lead mt-5">{h.lead}</p>
+
+      <p class="avail mt-7">
+        <span class="live" aria-hidden="true"></span>
+        {h.availability}
+      </p>
+
+      <div class="mt-8 flex flex-wrap items-center gap-3">
+        <a href={LINKS.cv} download="Gabriel-Saiz-CV.pdf" class="btn btn-primary">
+          <Icon name="Download" strokeWidth={2.2} />
+          {h.cv}
+        </a>
+        <a href="#proyectos" class="btn btn-ghost">{h.projects}</a>
+        <a href={LINKS.linkedin} target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-icon" aria-label="LinkedIn">
+          <Icon name="Linkedin" strokeWidth={1.9} />
+        </a>
+        <a href={LINKS.github} target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-icon" aria-label="GitHub">
+          <Icon name="Github" strokeWidth={1.9} />
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <figure class="portrait">
+        <Image src={photo} alt={h.photoAlt} widths={[360, 560, 760]} sizes="(min-width: 1024px) 34vw, 80vw" loading="eager" fetchpriority="high" />
+      </figure>
+
+      <section class="ledger" aria-labelledby="ledger-title">
+        <h2 id="ledger-title" class="ledger-title">
+          <span class="live" aria-hidden="true"></span>
+          {h.ledgerTitle}
+        </h2>
+        <ul>
+          {
+            h.ledger.map((row, i) => (
+              <li style={`--i:${i}`}>
+                <a href={row.href} target="_blank" rel="noopener noreferrer" class="ledger-row">
+                  <span class="min-w-0">
+                    <span class="block truncate font-semibold text-text">{row.name}</span>
+                    <span class="block truncate text-[13.5px] text-muted">{row.what}</span>
+                  </span>
+                  <span class="ledger-where">{row.where}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    --glow-size: 700px;
+    --glow-alpha: 0.13;
+    padding-top: 7.5rem;
+    padding-bottom: clamp(3.5rem, 8vw, 6rem);
+  }
+  /* Halo fijo detrás de la foto: el color de la página sale de aquí */
+  .aura {
+    position: absolute;
+    right: -10%;
+    top: -20%;
+    z-index: -1;
+    height: 70rem;
+    width: 70rem;
+    max-width: 140vw;
+    border-radius: 999px;
+    background: radial-gradient(closest-side, rgba(124, 58, 237, 0.32), rgba(124, 58, 237, 0.08) 55%, transparent);
+    pointer-events: none;
+  }
+  .hero-grid {
+    display: grid;
+    gap: 3.5rem;
+    align-items: center;
+  }
+  @media (min-width: 1024px) {
+    .hero {
+      min-height: min(100svh, 56rem);
+      display: flex;
+      align-items: center;
+      padding-top: 8.5rem;
+      padding-bottom: 5rem;
+    }
+    .hero-grid {
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+      gap: 3rem;
+    }
+  }
+
+  /* ---------- Nombre ---------- */
+  .hero-name {
+    margin-left: -0.04em; /* la G arranca alineada ópticamente con el texto de debajo */
+    font-size: min(17.5vw, 7rem);
+    font-weight: 850;
+    font-stretch: 125%;
+    letter-spacing: -0.04em;
+    line-height: 0.88;
+  }
+  @media (min-width: 1024px) {
+    .hero-name {
+      font-size: min(9.4vw, 8.4rem);
+    }
+  }
+  .hero-name .w {
+    display: block;
+    padding-bottom: 0.04em;
+    /* metal: blanco arriba que se apaga hacia abajo */
+    background: linear-gradient(180deg, #ffffff 15%, #9d9db0 115%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero-role {
+    margin-top: 1.25rem;
+    font-size: clamp(1.35rem, 2.6vw, 1.85rem);
+    font-weight: 620;
+    font-stretch: 110%;
+    letter-spacing: -0.02em;
+    color: #a78bfa;
+  }
+
+  .avail {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-size: 15px;
+    font-weight: 550;
+    color: #ededf2;
+  }
+  /* Punto verde de "en línea" (semántico: está publicado / disponible) */
+  .live {
+    position: relative;
+    display: inline-block;
+    height: 0.55rem;
+    width: 0.55rem;
+    flex-shrink: 0;
+    border-radius: 999px;
+    background: #34d399;
+    box-shadow: 0 0 12px rgba(52, 211, 153, 0.6);
+  }
+  .live::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: inherit;
+  }
+
+  /* ---------- Foto en duotono violeta: la pared blanca se convierte en violeta ---------- */
+  .hero-visual {
+    position: relative;
+    display: grid;
+    justify-items: end;
+  }
+  .portrait {
+    width: min(100%, 26rem);
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: 1.5rem;
+    background: linear-gradient(160deg, #8b5cf6, #5b21b6);
+    box-shadow:
+      0 0 0 1px rgba(237, 237, 242, 0.08),
+      0 40px 120px -30px rgba(124, 58, 237, 0.55);
+  }
+  .portrait :global(img) {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: 50% 30%;
+    mix-blend-mode: multiply;
+    filter: grayscale(1) contrast(1.2) brightness(1.1);
+  }
+
+  /* ---------- Lo que está en producción ---------- */
+  .ledger {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 24rem);
+    margin-top: -7rem;
+    justify-self: start;
+    border: 1px solid rgba(237, 237, 242, 0.09);
+    border-radius: 1.1rem;
+    background: rgba(22, 22, 27, 0.82);
+    padding: 1.1rem 1.1rem 0.6rem;
+    box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.8);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+  }
+  @media (min-width: 1024px) {
+    .ledger {
+      margin-left: -3rem;
+    }
+  }
+  .ledger-title {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0 0.25rem 0.6rem;
+    font-size: 14px;
+    font-weight: 600;
+    color: #ededf2;
+  }
+  .ledger-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border-top: 1px solid rgba(237, 237, 242, 0.07);
+    border-radius: 0.5rem;
+    padding: 0.7rem 0.25rem;
+    transition: background-color 0.15s ease;
+  }
+  .ledger-row:hover {
+    background: rgba(237, 237, 242, 0.04);
+  }
+  .ledger-where {
+    flex-shrink: 0;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #a78bfa;
+    text-align: right;
+  }
+
+  /* ---------- Momento de carga: el nombre se ensancha y la lista se rellena ---------- */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-name .w {
+      animation: name-in 1.15s cubic-bezier(0.22, 0.8, 0.12, 1) both;
+    }
+    .hero-name .w2 {
+      animation-delay: 0.12s;
+    }
+    .ledger li {
+      animation: row-in 0.5s ease both;
+      animation-delay: calc(0.75s + var(--i) * 0.09s);
+    }
+    .live::after {
+      animation: ping 2.4s ease-out infinite;
+    }
+  }
+  @keyframes name-in {
+    from {
+      opacity: 0;
+      font-stretch: 62%;
+      font-weight: 300;
+    }
+    35% {
+      opacity: 1;
+    }
+  }
+  @keyframes row-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+  @keyframes ping {
+    from {
+      transform: scale(1);
+      opacity: 0.7;
+    }
+    70%,
+    to {
+      transform: scale(2.6);
+      opacity: 0;
+    }
+  }
+</style>

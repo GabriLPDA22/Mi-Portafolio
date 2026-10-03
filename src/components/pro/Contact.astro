@@ -1,0 +1,202 @@
+---
+/**
+ * Contacto: el cierre de la página. Email grande, CV y redes a la izquierda; formulario
+ * (Formspree, lo gestiona initContactForm en scripts/ui.ts) a la derecha.
+ */
+import Icon from '../Icon.astro';
+import { getT, type Locale } from '@/i18n';
+import { getPro, LINKS } from '@/lib/pro-content';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = getT(locale);
+const p = getPro(locale);
+const es = locale === 'es';
+const f = t.contact.form;
+const options = ['mobile', 'web', 'ecommerce', 'saas', 'consulting'] as const;
+const msgFailed = es
+  ? `No se ha podido enviar el mensaje. Vuelve a intentarlo o escríbeme a ${LINKS.email}.`
+  : `Your message could not be sent. Try again or email me at ${LINKS.email}.`;
+---
+
+<section id="contacto" class="section scroll-mt-16">
+  <div class="container-main">
+    <div data-glow class="card contact">
+      <div class="aura" aria-hidden="true"></div>
+
+      <div class="min-w-0">
+        <h2 class="contact-title">{p.contact.title}</h2>
+        <p class="lead mt-5">{p.contact.lead}</p>
+
+        <p class="mt-10 text-[14px] font-medium text-muted">{p.contact.emailLabel}</p>
+        <a href={`mailto:${LINKS.email}`} class="email">{LINKS.email}</a>
+
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href={LINKS.cv} download="Gabriel-Saiz-CV.pdf" class="btn btn-primary">
+            <Icon name="Download" strokeWidth={2.2} />
+            {t.hero.ctaCv}
+          </a>
+          <a href={LINKS.linkedin} target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
+            <Icon name="Linkedin" strokeWidth={1.9} />
+            LinkedIn
+          </a>
+          <a href={LINKS.github} target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
+            <Icon name="Github" strokeWidth={1.9} />
+            GitHub
+          </a>
+        </div>
+      </div>
+
+      <div id="contacto-form" data-contact data-msg-required={f.error} data-msg-failed={msgFailed} class="form-box">
+        <div data-contact-success hidden class="py-10 text-center" role="status">
+          <span class="mx-auto mb-5 grid h-12 w-12 place-items-center rounded-full bg-live/15 text-live">
+            <Icon name="Check" class="h-6 w-6" strokeWidth={2.6} />
+          </span>
+          <h3 class="text-[1.5rem] font-[750] tracking-[-0.02em]">{f.success.title}</h3>
+          <p class="mt-2 text-[15px] text-muted">{f.success.message}</p>
+          <button type="button" data-contact-again class="btn btn-ghost mt-6">{f.success.again}</button>
+        </div>
+
+        <form action="https://formspree.io/f/mrezlekq" method="POST" class="grid gap-4">
+          <p class="text-[15px] font-semibold">{p.contact.formTitle}</p>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label for="name" class="label">{f.name}</label>
+              <input type="text" id="name" name="name" required autocomplete="name" class="field" />
+            </div>
+            <div>
+              <label for="email" class="label">{f.email}</label>
+              <input type="email" id="email" name="email" required autocomplete="email" class="field" />
+            </div>
+          </div>
+          <div>
+            <label for="project" class="label">{f.project}</label>
+            <div class="relative">
+              <select id="project" name="project" class="field appearance-none pr-10">
+                <option value="">{f.projectOptions.select}</option>
+                {options.map((o) => <option value={o}>{f.projectOptions[o]}</option>)}
+              </select>
+              <Icon name="ChevronDown" class="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" strokeWidth={2.4} />
+            </div>
+          </div>
+          <div>
+            <label for="message" class="label">{f.message}</label>
+            <textarea id="message" name="message" required rows="5" class="field resize-none" placeholder={f.messagePlaceholder}></textarea>
+          </div>
+
+          <div data-contact-error hidden role="alert" class="flex items-center gap-2 rounded-xl border border-red-400/30 bg-red-500/10 px-4 py-3 text-[14px] text-red-200">
+            <Icon name="AlertCircle" class="h-4 w-4 shrink-0" />
+            <span data-error-text></span>
+          </div>
+
+          <button type="submit" class="btn btn-violet w-full disabled:cursor-not-allowed disabled:opacity-60">
+            <span data-idle class="flex items-center gap-2">
+              <Icon name="Send" strokeWidth={2.1} />
+              {f.send}
+            </span>
+            <span data-loading hidden class="flex items-center gap-2">
+              <Icon name="Loader2" class="animate-spin" />
+              {f.sending}
+            </span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    --glow-size: 640px;
+    --glow-alpha: 0.18;
+    position: relative;
+    display: grid;
+    gap: 3rem;
+    overflow: hidden;
+    padding: 1.75rem;
+  }
+  @media (min-width: 1024px) {
+    .contact {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 27rem);
+      gap: 4rem;
+      padding: 4rem;
+    }
+  }
+  .aura {
+    position: absolute;
+    left: -15rem;
+    bottom: -25rem;
+    z-index: -1;
+    height: 45rem;
+    width: 45rem;
+    border-radius: 999px;
+    background: radial-gradient(closest-side, rgba(124, 58, 237, 0.3), transparent);
+    pointer-events: none;
+  }
+  .contact-title {
+    font-size: clamp(2.6rem, 5.6vw, 4.75rem);
+    font-weight: 850;
+    font-stretch: 125%;
+    letter-spacing: -0.045em;
+    line-height: 0.92;
+    background: linear-gradient(180deg, #ffffff 20%, #9d9db0 120%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .email {
+    display: inline-block;
+    margin-top: 0.35rem;
+    overflow-wrap: anywhere;
+    font-size: clamp(1.35rem, 3vw, 2rem);
+    font-weight: 700;
+    font-stretch: 108%;
+    letter-spacing: -0.02em;
+    color: #a78bfa;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    transition: color 0.15s ease;
+  }
+  .email:hover {
+    color: #c4b5fd;
+    text-decoration-thickness: 2px;
+  }
+
+  .form-box {
+    border: 1px solid rgba(237, 237, 242, 0.08);
+    border-radius: 1rem;
+    background: rgba(12, 12, 15, 0.7);
+    padding: 1.5rem;
+  }
+  .label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 13.5px;
+    font-weight: 550;
+    color: #b4b4c2;
+  }
+  .field {
+    width: 100%;
+    border: 1px solid rgba(237, 237, 242, 0.12);
+    border-radius: 0.7rem;
+    background: #16161b;
+    padding: 0.7rem 0.9rem;
+    font-size: 15.5px;
+    color: #ededf2;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .field::placeholder {
+    color: #6e6e7c;
+  }
+  .field:focus {
+    outline: none;
+    border-color: #8b5cf6;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25);
+  }
+  select.field option {
+    background: #16161b;
+  }
+</style>

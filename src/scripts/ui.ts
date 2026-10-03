@@ -1,30 +1,10 @@
-/** Interacciones de la interfaz: cabecera, menú móvil, cookies, volver arriba y formulario. */
+/** Interacciones de la interfaz: menú móvil, sección actual, cookies y formulario. */
 
 /* ------------------------------------------------------------------ */
-/* Cabecera: fondo al hacer scroll + menú móvil                          */
+/* Cabecera: menú móvil y sección actual                                */
 /* ------------------------------------------------------------------ */
 
 export function initHeader() {
-  const bar = document.querySelector<HTMLElement>('[data-header-bar]');
-  if (bar) {
-    let frame = 0;
-    // Barra de XP: progreso de lectura de la página (solo transform, sin reflow).
-    const update = () => {
-      frame = 0;
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      bar.style.setProperty('--xp', max > 0 ? Math.min(1, window.scrollY / max).toFixed(4) : '0');
-    };
-    // Primera medida en el siguiente frame: no fuerza un layout síncrono durante la carga.
-    frame = requestAnimationFrame(update);
-    window.addEventListener(
-      'scroll',
-      () => {
-        if (!frame) frame = requestAnimationFrame(update);
-      },
-      { passive: true },
-    );
-  }
-
   const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
   const menu = document.querySelector<HTMLElement>('[data-menu]');
   if (toggle && menu) {
@@ -74,18 +54,13 @@ export function initHeader() {
   );
   if (location.hash) document.documentElement.classList.add('cv-all');
 
-  // Nivel actual: la sección que ocupa el centro de la pantalla.
-  const levelEl = document.querySelector<HTMLElement>('[data-hud-level]');
-  const levelN = document.querySelector<HTMLElement>('[data-hud-level-n]');
+  // Sección actual (la que ocupa el centro de la pantalla): se marca en el menú con aria-current.
   const links = [...document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]')];
   const ids = [...new Set(links.map((a) => a.dataset.navLink!))];
   const sections = ids.map((id) => document.getElementById(id)).filter((el): el is HTMLElement => !!el);
-  if (!sections.length || !('IntersectionObserver' in window)) {
-    if (levelEl) levelEl.hidden = true;
-  } else {
+  if (sections.length && 'IntersectionObserver' in window) {
     const setLevel = (id: string | null) => {
       links.forEach((a) => a.setAttribute('aria-current', String(a.dataset.navLink === id)));
-      if (levelN) levelN.textContent = id ? String(ids.indexOf(id) + 1).padStart(2, '0') : '00';
     };
     const io = new IntersectionObserver(
       (entries) => {
@@ -150,29 +125,6 @@ export function initCookieBanner() {
     banner.classList.remove('is-in');
     window.setTimeout(() => (banner.hidden = true), 300);
   });
-}
-
-/* ------------------------------------------------------------------ */
-/* Botón "volver arriba"                                               */
-/* ------------------------------------------------------------------ */
-
-export function initScrollToTop() {
-  const button = document.querySelector<HTMLButtonElement>('[data-scroll-top]');
-  if (!button) return;
-  let frame = 0;
-  const update = () => {
-    frame = 0;
-    button.classList.toggle('is-in', window.scrollY > 400);
-  };
-  update();
-  window.addEventListener(
-    'scroll',
-    () => {
-      if (!frame) frame = requestAnimationFrame(update);
-    },
-    { passive: true },
-  );
-  button.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 }
 
 /* ------------------------------------------------------------------ */

@@ -1,0 +1,85 @@
+---
+/** Stack agrupado por dónde se ha usado (datos y logos de data/inventory.ts, SVG en build). */
+import Icon from '../Icon.astro';
+import { INVENTORY, type Rarity } from '@/data/inventory';
+import type { Locale } from '@/i18n';
+import { getPro } from '@/lib/pro-content';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const p = getPro(locale);
+const groups = (['legendary', 'epic', 'common'] as Rarity[]).map((r) => ({
+  id: r,
+  label: p.stack.groups[r],
+  items: INVENTORY.filter((i) => i.rarity === r),
+}));
+---
+
+<section id="stack" class="section cv-auto scroll-mt-16">
+  <div class="container-main">
+    <h2 class="h2">{p.stack.title}</h2>
+    <p class="lead mt-5">{p.stack.intro}</p>
+
+    <div class="mt-14 grid gap-px overflow-hidden rounded-[1.25rem] border border-white/[0.08] bg-white/[0.08]">
+      {
+        groups.map((g) => (
+          <div class="group-row">
+            <h3 class="text-[15px] font-semibold leading-snug">{g.label}</h3>
+            <ul class="tiles">
+              {g.items.map((item) => (
+                <li class="tile" title={item.note[locale]}>
+                  {item.path ? (
+                    <svg viewBox="0 0 24 24" class="h-[18px] w-[18px] shrink-0" aria-hidden="true">
+                      <path d={item.path} fill={item.color} />
+                    </svg>
+                  ) : (
+                    <Icon name={item.lucide ?? 'Code'} class="h-[18px] w-[18px] shrink-0" strokeWidth={2} />
+                  )}
+                  <span>{item.name}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .group-row {
+    display: grid;
+    gap: 1.25rem;
+    background: #16161b;
+    padding: 1.5rem;
+  }
+  @media (min-width: 900px) {
+    .group-row {
+      grid-template-columns: 15rem minmax(0, 1fr);
+      gap: 2.5rem;
+      padding: 2rem 2.25rem;
+    }
+  }
+  .tiles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+  }
+  .tile {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    border: 1px solid rgba(237, 237, 242, 0.08);
+    border-radius: 0.75rem;
+    background: #0c0c0f;
+    padding: 0.55rem 0.85rem;
+    font-size: 14.5px;
+    font-weight: 550;
+    transition: border-color 0.15s ease;
+  }
+  .tile:hover {
+    border-color: rgba(167, 139, 250, 0.5);
+  }
+</style>

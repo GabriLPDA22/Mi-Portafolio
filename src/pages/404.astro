@@ -1,22 +1,39 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/Footer.astro';
 import Mascot from '@/components/Mascot.astro';
 ---
 
 <BaseLayout locale="es" path="/404" title="404" description="Esta página no existe." noindex>
-  <main id="main-content" class="flex min-h-screen flex-col items-center justify-center gap-6 px-6 pt-20 text-center">
-    <p class="hud-chip">Error 404 · Nivel no encontrado</p>
-    <h1 class="game-title -rotate-2 text-[clamp(3rem,12vw,6.5rem)]">Game over</h1>
-    <div class="relative">
-      <Mascot class="h-[168px] w-auto" label="Gabriel en pixel art, perdido" />
-      <span class="font-pixel absolute -right-10 top-2 text-2xl text-acid" aria-hidden="true">?</span>
-    </div>
-    <p class="max-w-sm text-ink/75">Este nivel no existe (todavía). <span lang="en">This level doesn't exist.</span></p>
-    <p class="font-pixel text-[12px] uppercase tracking-widest text-ink/70">¿Continuar?</p>
-    <div class="flex flex-wrap justify-center gap-3">
-      <a href="/" class="start-btn text-[15px] font-black uppercase">▶ Sí, volver al inicio</a>
-      <a href="/en" class="game-btn game-btn-ghost" lang="en">English</a>
-      <button type="button" data-arcade-open hidden class="game-btn game-btn-ghost">🎮 Jugar a BUG RUN</button>
+  <main id="main-content" data-glow class="relative flex min-h-[85svh] items-center overflow-hidden pt-24">
+    <div class="container-main">
+      <p class="nf-code" aria-hidden="true">404</p>
+      <h1 class="h2 max-w-[18ch]">Esta página no existe</h1>
+      <p class="lead mt-5">Puede que el enlace esté mal escrito o que la página se haya movido. <span lang="en">This page doesn't exist.</span></p>
+      <div class="mt-9 flex flex-wrap items-center gap-3">
+        <a href="/" class="btn btn-primary">Volver al inicio</a>
+        <a href="/en" class="btn btn-ghost" lang="en">English</a>
+        <button type="button" data-arcade-open hidden class="btn btn-ghost">
+          <Mascot class="h-6 w-auto [image-rendering:pixelated]" />
+          Jugar a BUG RUN mientras tanto
+        </button>
+      </div>
     </div>
   </main>
+  <Footer locale="es" />
 </BaseLayout>
+
+<style>
+  .nf-code {
+    font-size: clamp(6rem, 22vw, 15rem);
+    font-weight: 850;
+    font-stretch: 125%;
+    letter-spacing: -0.06em;
+    line-height: 0.8;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(180deg, rgba(167, 139, 250, 0.9), rgba(139, 92, 246, 0.05));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+</style>

@@ -1,21 +1,11 @@
-import { initAchievements, initArcade, initBoot, initDialog, initInventory, initLevelSelect, initMascot, initPressStart, initWorldMap } from './game';
-import { initReveal, initScrub } from './motion';
-import { initContactForm, initCookieBanner, initHeader, initScrollToTop } from './ui';
+import { initArcade } from './game';
+import { initGlow } from './glow';
+import { initContactForm, initCookieBanner, initHeader } from './ui';
 
 initHeader();
 initCookieBanner();
-initScrollToTop();
 initContactForm();
+initGlow();
 
-initReveal();
-initScrub();
-
-initBoot();
-initAchievements();
-initPressStart();
-initMascot();
+// BUG RUN sigue escondido: botón del pie y código Konami (↑↑↓↓←→←→BA)
 initArcade();
-initLevelSelect();
-initInventory();
-initDialog();
-initWorldMap();

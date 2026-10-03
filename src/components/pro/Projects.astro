@@ -1,0 +1,209 @@
+---
+/**
+ * Proyectos: ARCH como caso grande, las dos webs de cliente en pareja y BUG RUN como proyecto
+ * personal (su botón abre el minijuego; lo muestra initArcade solo con JS).
+ */
+import { Image } from 'astro:assets';
+import Icon from '../Icon.astro';
+import Mascot from '../Mascot.astro';
+import archImg from '@/assets/img/Arch.webp';
+import huvegrymImg from '@/assets/img/Huvegrym.webp';
+import tarotImg from '@/assets/img/divinidad-hero.webp';
+import { getT, type Locale } from '@/i18n';
+import { getPro, LINKS } from '@/lib/pro-content';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = getT(locale);
+const p = getPro(locale);
+const es = locale === 'es';
+
+const [arch, huvegrym, tarot] = ['arch', 'huvegrym', 'tarot-divinidad'].map((id) => t.projects.items.find((i) => i.id === id)!);
+
+const webs = [
+  {
+    ...huvegrym,
+    img: huvegrymImg,
+    href: LINKS.huvegrym,
+    pos: 'object-[center_35%]',
+    alt: es ? 'Huvegrym: web de escuela de danza' : 'Huvegrym: dance school website',
+  },
+  {
+    ...tarot,
+    img: tarotImg,
+    href: LINKS.divinidad,
+    pos: 'object-top',
+    alt: es ? 'Tarot Divinidad 000: web con reservas' : 'Tarot Divinidad 000: website with bookings',
+  },
+];
+---
+
+<section id="proyectos" class="section cv-auto scroll-mt-16">
+  <div class="container-main">
+    <h2 class="h2">{p.projects.title}</h2>
+    <p class="lead mt-5">{p.projects.intro}</p>
+
+    <!-- ARCH -->
+    <article data-glow class="card feature mt-14">
+      <div class="feature-visual" aria-hidden="true">
+        <Image src={archImg} alt="" widths={[280, 440]} sizes="(min-width: 1024px) 220px, 160px" class="arch-icon" />
+      </div>
+      <div class="min-w-0">
+        <p class="text-[15px] font-medium text-violet-light">{arch.subtitle}</p>
+        <h3 class="mt-2 text-[clamp(2.2rem,4.5vw,3.25rem)] font-[820] leading-none tracking-[-0.035em] [font-stretch:122%]">{arch.title}</h3>
+        <p class="mt-4 max-w-[36rem] text-muted">{arch.description}</p>
+
+        <ul class="mt-6 grid gap-2.5 sm:grid-cols-2">
+          {
+            arch.bullets.map((b) => (
+              <li class="flex gap-2.5 text-[15.5px] leading-snug">
+                <Icon name="Check" class="mt-[3px] h-4 w-4 shrink-0 text-violet-light" strokeWidth={2.6} />
+                {b}
+              </li>
+            ))
+          }
+        </ul>
+
+        <ul class="chips mt-6" aria-label={p.projects.stack}>
+          {arch.chips.map((c) => <li>{c}</li>)}
+        </ul>
+
+        <a href={LINKS.appStore} target="_blank" rel="noopener noreferrer" class="btn btn-primary mt-8">
+          <Icon name="ArrowUpRight" strokeWidth={2.2} />
+          {arch.cta}
+        </a>
+      </div>
+    </article>
+
+    <!-- Webs de cliente -->
+    <div class="mt-6 grid gap-6 md:grid-cols-2">
+      {
+        webs.map((w) => (
+          <article class="card web">
+            <a href={w.href} target="_blank" rel="noopener noreferrer" class="web-shot" tabindex="-1" aria-hidden="true">
+              <Image src={w.img} alt="" widths={[480, 760]} sizes="(min-width: 768px) 560px, 92vw" class:list={['h-full w-full object-cover', w.pos]} />
+            </a>
+            <div class="p-6 sm:p-8">
+              <h3 class="text-[1.65rem] font-[780] leading-tight tracking-[-0.03em] [font-stretch:115%]">{w.title}</h3>
+              <p class="mt-1.5 text-[15px] font-medium text-violet-light">{w.subtitle}</p>
+              <p class="mt-3 text-[15.5px] text-muted">{w.description}</p>
+              <ul class="chips mt-5" aria-label={p.projects.stack}>
+                {w.chips.map((c) => <li>{c}</li>)}
+              </ul>
+              <a href={w.href} target="_blank" rel="noopener noreferrer" class="link mt-6 inline-flex items-center gap-1.5 text-[15px] font-semibold" aria-label={`${w.cta}: ${w.title}`}>
+                {w.href.replace('https://', '')}
+                <Icon name="ArrowUpRight" class="h-4 w-4" strokeWidth={2.2} />
+              </a>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <!-- BUG RUN: el juego escondido, presentado como lo que es -->
+    <article data-glow class="card bugrun mt-6">
+      <div class="min-w-0">
+        <p class="text-[15px] font-medium text-violet-light">{p.projects.bugrun.kind}</p>
+        <h3 class="font-pixel mt-2 text-[2rem] uppercase leading-none tracking-wider">{p.projects.bugrun.name}</h3>
+        <p class="mt-4 max-w-[40rem] text-[15.5px] text-muted">{p.projects.bugrun.text}</p>
+        <ul class="chips mt-5" aria-label={p.projects.stack}>
+          {p.projects.bugrun.stack.map((c) => <li>{c}</li>)}
+        </ul>
+        <button type="button" data-arcade-open hidden class="btn btn-violet mt-7">
+          <Icon name="Gamepad2" strokeWidth={2} />
+          {p.projects.bugrun.play}
+        </button>
+      </div>
+      <Mascot class="bugrun-mascot" />
+    </article>
+  </div>
+</section>
+
+<style>
+  .feature {
+    display: grid;
+    gap: 2.5rem;
+    overflow: hidden;
+    padding: 1.75rem;
+  }
+  @media (min-width: 900px) {
+    .feature {
+      grid-template-columns: 17rem minmax(0, 1fr);
+      gap: 3.5rem;
+      padding: 3rem;
+    }
+  }
+  .feature-visual {
+    display: grid;
+    place-items: center;
+    border-radius: 1rem;
+    background: radial-gradient(circle at 50% 40%, rgba(139, 92, 246, 0.28), transparent 70%), #0c0c0f;
+    border: 1px solid rgba(237, 237, 242, 0.06);
+    padding: 2rem;
+    min-height: 13rem;
+  }
+  .arch-icon {
+    width: min(100%, 13rem);
+    height: auto;
+    border-radius: 2.2rem;
+    filter: drop-shadow(0 20px 40px rgba(139, 92, 246, 0.35));
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+  .chips li {
+    border: 1px solid rgba(237, 237, 242, 0.1);
+    border-radius: 999px;
+    padding: 0.3rem 0.7rem;
+    font-size: 13px;
+    font-weight: 500;
+    color: #b4b4c2;
+  }
+
+  .web {
+    overflow: hidden;
+  }
+  .web-shot {
+    display: block;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(237, 237, 242, 0.06);
+  }
+  .web-shot :global(img) {
+    transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .web:hover .web-shot :global(img) {
+    transform: scale(1.03);
+  }
+
+  .bugrun {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    overflow: hidden;
+    padding: 1.75rem;
+  }
+  @media (min-width: 900px) {
+    .bugrun {
+      padding: 2.5rem 3rem;
+    }
+  }
+  .bugrun :global(.bugrun-mascot) {
+    display: none;
+    height: 9rem;
+    width: auto;
+    flex-shrink: 0;
+    image-rendering: pixelated;
+  }
+  @media (min-width: 768px) {
+    .bugrun :global(.bugrun-mascot) {
+      display: block;
+    }
+  }
+</style>
