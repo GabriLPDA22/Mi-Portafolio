@@ -6,7 +6,7 @@ export const personData = {
   name: "Gabriel Saiz",
   jobTitle: "Full-Stack Developer",
   description:
-    "Desarrollador Full-Stack con experiencia en .NET, Vue, Astro y React Native. Apps en producción y abierto a oportunidades laborales.",
+    "Desarrollador Full-Stack con experiencia en C# / .NET, Vue, Astro y React Native. Apps en producción y abierto a oportunidades laborales.",
   url: siteUrl,
   image: `${siteUrl}/img/Yo-480.webp`,
   sameAs: [
@@ -22,7 +22,12 @@ export const personData = {
     encodingFormat: "application/pdf",
     url: `${siteUrl}/cv/Gabriel-Saiz-CV.pdf`,
   },
+  knowsLanguage: [
+    { "@type": "Language", name: "Spanish", alternateName: "es" },
+    { "@type": "Language", name: "English", alternateName: "en" },
+  ],
   knowsAbout: [
+    "C#",
     ".NET",
     "Vue.js",
     "Astro",
@@ -47,7 +52,7 @@ export const personData = {
       "@type": "City",
       name: "Zaragoza",
     },
-    skills: [".NET", "Vue.js", "Astro", "React Native", "Expo", "TypeScript", "Tailwind CSS", "PostgreSQL", "AWS"],
+    skills: ["C#", ".NET", "Vue.js", "Astro", "React Native", "Expo", "TypeScript", "Tailwind CSS", "PostgreSQL", "AWS"],
   },
 };
 

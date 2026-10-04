@@ -22,7 +22,7 @@ const content = {
     nav: { projects: 'Proyectos', experience: 'Experiencia', stack: 'Stack', about: 'Sobre mí', contact: 'Contacto', cv: 'Descargar CV' },
     hero: {
       role: 'Desarrollador full-stack',
-      lead: 'Llevo productos hasta producción: backend en .NET, webs con Vue o Astro y apps móviles con React Native.',
+      lead: 'Llevo productos hasta producción: backend en C# y .NET, webs con Vue o Astro y apps móviles con React Native.',
       availability: 'Disponible para incorporarme, en Zaragoza o en remoto',
       cv: 'Descargar CV',
       projects: 'Ver proyectos',
@@ -57,7 +57,7 @@ const content = {
       title: 'Stack',
       intro: 'Lo que uso cada día, y debajo dónde he usado el resto de verdad (no lo que he probado una tarde).',
       uses: {
-        dotnet: 'APIs y backend en producción: el de ARCH, con tiempo real en SignalR.',
+        dotnet: 'C# y .NET: APIs y backend en producción, como el de ARCH, con tiempo real en SignalR.',
         vue: 'Paneles de administración con Vue 3 y TypeScript.',
         astro: 'Webs rápidas y con buen SEO, como esta y Tarot Divinidad.',
         tailwind: 'Interfaces a medida, rápidas de construir y fáciles de mantener.',
@@ -76,6 +76,11 @@ const content = {
       body: [
         'Soy Gabriel, desarrollador full-stack en Zaragoza. Me gusta el producto entero: desde el modelo de datos y la API hasta la pantalla que toca el usuario y el pipeline que la publica.',
         'Busco un equipo donde aportar desde el primer día y seguir aprendiendo de gente que sepa más que yo.',
+      ],
+      languagesTitle: 'Idiomas',
+      languages: [
+        { name: 'Español', level: 'Nativo' },
+        { name: 'Inglés', level: 'Conversacional, sin certificado oficial' },
       ],
       proofTitle: 'Lo que ya he hecho',
       proof: [
@@ -99,7 +104,7 @@ const content = {
     nav: { projects: 'Projects', experience: 'Experience', stack: 'Stack', about: 'About', contact: 'Contact', cv: 'Download CV' },
     hero: {
       role: 'Full-stack developer',
-      lead: 'I take products all the way to production: .NET on the backend, websites with Vue or Astro and mobile apps with React Native.',
+      lead: 'I take products all the way to production: C# and .NET on the backend, websites with Vue or Astro and mobile apps with React Native.',
       availability: 'Available to join a team, in Zaragoza or remote',
       cv: 'Download CV',
       projects: 'See projects',
@@ -134,7 +139,7 @@ const content = {
       title: 'Stack',
       intro: 'What I use every day, and below where I have actually used the rest (not what I tried one afternoon).',
       uses: {
-        dotnet: 'APIs and backends in production: the one behind ARCH, with real-time SignalR.',
+        dotnet: 'C# and .NET: APIs and backends in production, like ARCH’s, with real-time SignalR.',
         vue: 'Admin dashboards with Vue 3 and TypeScript.',
         astro: 'Fast, SEO-friendly websites, like this one and Tarot Divinidad.',
         tailwind: 'Custom interfaces that are quick to build and easy to maintain.',
@@ -153,6 +158,11 @@ const content = {
       body: [
         "I'm Gabriel, a full-stack developer based in Zaragoza, Spain. I like owning the whole product: from the data model and the API to the screen people touch and the pipeline that ships it.",
         "I'm looking for a team where I can contribute from day one and keep learning from people who know more than I do.",
+      ],
+      languagesTitle: 'Languages',
+      languages: [
+        { name: 'Spanish', level: 'Native' },
+        { name: 'English', level: 'Conversational, no official certificate' },
       ],
       proofTitle: 'What I have already shipped',
       proof: [

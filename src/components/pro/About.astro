@@ -23,6 +23,16 @@ const p = getPro(locale);
         <div class="mt-6 grid max-w-[38rem] gap-5 text-[17.5px] leading-relaxed text-muted">
           {p.about.body.map((para, i) => <p class:list={[i === 0 && 'text-text']}>{para}</p>)}
         </div>
+        <dl class="langs mt-8" aria-label={p.about.languagesTitle}>
+          {
+            p.about.languages.map((l) => (
+              <div class="lang">
+                <dt>{l.name}</dt>
+                <dd>{l.level}</dd>
+              </div>
+            ))
+          }
+        </dl>
       </div>
     </div>
 
@@ -67,6 +77,28 @@ const p = getPro(locale);
     background: linear-gradient(200deg, rgba(139, 92, 246, 0.35), rgba(76, 29, 149, 0.15) 45%, transparent 70%);
     mix-blend-mode: multiply;
     pointer-events: none;
+  }
+
+  /* ---------- Idiomas ---------- */
+  .langs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .lang {
+    border: 1px solid rgba(237, 237, 242, 0.1);
+    border-radius: 0.9rem;
+    background: #16161b;
+    padding: 0.7rem 1rem;
+  }
+  .lang dt {
+    font-size: 15px;
+    font-weight: 650;
+  }
+  .lang dd {
+    margin-top: 0.15rem;
+    font-size: 13.5px;
+    color: #8a8a99;
   }
 
   /* ---------- Hechos: cifra o palabra enorme + explicación ---------- */
