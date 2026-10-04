@@ -136,7 +136,24 @@ const keywords = [
     <meta name="twitter:description" content={desc} />
     <meta name="twitter:image" content={ogImage} />
 
-    {UMAMI_WEBSITE_ID && <script is:inline defer src="https://cloud.umami.is/script.js" data-website-id={UMAMI_WEBSITE_ID} data-domains={UMAMI_DOMAINS} />}
+    {
+      // Analítica (Umami, sin cookies): se carga cuando la página ya ha terminado, para no competir
+      // con la primera pintada (Lighthouse 100 también en móvil)
+      UMAMI_WEBSITE_ID && (
+        <script is:inline define:vars={{ id: UMAMI_WEBSITE_ID, domains: UMAMI_DOMAINS }}>
+          addEventListener('load', function () {
+            var load = function () {
+              var s = document.createElement('script');
+              s.src = 'https://cloud.umami.is/script.js';
+              s.dataset.websiteId = id;
+              s.dataset.domains = domains;
+              document.head.appendChild(s);
+            };
+            'requestIdleCallback' in window ? requestIdleCallback(load, { timeout: 3000 }) : setTimeout(load, 1500);
+          });
+        </script>
+      )
+    }
     {jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd).replace(/</g, '\\u003c')} />}
   </head>
   <body class="min-h-screen max-w-[100vw] overflow-x-clip antialiased">

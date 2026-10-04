@@ -1,7 +1,8 @@
 /**
  * Analítica con Umami (cloud.umami.is): sin cookies, sin datos personales y sin aviso de
  * consentimiento. Para activarla, pega aquí el "Website ID" que da Umami al añadir la web
- * (formato 1a2b3c4d-...). Vacío = desactivada: no se carga ningún script.
+ * (formato 1a2b3c4d-...). Vacío = desactivada: no se carga ningún script y la política de
+ * privacidad deja de mencionarla (PrivacyContent.astro).
  *
  * Eventos que se cuentan (atributos data-umami-event en los enlaces y botones):
  * descargar-cv, linkedin, github, email, app-store, ver-web, jugar-bug-run, contacto-enviado.

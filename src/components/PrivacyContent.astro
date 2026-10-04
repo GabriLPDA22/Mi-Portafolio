@@ -25,7 +25,11 @@ const analytics = UMAMI_WEBSITE_ID
           'No recoge datos personales ni permite identificarte: solo estadísticas agregadas (páginas vistas, país, tipo de dispositivo y navegador, web de procedencia).',
           'Cuenta acciones como descargar el CV o enviar el formulario, nunca su contenido.',
         ],
-        note: 'Los datos los procesa Umami Software, Inc. en servidores de la Unión Europea, como encargado del tratamiento.',
+        note: 'Las estadísticas las trata Umami Software, Inc. (Estados Unidos) como encargado del tratamiento. Como no se recoge ningún dato que te identifique, no se transfieren datos personales.',
+        purpose: 'Elaborar estadísticas anónimas de uso de la web (Umami, sin cookies)',
+        legalBasis: 'Interés legítimo: para la analítica web anónima, que no usa cookies ni permite identificarte',
+        retention: 'Las estadísticas anónimas de la analítica web se conservan un máximo de 6 meses.',
+        thirdParty: 'La analítica web (Umami) funciona sin cookies y no rastrea entre sitios.',
       }
     : {
         title: '2.4. Web analytics',
@@ -36,7 +40,11 @@ const analytics = UMAMI_WEBSITE_ID
           'It does not collect personal data or identify you: only aggregated statistics (page views, country, device type and browser, referring site).',
           'It counts actions such as downloading the CV or sending the form, never their content.',
         ],
-        note: 'The data is processed by Umami Software, Inc. on servers in the European Union, as data processor.',
+        note: 'The statistics are processed by Umami Software, Inc. (United States) as data processor. Since nothing that identifies you is collected, no personal data is transferred.',
+        purpose: 'Producing anonymous usage statistics for the site (Umami, cookie-free)',
+        legalBasis: 'Legitimate interest: for anonymous web analytics, which uses no cookies and cannot identify you',
+        retention: 'Anonymous web analytics statistics are kept for a maximum of 6 months.',
+        thirdParty: 'Web analytics (Umami) works without cookies and does not track you across sites.',
       }
   : null;
 const sections = [
@@ -96,18 +104,19 @@ const emailLink = 'text-ink underline decoration-white/20 underline-offset-[3px]
 
   <LegalSection id="purpose" title={p.purpose.title}>
     <p>{p.purpose.description}</p>
-    <LegalList items={p.purpose.items} />
+    <LegalList items={analytics ? [...p.purpose.items, analytics.purpose] : p.purpose.items} />
   </LegalSection>
 
   <LegalSection id="legal-basis" title={p.legalBasis.title}>
     <p>{p.legalBasis.description}</p>
-    <LegalList items={p.legalBasis.items} />
+    <LegalList items={analytics ? [...p.legalBasis.items, analytics.legalBasis] : p.legalBasis.items} />
   </LegalSection>
 
   <LegalSection id="retention" title={p.retention.title}>
     <p>{p.retention.description}</p>
     <p>{p.retention.cookiesNote}</p>
     <LegalList items={p.retention.cookieItems} />
+    {analytics && <p>{analytics.retention}</p>}
   </LegalSection>
 
   <LegalSection id="rights" title={p.rights.title}>
@@ -117,7 +126,10 @@ const emailLink = 'text-ink underline decoration-white/20 underline-offset-[3px]
   </LegalSection>
 
   <LegalSection id="security" title={p.security.title}><p>{p.security.description}</p></LegalSection>
-  <LegalSection id="third-party" title={p.thirdParty.title}><p>{p.thirdParty.description}</p></LegalSection>
+  <LegalSection id="third-party" title={p.thirdParty.title}>
+    <p>{p.thirdParty.description}</p>
+    {analytics && <p>{analytics.thirdParty}</p>}
+  </LegalSection>
   <LegalSection id="changes" title={p.changes.title}><p>{p.changes.description}</p></LegalSection>
 
   <LegalSection id="contact" title={p.contact.title}>
