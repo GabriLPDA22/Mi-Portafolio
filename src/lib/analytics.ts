@@ -6,7 +6,7 @@
  * Eventos que se cuentan (atributos data-umami-event en los enlaces y botones):
  * descargar-cv, linkedin, github, email, app-store, ver-web, jugar-bug-run, contacto-enviado.
  */
-export const UMAMI_WEBSITE_ID = '';
+export const UMAMI_WEBSITE_ID = 'f5e64686-39b5-4eab-b081-a3c40d3f242c';
 
 /** Solo cuenta visitas en el dominio real (no en localhost ni en previsualizaciones). */
 export const UMAMI_DOMAINS = 'gabrielcodes.dev,www.gabrielcodes.dev';
