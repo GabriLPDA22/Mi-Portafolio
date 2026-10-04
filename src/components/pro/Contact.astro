@@ -60,8 +60,8 @@ const msgFailed = es
           <button type="button" data-contact-again class="btn btn-ghost mt-6">{f.success.again}</button>
         </div>
 
-        <form action="https://formspree.io/f/mrezlekq" method="POST" class="grid gap-4">
-          <p class="text-[15px] font-semibold">{p.contact.formTitle}</p>
+        <form action="https://formspree.io/f/mrezlekq" method="POST" class="grid gap-5">
+          <p class="text-[18px] font-semibold tracking-[-0.01em]">{p.contact.formTitle}</p>
           <div class="grid gap-4 sm:grid-cols-2">
             <div>
               <label for="name" class="label">{f.name}</label>
@@ -116,7 +116,12 @@ const msgFailed = es
     display: grid;
     gap: 3rem;
     overflow: hidden;
-    padding: 1.75rem;
+    padding: 1.75rem 1.25rem;
+  }
+  @media (min-width: 640px) {
+    .contact {
+      padding: 2.5rem;
+    }
   }
   @media (min-width: 1024px) {
     .contact {
@@ -169,16 +174,23 @@ const msgFailed = es
     text-decoration-thickness: 2px;
   }
 
+  /* Móvil y tablet: el formulario sin caja propia (no caja dentro de caja), separado por una línea */
   .form-box {
-    border: 1px solid rgba(237, 237, 242, 0.08);
-    border-radius: 1rem;
-    background: rgba(12, 12, 15, 0.7);
-    padding: 1.5rem;
+    border-top: 1px solid rgba(237, 237, 242, 0.1);
+    padding-top: 2rem;
+  }
+  @media (min-width: 1024px) {
+    .form-box {
+      border: 1px solid rgba(237, 237, 242, 0.08);
+      border-radius: 1rem;
+      background: rgba(12, 12, 15, 0.7);
+      padding: 1.5rem;
+    }
   }
   .label {
     display: block;
-    margin-bottom: 0.4rem;
-    font-size: 13.5px;
+    margin-bottom: 0.45rem;
+    font-size: 14px;
     font-weight: 550;
     color: #b4b4c2;
   }
@@ -187,8 +199,8 @@ const msgFailed = es
     border: 1px solid rgba(237, 237, 242, 0.12);
     border-radius: 0.7rem;
     background: #16161b;
-    padding: 0.7rem 0.9rem;
-    font-size: 15.5px;
+    padding: 0.8rem 0.95rem;
+    font-size: 16px; /* < 16 px y el iPhone hace zoom al tocar el campo */
     color: #ededf2;
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
   }
