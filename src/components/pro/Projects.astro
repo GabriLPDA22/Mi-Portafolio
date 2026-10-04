@@ -91,12 +91,12 @@ const rows: Row[] = [
                     {r.chips.map((c) => <li>{c}</li>)}
                   </ul>
                   {r.link ? (
-                    <a href={r.link.href} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                    <a href={r.link.href} target="_blank" rel="noopener noreferrer" data-umami-event={r.id === 'arch' ? 'app-store' : 'ver-web'} data-umami-event-proyecto={r.title} class="btn btn-primary">
                       {r.link.label}
                       <Icon name="ArrowUpRight" strokeWidth={2.2} />
                     </a>
                   ) : (
-                    <button type="button" data-arcade-open hidden class="btn btn-violet">
+                    <button type="button" data-arcade-open hidden data-umami-event="jugar-bug-run" class="btn btn-violet">
                       <Icon name="Gamepad2" strokeWidth={2} />
                       {p.projects.bugrun.play}
                     </button>

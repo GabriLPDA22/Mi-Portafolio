@@ -22,6 +22,15 @@ export const personData = {
     encodingFormat: "application/pdf",
     url: `${siteUrl}/cv/Gabriel-Saiz-CV.pdf`,
   },
+  alumniOf: {
+    "@type": "EducationalOrganization",
+    name: "Centro San Valero",
+    address: { "@type": "PostalAddress", addressLocality: "Zaragoza", addressCountry: "ES" },
+  },
+  hasCredential: [
+    { "@type": "EducationalOccupationalCredential", name: "Técnico Superior en Desarrollo de Aplicaciones Web (DAW)", credentialCategory: "degree" },
+    { "@type": "EducationalOccupationalCredential", name: "Técnico en Sistemas Microinformáticos y Redes (SMR)", credentialCategory: "degree" },
+  ],
   knowsLanguage: [
     { "@type": "Language", name: "Spanish", alternateName: "es" },
     { "@type": "Language", name: "English", alternateName: "en" },

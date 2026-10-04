@@ -32,18 +32,18 @@ const msgFailed = es
         <p class="lead mt-5">{p.contact.lead}</p>
 
         <p class="mt-10 text-[14px] font-medium text-muted">{p.contact.emailLabel}</p>
-        <a href={`mailto:${LINKS.email}`} class="email">{LINKS.email}</a>
+        <a href={`mailto:${LINKS.email}`} data-umami-event="email" class="email">{LINKS.email}</a>
 
         <div class="mt-8 flex flex-wrap gap-3">
-          <a href={LINKS.cv} download="Gabriel-Saiz-CV.pdf" class="btn btn-primary">
+          <a href={LINKS.cv} download="Gabriel-Saiz-CV.pdf" data-umami-event="descargar-cv" class="btn btn-primary">
             <Icon name="Download" strokeWidth={2.2} />
             {t.hero.ctaCv}
           </a>
-          <a href={LINKS.linkedin} target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
+          <a href={LINKS.linkedin} target="_blank" rel="noopener noreferrer" data-umami-event="linkedin" class="btn btn-ghost">
             <Icon name="Linkedin" strokeWidth={1.9} />
             LinkedIn
           </a>
-          <a href={LINKS.github} target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
+          <a href={LINKS.github} target="_blank" rel="noopener noreferrer" data-umami-event="github" class="btn btn-ghost">
             <Icon name="Github" strokeWidth={1.9} />
             GitHub
           </a>

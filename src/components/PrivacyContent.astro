@@ -5,6 +5,7 @@ import LegalSub from './LegalSub.astro';
 import LegalList from './LegalList.astro';
 import LegalKV from './LegalKV.astro';
 import { getT, type Locale } from '@/i18n';
+import { UMAMI_WEBSITE_ID } from '@/lib/analytics';
 
 interface Props {
   locale: Locale;
@@ -12,6 +13,32 @@ interface Props {
 const { locale } = Astro.props;
 const t = getT(locale);
 const p = t.privacy.sections;
+// Solo si la analítica (Umami) está activada en src/lib/analytics.ts
+const analytics = UMAMI_WEBSITE_ID
+  ? locale === 'es'
+    ? {
+        title: '2.4. Analítica web',
+        description:
+          'Para saber cuántas personas visitan la web y qué secciones les interesan uso Umami, una herramienta de analítica sin cookies:',
+        items: [
+          'No usa cookies ni guarda nada en tu navegador.',
+          'No recoge datos personales ni permite identificarte: solo estadísticas agregadas (páginas vistas, país, tipo de dispositivo y navegador, web de procedencia).',
+          'Cuenta acciones como descargar el CV o enviar el formulario, nunca su contenido.',
+        ],
+        note: 'Los datos los procesa Umami Software, Inc. en servidores de la Unión Europea, como encargado del tratamiento.',
+      }
+    : {
+        title: '2.4. Web analytics',
+        description:
+          'To know how many people visit the site and which sections they find useful, I use Umami, a cookie-free analytics tool:',
+        items: [
+          'It does not use cookies or store anything in your browser.',
+          'It does not collect personal data or identify you: only aggregated statistics (page views, country, device type and browser, referring site).',
+          'It counts actions such as downloading the CV or sending the form, never their content.',
+        ],
+        note: 'The data is processed by Umami Software, Inc. on servers in the European Union, as data processor.',
+      }
+  : null;
 const sections = [
   { id: 'responsible', title: p.responsible.title },
   { id: 'data-collected', title: p.dataCollected.title },
@@ -56,6 +83,15 @@ const emailLink = 'text-ink underline decoration-white/20 underline-offset-[3px]
       <LegalList items={p.dataCollected.arcade.items} />
       <p>{p.dataCollected.arcade.note}</p>
     </LegalSub>
+    {
+      analytics && (
+        <LegalSub title={analytics.title}>
+          <p>{analytics.description}</p>
+          <LegalList items={analytics.items} />
+          <p>{analytics.note}</p>
+        </LegalSub>
+      )
+    }
   </LegalSection>
 
   <LegalSection id="purpose" title={p.purpose.title}>

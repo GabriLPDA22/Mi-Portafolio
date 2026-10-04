@@ -35,15 +35,15 @@ const h = p.hero;
           {h.availability}
         </p>
         <div class="mt-6 flex flex-wrap items-center gap-3">
-          <a href={LINKS.cv} download="Gabriel-Saiz-CV.pdf" class="btn btn-primary">
+          <a href={LINKS.cv} download="Gabriel-Saiz-CV.pdf" data-umami-event="descargar-cv" class="btn btn-primary">
             <Icon name="Download" strokeWidth={2.2} />
             {h.cv}
           </a>
           <a href="#proyectos" class="btn btn-ghost">{h.projects}</a>
-          <a href={LINKS.linkedin} target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-icon" aria-label="LinkedIn">
+          <a href={LINKS.linkedin} target="_blank" rel="noopener noreferrer" data-umami-event="linkedin" class="btn btn-ghost btn-icon" aria-label="LinkedIn">
             <Icon name="Linkedin" strokeWidth={1.9} />
           </a>
-          <a href={LINKS.github} target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-icon" aria-label="GitHub">
+          <a href={LINKS.github} target="_blank" rel="noopener noreferrer" data-umami-event="github" class="btn btn-ghost btn-icon" aria-label="GitHub">
             <Icon name="Github" strokeWidth={1.9} />
           </a>
         </div>
@@ -60,7 +60,7 @@ const h = p.hero;
         {
           h.ledger.map((row, i) => (
             <li style={`--i:${i}`}>
-              <a href={row.href} target="_blank" rel="noopener noreferrer" class="status-item">
+              <a href={row.href} target="_blank" rel="noopener noreferrer" data-umami-event="ver-web" data-umami-event-proyecto={row.name} class="status-item">
                 <span class="flex items-center justify-between gap-3">
                   <span class="truncate text-[16px] font-semibold text-text">{row.name}</span>
                   <Icon name="ArrowUpRight" class="arrow h-4 w-4 shrink-0" strokeWidth={2.2} />

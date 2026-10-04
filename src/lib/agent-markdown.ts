@@ -69,6 +69,10 @@ ${list(t.about.bullets)}
 
 ${stack}
 
+## ${es ? 'Formación' : 'Education'}
+
+${getPro(locale).experience.education.map((e) => `- ${e.kind}: ${e.title}, ${e.school}`).join('\n')}
+
 ## ${es ? 'Experiencia' : 'Experience'}
 
 ${experience}

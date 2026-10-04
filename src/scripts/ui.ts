@@ -181,6 +181,8 @@ export function initContactForm() {
       form.reset();
       form.hidden = true;
       success.hidden = false;
+      // Analítica (Umami, si está activada): solo se cuenta el envío, nunca el contenido
+      (window as unknown as { umami?: { track: (e: string) => void } }).umami?.track('contacto-enviado');
     } catch {
       showError(root.dataset.msgFailed!);
     } finally {

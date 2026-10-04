@@ -52,6 +52,11 @@ const content = {
     experience: {
       title: 'Experiencia',
       intro: 'Empecé en formación dual manteniendo webs de clientes y desde entonces no he dejado de publicar.',
+      educationTitle: 'Formación',
+      education: [
+        { title: 'Desarrollo de Aplicaciones Web (DAW)', kind: 'Técnico Superior', school: 'Centro San Valero, Zaragoza' },
+        { title: 'Sistemas Microinformáticos y Redes (SMR)', kind: 'Técnico', school: 'Centro San Valero, Zaragoza' },
+      ],
     },
     stack: {
       title: 'Stack',
@@ -134,6 +139,11 @@ const content = {
     experience: {
       title: 'Experience',
       intro: 'I started in a dual training programme maintaining client websites, and I have been shipping ever since.',
+      educationTitle: 'Education',
+      education: [
+        { title: 'Web Application Development (DAW)', kind: 'Higher vocational degree', school: 'Centro San Valero, Zaragoza' },
+        { title: 'Computer Systems and Networks (SMR)', kind: 'Vocational degree', school: 'Centro San Valero, Zaragoza' },
+      ],
     },
     stack: {
       title: 'Stack',

@@ -64,7 +64,7 @@ const labels = es ? { open: 'Abrir menú', close: 'Cerrar menú' } : { open: 'Op
       >
         {other.toUpperCase()}
       </a>
-      <a href={LINKS.cv} download="Gabriel-Saiz-CV.pdf" class="btn btn-primary hidden !min-h-[2.5rem] !px-4 !text-[14px] sm:inline-flex">
+      <a href={LINKS.cv} download="Gabriel-Saiz-CV.pdf" data-umami-event="descargar-cv" class="btn btn-primary hidden !min-h-[2.5rem] !px-4 !text-[14px] sm:inline-flex">
         <Icon name="Download" strokeWidth={2.2} />
         {p.nav.cv}
       </a>
@@ -101,15 +101,15 @@ const labels = es ? { open: 'Abrir menú', close: 'Cerrar menú' } : { open: 'Op
       </ul>
     </nav>
     <div class="menu-item mt-10 flex flex-col gap-3" style="--i:5">
-      <a href={LINKS.cv} download="Gabriel-Saiz-CV.pdf" class="btn btn-primary w-full">
+      <a href={LINKS.cv} download="Gabriel-Saiz-CV.pdf" data-umami-event="descargar-cv" class="btn btn-primary w-full">
         <Icon name="Download" strokeWidth={2.2} />
         {p.nav.cv}
       </a>
       <div class="flex gap-3">
-        <a href={LINKS.linkedin} target="_blank" rel="noopener noreferrer" class="btn btn-ghost flex-1">LinkedIn</a>
-        <a href={LINKS.github} target="_blank" rel="noopener noreferrer" class="btn btn-ghost flex-1">GitHub</a>
+        <a href={LINKS.linkedin} target="_blank" rel="noopener noreferrer" data-umami-event="linkedin" class="btn btn-ghost flex-1">LinkedIn</a>
+        <a href={LINKS.github} target="_blank" rel="noopener noreferrer" data-umami-event="github" class="btn btn-ghost flex-1">GitHub</a>
       </div>
-      <a href={`mailto:${LINKS.email}`} class="link mt-2 text-center text-[15px] text-muted">{LINKS.email}</a>
+      <a href={`mailto:${LINKS.email}`} data-umami-event="email" class="link mt-2 text-center text-[15px] text-muted">{LINKS.email}</a>
     </div>
   </div>
 </div>

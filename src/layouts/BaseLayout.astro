@@ -8,6 +8,7 @@ import '@/styles/globals.css';
 import Header from '@/components/Header.astro';
 import CookieBanner from '@/components/CookieBanner.astro';
 import GameLayer from '@/components/GameLayer.astro';
+import { UMAMI_DOMAINS, UMAMI_WEBSITE_ID } from '@/lib/analytics';
 import { localePath, type Locale } from '@/i18n';
 
 interface Props {
@@ -135,6 +136,7 @@ const keywords = [
     <meta name="twitter:description" content={desc} />
     <meta name="twitter:image" content={ogImage} />
 
+    {UMAMI_WEBSITE_ID && <script is:inline defer src="https://cloud.umami.is/script.js" data-website-id={UMAMI_WEBSITE_ID} data-domains={UMAMI_DOMAINS} />}
     {jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd).replace(/</g, '\\u003c')} />}
   </head>
   <body class="min-h-screen max-w-[100vw] overflow-x-clip antialiased">
