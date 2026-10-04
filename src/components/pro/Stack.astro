@@ -45,7 +45,7 @@ const uses = p.stack.uses as Record<string, string>;
             <li class="tech" style={`--c:${c}`}>
               <span class="tech-logo" aria-hidden="true">
                 {item.path ? (
-                  <svg viewBox="0 0 24 24">
+                  <svg viewBox="0 0 24 24" width="26" height="26">
                     <path d={item.path} fill={c} />
                   </svg>
                 ) : (
@@ -71,7 +71,7 @@ const uses = p.stack.uses as Record<string, string>;
               {g.items.map((item) => (
                 <li class="tile" title={item.note[locale]}>
                   {item.path ? (
-                    <svg viewBox="0 0 24 24" class="h-4 w-4 shrink-0" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="16" height="16" class="h-4 w-4 shrink-0" aria-hidden="true">
                       <path d={item.path} fill={logoColor(item.color)} />
                     </svg>
                   ) : (
