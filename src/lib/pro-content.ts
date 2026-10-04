@@ -55,7 +55,15 @@ const content = {
     },
     stack: {
       title: 'Stack',
-      intro: 'Agrupado por dónde lo he usado de verdad, no por lo que he probado una tarde.',
+      intro: 'Lo que uso cada día, y debajo dónde he usado el resto de verdad (no lo que he probado una tarde).',
+      uses: {
+        dotnet: 'APIs y backend en producción: el de ARCH, con tiempo real en SignalR.',
+        vue: 'Paneles de administración con Vue 3 y TypeScript.',
+        astro: 'Webs rápidas y con buen SEO, como esta y Tarot Divinidad.',
+        tailwind: 'Interfaces a medida, rápidas de construir y fáciles de mantener.',
+        typescript: 'Tipado de punta a punta: front, paneles y apps.',
+      },
+      more: 'El resto del stack',
       groups: {
         daily: 'Mi día a día',
         arch: 'En producción en ARCH',
@@ -119,7 +127,15 @@ const content = {
     },
     stack: {
       title: 'Stack',
-      intro: 'Grouped by where I have actually used it, not by what I tried one afternoon.',
+      intro: 'What I use every day, and below where I have actually used the rest (not what I tried one afternoon).',
+      uses: {
+        dotnet: 'APIs and backends in production: the one behind ARCH, with real-time SignalR.',
+        vue: 'Admin dashboards with Vue 3 and TypeScript.',
+        astro: 'Fast, SEO-friendly websites, like this one and Tarot Divinidad.',
+        tailwind: 'Custom interfaces that are quick to build and easy to maintain.',
+        typescript: 'Typed end to end: frontends, dashboards and apps.',
+      },
+      more: 'The rest of the stack',
       groups: {
         daily: 'What I use every day',
         arch: 'In production at ARCH',
