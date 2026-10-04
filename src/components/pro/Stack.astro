@@ -151,6 +151,30 @@ const uses = p.stack.uses as Record<string, string>;
     color: #8a8a99;
   }
 
+  /* Móvil: cada tarjeta en fila (logo a la izquierda) para que las cinco no ocupen tanto */
+  @media (max-width: 639px) {
+    .tech {
+      display: grid;
+      grid-template-columns: 3rem minmax(0, 1fr);
+      column-gap: 1rem;
+      align-items: start;
+      padding: 1.1rem;
+    }
+    .tech-logo {
+      grid-row: span 2;
+      height: 3rem;
+      width: 3rem;
+    }
+    .tech :global(.tech-name) {
+      margin-top: 0.1rem;
+      font-size: 1.5rem;
+    }
+    .tech-use {
+      margin-top: 0.35rem;
+      font-size: 14px;
+    }
+  }
+
   /* ---------- El resto: lista compacta ---------- */
   .rest {
     border-top: 1px solid rgba(237, 237, 242, 0.08);

@@ -1,17 +1,15 @@
 ---
-/** Sobre mí: retrato (duotono violeta), quién soy en dos párrafos y cómo trabajo. */
+/** Sobre mí: retrato, quién soy en dos párrafos y tres hechos comprobables (no adjetivos). */
 import { Image } from 'astro:assets';
 import photo from '@/assets/img/Yo.webp';
-import { getT, type Locale } from '@/i18n';
+import type { Locale } from '@/i18n';
 import { getPro } from '@/lib/pro-content';
 
 interface Props {
   locale: Locale;
 }
 const { locale } = Astro.props;
-const t = getT(locale);
 const p = getPro(locale);
-const principles = Object.values(t.results.items);
 ---
 
 <section id="sobre-mi" class="section cv-auto scroll-mt-16">
@@ -28,17 +26,17 @@ const principles = Object.values(t.results.items);
       </div>
     </div>
 
-    <h3 class="mt-16 text-[15px] font-semibold text-violet-light">{p.about.principlesTitle}</h3>
-    <dl class="mt-5 grid gap-px overflow-hidden rounded-[1.25rem] border border-white/[0.08] bg-white/[0.08] sm:grid-cols-2 lg:grid-cols-4">
+    <h3 class="mt-16 text-[15px] font-semibold text-violet-light">{p.about.proofTitle}</h3>
+    <ul class="proof mt-5">
       {
-        principles.map((pr) => (
-          <div class="bg-card p-6">
-            <dt class="text-[17px] font-[680] leading-snug tracking-[-0.015em] [font-stretch:108%]">{pr.title}</dt>
-            <dd class="mt-2 text-[15px] leading-relaxed text-muted">{pr.text}</dd>
-          </div>
+        p.about.proof.map((item) => (
+          <li class="proof-item">
+            <p class="proof-big">{item.big}</p>
+            <p class="proof-text">{item.text}</p>
+          </li>
         ))
       }
-    </dl>
+    </ul>
   </div>
 </section>
 
@@ -69,5 +67,50 @@ const principles = Object.values(t.results.items);
     background: linear-gradient(200deg, rgba(139, 92, 246, 0.35), rgba(76, 29, 149, 0.15) 45%, transparent 70%);
     mix-blend-mode: multiply;
     pointer-events: none;
+  }
+
+  /* ---------- Hechos: cifra o palabra enorme + explicación ---------- */
+  .proof {
+    display: grid;
+    border-top: 1px solid rgba(237, 237, 242, 0.1);
+  }
+  @media (min-width: 900px) {
+    .proof {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .proof-item {
+    border-bottom: 1px solid rgba(237, 237, 242, 0.1);
+    padding: 1.75rem 0;
+  }
+  @media (min-width: 900px) {
+    .proof-item {
+      border-bottom: 0;
+      padding: 2.25rem 2rem 0.5rem 0;
+    }
+    .proof-item + .proof-item {
+      border-left: 1px solid rgba(237, 237, 242, 0.1);
+      padding-left: 2rem;
+    }
+  }
+  .proof-big {
+    font-size: clamp(2.4rem, 3.4vw, 3.4rem);
+    font-weight: 820;
+    font-stretch: 112%;
+    white-space: nowrap; /* "End-to-end" no se parte por el guion */
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    background: linear-gradient(180deg, #c4b5fd, #7c3aed);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    padding-bottom: 0.05em;
+  }
+  .proof-text {
+    margin-top: 0.85rem;
+    max-width: 22rem;
+    font-size: 15.5px;
+    line-height: 1.55;
+    color: #b4b4c2;
   }
 </style>

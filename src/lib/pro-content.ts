@@ -77,7 +77,12 @@ const content = {
         'Soy Gabriel, desarrollador full-stack en Zaragoza. Me gusta el producto entero: desde el modelo de datos y la API hasta la pantalla que toca el usuario y el pipeline que la publica.',
         'Busco un equipo donde aportar desde el primer día y seguir aprendiendo de gente que sepa más que yo.',
       ],
-      principlesTitle: 'Cómo trabajo',
+      proofTitle: 'Lo que ya he hecho',
+      proof: [
+        { big: '5', text: 'apps publicadas en App Store y Google Play: ARCH y cuatro más con Deveco.it.' },
+        { big: 'CI/CD', text: 'que publica solo: cada build sube a App Store Connect y Google Play Console sin tocar nada.' },
+        { big: 'End-to-end', text: 'en ARCH: app React Native, backend .NET, panel en Vue, pagos con Stripe y Apple Wallet.' },
+      ],
     },
     contact: {
       title: '¿Hablamos?',
@@ -149,7 +154,12 @@ const content = {
         "I'm Gabriel, a full-stack developer based in Zaragoza, Spain. I like owning the whole product: from the data model and the API to the screen people touch and the pipeline that ships it.",
         "I'm looking for a team where I can contribute from day one and keep learning from people who know more than I do.",
       ],
-      principlesTitle: 'How I work',
+      proofTitle: 'What I have already shipped',
+      proof: [
+        { big: '5', text: 'apps live on the App Store and Google Play: ARCH and four more with Deveco.it.' },
+        { big: 'CI/CD', text: 'that ships by itself: every build goes to App Store Connect and Google Play Console hands-free.' },
+        { big: 'End-to-end', text: 'on ARCH: React Native app, .NET backend, Vue dashboard, Stripe payments and Apple Wallet.' },
+      ],
     },
     contact: {
       title: "Let's talk",
