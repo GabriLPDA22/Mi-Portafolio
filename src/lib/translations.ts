@@ -203,7 +203,7 @@ export const translations = {
           id: 'freelance',
           role: 'Desarrollador Web & Mobile',
           company: 'Independiente',
-          period: '2025',
+          period: '2025 — 2026',
           location: 'Zaragoza · Remoto',
           description: 'Desarrollo end-to-end de productos digitales: de la idea a la publicación en stores.',
           bullets: [
@@ -563,7 +563,7 @@ export const translations = {
           website: 'Sitio web',
           websiteValue: 'gabrielcodes.dev',
           activity: 'Actividad',
-          activityValue: 'Desarrollador Full-Stack freelance',
+          activityValue: 'Desarrollador Full-Stack',
         },
         purpose: {
           title: '2. Objeto y ámbito de aplicación',
@@ -816,7 +816,7 @@ export const translations = {
           id: 'freelance',
           role: 'Web & Mobile Developer',
           company: 'Independent',
-          period: '2025',
+          period: '2025 — 2026',
           location: 'Zaragoza · Remote',
           description: 'End-to-end development of digital products: from idea to store release.',
           bullets: [
@@ -1176,7 +1176,7 @@ export const translations = {
           website: 'Website',
           websiteValue: 'gabrielcodes.dev',
           activity: 'Activity',
-          activityValue: 'Freelance Full-Stack Developer',
+          activityValue: 'Full-Stack Developer',
         },
         purpose: {
           title: '2. Purpose and Scope',
