@@ -29,3 +29,6 @@ __pycache__/
 
 # Credenciales del ranking (van fuera de public_html en el servidor)
 arcade-config.php
+
+# Herramientas locales de Claude Code (skills de terceros, configuración del panel): no se suben
+/.claude/
