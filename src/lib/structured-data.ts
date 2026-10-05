@@ -109,6 +109,7 @@ export const profilePageData = (locale: "es" | "en") => ({
   "@type": "ProfilePage",
   url: locale === "es" ? siteUrl : `${siteUrl}/en`,
   inLanguage: locale === "es" ? "es-ES" : "en-GB",
-  dateModified: new Date().toISOString().slice(0, 10),
+  // Google pide fecha y hora con zona (ISO 8601 completo): solo el día da "valor no válido"
+  dateModified: new Date().toISOString().replace(/\.\d{3}Z$/, "Z"),
   mainEntity: { "@id": `${siteUrl}/#person` },
 });
