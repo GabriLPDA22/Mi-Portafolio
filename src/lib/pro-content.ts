@@ -89,9 +89,9 @@ const content = {
       ],
       proofTitle: 'Lo que ya he hecho',
       proof: [
-        { big: '5', text: 'apps publicadas en App Store y Google Play: ARCH y cuatro más con Deveco.it.' },
-        { big: 'CI/CD', text: 'que publica solo: cada build sube a App Store Connect y Google Play Console sin tocar nada.' },
-        { big: 'End-to-end', text: 'en ARCH: app React Native, backend .NET, panel en Vue, pagos con Stripe y Apple Wallet.' },
+        { big: '5 apps publicadas', text: 'En App Store y Google Play: ARCH y cuatro más con Deveco.it.' },
+        { big: 'Publicación automática', text: 'CI/CD: cada build sube sola a App Store Connect y Google Play Console, sin tocar nada.' },
+        { big: 'Un producto completo', text: 'ARCH de principio a fin: app en React Native, backend .NET, panel en Vue, pagos con Stripe y Apple Wallet.' },
       ],
     },
     contact: {
@@ -176,9 +176,9 @@ const content = {
       ],
       proofTitle: 'What I have already shipped',
       proof: [
-        { big: '5', text: 'apps live on the App Store and Google Play: ARCH and four more with Deveco.it.' },
-        { big: 'CI/CD', text: 'that ships by itself: every build goes to App Store Connect and Google Play Console hands-free.' },
-        { big: 'End-to-end', text: 'on ARCH: React Native app, .NET backend, Vue dashboard, Stripe payments and Apple Wallet.' },
+        { big: '5 apps shipped', text: 'Live on the App Store and Google Play: ARCH and four more with Deveco.it.' },
+        { big: 'Hands-free releases', text: 'CI/CD: every build goes to App Store Connect and Google Play Console on its own.' },
+        { big: 'A whole product', text: 'ARCH from start to finish: React Native app, .NET backend, Vue dashboard, Stripe payments and Apple Wallet.' },
       ],
     },
     contact: {

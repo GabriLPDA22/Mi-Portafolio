@@ -39,7 +39,7 @@ const labels = es ? { open: 'Abrir menú', close: 'Cerrar menú' } : { open: 'Op
   <div class="container-main flex h-[4.5rem] items-center justify-between gap-4">
     <a href={home} data-home-link class="brand flex shrink-0 items-center gap-2.5">
       <Image src={logo} alt="" height={34} widths={[34, 68]} sizes="34px" class="logo-mark" loading="eager" />
-      <span class="text-[17px] font-bold tracking-[-0.01em] [font-stretch:112%]">gabriel<span class="opacity-60">.codes</span></span>
+      <span class="text-[1.0625rem] font-bold tracking-[-0.01em] [font-stretch:112%]">gabriel<span class="opacity-60">.codes</span></span>
     </a>
 
     <nav class="hidden items-center gap-1 lg:flex" aria-label={es ? 'Principal' : 'Main'}>
@@ -64,7 +64,7 @@ const labels = es ? { open: 'Abrir menú', close: 'Cerrar menú' } : { open: 'Op
       >
         {other.toUpperCase()}
       </a>
-      <a href={LINKS.cv} download="Gabriel-Saiz-CV.pdf" data-umami-event="descargar-cv" class="btn btn-primary hidden !min-h-[2.5rem] !px-4 !text-[14px] sm:inline-flex">
+      <a href={LINKS.cv} download="Gabriel-Saiz-CV.pdf" data-umami-event="descargar-cv" class="btn btn-primary hidden !min-h-[2.5rem] !px-4 !text-[0.875rem] sm:inline-flex">
         <Icon name="Download" strokeWidth={2.2} />
         {p.nav.cv}
       </a>
@@ -109,7 +109,7 @@ const labels = es ? { open: 'Abrir menú', close: 'Cerrar menú' } : { open: 'Op
         <a href={LINKS.linkedin} target="_blank" rel="noopener noreferrer" data-umami-event="linkedin" class="btn btn-ghost flex-1">LinkedIn</a>
         <a href={LINKS.github} target="_blank" rel="noopener noreferrer" data-umami-event="github" class="btn btn-ghost flex-1">GitHub</a>
       </div>
-      <a href={`mailto:${LINKS.email}`} data-umami-event="email" class="link mt-2 text-center text-[15px] text-muted">{LINKS.email}</a>
+      <a href={`mailto:${LINKS.email}`} data-umami-event="email" class="link mt-2 text-center text-[0.9375rem] text-muted">{LINKS.email}</a>
     </div>
   </div>
 </div>
@@ -153,7 +153,7 @@ const labels = es ? { open: 'Abrir menú', close: 'Cerrar menú' } : { open: 'Op
   .nav-link {
     border-radius: 999px;
     padding: 0.5rem 0.85rem;
-    font-size: 15px;
+    font-size: 0.9375rem;
     font-weight: 550;
     color: #8a8a99;
     transition:
@@ -169,13 +169,13 @@ const labels = es ? { open: 'Abrir menú', close: 'Cerrar menú' } : { open: 'Op
   }
   .lang {
     display: inline-grid;
-    height: 2.5rem;
-    min-width: 2.5rem;
+    height: 2.75rem;
+    min-width: 2.75rem;
     place-items: center;
     border: 1px solid rgba(237, 237, 242, 0.16);
     color: #8a8a99;
     border-radius: 999px;
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 700;
     transition: border-color 0.15s ease;
   }
@@ -188,8 +188,8 @@ const labels = es ? { open: 'Abrir menú', close: 'Cerrar menú' } : { open: 'Op
     position: relative;
     z-index: 60;
     display: inline-grid;
-    height: 2.5rem;
-    width: 2.5rem;
+    height: 2.75rem;
+    width: 2.75rem;
     place-items: center;
     border-radius: 999px;
     background: #ededf2;

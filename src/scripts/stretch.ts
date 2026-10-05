@@ -1,7 +1,8 @@
 /**
  * Letras vivas ([data-stretch], componente StretchText): cada letra se ensancha y engorda según
  * la distancia al cursor (ejes wdth/wght de Archivo vía --w / --g). Con data-idle, sin ratón
- * cerca, una ola recorre las letras.
+ * cerca, una ola recorre las letras un par de veces y se apaga (el movimiento automático no
+ * debe durar indefinidamente; el ratón sigue despertándolas).
  *
  * Sin saltos de diseño (CLS 0): cada letra tiene un hueco de ancho fijo (su ancho en reposo) y el
  * glifo crece dentro de él; el "empujón" a las vecinas se hace con transform, que no mueve cajas.
@@ -15,6 +16,8 @@ const REST_G = 700;
 const MAX_G = 900;
 const IDLE_AFTER = 2500; // ms sin mover el ratón para volver a la ola
 const IDLE_START = 2000; // la ola empieza un poco después de cargar: la carga no compite con ella
+const IDLE_LENGTH = 8200; // dos pasadas de la ola (periodo ≈ 4,1 s) y se queda quieta
+const IDLE_FADE = 1400; // la última parte se va apagando, sin cortes
 
 type Block = { visible: boolean; wake: () => void };
 
@@ -24,8 +27,10 @@ export function initStretch() {
   const blocks: Block[] = [];
   // Hasta que la página ha cargado del todo (y un poco más) no hay ola: solo el cursor
   let idleAllowed = false;
+  let idleEnd = 0;
   const allowIdle = () => window.setTimeout(() => {
     idleAllowed = true;
+    idleEnd = performance.now() + IDLE_LENGTH;
     blocks.forEach((b) => b.visible && b.wake());
   }, IDLE_START);
   if (document.readyState === 'complete') allowIdle();
@@ -33,7 +38,7 @@ export function initStretch() {
 
   let px = -1e4;
   let py = -1e4;
-  let lastMove = 0;
+  let lastMove = -Infinity; // sin ratón todavía (con 0, una carga rápida pasaba por "ratón activo" y no había ola)
   let idleTimer = 0;
   const wakeAll = () => blocks.forEach((b) => b.visible && b.wake());
   if (fine) {
@@ -100,7 +105,8 @@ export function initStretch() {
 
     const frame = (now: number) => {
       raf = 0;
-      const idle = hasIdle && idleAllowed;
+      const idle = hasIdle && idleAllowed && now < idleEnd;
+      const fade = Math.min(1, (idleEnd - now) / IDLE_FADE);
       const pointerActive = fine && now - lastMove < IDLE_AFTER;
       let moving = false;
       // Las cajas no se mueven nunca (solo transform): su posición vale como referencia
@@ -114,7 +120,7 @@ export function initStretch() {
           const t = Math.max(0, 1 - d / radius);
           target = t * t * (3 - 2 * t);
         }
-        if (idle && !pointerActive) target = Math.max(target, 0.55 * (0.5 + 0.5 * Math.sin(now / 650 - i * 0.55)));
+        if (idle && !pointerActive) target = Math.max(target, 0.55 * fade * (0.5 + 0.5 * Math.sin(now / 650 - i * 0.55)));
         cur[i] += (target - cur[i]) * 0.14;
         if (Math.abs(target - cur[i]) > 0.002) moving = true;
 

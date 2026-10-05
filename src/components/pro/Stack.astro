@@ -1,11 +1,10 @@
 ---
 /**
  * Stack: "Mi día a día" como protagonista (una tarjeta grande por tecnología: logo iluminado en
- * su color de marca, nombre en letras vivas y para qué la uso) y, debajo, el resto agrupado por
+ * su color de marca, nombre y para qué la uso) y, debajo, el resto agrupado por
  * dónde se ha usado, en una lista compacta. Datos y logos en data/inventory.ts.
  */
 import Icon from '../Icon.astro';
-import StretchText from '../StretchText.astro';
 import { stackItems, type StackGroup } from '@/data/inventory';
 import type { Locale } from '@/i18n';
 import { getPro } from '@/lib/pro-content';
@@ -36,7 +35,7 @@ const uses = p.stack.uses as Record<string, string>;
     <p class="lead mt-5">{p.stack.intro}</p>
 
     <!-- Mi día a día -->
-    <h3 class="mt-14 text-[15px] font-semibold text-violet-light">{p.stack.groups.daily}</h3>
+    <h3 class="mt-14 text-[0.9375rem] font-semibold text-soft">{p.stack.groups.daily}</h3>
     <ul class="daily mt-5">
       {
         daily.map((item) => {
@@ -52,7 +51,7 @@ const uses = p.stack.uses as Record<string, string>;
                   <Icon name={item.lucide ?? 'Code'} strokeWidth={2} />
                 )}
               </span>
-              <StretchText text={item.name} class="tech-name" />
+              <span class="tech-name">{item.name}</span>
               <p class="tech-use">{uses[item.id]}</p>
             </li>
           );
@@ -61,7 +60,7 @@ const uses = p.stack.uses as Record<string, string>;
     </ul>
 
     <!-- El resto, por dónde se ha usado -->
-    <h3 class="mt-14 text-[15px] font-semibold text-muted">{p.stack.more}</h3>
+    <h3 class="mt-14 text-[0.9375rem] font-semibold text-muted">{p.stack.more}</h3>
     <div class="rest mt-4">
       {
         rest.map((g) => (
@@ -139,6 +138,8 @@ const uses = p.stack.uses as Record<string, string>;
     width: 1.65rem;
   }
   .tech :global(.tech-name) {
+    display: block;
+    font-weight: 700;
     margin-top: 1.4rem;
     font-size: clamp(1.6rem, 2.2vw, 1.9rem);
     letter-spacing: -0.03em;
@@ -146,7 +147,7 @@ const uses = p.stack.uses as Record<string, string>;
   }
   .tech-use {
     margin-top: 0.6rem;
-    font-size: 14.5px;
+    font-size: 0.9063rem;
     line-height: 1.5;
     color: #8a8a99;
   }
@@ -171,7 +172,7 @@ const uses = p.stack.uses as Record<string, string>;
     }
     .tech-use {
       margin-top: 0.35rem;
-      font-size: 14px;
+      font-size: 0.875rem;
     }
   }
 
@@ -193,7 +194,7 @@ const uses = p.stack.uses as Record<string, string>;
     }
   }
   .rest-label {
-    font-size: 14.5px;
+    font-size: 0.9063rem;
     font-weight: 600;
     color: #b4b4c2;
   }
@@ -209,7 +210,7 @@ const uses = p.stack.uses as Record<string, string>;
     border: 1px solid rgba(237, 237, 242, 0.08);
     border-radius: 999px;
     padding: 0.32rem 0.75rem;
-    font-size: 13.5px;
+    font-size: 0.8438rem;
     font-weight: 500;
     color: #b4b4c2;
   }

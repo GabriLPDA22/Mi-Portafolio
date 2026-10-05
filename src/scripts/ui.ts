@@ -95,39 +95,6 @@ export function initHeader() {
 }
 
 /* ------------------------------------------------------------------ */
-/* Banner de cookies                                                    */
-/* ------------------------------------------------------------------ */
-
-export function initCookieBanner() {
-  const banner = document.querySelector<HTMLElement>('[data-cookie-banner]');
-  if (!banner) return;
-
-  let consent: string | null = null;
-  try {
-    consent = localStorage.getItem('cookie-consent');
-  } catch {
-    /* almacenamiento bloqueado: se muestra el banner */
-  }
-  if (consent) return;
-
-  banner.hidden = false;
-  requestAnimationFrame(() => banner.classList.add('is-in'));
-
-  banner.addEventListener('click', (e) => {
-    const value = (e.target as HTMLElement).closest<HTMLElement>('[data-consent]')?.dataset.consent;
-    if (!value) return;
-    try {
-      localStorage.setItem('cookie-consent', value);
-      localStorage.setItem('cookie-consent-date', new Date().toISOString());
-    } catch {
-      /* sin almacenamiento: se volverá a preguntar */
-    }
-    banner.classList.remove('is-in');
-    window.setTimeout(() => (banner.hidden = true), 300);
-  });
-}
-
-/* ------------------------------------------------------------------ */
 /* Formulario de contacto (Formspree, mismo endpoint que antes)         */
 /* ------------------------------------------------------------------ */
 

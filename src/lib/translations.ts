@@ -444,14 +444,6 @@ export const translations = {
     footer: {
       copyright: 'Todos los derechos reservados.',
     },
-    // Cookies
-    cookies: {
-      message: 'Este sitio web utiliza cookies técnicas necesarias para su funcionamiento y para recordar tu elección sobre este aviso. No utilizamos cookies de seguimiento ni publicidad.',
-      moreInfo: 'Más información en nuestra',
-      privacyPolicy: 'Política de Privacidad',
-      accept: 'Aceptar',
-      reject: 'Rechazar',
-    },
     // Legal hub (shared layout)
     legalHub: {
       title: 'Legal',
@@ -484,12 +476,14 @@ export const translations = {
             note: 'Estos datos se envían a través de Formspree y se almacenan temporalmente para poder responder a tu consulta.',
           },
           cookies: {
-            title: '2.2. Cookies técnicas',
-            description: 'Utilizamos cookies técnicas necesarias para el funcionamiento del sitio:',
+            title: '2.2. Cookies y almacenamiento local',
+            description: 'Este sitio no usa cookies. Solo si juegas al minijuego BUG RUN se guarda en tu navegador (almacenamiento local, no sale de tu dispositivo):',
             items: [
-              'cookie-consent: Almacena tu preferencia sobre el uso de cookies',
+              'gs-bugrun-best: tu mejor puntuación',
+              'gs-bugrun-name: el último nombre que usaste en el ranking',
+              'gs-bugrun-muted: si has silenciado el sonido',
             ],
-            note: 'Estas cookies son necesarias y no requieren consentimiento según el RGPD, ya que son estrictamente necesarias para el funcionamiento del sitio.',
+            note: 'Es almacenamiento técnico que tú mismo pides al usar el juego, por lo que no requiere consentimiento. Puedes borrarlo cuando quieras desde los ajustes de tu navegador.',
           },
           arcade: {
             title: '2.3. Ranking del minijuego',
@@ -506,7 +500,7 @@ export const translations = {
           description: 'Los datos recopilados se utilizan exclusivamente para:',
           items: [
             'Responder a tus consultas enviadas a través del formulario de contacto',
-            'Recordar tu consentimiento sobre el uso de cookies',
+            'Recordar tu mejor puntuación y tus preferencias del minijuego, solo en tu navegador',
           ],
         },
         legalBasis: {
@@ -514,14 +508,14 @@ export const translations = {
           description: 'El tratamiento de tus datos se basa en:',
           items: [
             'Consentimiento: Para el formulario de contacto, basado en tu consentimiento explícito al enviar el formulario',
-            'Interés legítimo: Para las cookies técnicas necesarias para el funcionamiento del sitio',
+            'Interés legítimo: Para el almacenamiento técnico del minijuego, que solo se usa si juegas',
           ],
         },
         retention: {
           title: '5. Conservación de datos',
           description: 'Los datos del formulario de contacto se conservan durante el tiempo necesario para responder a tu consulta y, en su caso, durante los plazos legalmente establecidos.',
-          cookiesNote: 'Las cookies técnicas se conservan según su finalidad:',
-          cookieItems: ['Cookie de consentimiento: 1 año'],
+          cookiesNote: 'El almacenamiento local del minijuego:',
+          cookieItems: ['Se conserva en tu navegador hasta que lo borres'],
         },
         rights: {
           title: '6. Tus derechos',
@@ -541,8 +535,8 @@ export const translations = {
           description: 'Implemento medidas técnicas y organizativas apropiadas para proteger tus datos personales contra el acceso no autorizado, la pérdida o la destrucción.',
         },
         thirdParty: {
-          title: '8. Cookies de terceros',
-          description: 'Este sitio web NO utiliza cookies de terceros para seguimiento, publicidad o análisis. Solo utilizamos cookies técnicas propias necesarias para el funcionamiento del sitio.',
+          title: '8. Cookies',
+          description: 'Este sitio web NO utiliza cookies, ni propias ni de terceros, para seguimiento, publicidad o análisis.',
         },
         changes: {
           title: '9. Cambios en esta política',
@@ -1063,14 +1057,6 @@ export const translations = {
     footer: {
       copyright: 'All rights reserved.',
     },
-    // Cookies
-    cookies: {
-      message: 'This website uses necessary technical cookies for its operation and to remember your choice on this notice. We do not use tracking or advertising cookies.',
-      moreInfo: 'More information in our',
-      privacyPolicy: 'Privacy Policy',
-      accept: 'Accept',
-      reject: 'Reject',
-    },
     // Legal hub (shared layout)
     legalHub: {
       title: 'Legal',
@@ -1103,12 +1089,14 @@ export const translations = {
             note: 'This data is sent through Formspree and stored temporarily to respond to your inquiry.',
           },
           cookies: {
-            title: '2.2. Technical Cookies',
-            description: 'We use technical cookies necessary for the site operation:',
+            title: '2.2. Cookies and local storage',
+            description: 'This site does not use cookies. Only if you play the BUG RUN mini-game, your browser stores (local storage, it never leaves your device):',
             items: [
-              'cookie-consent: Stores your preference regarding cookie usage',
+              'gs-bugrun-best: your best score',
+              'gs-bugrun-name: the last name you used on the leaderboard',
+              'gs-bugrun-muted: whether you muted the sound',
             ],
-            note: 'These cookies are necessary and do not require consent under GDPR, as they are strictly necessary for the site operation.',
+            note: 'This is technical storage you request yourself by playing, so it does not require consent. You can clear it at any time from your browser settings.',
           },
           arcade: {
             title: '2.3. Mini-game ranking',
@@ -1125,7 +1113,7 @@ export const translations = {
           description: 'The collected data is used exclusively for:',
           items: [
             'Responding to your inquiries sent through the contact form',
-            'Remembering your consent regarding cookie usage',
+            'Remembering your best score and mini-game preferences, only in your browser',
           ],
         },
         legalBasis: {
@@ -1133,14 +1121,14 @@ export const translations = {
           description: 'The processing of your data is based on:',
           items: [
             'Consent: For the contact form, based on your explicit consent when submitting the form',
-            'Legitimate interest: For technical cookies necessary for the site operation',
+            'Legitimate interest: For the mini-game technical storage, used only if you play',
           ],
         },
         retention: {
           title: '5. Data Retention',
           description: 'Contact form data is retained for the time necessary to respond to your inquiry and, where applicable, for legally established periods.',
-          cookiesNote: 'Technical cookies are retained according to their purpose:',
-          cookieItems: ['Consent cookie: 1 year'],
+          cookiesNote: 'The mini-game local storage:',
+          cookieItems: ['Kept in your browser until you clear it'],
         },
         rights: {
           title: '6. Your Rights',
@@ -1160,8 +1148,8 @@ export const translations = {
           description: 'I implement appropriate technical and organizational measures to protect your personal data against unauthorized access, loss or destruction.',
         },
         thirdParty: {
-          title: '8. Third-Party Cookies',
-          description: 'This website does NOT use third-party cookies for tracking, advertising or analytics. We only use our own technical cookies necessary for the site operation.',
+          title: '8. Cookies',
+          description: 'This website does NOT use cookies, first-party or third-party, for tracking, advertising or analytics.',
         },
         changes: {
           title: '9. Changes to This Policy',

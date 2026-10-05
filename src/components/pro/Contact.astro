@@ -31,7 +31,7 @@ const msgFailed = es
         <h2 class="contact-title"><StretchText text={p.contact.title} /></h2>
         <p class="lead mt-5">{p.contact.lead}</p>
 
-        <p class="mt-10 text-[14px] font-medium text-muted">{p.contact.emailLabel}</p>
+        <p class="mt-10 text-[0.875rem] font-medium text-muted">{p.contact.emailLabel}</p>
         <a href={`mailto:${LINKS.email}`} data-umami-event="email" class="email">{LINKS.email}</a>
 
         <div class="mt-8 flex flex-wrap gap-3">
@@ -56,12 +56,12 @@ const msgFailed = es
             <Icon name="Check" class="h-6 w-6" strokeWidth={2.6} />
           </span>
           <h3 class="text-[1.5rem] font-[750] tracking-[-0.02em]">{f.success.title}</h3>
-          <p class="mt-2 text-[15px] text-muted">{f.success.message}</p>
+          <p class="mt-2 text-[0.9375rem] text-muted">{f.success.message}</p>
           <button type="button" data-contact-again class="btn btn-ghost mt-6">{f.success.again}</button>
         </div>
 
         <form action="https://formspree.io/f/mrezlekq" method="POST" class="grid gap-5">
-          <p class="text-[18px] font-semibold tracking-[-0.01em]">{p.contact.formTitle}</p>
+          <p class="text-[1.125rem] font-semibold tracking-[-0.01em]">{p.contact.formTitle}</p>
           <div class="grid gap-4 sm:grid-cols-2">
             <div>
               <label for="name" class="label">{f.name}</label>
@@ -87,7 +87,7 @@ const msgFailed = es
             <textarea id="message" name="message" required rows="5" class="field resize-none" placeholder={f.messagePlaceholder}></textarea>
           </div>
 
-          <div data-contact-error hidden role="alert" class="flex items-center gap-2 rounded-xl border border-red-400/30 bg-red-500/10 px-4 py-3 text-[14px] text-red-200">
+          <div data-contact-error hidden role="alert" class="flex items-center gap-2 rounded-xl border border-red-400/30 bg-red-500/10 px-4 py-3 text-[0.875rem] text-red-200">
             <Icon name="AlertCircle" class="h-4 w-4 shrink-0" />
             <span data-error-text></span>
           </div>
@@ -190,7 +190,7 @@ const msgFailed = es
   .label {
     display: block;
     margin-bottom: 0.45rem;
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 550;
     color: #b4b4c2;
   }
@@ -200,12 +200,12 @@ const msgFailed = es
     border-radius: 0.7rem;
     background: #16161b;
     padding: 0.8rem 0.95rem;
-    font-size: 16px; /* < 16 px y el iPhone hace zoom al tocar el campo */
+    font-size: 1rem; /* < 16 px y el iPhone hace zoom al tocar el campo */
     color: #ededf2;
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
   }
   .field::placeholder {
-    color: #6e6e7c;
+    color: #8a8a99; /* 5,3:1 sobre el campo (#6e6e7c daba 3,6:1) */
   }
   .field:focus {
     outline: none;

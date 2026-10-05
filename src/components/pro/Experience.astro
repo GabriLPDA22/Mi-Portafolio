@@ -47,18 +47,18 @@ const years = (period: string) => period.split(/\s*[—–-]\s*/);
                   job.company
                 )}
               </h3>
-              <p class="mt-2 text-[16px] font-semibold text-violet-light">{job.role}</p>
-              <p class="mt-1.5 inline-flex items-center gap-1.5 text-[14px] text-muted">
+              <p class="mt-2 text-[1rem] font-semibold text-text">{job.role}</p>
+              <p class="mt-1.5 inline-flex items-center gap-1.5 text-[0.875rem] text-muted">
                 <Icon name="MapPin" class="h-3.5 w-3.5" strokeWidth={2} />
                 {job.location}
               </p>
             </div>
 
             <div class="min-w-0">
-              <p class="text-[16.5px] leading-relaxed text-text">{job.description}</p>
+              <p class="text-[1.0313rem] leading-relaxed text-text">{job.description}</p>
               <ul class="mt-4 grid gap-2">
                 {job.bullets.map((b) => (
-                  <li class="flex gap-2.5 text-[15px] leading-snug text-muted">
+                  <li class="flex gap-2.5 text-[0.9375rem] leading-snug text-muted">
                     <span class="mt-[0.5em] h-1.5 w-1.5 shrink-0 rounded-full bg-violet" aria-hidden="true" />
                     {b}
                   </li>
@@ -74,15 +74,15 @@ const years = (period: string) => period.split(/\s*[—–-]\s*/);
     </ol>
 
     <!-- Formación -->
-    <h3 class="mt-14 text-[15px] font-semibold text-violet-light">{p.experience.educationTitle}</h3>
+    <h3 class="mt-14 text-[0.9375rem] font-semibold text-soft">{p.experience.educationTitle}</h3>
     <ul class="edu mt-5">
       {
         p.experience.education.map((e) => (
           <li class="edu-item">
             <Icon name="GraduationCap" class="edu-icon" strokeWidth={1.8} />
             <div class="min-w-0">
-              <p class="text-[17px] font-semibold leading-snug">{e.title}</p>
-              <p class="mt-1 text-[14.5px] text-muted">
+              <p class="text-[1.0625rem] font-semibold leading-snug">{e.title}</p>
+              <p class="mt-1 text-[0.9063rem] text-muted">
                 {e.kind}, {e.school}
               </p>
             </div>
@@ -149,7 +149,7 @@ const years = (period: string) => period.split(/\s*[—–-]\s*/);
   .is-latest .y,
   .job:hover .y {
     -webkit-text-stroke-color: transparent;
-    background: linear-gradient(180deg, #c4b5fd, #7c3aed);
+    background: linear-gradient(180deg, #ffffff 10%, #9a9ab0 105%); /* mismo relleno que el nombre */
     -webkit-background-clip: text;
     background-clip: text;
   }
@@ -200,7 +200,7 @@ const years = (period: string) => period.split(/\s*[—–-]\s*/);
     width: 1.5rem;
     flex-shrink: 0;
     margin-top: 0.1rem;
-    color: #a78bfa;
+    color: #b4b4c2;
   }
 
   .chips {
@@ -212,7 +212,7 @@ const years = (period: string) => period.split(/\s*[—–-]\s*/);
     border: 1px solid rgba(237, 237, 242, 0.1);
     border-radius: 999px;
     padding: 0.3rem 0.7rem;
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 500;
     color: #b4b4c2;
   }

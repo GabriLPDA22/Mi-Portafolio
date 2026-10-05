@@ -6,7 +6,6 @@
 import { Font } from 'astro:assets';
 import '@/styles/globals.css';
 import Header from '@/components/Header.astro';
-import CookieBanner from '@/components/CookieBanner.astro';
 import GameLayer from '@/components/GameLayer.astro';
 import { UMAMI_DOMAINS, UMAMI_WEBSITE_ID } from '@/lib/analytics';
 import { localePath, type Locale } from '@/i18n';
@@ -160,13 +159,12 @@ const keywords = [
     <!-- Primer elemento con Tab: salta la navegación (solo visible al recibir el foco) -->
     <a
       href="#main-content"
-      class="sr-only text-[14px] font-semibold focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-xl focus:bg-violet-light focus:px-4 focus:py-2 focus:text-bg"
+      class="sr-only text-[0.875rem] font-semibold focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-xl focus:bg-violet-light focus:px-4 focus:py-2 focus:text-bg"
     >
       {locale === 'es' ? 'Saltar al contenido' : 'Skip to content'}
     </a>
     <Header locale={locale} path={path} />
     <slot />
-    <CookieBanner locale={locale} />
     <GameLayer locale={locale} />
     <script>
       import '@/scripts/site';

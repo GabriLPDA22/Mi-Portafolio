@@ -1,12 +1,11 @@
 ---
 /**
  * Proyectos como índice: una fila por proyecto con su imagen siempre visible, el nombre enorme
- * en letras vivas y el detalle desplegable (<details>, accesible y sin JS).
+ * y el detalle desplegable (<details>, accesible y sin JS).
  */
 import { Image } from 'astro:assets';
 import Icon from '../Icon.astro';
 import Mascot from '../Mascot.astro';
-import StretchText from '../StretchText.astro';
 import archImg from '@/assets/img/arch-icon.webp';
 import huvegrymImg from '@/assets/img/Huvegrym.webp';
 import tarotImg from '@/assets/img/divinidad-hero.webp';
@@ -63,7 +62,7 @@ const rows: Row[] = [
                     <Mascot class="thumb-mascot" />
                   )}
                 </span>
-                <StretchText text={r.title} class="row-name" />
+                <span class="row-name">{r.title}</span>
                 <span class="row-kind">{r.kind}</span>
                 <span class:list={['row-status', r.personal && 'is-personal']}>{r.personal ? (es ? 'Personal' : 'Personal') : r.status}</span>
                 <span class="row-toggle" aria-hidden="true">
@@ -73,12 +72,12 @@ const rows: Row[] = [
 
               <div class="row-body">
                 <div class="min-w-0">
-                  <p class="max-w-[38rem] text-[17px] text-text">{r.description}</p>
+                  <p class="max-w-[38rem] text-[1.0625rem] text-text">{r.description}</p>
                   {r.bullets.length > 0 && (
                     <ul class="mt-5 grid max-w-[40rem] gap-2.5 sm:grid-cols-2">
                       {r.bullets.map((b) => (
-                        <li class="flex gap-2.5 text-[15px] leading-snug text-muted">
-                          <Icon name="Check" class="mt-[3px] h-4 w-4 shrink-0 text-violet-light" strokeWidth={2.6} />
+                        <li class="flex gap-2.5 text-[0.9375rem] leading-snug text-muted">
+                          <Icon name="Check" class="mt-[3px] h-4 w-4 shrink-0 text-soft" strokeWidth={2.6} />
                           {b}
                         </li>
                       ))}
@@ -201,6 +200,7 @@ const rows: Row[] = [
     font-size: clamp(1.75rem, 5.5vw, 4.5rem);
     letter-spacing: -0.04em;
     line-height: 0.95;
+    font-weight: 700;
     text-transform: uppercase;
     color: #ededf2;
     transition: color 0.25s ease;
@@ -212,7 +212,7 @@ const rows: Row[] = [
   .row-kind {
     grid-column: 2 / -1;
     grid-row: 2;
-    font-size: 14.5px;
+    font-size: 0.9063rem;
     line-height: 1.4;
     color: #8a8a99;
   }
@@ -226,7 +226,7 @@ const rows: Row[] = [
     border: 1px solid rgba(52, 211, 153, 0.3);
     border-radius: 999px;
     padding: 0.2rem 0.65rem;
-    font-size: 12.5px;
+    font-size: 0.7813rem;
     font-weight: 600;
     color: #6ee7b7;
   }
@@ -317,7 +317,7 @@ const rows: Row[] = [
     border: 1px solid rgba(237, 237, 242, 0.1);
     border-radius: 999px;
     padding: 0.3rem 0.7rem;
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 500;
     color: #b4b4c2;
   }

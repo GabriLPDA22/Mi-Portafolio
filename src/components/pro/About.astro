@@ -20,7 +20,7 @@ const p = getPro(locale);
       </figure>
       <div>
         <h2 class="h2">{p.about.title}</h2>
-        <div class="mt-6 grid max-w-[38rem] gap-5 text-[17.5px] leading-relaxed text-muted">
+        <div class="mt-6 grid max-w-[38rem] gap-5 text-[1.0938rem] leading-relaxed text-muted">
           {p.about.body.map((para, i) => <p class:list={[i === 0 && 'text-text']}>{para}</p>)}
         </div>
         <dl class="langs mt-8" aria-label={p.about.languagesTitle}>
@@ -36,7 +36,7 @@ const p = getPro(locale);
       </div>
     </div>
 
-    <h3 class="mt-16 text-[15px] font-semibold text-violet-light">{p.about.proofTitle}</h3>
+    <h3 class="mt-16 text-[0.9375rem] font-semibold text-soft">{p.about.proofTitle}</h3>
     <ul class="proof mt-5">
       {
         p.about.proof.map((item) => (
@@ -92,16 +92,16 @@ const p = getPro(locale);
     padding: 0.7rem 1rem;
   }
   .lang dt {
-    font-size: 15px;
+    font-size: 0.9375rem;
     font-weight: 650;
   }
   .lang dd {
     margin-top: 0.15rem;
-    font-size: 13.5px;
+    font-size: 0.8438rem;
     color: #8a8a99;
   }
 
-  /* ---------- Hechos: cifra o palabra enorme + explicación ---------- */
+  /* ---------- Hechos: titular corto en tipografía sólida + explicación (sin cifras gigantes ni degradado) ---------- */
   .proof {
     display: grid;
     border-top: 1px solid rgba(237, 237, 242, 0.1);
@@ -126,22 +126,18 @@ const p = getPro(locale);
     }
   }
   .proof-big {
-    font-size: clamp(2.4rem, 3.4vw, 3.4rem);
-    font-weight: 820;
-    font-stretch: 112%;
-    white-space: nowrap; /* "End-to-end" no se parte por el guion */
-    letter-spacing: -0.04em;
-    line-height: 0.95;
-    background: linear-gradient(180deg, #c4b5fd, #7c3aed);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    padding-bottom: 0.05em;
+    font-size: clamp(1.4rem, 2.2vw, 1.75rem);
+    font-weight: 750;
+    font-stretch: 114%;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    text-wrap: balance;
+    color: #ededf2;
   }
   .proof-text {
-    margin-top: 0.85rem;
+    margin-top: 0.6rem;
     max-width: 22rem;
-    font-size: 15.5px;
+    font-size: 0.9688rem;
     line-height: 1.55;
     color: #b4b4c2;
   }
