@@ -2,7 +2,7 @@
  * Genera las portadas de los proyectos (src/assets/img/projects/*.webp, 1200×1200) con el mismo
  * lenguaje visual de la web: grafito, rejilla que se apaga, anillos y un halo del color de cada
  * proyecto. Así las tres tarjetas rellenan su panel igual, sin huecos, y el contenido real
- * (icono de la app o capturas reales en móvil) va dentro de un soporte coherente.
+ * (capturas reales de la app y de las webs) va en un móvil con el mismo acabado.
  *
  * Uso: node scripts/project-covers.mjs   (requiere Playwright/Chromium y sharp)
  */
@@ -37,12 +37,33 @@ ${body}
 </body></html>`;
 
 const covers = {
-  // ARCH: el icono de la app, grande, con brillo índigo dentro de los anillos
+  // ARCH: pantalla real de la app (captura de Android sin la barra de estado) en un iPhone dibujado
+  // en CSS con el mismo acabado que las capturas de Huvegrym y Tarot
   arch: base(
     'rgba(99,102,241,.42)',
-    `<div class="stage"><div style="position:relative">
-      <img src="${img('src/assets/img/arch-icon.webp')}" style="width:440px;height:440px;border-radius:99px;display:block;
-        box-shadow:0 0 0 1px rgba(255,255,255,.12),0 60px 120px -30px rgba(79,70,229,.75),0 0 140px -20px rgba(139,92,246,.55)">
+    `<div class="stage"><div style="position:relative;width:500px;height:1034px;border-radius:84px;padding:7px;transform:rotate(-5deg);
+        background:linear-gradient(145deg,#c3d3e3,#7f97b0 40%,#5b7189 70%,#a9bdd0);
+        box-shadow:0 60px 80px -10px rgba(0,0,0,.85),0 0 110px -10px rgba(99,102,241,.55)">
+      <span style="position:absolute;left:-4px;top:200px;width:4px;height:60px;border-radius:2px;background:#7f97b0"></span>
+      <span style="position:absolute;left:-4px;top:290px;width:4px;height:100px;border-radius:2px;background:#7f97b0"></span>
+      <span style="position:absolute;right:-4px;top:260px;width:4px;height:130px;border-radius:2px;background:#7f97b0"></span>
+      <div style="position:relative;width:100%;height:100%;border-radius:77px;padding:16px;background:#050506">
+        <div style="position:relative;width:100%;height:100%;border-radius:62px;overflow:hidden;background:#000">
+          <img src="${img('src/assets/img/arch-screen.webp')}" style="width:100%;height:100%;object-fit:cover;object-position:50% 0;display:block">
+          <div style="position:absolute;inset:0 0 auto 0;height:96px;background:linear-gradient(rgba(0,0,0,.55),transparent)"></div>
+          <div style="position:absolute;left:50%;top:0;width:190px;height:34px;transform:translateX(-50%);border-radius:0 0 22px 22px;background:#050506"></div>
+          <span style="position:absolute;left:44px;top:12px;color:#fff;font-size:21px;font-weight:600;letter-spacing:-.01em">18:05</span>
+          <div style="position:absolute;right:34px;top:15px;display:flex;align-items:flex-end;gap:7px">
+            <span style="display:flex;align-items:flex-end;gap:2px">
+              <i style="width:4px;height:6px;background:#fff;border-radius:1px"></i><i style="width:4px;height:9px;background:#fff;border-radius:1px"></i>
+              <i style="width:4px;height:12px;background:#fff;border-radius:1px"></i><i style="width:4px;height:15px;background:#fff;border-radius:1px"></i>
+            </span>
+            <span style="position:relative;width:30px;height:15px;border-radius:5px;border:1.5px solid rgba(255,255,255,.85);padding:1.5px">
+              <i style="display:block;width:85%;height:100%;background:#fff;border-radius:2px"></i>
+            </span>
+          </div>
+        </div>
+      </div>
     </div></div>`,
   ),
   // Huvegrym: captura real de la web en un iPhone (la imagen ya trae el móvil y fondo transparente)
