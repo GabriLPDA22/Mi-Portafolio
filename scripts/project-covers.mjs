@@ -2,7 +2,7 @@
  * Genera las portadas de los proyectos (src/assets/img/projects/*.webp, 1200×1200) con el mismo
  * lenguaje visual de la web: grafito, rejilla que se apaga, anillos y un halo del color de cada
  * proyecto. Así las tres tarjetas rellenan su panel igual, sin huecos, y el contenido real
- * (icono, foto, captura) va dentro de un soporte coherente: icono de app, móvil o navegador.
+ * (icono, captura en móvil, captura en navegador) va dentro de un soporte coherente.
  *
  * Uso: node scripts/project-covers.mjs   (requiere Playwright/Chromium y sharp)
  */
@@ -45,20 +45,11 @@ const covers = {
         box-shadow:0 0 0 1px rgba(255,255,255,.12),0 60px 120px -30px rgba(79,70,229,.75),0 0 140px -20px rgba(139,92,246,.55)">
     </div></div>`,
   ),
-  // Huvegrym: la foto de la web dentro de un móvil, ligeramente girado
+  // Huvegrym: captura real de la web en un iPhone (la imagen ya trae el móvil y fondo transparente)
   huvegrym: base(
     'rgba(139,92,246,.38)',
-    `<div class="stage"><div style="width:430px;height:880px;border-radius:72px;padding:14px;transform:rotate(-6deg);
-        background:linear-gradient(160deg,#2c2c34,#121216);
-        box-shadow:0 0 0 1px rgba(255,255,255,.14),inset 0 0 0 1px rgba(255,255,255,.06),0 70px 140px -40px rgba(0,0,0,.95),0 0 160px -30px rgba(139,92,246,.6)">
-      <div style="position:relative;width:100%;height:100%;border-radius:58px;overflow:hidden;background:#000">
-        <img src="${img('src/assets/img/Huvegrym.webp')}" style="width:100%;height:100%;object-fit:cover;object-position:50% 40%;display:block">
-        <div style="position:absolute;left:50%;top:18px;width:130px;height:36px;border-radius:999px;background:#000;transform:translateX(-50%)"></div>
-        <div style="position:absolute;left:50%;bottom:30px;transform:translateX(-50%);padding:10px 20px;border-radius:999px;
-          background:rgba(12,12,15,.72);color:rgba(237,237,242,.92);font-size:22px;font-weight:500;white-space:nowrap;
-          box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)">huvegrym.es</div>
-      </div>
-    </div></div>`,
+    `<div class="stage"><img src="${img('src/assets/img/huvegrym-mockup.webp')}" style="height:1010px;display:block;transform:rotate(-5deg);
+      filter:drop-shadow(0 60px 80px rgba(0,0,0,.85)) drop-shadow(0 0 90px rgba(139,92,246,.45))"></div>`,
   ),
   // Tarot Divinidad: la web real en una ventana de navegador con perspectiva
   'tarot-divinidad': base(
