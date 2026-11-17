@@ -2,7 +2,7 @@
  * Genera las portadas de los proyectos (src/assets/img/projects/*.webp, 1200×1200) con el mismo
  * lenguaje visual de la web: grafito, rejilla que se apaga, anillos y un halo del color de cada
  * proyecto. Así las tres tarjetas rellenan su panel igual, sin huecos, y el contenido real
- * (icono, captura en móvil, captura en navegador) va dentro de un soporte coherente.
+ * (icono de la app o capturas reales en móvil) va dentro de un soporte coherente.
  *
  * Uso: node scripts/project-covers.mjs   (requiere Playwright/Chromium y sharp)
  */
@@ -51,20 +51,11 @@ const covers = {
     `<div class="stage"><img src="${img('src/assets/img/huvegrym-mockup.webp')}" style="height:1010px;display:block;transform:rotate(-5deg);
       filter:drop-shadow(0 60px 80px rgba(0,0,0,.85)) drop-shadow(0 0 90px rgba(139,92,246,.45))"></div>`,
   ),
-  // Tarot Divinidad: la web real en una ventana de navegador con perspectiva
+  // Tarot Divinidad: captura real de la web en un iPhone, girado al otro lado que Huvegrym
   'tarot-divinidad': base(
     'rgba(192,38,211,.3)',
-    `<div class="stage" style="perspective:1800px"><div style="width:940px;border-radius:24px;overflow:hidden;background:#0d0d10;
-        transform:rotateY(-10deg) rotateX(5deg);
-        box-shadow:0 0 0 1px rgba(255,255,255,.12),0 80px 160px -40px rgba(0,0,0,.95),0 0 180px -30px rgba(192,38,211,.5)">
-      <div style="display:flex;align-items:center;gap:12px;padding:20px 24px;background:#141418;border-bottom:1px solid rgba(255,255,255,.07)">
-        <span style="width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.16)"></span>
-        <span style="width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.16)"></span>
-        <span style="width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.16)"></span>
-        <span style="margin:0 auto;padding:8px 22px;border-radius:999px;background:rgba(255,255,255,.06);color:rgba(237,237,242,.7);font-size:21px">divinidad000.com</span>
-      </div>
-      <img src="${img('src/assets/img/divinidad-hero.webp')}" style="display:block;width:100%">
-    </div></div>`,
+    `<div class="stage"><img src="${img('src/assets/img/tarot-mockup.webp')}" style="height:1010px;display:block;transform:rotate(5deg);
+      filter:drop-shadow(0 60px 80px rgba(0,0,0,.85)) drop-shadow(0 0 90px rgba(192,38,211,.4))"></div>`,
   ),
 };
 
