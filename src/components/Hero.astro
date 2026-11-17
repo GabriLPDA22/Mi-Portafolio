@@ -1,0 +1,188 @@
+---
+/**
+ * Portada: nombre enorme con brillo metálico sobre un "horizonte" iluminado en violeta,
+ * propuesta de valor, CTAs y cifras verificables. Todo HTML/CSS (la entrada es CSS puro,
+ * no espera al JS), así el LCP es el propio titular.
+ */
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import photo from '@/assets/img/Yo.webp';
+import { getT, type Locale } from '@/i18n';
+import { getPro, LINKS } from '@/lib/pro-content';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = getT(locale);
+const p = getPro(locale);
+const es = locale === 'es';
+const d = (s: number) => `--d:${s}s`;
+
+type Stat = { value: number; prefix?: string; suffix?: string; label: string };
+const stats: Stat[] = es
+  ? [
+      { value: 5, label: 'apps publicadas en App Store y Google Play' },
+      { value: 2024, label: 'publicando software en producción' },
+      { value: 2, label: 'titulaciones técnicas: DAW y SMR' },
+      { value: 100, label: 'en Lighthouse: esta web también es portfolio' },
+    ]
+  : [
+      { value: 5, label: 'apps shipped to the App Store and Google Play' },
+      { value: 2024, label: 'shipping software to production' },
+      { value: 2, label: 'vocational degrees: DAW and SMR' },
+      { value: 100, label: 'on Lighthouse: this site is part of the portfolio' },
+    ];
+---
+
+<section class="hero relative isolate flex min-h-svh flex-col overflow-hidden">
+  <!-- Fondo: rejilla, halo violeta y horizonte (planeta) con el borde iluminado -->
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+    <div class="grid-lines absolute inset-x-0 top-0 h-[80%]"></div>
+    <div class="halo"></div>
+    <div class="horizon"></div>
+  </div>
+
+  <div class="container-main flex flex-1 flex-col items-center justify-center pb-10 pt-32 text-center sm:pt-36">
+    <a href="#contacto" class="badge intro group !gap-2.5 !py-1 !pl-1 !pr-3.5" style={d(0)}>
+      <Image src={photo} alt="" width={28} height={28} densities={[1, 2]} class="h-7 w-7 rounded-full object-cover grayscale" loading="eager" />
+      <span class="dot-live"></span>
+      <span class="sm:hidden">{es ? 'Disponible · Zaragoza o remoto' : 'Available · Zaragoza or remote'}</span>
+      <span class="hidden sm:inline">{p.hero.availability}</span>
+    </a>
+
+    <h1 class="display intro mt-7 text-[clamp(3.6rem,17vw,11.5rem)]" style={d(0.08)}>
+      <span class="text-metal block pb-[0.04em]">{t.hero.name}</span>
+      <span class="sr-only">— {t.hero.title}</span>
+    </h1>
+
+    <p class="intro mt-5 text-[clamp(1.35rem,4.6vw,2.4rem)] font-medium leading-tight tracking-[-0.03em] text-ink/90" style={d(0.18)}>
+      {es ? 'Desarrollador' : ''} <span class="serif text-gold text-[1.12em]">full-stack</span> {es ? '' : 'developer'}
+      <span class="text-ink/40" aria-hidden="true">—</span> {es ? 'producto completo, de la API a la App Store.' : 'the whole product, from the API to the App Store.'}
+    </p>
+
+    <p class="lead intro mx-auto mt-5 max-w-xl" style={d(0.28)}>{p.hero.lead}</p>
+
+    <div class="intro mt-9 flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center" style={d(0.38)}>
+      <a href={LINKS.cv} download="Gabriel-Saiz-CV.pdf" data-umami-event="descargar-cv" class="btn btn-volt justify-between sm:justify-center">
+        {p.hero.cv}
+        <span class="btn-icon"><Icon name="ArrowDown" class="h-4 w-4" strokeWidth={2.4} /></span>
+      </a>
+      <a href="#proyectos" class="btn btn-ghost has-icon justify-between sm:justify-center">
+        {p.hero.projects}
+        <span class="btn-icon"><Icon name="ArrowUpRight" class="h-4 w-4" strokeWidth={2.2} /></span>
+      </a>
+    </div>
+
+    <p class="intro mt-6 text-[13px] tracking-wide text-ink/60" style={d(0.46)}>{t.hero.proof}</p>
+  </div>
+
+  <!-- Cifras -->
+  <div class="container-main relative pb-8 sm:pb-12">
+    <dl class="stats intro grid grid-cols-2 overflow-hidden rounded-3xl lg:grid-cols-4" style={d(0.55)}>
+      {
+        stats.map((s) => (
+          <div class="stat flex flex-col gap-1.5 p-5 text-left sm:p-6">
+            <dt class="order-2 text-[12.5px] leading-snug text-ink/55">{s.label}</dt>
+            <dd class="order-1 text-[clamp(2rem,6vw,2.8rem)] font-semibold leading-none tracking-[-0.04em] text-ink">
+              {s.prefix && <span class="text-acid">{s.prefix}</span>}
+              <span>{s.value}</span>
+              {s.suffix && <span class="text-acid">{s.suffix}</span>}
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+    <a href="#stack" class="scroll-cue intro mx-auto mt-8 hidden w-fit flex-col items-center gap-2 text-[11px] uppercase tracking-[0.25em] text-ink/60 sm:flex" style={d(0.7)}>
+      Scroll
+      <span class="cue-line" aria-hidden="true"></span>
+    </a>
+  </div>
+</section>
+
+<style>
+  .halo {
+    position: absolute;
+    left: 50%;
+    top: 34%;
+    width: min(1100px, 160vw);
+    height: 620px;
+    transform: translate(-50%, -50%);
+    background:
+      radial-gradient(closest-side, rgba(139, 92, 246, 0.16), transparent 70%),
+      radial-gradient(40% 50% at 20% 60%, rgba(124, 58, 237, 0.12), transparent 70%);
+    filter: blur(10px);
+  }
+  /* Planeta: un círculo enorme cuyo borde superior se ilumina como un eclipse */
+  .horizon {
+    position: absolute;
+    left: 50%;
+    top: 74%;
+    width: max(180vw, 1500px);
+    aspect-ratio: 1;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: radial-gradient(closest-side, #0b0b0e 96%, #121014);
+    box-shadow:
+      inset 0 2px 0 rgba(196, 181, 253, 0.55),
+      inset 0 30px 80px -40px rgba(139, 92, 246, 0.5),
+      0 -2px 30px rgba(139, 92, 246, 0.25),
+      0 -40px 160px -30px rgba(139, 92, 246, 0.4);
+  }
+  @media (min-width: 1024px) {
+    .horizon {
+      top: 70%;
+    }
+  }
+  .stats {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(12, 12, 15, 0.6);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+  .stat + .stat {
+    border-left: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  .stat:nth-child(3) {
+    border-left: none;
+  }
+  .stat:nth-child(n + 3) {
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  @media (min-width: 1024px) {
+    .stat:nth-child(3) {
+      border-left: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .stat:nth-child(n + 3) {
+      border-top: none;
+    }
+  }
+  .cue-line {
+    position: relative;
+    width: 1px;
+    height: 2.5rem;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.1);
+  }
+  .cue-line::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent, #a78bfa);
+    animation: cue 2.2s var(--ease-out-quart) infinite;
+  }
+  @keyframes cue {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(100%);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cue-line::after {
+      animation: none;
+    }
+  }
+</style>

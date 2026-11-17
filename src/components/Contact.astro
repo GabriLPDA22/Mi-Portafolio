@@ -1,0 +1,199 @@
+---
+/**
+ * Contacto: tarjeta grande (como la de la referencia) con titular, email copiable, redes y el
+ * formulario (Formspree, misma lógica en ui.ts). Sin JS el formulario envía igual (POST normal).
+ */
+import Icon from './Icon.astro';
+import Split from './ui/Split.astro';
+import { EMAIL, SOCIALS } from '@/data/socials';
+import { getT, type Locale } from '@/i18n';
+import { getPro } from '@/lib/pro-content';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = getT(locale);
+const es = locale === 'es';
+const f = t.contact.form;
+
+const badges = [
+  { icon: 'Clock', text: t.contact.badges.response },
+  { icon: 'Briefcase', text: t.contact.badges.free },
+  { icon: 'MapPin', text: t.contact.badges.noCommitment },
+];
+const options = ['mobile', 'web', 'ecommerce', 'saas', 'consulting'] as const;
+const msgFailed = es
+  ? `Hubo un error al enviar el mensaje. Inténtalo de nuevo o escríbeme directamente a ${EMAIL}`
+  : `There was an error sending your message. Please try again or email me directly at ${EMAIL}`;
+const label = 'mb-2 block text-[13px] font-medium text-ink/70';
+---
+
+<section id="contacto" class="section !pb-10">
+  <div class="container-main">
+    <div class="contact-card relative isolate overflow-hidden rounded-[2rem] px-5 py-14 sm:rounded-[2.5rem] sm:px-10 sm:py-20 lg:px-16" data-reveal="scale">
+      <div aria-hidden="true" class="grid-lines pointer-events-none absolute inset-0 -z-10 opacity-70"></div>
+      <div aria-hidden="true" class="contact-glow"></div>
+
+      <div class="flex flex-col items-center text-center">
+        <p class="badge"><span class="dot-live"></span>{es ? 'Contacto' : 'Contact'}</p>
+        <Split as="h2" text={t.contact.headline} class="display mt-6 text-[clamp(3.2rem,13vw,8rem)]" wordClass="text-metal" />
+        <p class="lead mx-auto mt-5 max-w-xl">{getPro(locale).contact.lead}</p>
+        <ul class="mt-7 flex flex-wrap justify-center gap-2">
+          {
+            badges.map((b) => (
+              <li class="chip !gap-2 !px-3.5 !py-1.5 !text-[13px]">
+                <Icon name={b.icon} class="h-3.5 w-3.5 text-acid" />
+                {b.text}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="mt-14 grid gap-4 text-left lg:mt-16 lg:grid-cols-[0.8fr_1.2fr] lg:gap-6">
+        <!-- Contacto directo -->
+        <div class="flex flex-col gap-4">
+          <div class="card p-6">
+            <p class="text-[13px] text-ink/50">{f.directEmail}</p>
+            <a href={`mailto:${EMAIL}`} data-umami-event="email" class="mt-2 block break-all text-[clamp(1.1rem,3.6vw,1.35rem)] font-semibold tracking-tight text-ink hover:text-acid">
+              {EMAIL}
+            </a>
+            <div class="mt-5 flex gap-2">
+              <a href={`mailto:${EMAIL}`} data-umami-event="email" class="btn btn-volt flex-1 !min-h-11 !py-2 !text-[14px]">
+                <Icon name="Mail" class="h-4 w-4" />
+                Email
+              </a>
+              <button
+                type="button"
+                data-copy={EMAIL}
+                data-copied={es ? '¡Copiado!' : 'Copied!'}
+                class="btn btn-ghost flex-1 !min-h-11 !px-4 !py-2 !text-[14px]"
+              >
+                <Icon name="Copy" class="h-4 w-4" />
+                <span data-copy-label>{es ? 'Copiar' : 'Copy'}</span>
+              </button>
+            </div>
+          </div>
+          <div class="card flex flex-col p-2">
+            {
+              SOCIALS.map((s) => (
+                <a href={s.href} target="_blank" rel="noopener noreferrer" data-umami-event={s.label.toLowerCase()} class="group flex items-center gap-3.5 rounded-2xl px-4 py-3.5 transition-colors hover:bg-white/[0.03]">
+                  <Icon name={s.icon} class="h-5 w-5 text-ink/50 group-hover:text-acid" strokeWidth={1.7} />
+                  <span class="flex-1 text-[15px] font-medium text-ink">{s.label}</span>
+                  <Icon name="ArrowUpRight" class="h-4 w-4 text-ink/35 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-acid" />
+                </a>
+              ))
+            }
+          </div>
+        </div>
+
+        <!-- Formulario -->
+        <div id="contacto-form" data-contact data-msg-required={f.error} data-msg-failed={msgFailed} class="card relative scroll-mt-28 p-6 sm:p-8">
+          <div data-contact-success hidden class="flex flex-col items-center py-14 text-center" role="status">
+            <span class="grid h-14 w-14 place-items-center rounded-full bg-acid/10 text-acid shadow-[0_0_40px_-6px_rgba(139, 92, 246,.6)]">
+              <Icon name="Check" class="h-6 w-6" strokeWidth={2.6} />
+            </span>
+            <h3 class="mt-6 text-2xl font-semibold tracking-tight text-ink">{f.success.title}</h3>
+            <p class="mt-2 text-[15px] text-ink/60">{f.success.message}</p>
+            <button type="button" data-contact-again class="btn btn-ghost mt-8">{f.success.again}</button>
+          </div>
+
+          <form action="https://formspree.io/f/mrezlekq" method="POST" class="flex flex-col gap-5">
+            <div>
+              <h3 class="text-xl font-semibold tracking-tight text-ink">{f.title}</h3>
+              <p class="mt-1 text-[14px] text-ink/55">{f.description}</p>
+            </div>
+            <div class="grid gap-5 sm:grid-cols-2">
+              <div>
+                <label for="name" class={label}>{f.name}</label>
+                <input type="text" id="name" name="name" required autocomplete="name" class="field" placeholder={es ? 'Tu nombre' : 'Your name'} />
+              </div>
+              <div>
+                <label for="email" class={label}>{f.email}</label>
+                <input type="email" id="email" name="email" required autocomplete="email" class="field" placeholder={es ? 'tu@email.com' : 'you@email.com'} />
+              </div>
+            </div>
+            <div>
+              <label for="project" class={label}>{f.project}</label>
+              <div class="relative">
+                <select id="project" name="project" class="field appearance-none pr-10">
+                  <option value="">{f.projectOptions.select}</option>
+                  {options.map((o) => <option value={o}>{f.projectOptions[o]}</option>)}
+                </select>
+                <Icon name="ChevronDown" class="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-ink/50" />
+              </div>
+            </div>
+            <div>
+              <label for="message" class={label}>{f.message}</label>
+              <textarea id="message" name="message" required rows="5" class="field resize-none" placeholder={f.messagePlaceholder}></textarea>
+            </div>
+
+            <div data-contact-error hidden role="alert" class="flex items-center gap-2 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-[13px] text-red-300">
+              <Icon name="AlertCircle" class="h-4 w-4 flex-shrink-0" />
+              <span data-error-text></span>
+            </div>
+
+            <button type="submit" class="btn btn-volt w-full justify-between disabled:cursor-not-allowed disabled:opacity-60">
+              <span data-idle class="flex items-center gap-2">{f.send}</span>
+              <span data-loading hidden class="flex items-center gap-2">
+                <Icon name="Loader2" class="h-4 w-4 animate-spin" />
+                {f.sending}
+              </span>
+              <span class="btn-icon"><Icon name="Send" class="h-4 w-4" strokeWidth={2.2} /></span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-card {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background:
+      radial-gradient(60% 40% at 50% 0%, rgba(139, 92, 246, 0.1), transparent 70%),
+      linear-gradient(180deg, #0f0f12, #0a0a0c);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 40px 120px -60px rgba(0, 0, 0, 0.9);
+  }
+  .contact-glow {
+    position: absolute;
+    left: 50%;
+    top: -12rem;
+    z-index: -1;
+    width: 40rem;
+    height: 24rem;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(139, 92, 246, 0.22), transparent);
+    filter: blur(20px);
+  }
+  .field {
+    width: 100%;
+    border-radius: 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    background: rgba(255, 255, 255, 0.025);
+    padding: 0.85rem 1rem;
+    font-size: 16px;
+    color: #ededf2;
+    outline: none;
+    transition:
+      border-color 0.3s ease,
+      box-shadow 0.3s ease,
+      background-color 0.3s ease;
+  }
+  .field::placeholder {
+    color: rgba(237, 237, 242, 0.3);
+  }
+  .field:focus {
+    border-color: rgba(139, 92, 246, 0.6);
+    background: rgba(139, 92, 246, 0.03);
+    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+  }
+  .field option {
+    background: #16161b;
+  }
+</style>

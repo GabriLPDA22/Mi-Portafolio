@@ -1,30 +1,28 @@
 /**
- * BUG RUN, el minijuego escondido: se abre con los botones [data-arcade-open] (visibles solo
- * con JS) o con el código Konami ↑↑↓↓←→←→BA. El juego se descarga al abrirlo, no antes.
+ * Easter egg: el minijuego BUG RUN (con ranking global) se abre con el código Konami
+ * (↑↑↓↓←→←→BA) o con el botón "Insert coin" del pie. Se descarga solo al abrirlo.
  */
-
 type ArcadeTexts = Parameters<typeof import('./arcade').openArcade>[0];
 
 const readTexts = (): ArcadeTexts | null => {
-  const el = document.getElementById('game-data');
-  if (!el?.textContent) return null;
+  const el = document.getElementById('arcade-data');
   try {
-    return (JSON.parse(el.textContent) as { arcade?: ArcadeTexts }).arcade ?? null;
+    return el ? (JSON.parse(el.textContent || 'null') as ArcadeTexts) : null;
   } catch {
     return null;
   }
 };
 
-const openArcadeLazy = () => {
+const open = () => {
   const texts = readTexts();
-  if (!texts) return;
+  if (!texts || document.querySelector('.arcade')) return;
   void import('./arcade').then(({ openArcade }) => openArcade(texts));
 };
 
-export function initArcade() {
+export function initEasterEgg() {
   document.querySelectorAll<HTMLButtonElement>('[data-arcade-open]').forEach((btn) => {
     btn.hidden = false;
-    btn.addEventListener('click', openArcadeLazy);
+    btn.addEventListener('click', open);
   });
 
   const code = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
@@ -35,7 +33,7 @@ export function initArcade() {
     pos = key === code[pos] ? pos + 1 : key === code[0] ? 1 : 0;
     if (pos === code.length) {
       pos = 0;
-      openArcadeLazy();
+      open();
     }
   });
 }

@@ -1,12 +1,13 @@
 ---
 /**
  * Layout raíz: metadatos SEO por idioma (con hreflang), fuentes autoalojadas, cabecera,
- * banner de cookies y un único script ligero (sin frameworks en el cliente).
+ * analítica sin cookies (Umami), textos del easter egg y un único script ligero (sin frameworks).
  */
 import { Font } from 'astro:assets';
 import '@/styles/globals.css';
 import Header from '@/components/Header.astro';
-import GameLayer from '@/components/GameLayer.astro';
+import ScrollToTop from '@/components/ScrollToTop.astro';
+import ArcadeData from '@/components/ArcadeData.astro';
 import { UMAMI_DOMAINS, UMAMI_WEBSITE_ID } from '@/lib/analytics';
 import { localePath, type Locale } from '@/i18n';
 
@@ -19,6 +20,8 @@ interface Props {
   description?: string;
   noindex?: boolean;
   jsonLd?: Record<string, unknown>;
+  /** Mostrar el botón "volver arriba" (portada). */
+  scrollTop?: boolean;
 }
 
 const siteUrl = 'https://gabrielcodes.dev';
@@ -44,7 +47,7 @@ const meta = {
   },
 };
 
-const { locale, path = '/', title, description, noindex = false, jsonLd } = Astro.props;
+const { locale, path = '/', title, description, noindex = false, jsonLd, scrollTop = false } = Astro.props;
 const m = meta[locale];
 const fullTitle = title ? `${title} | Gabriel Saiz` : m.title;
 const desc = description ?? m.description;
@@ -79,6 +82,7 @@ const keywords = [
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Con JS, las entradas animadas empiezan ocultas; sin JS todo es visible. -->
     <script is:inline>
       document.documentElement.classList.add('js');
     </script>
@@ -111,7 +115,8 @@ const keywords = [
     <meta name="theme-color" content="#0c0c0f" />
     <meta name="color-scheme" content="dark" />
 
-    <Font cssVariable="--font-archivo" preload />
+    <Font cssVariable="--font-geist" preload />
+    <Font cssVariable="--font-instrument" preload />
     <Font cssVariable="--font-tiny" />
 
     <link rel="icon" href="/favicon-96.png?v=2" type="image/png" sizes="96x96" />
@@ -159,13 +164,14 @@ const keywords = [
     <!-- Primer elemento con Tab: salta la navegación (solo visible al recibir el foco) -->
     <a
       href="#main-content"
-      class="sr-only text-[0.875rem] font-semibold focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-xl focus:bg-violet-light focus:px-4 focus:py-2 focus:text-bg"
+      class="sr-only text-[14px] font-medium focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-full focus:bg-acid focus:px-4 focus:py-2 focus:text-noir"
     >
       {locale === 'es' ? 'Saltar al contenido' : 'Skip to content'}
     </a>
     <Header locale={locale} path={path} />
     <slot />
-    <GameLayer locale={locale} />
+    {scrollTop && <ScrollToTop locale={locale} />}
+    <ArcadeData locale={locale} />
     <script>
       import '@/scripts/site';
     </script>

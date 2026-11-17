@@ -1,0 +1,173 @@
+---
+/**
+ * Experiencia: cabecera fija a la izquierda (escritorio), línea de tiempo cuyo raíl violeta
+ * se llena con el scroll (motion.ts pone --tl) y formación. Sin JS el raíl se ve completo.
+ */
+import Icon from './Icon.astro';
+import SectionHead from './ui/SectionHead.astro';
+import { getT, type Locale } from '@/i18n';
+import { getPro } from '@/lib/pro-content';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = getT(locale);
+const es = locale === 'es';
+const edu = getPro(locale).experience;
+---
+
+<section id="experiencia" class="section cv-auto">
+  <div class="container-main grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+    <div class="lg:sticky lg:top-32 lg:self-start">
+      <SectionHead
+        align="left"
+        badge={es ? 'Experiencia' : 'Experience'}
+        title={t.experience.headline}
+        serif={es ? ['producción'] : ['production']}
+        lead={t.experience.subtitle}
+      >
+        <a href="/cv/Gabriel-Saiz-CV.pdf" download="Gabriel-Saiz-CV.pdf" data-umami-event="descargar-cv" class="btn btn-ghost has-icon mt-2" data-reveal style="--delay:.25s">
+          {t.hero.ctaCv}
+          <span class="btn-icon"><Icon name="ArrowDown" class="h-4 w-4" strokeWidth={2.2} /></span>
+        </a>
+      </SectionHead>
+    </div>
+
+    <div class="flex flex-col gap-12">
+    <ol class="timeline relative flex flex-col gap-5 pl-8 sm:pl-12" data-timeline>
+      <span class="rail" aria-hidden="true"><span class="rail-fill"></span></span>
+      {
+        t.experience.items.map((x, i) => (
+          <li class="relative" data-reveal style={`--delay:${i * 0.06}s`}>
+            <span class="node" aria-hidden="true" />
+            <article class="card spotlight p-6 sm:p-8" data-spotlight>
+              <div class="flex flex-wrap items-center justify-between gap-3">
+                <span class="serif text-[1.7rem] leading-none text-gold">{x.period}</span>
+                <span class="flex items-center gap-1.5 text-[13px] text-ink/60">
+                  <Icon name="MapPin" class="h-3.5 w-3.5" />
+                  {x.location}
+                </span>
+              </div>
+              <h3 class="mt-4 text-[1.45rem] font-semibold leading-tight tracking-[-0.03em] text-ink">{x.role}</h3>
+              <p class="mt-1 text-[15px] text-ink/60">
+                {'url' in x && x.url ? (
+                  <a href={x.url} target="_blank" rel="noopener noreferrer" class="link-u inline-flex items-center gap-1 font-medium text-acid">
+                    {x.company}
+                    <Icon name="ArrowUpRight" class="h-3.5 w-3.5" />
+                  </a>
+                ) : (
+                  <span class="font-medium text-ink/80">{x.company}</span>
+                )}
+              </p>
+              <p class="mt-4 text-[14.5px] leading-relaxed text-ink/60">{x.description}</p>
+              <ul class="mt-4 flex flex-col gap-2.5 text-[14px] text-ink/75">
+                {x.bullets.map((b) => (
+                  <li class="flex items-start gap-2.5">
+                    <span class="mt-[0.55em] h-1 w-1 shrink-0 rounded-full bg-acid" />
+                    {b}
+                  </li>
+                ))}
+              </ul>
+              <div class="mt-5 flex flex-wrap gap-1.5 border-t border-white/[0.06] pt-5">
+                {x.chips.map((c) => (
+                  <span class="chip">{c}</span>
+                ))}
+              </div>
+            </article>
+          </li>
+        ))
+      }
+    </ol>
+
+    <!-- Formación -->
+    <div data-reveal>
+      <h3 class="mb-4 text-[12px] uppercase tracking-[0.16em] text-ink/60">{edu.educationTitle}</h3>
+      <ul class="grid gap-3 sm:grid-cols-2">
+        {
+          edu.education.map((e) => (
+            <li class="card flex items-start gap-4 p-5 sm:p-6">
+              <span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-acid/25 bg-acid/[0.07] text-acid">
+                <Icon name="GraduationCap" class="h-4.5 w-4.5" strokeWidth={1.8} />
+              </span>
+              <div>
+                <p class="text-[12px] uppercase tracking-[0.12em] text-acid">{e.kind}</p>
+                <p class="mt-1 text-[15.5px] font-semibold leading-snug text-ink">{e.title}</p>
+                <p class="mt-1 text-[13.5px] text-ink/60">{e.school}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .rail {
+    position: absolute;
+    left: 7px;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.08);
+  }
+  @media (min-width: 640px) {
+    .rail {
+      left: 11px;
+    }
+  }
+  .rail-fill {
+    position: absolute;
+    inset: 0;
+    transform-origin: top;
+    transform: scaleY(var(--tl, 1));
+    background: linear-gradient(180deg, #c4b5fd, #a78bfa 70%, rgba(139, 92, 246, 0.2));
+    box-shadow: 0 0 12px rgba(139, 92, 246, 0.6);
+  }
+  .node {
+    position: absolute;
+    left: -2rem;
+    top: 2.1rem;
+    width: 15px;
+    height: 15px;
+    border-radius: 999px;
+    background: #0c0c0f;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.18),
+      0 0 0 4px #0c0c0f;
+    transition: box-shadow 0.6s var(--ease-out-expo);
+  }
+  @media (min-width: 640px) {
+    .node {
+      left: -3rem;
+      width: 23px;
+      height: 23px;
+      top: 2.4rem;
+    }
+  }
+  .node::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border-radius: inherit;
+    background: #a78bfa;
+    opacity: 0;
+    transform: scale(0.4);
+    transition:
+      opacity 0.6s ease,
+      transform 0.6s var(--ease-out-expo);
+  }
+  :global(.is-in) > .node {
+    box-shadow:
+      inset 0 0 0 1px rgba(139, 92, 246, 0.7),
+      0 0 0 4px #0c0c0f,
+      0 0 20px rgba(139, 92, 246, 0.45);
+  }
+  :global(.is-in) > .node::after,
+  :global(html:not(.js)) .node::after {
+    opacity: 1;
+    transform: none;
+  }
+</style>

@@ -1,63 +1,110 @@
 ---
-/** Pie: datos, enlaces legales y el guiño al minijuego (botón visible solo con JS). */
-import Mascot from './Mascot.astro';
-import { getT, localePath, type Locale } from '@/i18n';
-import { getPro, LINKS } from '@/lib/pro-content';
+/**
+ * Pie: columnas de enlaces, el nombre gigante a modo de marca de agua y, muy discreto,
+ * el acceso al minijuego oculto (también se abre con el código Konami).
+ */
+import Icon from './Icon.astro';
+import { EMAIL, SOCIALS } from '@/data/socials';
+import { getT, homePath, localePath, type Locale } from '@/i18n';
 
 interface Props {
   locale: Locale;
 }
 const { locale } = Astro.props;
 const t = getT(locale);
-const p = getPro(locale);
+const home = homePath(locale);
+const es = locale === 'es';
+
+const routes = [
+  { href: `${home}#proyectos`, label: t.nav.projects },
+  { href: `${home}#experiencia`, label: es ? 'Experiencia' : 'Experience' },
+  { href: `${home}#sobre-mi`, label: t.nav.about },
+  { href: `${home}#servicios`, label: es ? 'Capacidades' : 'Skills' },
+  { href: `${home}#contacto`, label: t.nav.contact },
+];
 const year = new Date().getFullYear();
+const col = 'mb-4 text-[12px] uppercase tracking-[0.16em] text-ink/55';
+const lnk = 'link-u text-[15px] text-ink/70 hover:text-ink';
 ---
 
-<footer class="border-t border-white/[0.07]">
-  <div class="container-main flex flex-col gap-8 py-10 md:flex-row md:items-center md:justify-between">
-    <div class="text-[0.875rem] text-muted">
-      <p class="font-semibold text-text">© {year} Gabriel Saiz</p>
-      <p class="mt-1"><a href={`mailto:${LINKS.email}`} class="link hit">{LINKS.email}</a></p>
-      <p class="mt-3 flex gap-5">
-        <a href={localePath(locale, '/privacidad')} class="hit hover:text-text">{t.legalHub.privacy}</a>
-        <a href={localePath(locale, '/aviso-legal')} class="hit hover:text-text">{t.legalHub.legalNotice}</a>
+<footer class="relative overflow-hidden pt-16 sm:pt-24">
+  <div class="hairline mx-auto max-w-[var(--container-max)]"></div>
+  <div class="container-main grid gap-12 pt-14 sm:pt-16 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+    <div class="flex flex-col items-start gap-6">
+      <p class="max-w-xs text-[clamp(1.6rem,4vw,2.1rem)] font-semibold leading-tight tracking-[-0.035em] text-ink">
+        {es ? '¿Construimos algo' : 'Shall we build something'} <span class="serif text-gold">{es ? 'juntos?' : 'together?'}</span>
       </p>
+      <a href={`${home}#contacto`} class="btn btn-volt">
+        {es ? 'Hablemos' : "Let's talk"}
+        <span class="btn-icon"><Icon name="ArrowUpRight" class="h-4 w-4" strokeWidth={2.4} /></span>
+      </a>
     </div>
-
-    <button type="button" data-arcade-open hidden class="egg" title={p.footer.konami}>
-      <Mascot class="h-10 w-auto shrink-0" />
-      <span>{p.footer.play}</span>
-    </button>
+    <nav aria-label={es ? 'Pie de página' : 'Footer'}>
+      <p class={col}>{es ? 'Navegación' : 'Navigation'}</p>
+      <ul class="flex flex-col gap-3">{routes.map((r) => <li><a href={r.href} class={lnk}>{r.label}</a></li>)}</ul>
+    </nav>
+    <div>
+      <p class={col}>{es ? 'Redes' : 'Social'}</p>
+      <ul class="flex flex-col gap-3">
+        {SOCIALS.map((s) => <li><a href={s.href} target="_blank" rel="noopener noreferrer" data-umami-event={s.label.toLowerCase()} class={lnk}>{s.label}</a></li>)}
+        <li><a href={`mailto:${EMAIL}`} data-umami-event="email" class={lnk}>Email</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class={col}>Legal</p>
+      <ul class="flex flex-col gap-3">
+        <li><a href={localePath(locale, '/privacidad')} class={lnk}>{t.legalHub.privacy}</a></li>
+        <li><a href={localePath(locale, '/aviso-legal')} class={lnk}>{t.legalHub.legalNotice}</a></li>
+        <li><a href="/cv/Gabriel-Saiz-CV.pdf" download="Gabriel-Saiz-CV.pdf" data-umami-event="descargar-cv" class={lnk}>CV (PDF)</a></li>
+      </ul>
+    </div>
   </div>
+
+  <div class="container-main mt-16 flex flex-col-reverse items-start justify-between gap-4 border-t border-white/[0.06] py-6 text-[13px] text-ink/60 sm:flex-row sm:items-center">
+    <p>© {year} Gabriel Saiz. {t.footer.copyright}</p>
+    <div class="flex items-center gap-5">
+      <span>Zaragoza, {es ? 'España' : 'Spain'}</span>
+      <!-- Easter egg: solo aparece con JS (lo muestra easter-egg.ts) -->
+      <button type="button" data-arcade-open hidden data-umami-event="jugar-bug-run" class="coin-btn" title={es ? 'Hay un minijuego escondido…' : 'There is a hidden mini game…'}>
+        <Icon name="Gamepad2" class="h-4 w-4" strokeWidth={1.8} />
+        <span>Insert coin</span>
+      </button>
+    </div>
+  </div>
+
+  <p aria-hidden="true" class="wordmark">Gabriel Saiz</p>
 </footer>
 
 <style>
-  /* Zona de toque de unos 44 px de alto sin mover el diseño: el relleno se compensa con margen negativo */
-  .hit {
-    display: inline-block;
-    margin: -0.7rem -0.5rem;
-    padding: 0.7rem 0.5rem;
+  .wordmark {
+    margin-bottom: -0.2em;
+    text-align: center;
+    white-space: nowrap;
+    font-size: clamp(3.5rem, 16.5vw, 17rem);
+    font-weight: 700;
+    letter-spacing: -0.06em;
+    line-height: 0.85;
+    background: linear-gradient(180deg, rgba(237, 237, 242, 0.16), rgba(237, 237, 242, 0) 85%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    user-select: none;
   }
-  .egg {
+  .coin-btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.8rem;
-    border: 1px dashed rgba(237, 237, 242, 0.16);
-    border-radius: 1rem;
-    padding: 0.5rem 1rem 0.5rem 0.6rem;
-    font-size: 0.875rem;
-    font-weight: 550;
-    color: #8a8a99;
-    cursor: pointer;
+    gap: 0.4rem;
+    border-radius: 999px;
+    padding: 0.3rem 0.75rem;
+    font-size: 12px;
+    color: rgba(237, 237, 242, 0.6);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07);
     transition:
-      border-color 0.15s ease,
-      color 0.15s ease;
+      color 0.3s ease,
+      box-shadow 0.3s ease;
   }
-  .egg:hover {
-    border-color: rgba(167, 139, 250, 0.6);
-    color: #ededf2;
-  }
-  .egg :global(svg) {
-    image-rendering: pixelated;
+  .coin-btn:hover {
+    color: #a78bfa;
+    box-shadow: inset 0 0 0 1px rgba(139, 92, 246, 0.45);
   }
 </style>

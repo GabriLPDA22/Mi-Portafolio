@@ -11,23 +11,28 @@ export default defineConfig({
     // CSS inline en el HTML: sin petición bloqueante antes del primer pintado.
     inlineStylesheets: 'always',
   },
+  // Fuentes autoalojadas: Geist (texto y titulares, variable) + Instrument Serif cursiva (acentos).
+  // Tiny5 solo la usa el minijuego oculto: se declara pero no se precarga.
   fonts: [
     {
-      // Archivo variable (OFL-1.1), recortada a lo que usa la web: latín básico + Latin-1,
-      // peso 400-900 y anchura 100-125 % (54 KB en vez de 90). La anchura es parte del diseño:
-      // las "letras vivas" se ensanchan con ella.
       provider: fontProviders.local(),
-      name: 'Archivo',
-      cssVariable: '--font-archivo',
+      name: 'Geist',
+      cssVariable: '--font-geist',
       fallbacks: ['system-ui', 'sans-serif'],
       options: {
-        variants: [
-          { src: ['./src/assets/fonts/archivo-latin-wdth-wght.woff2'], weight: '400 900', stretch: '100% 125%', style: 'normal' },
-        ],
+        variants: [{ src: ['./src/assets/fonts/geist-latin-wght-normal.woff2'], weight: '100 900', style: 'normal' }],
       },
     },
     {
-      // Fuente pixel para los textos tipo HUD (Tiny5, OFL-1.1, 9 KB): C y O bien distintas.
+      provider: fontProviders.local(),
+      name: 'Instrument Serif',
+      cssVariable: '--font-instrument',
+      fallbacks: ['Georgia', 'serif'],
+      options: {
+        variants: [{ src: ['./src/assets/fonts/instrument-serif-latin-400-italic.woff2'], weight: '400', style: 'italic' }],
+      },
+    },
+    {
       provider: fontProviders.local(),
       name: 'Tiny5',
       cssVariable: '--font-tiny',

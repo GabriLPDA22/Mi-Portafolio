@@ -1,13 +1,14 @@
 ---
 /**
- * Cabecera: transparente sobre el hero y barra grafito translúcida al hacer scroll.
- * En móvil, menú a pantalla completa (lo gestiona initHeader en scripts/ui.ts).
+ * Cabecera flotante: cápsula de cristal con la marca, navegación (la sección visible se marca
+ * sola), cambio de idioma y CTA. Una línea dorada en el borde inferior muestra el progreso de
+ * lectura. En móvil/tablet, menú a pantalla completa con enlaces grandes numerados.
  */
 import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
 import logo from '@/assets/img/logo-g.webp';
-import { homePath, localePath, otherLocale, type Locale } from '@/i18n';
-import { getPro, LINKS } from '@/lib/pro-content';
+import { getT, homePath, localePath, otherLocale, type Locale } from '@/i18n';
+import { SOCIALS } from '@/data/socials';
 
 interface Props {
   locale: Locale;
@@ -16,7 +17,7 @@ interface Props {
 }
 
 const { locale, path = '/' } = Astro.props;
-const p = getPro(locale);
+const t = getT(locale);
 const es = locale === 'es';
 const home = homePath(locale);
 const other = otherLocale(locale);
@@ -24,258 +25,245 @@ const other = otherLocale(locale);
 const switchPath = path === '/404' ? '/' : path;
 
 const items = [
-  { id: 'proyectos', label: p.nav.projects },
-  { id: 'experiencia', label: p.nav.experience },
-  { id: 'stack', label: p.nav.stack },
-  { id: 'sobre-mi', label: p.nav.about },
-  { id: 'contacto', label: p.nav.contact },
-].map((i) => ({ ...i, href: `${home}#${i.id}` }));
+  { id: 'proyectos', label: t.nav.projects },
+  { id: 'experiencia', label: es ? 'Experiencia' : 'Experience' },
+  { id: 'sobre-mi', label: t.nav.about },
+  { id: 'servicios', label: es ? 'Capacidades' : 'Skills' },
+  { id: 'resultados', label: es ? 'Cómo trabajo' : 'How I work' },
+].map((l, i) => ({ ...l, n: String(i + 1).padStart(2, '0'), href: `${home}#${l.id}` }));
 
 const langLabel = other === 'en' ? 'Read in English' : 'Leer en español';
 const labels = es ? { open: 'Abrir menú', close: 'Cerrar menú' } : { open: 'Open menu', close: 'Close menu' };
 ---
 
-<header data-site-header class="site-header fixed inset-x-0 top-0 z-50">
-  <div class="container-main flex h-[4.5rem] items-center justify-between gap-4">
-    <a href={home} data-home-link class="brand flex shrink-0 items-center gap-2.5">
-      <Image src={logo} alt="" height={34} widths={[34, 68]} sizes="34px" class="logo-mark" loading="eager" />
-      <span class="text-[1.0625rem] font-bold tracking-[-0.01em] [font-stretch:112%]">gabriel<span class="opacity-60">.codes</span></span>
-    </a>
-
-    <nav class="hidden items-center gap-1 lg:flex" aria-label={es ? 'Principal' : 'Main'}>
-      {
-        items.map((item) => (
-          <a href={item.href} data-nav-link={item.id} class="nav-link">
-            {item.label}
-          </a>
-        ))
-      }
-    </nav>
-
-    <div class="flex items-center gap-2">
+<header class="site-header fixed inset-x-0 top-0 z-50 w-full" data-site-header>
+  <div class="container-main pt-3 sm:pt-4">
+    <div data-header-bar class="header-bar glass relative flex items-center justify-between gap-2 rounded-full py-1.5 pl-2 pr-1.5 sm:py-2 sm:pl-2.5 sm:pr-2">
+      <!-- Marca -->
       <a
-        href={localePath(other, switchPath)}
-        hreflang={other}
-        lang={other}
-        data-lang-switch
-        class="lang"
-        aria-label={langLabel}
-        title={langLabel}
+        href={home}
+        data-home-link
+        class="group flex min-w-0 items-center gap-2.5 rounded-full py-1 pl-1 pr-3 text-[15px] font-semibold tracking-tight text-ink"
+        aria-label={es ? 'gabriel.codes — Gabriel Saiz, inicio' : 'gabriel.codes — Gabriel Saiz, home'}
       >
-        {other.toUpperCase()}
+        <Image src={logo} alt="" height={30} widths={[30, 60]} sizes="30px" class="h-[30px] w-auto shrink-0 transition-transform duration-500 group-hover:rotate-[-8deg]" loading="eager" />
+        <span class="truncate">gabriel<span class="text-ink/55">.codes</span></span>
       </a>
-      <a href={LINKS.cv} download="Gabriel-Saiz-CV.pdf" data-umami-event="descargar-cv" class="btn btn-primary hidden !min-h-[2.5rem] !px-4 !text-[0.875rem] sm:inline-flex">
-        <Icon name="Download" strokeWidth={2.2} />
-        {p.nav.cv}
-      </a>
-      <button
-        type="button"
-        data-menu-toggle
-        data-label-open={labels.open}
-        data-label-close={labels.close}
-        class="menu-btn lg:hidden"
-        aria-label={labels.open}
-        aria-expanded="false"
-        aria-controls="mobile-menu"
-      >
-        <span class="menu-icon" aria-hidden="true"><span></span><span></span></span>
-      </button>
+
+      <!-- Navegación de escritorio -->
+      <nav class="nav-pill absolute left-1/2 hidden -translate-x-1/2 items-center gap-0.5 rounded-full p-1 lg:flex" aria-label={es ? 'Navegación principal' : 'Main navigation'}>
+        {
+          items.map((item) => (
+            <a href={item.href} data-nav-link={item.id} class="nav-link">
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+
+      <div class="flex shrink-0 items-center gap-1.5">
+        <a href={localePath(other, switchPath)} hreflang={other} data-lang-switch class="lang-btn" title={langLabel}>
+          <span class="text-ink">{locale.toUpperCase()}</span><span class="text-ink/50">/</span><span class="text-ink/60">{other.toUpperCase()}</span>
+          <span class="sr-only" lang={other}> — {langLabel}</span>
+        </a>
+        <a href={`${home}#contacto`} class="btn btn-volt hidden !min-h-0 !py-1.5 !pl-4 !pr-1.5 !text-[14px] sm:inline-flex">
+          {t.nav.contact}
+          <span class="btn-icon !h-7 !w-7"><Icon name="ArrowUpRight" class="h-3.5 w-3.5" strokeWidth={2.4} /></span>
+        </a>
+        <button
+          type="button"
+          data-menu-toggle
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          aria-label={labels.open}
+          data-label-open={labels.open}
+          data-label-close={labels.close}
+          class="menu-btn grid h-10 w-10 place-items-center rounded-full lg:hidden"
+        >
+          <span class="burger" aria-hidden="true"><span></span><span></span></span>
+        </button>
+      </div>
+
+      <!-- Progreso de lectura -->
+      <span class="header-progress" aria-hidden="true"></span>
+    </div>
+  </div>
+
+  <!-- Menú móvil: pantalla completa -->
+  <div id="mobile-menu" data-menu data-open="false" inert aria-hidden="true" class="mobile-menu lg:hidden">
+    <div class="container-main flex h-full flex-col pb-8 pt-24">
+      <nav aria-label={es ? 'Menú' : 'Menu'} class="flex flex-col">
+        {
+          items.map((item, i) => (
+            <a href={item.href} class="menu-link group" style={`--i:${i}`}>
+              <span class="menu-n">{item.n}</span>
+              <span class="flex-1">{item.label}</span>
+              <Icon name="ArrowUpRight" class="h-6 w-6 text-ink/30 transition-colors group-hover:text-acid" strokeWidth={1.6} />
+            </a>
+          ))
+        }
+      </nav>
+      <div class="mt-auto flex flex-col gap-5 pt-10">
+        <a href={`${home}#contacto`} class="btn btn-volt w-full justify-between text-[16px]">
+          {es ? 'Hablemos' : "Let's talk"}
+          <span class="btn-icon"><Icon name="ArrowUpRight" class="h-4 w-4" strokeWidth={2.4} /></span>
+        </a>
+        <div class="flex items-center justify-between gap-4 text-[14px] text-ink/60">
+          <div class="flex gap-5">
+            {SOCIALS.map((s) => <a href={s.href} target="_blank" rel="noopener noreferrer" data-umami-event={s.label.toLowerCase()} class="hover:text-ink">{s.label}</a>)}
+          </div>
+          <span>Zaragoza · {es ? 'Remoto' : 'Remote'}</span>
+        </div>
+      </div>
     </div>
   </div>
 </header>
 
-<!-- Menú móvil a pantalla completa -->
-<div id="mobile-menu" data-menu data-open="false" inert aria-hidden="true" class="mobile-menu lg:hidden">
-  <div class="container-main flex min-h-full flex-col pb-10 pt-28">
-    <nav aria-label={es ? 'Menú móvil' : 'Mobile menu'} class="flex-1">
-      <ul class="flex flex-col">
-        {
-          items.map((item, i) => (
-            <li class="menu-item" style={`--i:${i}`}>
-              <a href={item.href} data-nav-link={item.id} class="menu-link">
-                {item.label}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
-    <div class="menu-item mt-10 flex flex-col gap-3" style="--i:5">
-      <a href={LINKS.cv} download="Gabriel-Saiz-CV.pdf" data-umami-event="descargar-cv" class="btn btn-primary w-full">
-        <Icon name="Download" strokeWidth={2.2} />
-        {p.nav.cv}
-      </a>
-      <div class="flex gap-3">
-        <a href={LINKS.linkedin} target="_blank" rel="noopener noreferrer" data-umami-event="linkedin" class="btn btn-ghost flex-1">LinkedIn</a>
-        <a href={LINKS.github} target="_blank" rel="noopener noreferrer" data-umami-event="github" class="btn btn-ghost flex-1">GitHub</a>
-      </div>
-      <a href={`mailto:${LINKS.email}`} data-umami-event="email" class="link mt-2 text-center text-[0.9375rem] text-muted">{LINKS.email}</a>
-    </div>
-  </div>
-</div>
-
-<script>
-  // Fondo de la cabecera en cuanto se hace scroll (sobre el hero va transparente)
-  const header = document.querySelector<HTMLElement>('[data-site-header]');
-  if (header) {
-    let frame = 0;
-    const update = () => {
-      frame = 0;
-      header.toggleAttribute('data-scrolled', window.scrollY > 24);
-    };
-    update();
-    window.addEventListener('scroll', () => (frame ||= requestAnimationFrame(update)), { passive: true });
-  }
-</script>
-
 <style>
-  .brand :global(.logo-mark) {
-    height: 2.1rem;
-    width: auto;
-    filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.45));
-    transition: transform 0.4s cubic-bezier(0.3, 1.5, 0.5, 1);
-  }
-  .brand:hover :global(.logo-mark) {
-    transform: rotate(-8deg) scale(1.06);
-  }
-  .site-header {
-    color: #ededf2;
+  .header-bar {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 18px 40px -24px rgba(0, 0, 0, 0.9);
     transition:
-      background-color 0.25s ease,
-      box-shadow 0.25s ease;
+      transform 0.6s var(--ease-out-expo),
+      background-color 0.4s ease;
   }
-  .site-header[data-scrolled] {
-    background: rgba(12, 12, 15, 0.78);
-    box-shadow: 0 1px 0 rgba(237, 237, 242, 0.07);
-    -webkit-backdrop-filter: blur(14px);
-    backdrop-filter: blur(14px);
+  /* Al bajar se esconde; al subir vuelve (lo decide motion.ts) */
+  :global(.site-header[data-hidden='true']) .header-bar {
+    transform: translateY(calc(-100% - 1.25rem));
+  }
+  .header-progress {
+    position: absolute;
+    left: 1.5rem;
+    right: 1.5rem;
+    bottom: -1px;
+    height: 1px;
+    transform-origin: left;
+    transform: scaleX(var(--xp, 0));
+    background: linear-gradient(90deg, transparent, #a78bfa 30%, #c4b5fd);
+    opacity: 0.9;
+  }
+  .nav-pill {
+    background: rgba(255, 255, 255, 0.025);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
   }
   .nav-link {
+    position: relative;
     border-radius: 999px;
-    padding: 0.5rem 0.85rem;
-    font-size: 0.9375rem;
-    font-weight: 550;
-    color: #8a8a99;
+    padding: 0.42rem 0.85rem;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: rgba(237, 237, 242, 0.62);
     transition:
-      color 0.15s ease,
-      background-color 0.15s ease;
+      color 0.3s ease,
+      background-color 0.3s ease;
   }
   .nav-link:hover {
     color: #ededf2;
   }
   .nav-link[aria-current='true'] {
-    color: #ededf2;
-    background: rgba(237, 237, 242, 0.07);
+    color: #0c0c0f;
+    background: #ededf2;
   }
-  .lang {
-    display: inline-grid;
-    height: 2.75rem;
-    min-width: 2.75rem;
-    place-items: center;
-    border: 1px solid rgba(237, 237, 242, 0.16);
-    color: #8a8a99;
+  .lang-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+    height: 2.5rem;
     border-radius: 999px;
-    font-size: 0.8125rem;
-    font-weight: 700;
-    transition: border-color 0.15s ease;
+    padding-inline: 0.8rem;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    transition: box-shadow 0.3s ease;
   }
-  .lang:hover {
-    border-color: rgba(237, 237, 242, 0.4);
-    color: #ededf2;
+  .lang-btn:hover {
+    box-shadow: inset 0 0 0 1px rgba(139, 92, 246, 0.5);
   }
-
   .menu-btn {
-    position: relative;
-    z-index: 60;
-    display: inline-grid;
-    height: 2.75rem;
-    width: 2.75rem;
-    place-items: center;
-    border-radius: 999px;
     background: #ededf2;
     color: #0c0c0f;
-    cursor: pointer;
   }
-  @media (min-width: 1024px) {
-    .menu-btn {
-      display: none;
-    }
-  }
-  .menu-icon {
+  .burger {
     position: relative;
     display: block;
+    width: 16px;
     height: 10px;
-    width: 18px;
   }
-  .menu-icon span {
+  .burger span {
     position: absolute;
     left: 0;
-    height: 2px;
     width: 100%;
+    height: 1.6px;
     border-radius: 2px;
     background: currentColor;
-    transition: transform 0.25s ease, top 0.25s ease;
+    transition:
+      transform 0.5s var(--ease-out-expo),
+      top 0.5s var(--ease-out-expo);
   }
-  .menu-icon span:first-child {
-    top: 0;
+  .burger span:first-child {
+    top: 1px;
   }
-  .menu-icon span:last-child {
-    top: 8px;
+  .burger span:last-child {
+    top: 7.4px;
   }
-  .menu-btn[aria-expanded='true'] .menu-icon span {
-    top: 4px;
-  }
-  .menu-btn[aria-expanded='true'] .menu-icon span:first-child {
+  [aria-expanded='true'] .burger span:first-child {
+    top: 4.2px;
     transform: rotate(45deg);
   }
-  .menu-btn[aria-expanded='true'] .menu-icon span:last-child {
+  [aria-expanded='true'] .burger span:last-child {
+    top: 4.2px;
     transform: rotate(-45deg);
   }
 
   .mobile-menu {
     position: fixed;
     inset: 0;
-    z-index: 48; /* por encima del aviso de cookies (45), por debajo de la cabecera (50) */
-    overflow-y: auto;
+    z-index: -1;
     background:
-      radial-gradient(600px circle at 90% 0%, rgba(139, 92, 246, 0.22), transparent 60%),
+      radial-gradient(120% 60% at 50% 0%, rgba(139, 92, 246, 0.12), transparent 60%),
       #0c0c0f;
-    color: #ededf2;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.25s ease;
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path 0.8s var(--ease-out-expo);
   }
   .mobile-menu[data-open='true'] {
-    opacity: 1;
-    pointer-events: auto;
+    clip-path: inset(0 0 0 0);
   }
   .menu-link {
-    display: block;
-    padding: 0.35rem 0;
-    font-size: clamp(2.2rem, 10vw, 3.2rem);
-    font-weight: 800;
-    font-stretch: 118%;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-  }
-  .menu-link[aria-current='true'] {
-    color: #a78bfa;
-  }
-  .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    padding-block: 1.05rem;
+    font-size: clamp(1.75rem, 8vw, 2.5rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    color: #ededf2;
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(18px);
     transition:
-      opacity 0.3s ease,
-      transform 0.3s ease;
+      opacity 0.6s var(--ease-out-expo),
+      transform 0.8s var(--ease-out-expo);
   }
-  .mobile-menu[data-open='true'] .menu-item {
+  .mobile-menu[data-open='true'] .menu-link {
     opacity: 1;
     transform: none;
-    transition-delay: calc(var(--i) * 40ms + 60ms);
+    transition-delay: calc(0.12s + var(--i) * 0.05s);
+  }
+  .menu-n {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1rem;
+    font-weight: 400;
+    color: #a78bfa;
+    width: 1.75rem;
   }
   @media (prefers-reduced-motion: reduce) {
-    .menu-item {
-      transform: none;
+    .mobile-menu,
+    .menu-link {
+      transition: none;
     }
   }
 </style>

@@ -1,0 +1,216 @@
+---
+/**
+ * Sobre mí en formato bento: foto con la hora local de Zaragoza, presentación, cifras
+ * (todas verificables en la experiencia), forma de trabajar, ficha y redes.
+ */
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import Split from './ui/Split.astro';
+import photo from '@/assets/img/Yo.webp';
+import { SOCIALS } from '@/data/socials';
+import { getT, type Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = getT(locale);
+const es = locale === 'es';
+
+const info = es
+  ? [
+      { k: 'Rol', v: 'Full-Stack Developer' },
+      { k: 'Base', v: 'Zaragoza · Remoto' },
+      { k: 'Especialidad', v: '.NET · Vue · React Native' },
+      { k: 'En producción desde', v: '2024' },
+      { k: 'Formación', v: 'DAW · SMR' },
+      { k: 'Idiomas', v: 'Español · Inglés' },
+    ]
+  : [
+      { k: 'Role', v: 'Full-Stack Developer' },
+      { k: 'Based in', v: 'Zaragoza · Remote' },
+      { k: 'Speciality', v: '.NET · Vue · React Native' },
+      { k: 'Shipping since', v: '2024' },
+      { k: 'Education', v: 'DAW · SMR' },
+      { k: 'Languages', v: 'Spanish · English' },
+    ];
+
+// 4 apps con Deveco.it + ARCH; Huvegrym y Tarot Divinidad online; Deveco.it y GOLIVE.
+const stats = es
+  ? [
+      { n: 5, label: 'Apps publicadas en stores' },
+      { n: 2, label: 'Webs de clientes online' },
+      { n: 2, label: 'Empresas en equipo' },
+    ]
+  : [
+      { n: 5, label: 'Apps shipped to the stores' },
+      { n: 2, label: 'Client websites live' },
+      { n: 2, label: 'Companies worked with' },
+    ];
+
+const perks = ['Target', 'Code2', 'MessageSquare'];
+const photoAlt = es
+  ? 'Gabriel Saiz — Desarrollador Full-Stack especializado en C# y .NET, Vue y React Native'
+  : 'Gabriel Saiz — Full-Stack Developer specialised in C# and .NET, Vue and React Native';
+---
+
+<section id="sobre-mi" class="section cv-auto">
+  <div class="container-main">
+    <div class="bento grid gap-3 sm:gap-4 lg:grid-cols-6">
+      <!-- Foto -->
+      <figure class="card photo-card overflow-hidden lg:col-span-2 lg:row-span-2" data-reveal="scale">
+        <Image
+          src={photo}
+          alt={photoAlt}
+          widths={[400, 640, 800]}
+          sizes="(min-width: 1024px) 400px, 100vw"
+          class="h-full w-full object-cover object-[50%_25%] grayscale"
+          loading="lazy"
+        />
+        <figcaption class="absolute inset-x-0 bottom-0 flex flex-col gap-3 p-5 sm:p-6">
+          <span class="badge w-fit !text-[12px]"><span class="dot-live"></span>{t.hero.availability}</span>
+          <div>
+            <p class="text-2xl font-semibold tracking-tight text-ink">Gabriel Saiz</p>
+            <p class="mt-0.5 text-[14px] text-ink/60">{t.about.role}</p>
+          </div>
+          <p class="flex items-center gap-2 text-[13px] text-ink/60">
+            <Icon name="MapPin" class="h-4 w-4 text-acid" />
+            Zaragoza, ES
+            <span class="text-ink/25" aria-hidden="true">·</span>
+            <span data-clock class="tabular-nums text-ink/80">--:--</span>
+          </p>
+        </figcaption>
+      </figure>
+
+      <!-- Presentación -->
+      <div class="card flex flex-col gap-5 p-6 sm:p-8 lg:col-span-4" data-reveal>
+        <p class="badge w-fit">{es ? 'Sobre mí' : 'About me'}</p>
+        <Split text={t.about.headline} serif={es ? ['código'] : ['code']} class="h2 max-w-[16ch]" wordClass="text-metal" />
+        <p class="lead max-w-2xl">
+          {t.about.subtitle}
+          {
+            es
+              ? ' He publicado apps en App Store y Google Play, montado backends en .NET con pagos y tiempo real, y llevado webs de clientes a producción con SEO y rendimiento cuidados.'
+              : ' I have shipped apps to the App Store and Google Play, built .NET backends with payments and real time, and taken client websites to production with care for SEO and performance.'
+          }
+        </p>
+        <p class="serif mt-auto text-2xl text-gold">“{t.hero.vibeQuote}”</p>
+      </div>
+
+      <!-- Cifras -->
+      <div class="card grid grid-cols-3 gap-2 p-6 sm:p-7 lg:col-span-2" data-reveal style="--delay:.08s">
+        {
+          stats.map((s) => (
+            <div class="flex flex-col gap-2">
+              <span class="text-[clamp(2.4rem,7vw,3.25rem)] font-semibold leading-none tracking-[-0.05em] text-metal" data-count={s.n}>
+                {s.n}
+              </span>
+              <span class="text-[12.5px] leading-snug text-ink/55">{s.label}</span>
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- Forma de trabajar -->
+      <ul class="card flex flex-col justify-center gap-4 p-6 sm:p-7 lg:col-span-2" data-reveal style="--delay:.16s">
+        {
+          t.about.bullets.map((b, i) => (
+            <li class="flex items-center gap-3.5 text-[15px] font-medium text-ink/85">
+              <span class="grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-acid/25 bg-acid/[0.07] text-acid">
+                <Icon name={perks[i]} class="h-4 w-4" />
+              </span>
+              {b}
+            </li>
+          ))
+        }
+      </ul>
+
+      <!-- Ficha -->
+      <dl class="card grid grid-cols-2 gap-x-4 gap-y-5 p-6 sm:p-7 lg:col-span-3" data-reveal>
+        {
+          info.map((row) => (
+            <div>
+              <dt class="text-[12px] uppercase tracking-[0.14em] text-ink/60">{row.k}</dt>
+              <dd class="mt-1.5 text-[15.5px] font-medium text-ink">{row.v}</dd>
+            </div>
+          ))
+        }
+      </dl>
+
+      <!-- Redes + CV -->
+      <div class="card flex flex-col p-2 lg:col-span-3" data-reveal style="--delay:.08s">
+        {
+          SOCIALS.map((s) => (
+            <a href={s.href} target="_blank" rel="noopener noreferrer" data-umami-event={s.label.toLowerCase()} class="social-row group">
+              <Icon name={s.icon} class="h-5 w-5 text-ink/50 transition-colors group-hover:text-acid" strokeWidth={1.7} />
+              <span class="flex-1 font-medium text-ink">{s.label}</span>
+              <span class="hidden text-[13px] text-ink/60 sm:inline">{s.handle}</span>
+              <Icon name="ArrowUpRight" class="h-4 w-4 text-ink/35 transition-all duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-acid" />
+            </a>
+          ))
+        }
+        <a href="/cv/Gabriel-Saiz-CV.pdf" download="Gabriel-Saiz-CV.pdf" data-umami-event="descargar-cv" class="social-row group">
+          <Icon name="FileText" class="h-5 w-5 text-ink/50 transition-colors group-hover:text-acid" strokeWidth={1.7} />
+          <span class="flex-1 font-medium text-ink">{t.hero.ctaCv}</span>
+          <span class="hidden text-[13px] text-ink/60 sm:inline">PDF</span>
+          <Icon name="ArrowDown" class="h-4 w-4 text-ink/35 transition-all duration-500 group-hover:translate-y-0.5 group-hover:text-acid" />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .photo-card {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    max-height: 34rem;
+  }
+  @media (min-width: 640px) and (max-width: 1023px) {
+    .photo-card {
+      aspect-ratio: 16 / 11;
+    }
+  }
+  @media (min-width: 1024px) {
+    .photo-card {
+      aspect-ratio: auto;
+      max-height: none;
+      min-height: 30rem;
+    }
+  }
+  .photo-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, transparent 40%, rgba(12, 12, 15, 0.92) 92%),
+      radial-gradient(80% 60% at 50% 0%, rgba(139, 92, 246, 0.12), transparent);
+    pointer-events: none;
+  }
+  .photo-card :global(img) {
+    position: absolute;
+    inset: 0;
+    transition: transform 1.4s var(--ease-out-expo);
+  }
+  .photo-card:hover :global(img) {
+    transform: scale(1.04);
+  }
+  .photo-card figcaption {
+    z-index: 1;
+  }
+  .social-row {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    border-radius: 1rem;
+    padding: 0.95rem 1rem;
+    font-size: 15px;
+    transition: background-color 0.3s ease;
+  }
+  .social-row + .social-row {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  .social-row:hover {
+    background: rgba(255, 255, 255, 0.03);
+  }
+</style>

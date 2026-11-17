@@ -1,12 +1,14 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import Hero from './Hero.astro';
+import Stack from './Stack.astro';
+import About from './About.astro';
+import Services from './Services.astro';
+import Projects from './Projects.astro';
+import Experience from './Experience.astro';
+import Process from './Process.astro';
+import Contact from './Contact.astro';
 import Footer from './Footer.astro';
-import Hero from './pro/Hero.astro';
-import Projects from './pro/Projects.astro';
-import Experience from './pro/Experience.astro';
-import Stack from './pro/Stack.astro';
-import About from './pro/About.astro';
-import Contact from './pro/Contact.astro';
 import { personData, organizationData, websiteData, breadcrumbsData, profilePageData } from '@/lib/structured-data';
 import type { Locale } from '@/i18n';
 
@@ -20,13 +22,15 @@ const jsonLd = {
 };
 ---
 
-<BaseLayout locale={locale} jsonLd={jsonLd}>
+<BaseLayout locale={locale} jsonLd={jsonLd} scrollTop>
   <main id="main-content">
     <Hero locale={locale} />
+    <Stack locale={locale} />
     <Projects locale={locale} />
     <Experience locale={locale} />
-    <Stack locale={locale} />
     <About locale={locale} />
+    <Services locale={locale} />
+    <Process locale={locale} />
     <Contact locale={locale} />
   </main>
   <Footer locale={locale} />
