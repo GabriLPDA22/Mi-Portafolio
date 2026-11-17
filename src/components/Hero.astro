@@ -35,11 +35,13 @@ const stats: Stat[] = es
     ];
 ---
 
-<section class="hero relative isolate flex min-h-svh flex-col overflow-hidden">
+<section class="hero relative isolate flex min-h-svh flex-col overflow-x-clip">
   <!-- Fondo (la rejilla es la común de la web): halo violeta y horizonte (planeta) con el borde iluminado -->
-  <div aria-hidden="true" class="hero-bg pointer-events-none absolute inset-0 -z-10">
-    <div class="halo"></div>
-    <div class="horizon"></div>
+  <div aria-hidden="true" class="hero-bg pointer-events-none absolute inset-x-0 top-0 -z-10">
+    <div class="hero-bg-inner">
+      <div class="halo"></div>
+      <div class="horizon"></div>
+    </div>
   </div>
 
   <div class="container-main flex flex-1 flex-col items-center justify-center pb-10 pt-32 text-center sm:pt-36">
@@ -100,10 +102,18 @@ const stats: Stat[] = es
 </section>
 
 <style>
-  /* La estela del horizonte se desvanece hacia la sección siguiente en vez de cortarse en seco */
+  /* La estela del horizonte no se corta al acabar la portada: la capa de fondo se alarga 50vh por
+     debajo (sobre la sección del Stack, que no tiene fondo propio) y se apaga poco a poco con una
+     máscara, así las dos secciones parecen un mismo fondo. */
   .hero-bg {
-    -webkit-mask-image: linear-gradient(to bottom, #000 66%, transparent 99%);
-    mask-image: linear-gradient(to bottom, #000 66%, transparent 99%);
+    height: calc(100% + 50vh);
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 85vh), transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 85vh), transparent 100%);
+  }
+  .hero-bg-inner {
+    position: absolute;
+    inset: 0 0 50vh 0;
   }
   .halo {
     position: absolute;
