@@ -32,3 +32,6 @@ arcade-config.php
 
 # Herramientas locales de Claude Code (skills de terceros, configuración del panel): no se suben
 /.claude/
+
+# Capturas sueltas de pruebas locales
+/*.png
