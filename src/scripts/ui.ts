@@ -6,14 +6,19 @@ import { scrollToTarget } from './motion';
 /* ------------------------------------------------------------------ */
 
 export function initHeader() {
-  const bar = document.querySelector<HTMLElement>('[data-header-bar]');
+  const bar = document.querySelector<HTMLElement>('[data-header-bar] .header-progress');
   if (bar) {
     let frame = 0;
-    // Barra de XP: progreso de lectura de la página (solo transform, sin reflow).
+    let lastValue = '';
+    // Progreso de lectura: transform directo en la línea (no una variable CSS en la cabecera,
+    // que obligaría a recalcular los estilos de toda la cápsula en cada frame).
     const update = () => {
       frame = 0;
       const max = document.documentElement.scrollHeight - window.innerHeight;
-      bar.style.setProperty('--xp', max > 0 ? Math.min(1, window.scrollY / max).toFixed(4) : '0');
+      const value = max > 0 ? Math.min(1, window.scrollY / max).toFixed(3) : '0';
+      if (value === lastValue) return;
+      lastValue = value;
+      bar.style.transform = `scaleX(${value})`;
     };
     // Primera medida en el siguiente frame: no fuerza un layout síncrono durante la carga.
     frame = requestAnimationFrame(update);

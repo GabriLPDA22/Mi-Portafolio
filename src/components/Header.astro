@@ -140,7 +140,8 @@ const labels = es ? { open: 'Abrir menú', close: 'Cerrar menú' } : { open: 'Op
     bottom: -1px;
     height: 1px;
     transform-origin: left;
-    transform: scaleX(var(--xp, 0));
+    transform: scaleX(0);
+    will-change: transform;
     background: linear-gradient(90deg, transparent, #a78bfa 30%, #c4b5fd);
     opacity: 0.9;
   }

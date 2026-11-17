@@ -170,7 +170,6 @@ const groups = [
     inset: 10% 20%;
     z-index: -1;
     background: radial-gradient(closest-side, rgba(139, 92, 246, 0.14), transparent);
-    filter: blur(30px);
   }
 
   .hub-cell {
@@ -207,11 +206,12 @@ const groups = [
     }
   }
 
-  /* Haces de luz dorada que recorren los bordes */
+  /* Haces de luz que recorren los bordes (solo transform: se animan en la GPU) */
   .beam-seg {
     position: absolute;
     pointer-events: none;
-    filter: drop-shadow(0 0 6px rgba(139, 92, 246, 0.9));
+    box-shadow: 0 0 8px rgba(139, 92, 246, 0.8);
+    will-change: transform;
   }
   .beam-h {
     bottom: -1px;
@@ -342,7 +342,18 @@ const groups = [
       inset 0 1px 0 rgba(255, 255, 255, 0.14),
       0 0 0 1px rgba(255, 255, 255, 0.08),
       0 0 50px -6px rgba(139, 92, 246, 0.55);
+  }
+  /* El halo "respira" animando la opacidad de una capa (no la sombra: eso repinta cada frame) */
+  .core-orb::before {
+    content: '';
+    position: absolute;
+    inset: -1.5rem;
+    z-index: -1;
+    border-radius: inherit;
+    background: radial-gradient(closest-side, rgba(139, 92, 246, 0.55), transparent);
+    opacity: 0.35;
     animation: breathe 4.5s ease-in-out infinite;
+    will-change: opacity;
   }
   @media (min-width: 640px) {
     .core-orb {
@@ -352,16 +363,13 @@ const groups = [
   }
   @keyframes breathe {
     50% {
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.14),
-        0 0 0 1px rgba(139, 92, 246, 0.25),
-        0 0 80px -4px rgba(139, 92, 246, 0.7);
+      opacity: 1;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .beam-seg,
-    .core-orb {
+    .core-orb::before {
       animation: none;
     }
   }

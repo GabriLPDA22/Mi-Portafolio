@@ -1,8 +1,9 @@
 ---
 /**
  * Proyectos como tarjetas que se apilan al hacer scroll (sticky en escritorio; motion.ts encoge
- * y oscurece la de debajo). Las webs se muestran en un marco de navegador con su dominio real;
- * ARCH, con su icono de app iluminado.
+ * y oscurece la de debajo con un velo, solo transform/opacity). Cada proyecto se muestra en el
+ * soporte que le toca, centrado: ARCH con su icono de app, Huvegrym en un móvil y Tarot
+ * Divinidad en un navegador con su dominio real.
  */
 import { Picture } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
@@ -22,7 +23,7 @@ const t = getT(locale);
 const bug = getPro(locale).projects.bugrun;
 const es = locale === 'es';
 
-type Meta = { img: ImageMetadata; alt: string; kind: string; status: string; url?: string; domain?: string; tint: string; app?: boolean };
+type Meta = { img: ImageMetadata; alt: string; kind: string; status: string; url?: string; domain?: string; tint: string; app?: boolean; phone?: boolean };
 const meta: Record<string, Meta> = {
   arch: {
     img: archImg,
@@ -43,6 +44,7 @@ const meta: Record<string, Meta> = {
     url: 'https://huvegrym.es',
     domain: 'huvegrym.es',
     tint: 'rgba(139, 92, 246, 0.28)',
+    phone: true,
   },
   'tarot-divinidad': {
     img: tarotImg,
@@ -120,51 +122,64 @@ const projects = t.projects.items.map((item, i) => ({
                 </div>
               </div>
 
-              <!-- Imagen -->
-              <div class="media relative order-first min-h-[15rem] overflow-hidden border-b border-white/[0.06] sm:min-h-[22rem] lg:order-none lg:border-b-0 lg:border-l">
+              <!-- Imagen: centrada en su panel, en el soporte de cada proyecto -->
+              <div class="media relative order-first grid min-h-[17rem] place-items-center overflow-hidden border-b border-white/[0.06] px-6 py-10 sm:min-h-[24rem] sm:px-10 sm:py-12 lg:order-none lg:border-b-0 lg:border-l">
                 <div class="media-glow" aria-hidden="true" />
                 {p.m.app ? (
-                  <div class="absolute inset-0 grid place-items-center p-10">
+                  <Picture
+                    src={p.m.img}
+                    alt={p.m.alt}
+                    widths={[240, 360, 480]}
+                    sizes="(min-width: 1024px) 280px, 200px"
+                    formats={['avif', 'webp']}
+                    fallbackFormat="webp"
+                    class="app-icon relative w-[min(48%,15rem)] rounded-[22%]"
+                    loading="lazy"
+                  />
+                ) : p.m.phone ? (
+                  <div class="device phone relative w-[min(56%,15rem)]">
+                    <span class="phone-notch" aria-hidden="true" />
                     <Picture
                       src={p.m.img}
                       alt={p.m.alt}
-                      widths={[240, 360, 480]}
-                      sizes="(min-width: 1024px) 320px, 220px"
+                      widths={[320, 480, 640]}
+                      sizes="(min-width: 1024px) 240px, 50vw"
                       formats={['avif', 'webp']}
                       fallbackFormat="webp"
-                      class="app-icon w-[min(55%,20rem)] rounded-[22%]"
+                      class="aspect-[9/17] w-full rounded-[1.6rem] object-cover object-[50%_35%]"
                       loading="lazy"
                     />
+                    <span class="device-url" aria-hidden="true">
+                      <Icon name="Lock" class="h-2.5 w-2.5" />
+                      {p.m.domain}
+                    </span>
                   </div>
                 ) : (
-                  <div class="absolute inset-x-5 bottom-0 top-8 sm:inset-x-10 sm:top-12">
-                    <div class="browser h-full overflow-hidden rounded-t-2xl">
-                      <div class="flex items-center gap-2 border-b border-white/[0.07] bg-[#121216] px-4 py-3">
-                        <span class="h-2.5 w-2.5 rounded-full bg-white/15" />
-                        <span class="h-2.5 w-2.5 rounded-full bg-white/15" />
-                        <span class="h-2.5 w-2.5 rounded-full bg-white/15" />
-                        <span class="mx-auto flex items-center gap-1.5 rounded-full bg-white/[0.05] px-3 py-1 text-[11.5px] text-ink/50">
-                          <Icon name="Lock" class="h-3 w-3" />
-                          {p.m.domain}
-                        </span>
-                      </div>
-                      <div class="relative h-full">
-                        <Picture
-                          src={p.m.img}
-                          alt={p.m.alt}
-                          widths={[480, 720, 960]}
-                          sizes="(min-width: 1024px) 560px, 100vw"
-                          formats={['avif', 'webp']}
-                      fallbackFormat="webp"
-                          class="img-fill object-cover object-top"
-                          loading="lazy"
-                        />
-                      </div>
+                  <div class="device browser relative w-full max-w-[36rem] overflow-hidden rounded-2xl">
+                    <div class="flex items-center gap-2 border-b border-white/[0.07] bg-[#121216] px-4 py-2.5">
+                      <span class="h-2.5 w-2.5 rounded-full bg-white/15" />
+                      <span class="h-2.5 w-2.5 rounded-full bg-white/15" />
+                      <span class="h-2.5 w-2.5 rounded-full bg-white/15" />
+                      <span class="mx-auto flex items-center gap-1.5 rounded-full bg-white/[0.05] px-3 py-1 text-[11.5px] text-ink/60">
+                        <Icon name="Lock" class="h-3 w-3" />
+                        {p.m.domain}
+                      </span>
                     </div>
+                    <Picture
+                      src={p.m.img}
+                      alt={p.m.alt}
+                      widths={[480, 720, 960, 1200]}
+                      sizes="(min-width: 1024px) 576px, 90vw"
+                      formats={['avif', 'webp']}
+                      fallbackFormat="webp"
+                      class="block h-auto w-full"
+                      loading="lazy"
+                    />
                   </div>
                 )}
               </div>
             </div>
+            <span class="veil" aria-hidden="true" />
           </article>
         ))
       }
@@ -218,23 +233,69 @@ const projects = t.projects.items.map((item, i) => ({
     -webkit-mask-image: radial-gradient(ellipse at center, #000 20%, transparent 70%);
     mask-image: radial-gradient(ellipse at center, #000 20%, transparent 70%);
   }
+  .device {
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.1),
+      0 40px 80px -30px rgba(0, 0, 0, 0.9),
+      0 0 90px -20px var(--tint);
+    transition: transform 1s var(--ease-out-expo);
+  }
   .browser {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-bottom: none;
     background: #0d0d10;
-    box-shadow: 0 -20px 60px -20px var(--tint);
+  }
+  .phone {
+    border-radius: 2.1rem;
+    padding: 0.45rem;
+    background: linear-gradient(160deg, #26262d, #111115);
+  }
+  .phone-notch {
+    position: absolute;
+    left: 50%;
+    top: 0.95rem;
+    z-index: 1;
+    width: 28%;
+    height: 0.95rem;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background: #050506;
+  }
+  .device-url {
+    position: absolute;
+    left: 50%;
+    bottom: 1.1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    padding: 0.3rem 0.65rem;
+    font-size: 10.5px;
+    color: rgba(237, 237, 242, 0.85);
+    white-space: nowrap;
+    background: rgba(12, 12, 15, 0.75);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+  .project:hover .device {
+    transform: translateY(-6px);
+  }
+  /* Velo que oscurece la tarjeta tapada (opacity: se compone en la GPU, sin repintar) */
+  .veil {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: #000;
+    opacity: 0;
+    will-change: opacity;
+    border-radius: inherit;
   }
   .app-icon {
-    filter: drop-shadow(0 30px 50px rgba(124, 58, 237, 0.35)) drop-shadow(0 0 40px rgba(139, 92, 246, 0.18));
+    box-shadow:
+      0 30px 60px -20px rgba(124, 58, 237, 0.45),
+      0 0 60px -10px rgba(139, 92, 246, 0.3);
     transition: transform 1s var(--ease-out-expo);
   }
   .project:hover .app-icon {
     transform: translateY(-6px) rotate(-3deg);
-  }
-  .project :global(.img-fill) {
-    transition: transform 1.4s var(--ease-out-expo);
-  }
-  .project:hover :global(.img-fill) {
-    transform: scale(1.04);
   }
 </style>

@@ -1,7 +1,7 @@
 ---
 /**
  * Experiencia: cabecera fija a la izquierda (escritorio), línea de tiempo cuyo raíl violeta
- * se llena con el scroll (motion.ts pone --tl) y formación. Sin JS el raíl se ve completo.
+ * se llena con el scroll (motion.ts le pone el transform) y formación. Sin JS el raíl se ve completo.
  */
 import Icon from './Icon.astro';
 import SectionHead from './ui/SectionHead.astro';
@@ -122,7 +122,8 @@ const edu = getPro(locale).experience;
     position: absolute;
     inset: 0;
     transform-origin: top;
-    transform: scaleY(var(--tl, 1));
+    transform: scaleY(1);
+    will-change: transform;
     background: linear-gradient(180deg, #c4b5fd, #a78bfa 70%, rgba(139, 92, 246, 0.2));
     box-shadow: 0 0 12px rgba(139, 92, 246, 0.6);
   }

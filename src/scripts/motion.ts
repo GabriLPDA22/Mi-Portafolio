@@ -175,13 +175,19 @@ export function initHeaderAutoHide() {
 export function initTimeline() {
   const tl = document.querySelector<HTMLElement>('[data-timeline]');
   if (!tl || reduced()) return;
+  const fill = tl.querySelector<HTMLElement>('.rail-fill');
+  if (!fill) return;
+  let last = '';
+  // Transform directo en el raíl: una variable CSS en la lista recalcularía toda la sección
   const update = () => {
     const r = tl.getBoundingClientRect();
     const start = window.innerHeight * 0.75;
-    const p = Math.min(1, Math.max(0, (start - r.top) / r.height));
-    tl.style.setProperty('--tl', p.toFixed(3));
+    const p = Math.min(1, Math.max(0, (start - r.top) / r.height)).toFixed(3);
+    if (p === last) return;
+    last = p;
+    fill.style.transform = `scaleY(${p})`;
   };
-  tl.style.setProperty('--tl', '0');
+  fill.style.transform = 'scaleY(0)';
   scrollCallbacks.push(update);
   onScroll();
 }
@@ -193,6 +199,10 @@ export function initStack() {
   const cards = [...document.querySelectorAll<HTMLElement>('[data-stack]')];
   if (cards.length < 2 || reduced()) return;
   const mq = window.matchMedia('(min-width: 1024px) and (min-height: 760px)');
+  // Solo transform y opacity (del velo): se componen en la GPU. Un filter: brightness() sobre
+  // una tarjeta entera obligaba a repintarla en cada frame de scroll.
+  const veils = cards.map((c) => c.querySelector<HTMLElement>('.veil'));
+  const last: string[] = [];
   const update = () => {
     if (!mq.matches) return;
     const vh = window.innerHeight;
@@ -202,13 +212,22 @@ export function initStack() {
       if (next === undefined) return;
       // 0 cuando la siguiente está abajo del todo, 1 cuando ya la tapa
       const p = Math.min(1, Math.max(0, 1 - (next - tops[i]) / vh));
-      card.style.transform = `scale(${(1 - p * 0.06).toFixed(4)})`;
-      card.style.filter = p > 0.01 ? `brightness(${(1 - p * 0.45).toFixed(3)})` : '';
+      const key = p.toFixed(3);
+      if (last[i] === key) return; // sin cambios: no se toca el DOM
+      last[i] = key;
+      card.style.transform = p > 0 ? `scale(${(1 - p * 0.06).toFixed(4)})` : '';
+      const veil = veils[i];
+      if (veil) veil.style.opacity = (p * 0.5).toFixed(3);
     });
   };
   mq.addEventListener('change', () => {
-    if (!mq.matches) cards.forEach((c) => ((c.style.transform = ''), (c.style.filter = '')));
-    else update();
+    if (!mq.matches) {
+      cards.forEach((c, i) => {
+        c.style.transform = '';
+        if (veils[i]) veils[i]!.style.opacity = '';
+      });
+      last.length = 0;
+    } else update();
   });
   scrollCallbacks.push(update);
   onScroll();
