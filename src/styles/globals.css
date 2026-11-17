@@ -448,21 +448,15 @@ video {
 /* ============================================================
    ANIMACIONES DE ENTRADA (solo con JS; sin JS todo es visible)
    ============================================================ */
+/* Las tarjetas aparecen con un fundido (solo opacidad). Un desplazamiento con transform en
+   bloques grandes obligaba a redibujarlos durante todo el scroll: medido, ~3x más trabajo de
+   rasterizado. Los titulares sí se deslizan palabra a palabra, que es barato. */
 .js [data-reveal] {
-  transition:
-    opacity 1s var(--ease-out-expo),
-    transform 1.1s var(--ease-out-expo);
+  transition: opacity 0.9s var(--ease-out-quart);
   transition-delay: var(--delay, 0s);
 }
 .js [data-reveal]:not(.is-in) {
   opacity: 0;
-  transform: translateY(28px);
-}
-.js [data-reveal="scale"]:not(.is-in) {
-  transform: translateY(20px) scale(0.96);
-}
-.js [data-reveal="fade"]:not(.is-in) {
-  transform: none;
 }
 
 /* Titulares que se revelan palabra a palabra (las palabras las parte el build) */
