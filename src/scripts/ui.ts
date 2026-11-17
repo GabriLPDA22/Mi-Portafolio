@@ -1,4 +1,5 @@
 /** Interacciones de la interfaz: cabecera, menú móvil, cookies, volver arriba y formulario. */
+import { scrollToTarget } from './motion';
 
 /* ------------------------------------------------------------------ */
 /* Cabecera: fondo al hacer scroll + menú móvil                          */
@@ -172,7 +173,7 @@ export function initScrollToTop() {
     },
     { passive: true },
   );
-  button.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  button.addEventListener('click', () => scrollToTarget(0));
 }
 
 /* ------------------------------------------------------------------ */

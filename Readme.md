@@ -16,26 +16,23 @@
 
 ## ✨ Características
 
-### 🎨 Diseño Premium
-- **Dark-first design** con estética minimalista y elegante
-- **Glassmorphism** sutil en cards y componentes
-- **Gradientes** y efectos visuales premium
-- **Tipografía moderna** (Outfit + Inter) con jerarquía clara
-- **Responsive design** perfecto en todos los dispositivos
+### 🎨 Diseño "Nocturne"
+- **Negro casi puro con brillos dorados** (color de marca) y azul eléctrico solo para la acción principal
+- **Tipografía**: Geist (variable) + Instrument Serif en cursiva para los acentos, ambas autoalojadas
+- **Piezas**: hub de tecnologías con haces de luz, bento de "Sobre mí", proyectos apilados al hacer scroll, línea de tiempo con raíl que se llena
+- **Mobile first**: menú a pantalla completa, sin scroll horizontal, scroll nativo en táctil
 
 ### ⚡ Performance & SEO
-- **Optimizado para Core Web Vitals** (LCP, FID, CLS)
-- **SEO completo**: Metadata, Open Graph, Twitter Cards
-- **Structured Data (JSON-LD)** para mejor indexación
-- **Sitemap.xml** y robots.txt configurados
-- **Lazy loading** de imágenes y componentes
+- **Lighthouse móvil 100 / 100 / 100 / 100** (CLS 0)
+- **HTML estático** con CSS inline y JS mínimo (sin frameworks en el cliente)
+- **SEO completo**: hreflang ES/EN, Open Graph, JSON-LD, sitemap y markdown para agentes de IA
 
 ### 🎭 Animaciones & Interacciones
-- **Animaciones con CSS + IntersectionObserver** (sin librerías): ~3 KB de JS comprimido en total
-- **Custom cursor** con efectos de spotlight
-- **Hover states** elegantes en cards y botones
-- **Scroll animations** con Intersection Observer
-- **Micro-interacciones** en iconos y elementos UI
+- **Lenis** para el scroll suave con inercia (solo ratón/trackpad; se carga bajo demanda)
+- **Revelados palabra a palabra** partidos en el build e IntersectionObserver
+- **Foco de luz** que sigue al cursor, contadores y cabecera que se esconde al bajar
+- Todo respeta **"reducir movimiento"** y funciona sin JavaScript
+- 🎮 **Easter egg**: código Konami (↑↑↓↓←→←→BA) o "Insert coin" en el pie → minijuego BUG RUN con ranking global
 
 ### 📱 Secciones
 - **Hero** con mensaje directo y CTAs claros

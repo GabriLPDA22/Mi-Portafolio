@@ -1,0 +1,368 @@
+---
+/**
+ * Stack: réplica del "hub" de la referencia. Mi marca en el centro, rodeada de las tecnologías
+ * que tengo en producción, en cajas unidas por haces de luz dorada. Debajo, un carrusel con todo
+ * el stack y un desplegable (sin JS: <details>) con dónde se ha usado cada cosa.
+ */
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import SectionHead from './ui/SectionHead.astro';
+import brandMark from '@/assets/img/brand-mark-64.png';
+import { INVENTORY, type InventoryItem } from '@/data/inventory';
+import type { Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const es = locale === 'es';
+
+const byId = (id: string) => INVENTORY.find((i) => i.id === id)!;
+// Posición en el hub: a/f = extremos (corchetes), b/e = columna izquierda, d/g = derecha
+const hub: { area: string; item: InventoryItem }[] = [
+  { area: 'a', item: byId('react-native') },
+  { area: 'b', item: byId('typescript') },
+  { area: 'e', item: byId('expo') },
+  { area: 'd', item: byId('dotnet') },
+  { area: 'g', item: byId('postgresql') },
+  { area: 'f', item: byId('aws') },
+];
+
+const groups = [
+  { rarity: 'legendary', title: es ? 'En producción · ARCH' : 'In production · ARCH', desc: es ? 'App propia publicada en las stores' : 'My own app, live on the stores' },
+  { rarity: 'epic', title: es ? 'Clientes y empresas' : 'Clients & companies', desc: es ? 'Deveco.it, GOLIVE y webs de clientes' : 'Deveco.it, GOLIVE and client websites' },
+  { rarity: 'common', title: es ? 'Caja de herramientas' : 'Toolbox', desc: es ? 'Lo que uso a diario' : 'What I use every day' },
+] as const;
+---
+
+<section id="stack" class="section cv-auto overflow-hidden">
+  <div class="container-main">
+    <SectionHead
+      badge={es ? 'Stack' : 'Stack'}
+      title={es ? 'Tecnología probada en producción' : 'Technology proven in production'}
+      serif={es ? ['producción'] : ['production']}
+      lead={es
+        ? 'No es una lista de logos: es lo que tengo funcionando hoy en apps publicadas y webs de clientes.'
+        : "Not a logo wall: this is what I have running today in published apps and client websites."}
+    />
+
+    <!-- Hub -->
+    <div class="hub relative mx-auto mt-14 max-w-5xl sm:mt-20" data-reveal="scale">
+      <div aria-hidden="true" class="hub-glow"></div>
+
+      <div class="hub-core" style="grid-area:c">
+        <span class="core-ring r1" aria-hidden="true"></span>
+        <span class="core-ring r2" aria-hidden="true"></span>
+        <span class="core-orb">
+          <Image src={brandMark} alt="gabriel.codes" width={56} densities={[1, 2]} class="h-12 w-12 object-contain sm:h-14 sm:w-14" />
+        </span>
+      </div>
+
+      {
+        hub.map(({ area, item }) => (
+          <div class:list={['hub-cell', (area === 'a' || area === 'f') && 'hub-far', area === 'a' && 'far-left', area === 'f' && 'far-right']} style={`grid-area:${area}`}>
+            <span class:list={['beam-seg', area === 'a' || area === 'f' ? 'beam-v' : 'beam-h', `b-${area}`]} aria-hidden="true" />
+            <div class="flex flex-col items-center gap-3">
+              <span class="hub-node" title={item.name}>
+                {item.path ? (
+                  <svg viewBox="0 0 24 24" class="h-7 w-7" aria-hidden="true">
+                    <path d={item.path} fill={item.color} />
+                  </svg>
+                ) : (
+                  <Icon name={item.lucide!} class="h-7 w-7" />
+                )}
+              </span>
+              <span class="text-[12.5px] font-medium text-ink/60">{item.name}</span>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Carrusel con todo el stack -->
+    <div class="marquee mt-14 sm:mt-16" aria-hidden="true">
+      {
+        [0, 1].map(() => (
+          <div class="marquee-track">
+            {INVENTORY.map((item) => (
+              <span class="inline-flex shrink-0 items-center gap-2.5 rounded-full border border-white/[0.07] bg-white/[0.02] py-2 pl-2.5 pr-4 text-[13.5px] font-medium text-ink/70">
+                {item.path ? (
+                  <svg viewBox="0 0 24 24" class="h-[18px] w-[18px]">
+                    <path d={item.path} fill={item.color} />
+                  </svg>
+                ) : (
+                  <Icon name={item.lucide!} class="h-[18px] w-[18px] text-acid" />
+                )}
+                {item.name}
+              </span>
+            ))}
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Todo el stack, con dónde lo he usado -->
+    <details class="stack-all group mt-12" data-reveal>
+      <summary class="btn btn-volt mx-auto !flex w-fit cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+        <span class="group-open:hidden">{es ? 'Ver todo el stack' : 'See the full stack'}</span>
+        <span class="hidden group-open:inline">{es ? 'Ocultar' : 'Hide'}</span>
+        <span class="btn-icon transition-transform duration-500 group-open:rotate-45"><Icon name="Plus" class="h-4 w-4" strokeWidth={2.4} /></span>
+      </summary>
+      <div class="mt-10 grid gap-10">
+        {
+          groups.map((g) => (
+            <div>
+              <div class="mb-4 flex flex-wrap items-baseline justify-between gap-2 border-b border-white/[0.07] pb-3">
+                <h3 class="text-lg font-semibold tracking-tight text-ink">{g.title}</h3>
+                <p class="text-[13px] text-ink/60">{g.desc}</p>
+              </div>
+              <ul class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {INVENTORY.filter((i) => i.rarity === g.rarity).map((item) => (
+                  <li class="card spotlight flex gap-3.5 !rounded-2xl p-4" data-spotlight>
+                    <span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-white/[0.07] bg-white/[0.03]">
+                      {item.path ? (
+                        <svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true">
+                          <path d={item.path} fill={item.color} />
+                        </svg>
+                      ) : (
+                        <Icon name={item.lucide!} class="h-5 w-5 text-acid" />
+                      )}
+                    </span>
+                    <div class="min-w-0">
+                      <p class="text-[14.5px] font-semibold text-ink">{item.name}</p>
+                      <p class="mt-1 text-[13px] leading-relaxed text-ink/55">{item.note[locale]}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </details>
+  </div>
+</section>
+
+<style>
+  .hub {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      'c c'
+      'b d'
+      'a f'
+      'e g';
+  }
+  @media (min-width: 1024px) {
+    .hub {
+      gap: 1rem;
+      height: 25rem;
+      grid-template-columns: 0.8fr 1.1fr 1.35fr 1.1fr 0.8fr;
+      grid-template-rows: 1fr 1fr;
+      grid-template-areas:
+        'a b c d f'
+        'a e c g f';
+    }
+  }
+  .hub-glow {
+    position: absolute;
+    inset: 10% 20%;
+    z-index: -1;
+    background: radial-gradient(closest-side, rgba(240, 180, 41, 0.14), transparent);
+    filter: blur(30px);
+  }
+
+  .hub-cell {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 9.5rem;
+    overflow: hidden;
+    border-radius: 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.005));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+  @media (min-width: 1024px) {
+    .hub-cell {
+      min-height: 0;
+    }
+    /* Extremos: corchetes abiertos hacia fuera que se desvanecen */
+    .hub-far {
+      background: none;
+      box-shadow: none;
+    }
+    .far-left {
+      border-left: none;
+      border-radius: 0 1.5rem 1.5rem 0;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 45%);
+      mask-image: linear-gradient(90deg, transparent, #000 45%);
+    }
+    .far-right {
+      border-right: none;
+      border-radius: 1.5rem 0 0 1.5rem;
+      -webkit-mask-image: linear-gradient(270deg, transparent, #000 45%);
+      mask-image: linear-gradient(270deg, transparent, #000 45%);
+    }
+  }
+
+  /* Haces de luz dorada que recorren los bordes */
+  .beam-seg {
+    position: absolute;
+    pointer-events: none;
+    filter: drop-shadow(0 0 6px rgba(240, 180, 41, 0.9));
+  }
+  .beam-h {
+    bottom: -1px;
+    left: 0;
+    width: 40%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #ffd06a, transparent);
+    animation: beam-x 5s var(--ease-out-quart) infinite;
+  }
+  .beam-v {
+    top: 0;
+    width: 1px;
+    height: 40%;
+    background: linear-gradient(180deg, transparent, #ffd06a, transparent);
+    animation: beam-y 5.5s var(--ease-out-quart) infinite;
+  }
+  .b-a {
+    right: -1px;
+  }
+  .b-f {
+    left: -1px;
+    animation-delay: -2.4s;
+  }
+  .b-b {
+    animation-delay: -1s;
+  }
+  .b-d {
+    animation-direction: reverse;
+    animation-delay: -3s;
+  }
+  .b-e {
+    top: -1px;
+    bottom: auto;
+    animation-delay: -2s;
+  }
+  .b-g {
+    top: -1px;
+    bottom: auto;
+    animation-direction: reverse;
+    animation-delay: -4s;
+  }
+  @keyframes beam-x {
+    from {
+      transform: translateX(-110%);
+    }
+    to {
+      transform: translateX(260%);
+    }
+  }
+  @keyframes beam-y {
+    from {
+      transform: translateY(-110%);
+    }
+    to {
+      transform: translateY(260%);
+    }
+  }
+
+  .hub-node {
+    display: grid;
+    place-items: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 999px;
+    background: radial-gradient(circle at 50% 30%, #23232a, #111115 70%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 0 0 1px rgba(255, 255, 255, 0.06),
+      0 10px 24px -10px rgba(0, 0, 0, 0.9);
+    transition:
+      transform 0.5s var(--ease-out-expo),
+      box-shadow 0.5s var(--ease-out-expo);
+  }
+  .hub-cell:hover .hub-node {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.12),
+      0 0 0 1px rgba(240, 180, 41, 0.45),
+      0 0 30px -6px rgba(240, 180, 41, 0.55);
+  }
+
+  /* Núcleo: la marca con anillos concéntricos y un halo que respira */
+  .hub-core {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 13rem;
+  }
+  .core-ring {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border-radius: 999px;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: radial-gradient(closest-side, rgba(255, 255, 255, 0.025), transparent);
+  }
+  .r1 {
+    width: 12.5rem;
+    height: 12.5rem;
+  }
+  .r2 {
+    width: 9rem;
+    height: 9rem;
+    border-color: rgba(255, 255, 255, 0.09);
+    background: radial-gradient(closest-side, #17171c, #0e0e12);
+    box-shadow: 0 0 60px -10px rgba(240, 180, 41, 0.25);
+  }
+  @media (min-width: 1024px) {
+    .r1 {
+      width: 17rem;
+      height: 17rem;
+    }
+    .r2 {
+      width: 12rem;
+      height: 12rem;
+    }
+  }
+  .core-orb {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 5.5rem;
+    height: 5.5rem;
+    border-radius: 999px;
+    background: radial-gradient(circle at 50% 30%, #2a2a31, #121216 70%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.14),
+      0 0 0 1px rgba(255, 255, 255, 0.08),
+      0 0 50px -6px rgba(240, 180, 41, 0.55);
+    animation: breathe 4.5s ease-in-out infinite;
+  }
+  @media (min-width: 640px) {
+    .core-orb {
+      width: 6.5rem;
+      height: 6.5rem;
+    }
+  }
+  @keyframes breathe {
+    50% {
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.14),
+        0 0 0 1px rgba(240, 180, 41, 0.25),
+        0 0 80px -4px rgba(240, 180, 41, 0.7);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .beam-seg,
+    .core-orb {
+      animation: none;
+    }
+  }
+</style>

@@ -1,21 +1,37 @@
-import { initAchievements, initArcade, initBoot, initDialog, initInventory, initLevelSelect, initMascot, initPressStart, initWorldMap } from './game';
-import { initReveal, initScrub } from './motion';
+import { initEasterEgg } from './easter-egg';
+import {
+  initAnchors,
+  initClock,
+  initCopy,
+  initCounters,
+  initHeaderAutoHide,
+  initReveal,
+  initSmoothScroll,
+  initSpotlight,
+  initStack,
+  initTimeline,
+} from './motion';
 import { initContactForm, initCookieBanner, initHeader, initScrollToTop } from './ui';
 
-initHeader();
-initCookieBanner();
-initScrollToTop();
-initContactForm();
-
+// Lo que se ve al cargar: inmediato
 initReveal();
-initScrub();
+initHeader();
+initAnchors();
+initCookieBanner();
+initCounters();
 
-initBoot();
-initAchievements();
-initPressStart();
-initMascot();
-initArcade();
-initLevelSelect();
-initInventory();
-initDialog();
-initWorldMap();
+// El resto, cuando el navegador esté libre (no compite con el primer pintado)
+const idle = (fn: () => void) =>
+  'requestIdleCallback' in window ? requestIdleCallback(fn, { timeout: 1500 }) : setTimeout(fn, 200);
+idle(() => {
+  void initSmoothScroll();
+  initScrollToTop();
+  initContactForm();
+  initSpotlight();
+  initHeaderAutoHide();
+  initTimeline();
+  initStack();
+  initClock();
+  initCopy();
+  initEasterEgg();
+});

@@ -1,22 +1,27 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import Mascot from '@/components/Mascot.astro';
+import Icon from '@/components/Icon.astro';
 ---
 
 <BaseLayout locale="es" path="/404" title="404" description="Esta página no existe." noindex>
-  <main id="main-content" class="flex min-h-screen flex-col items-center justify-center gap-6 px-6 pt-20 text-center">
-    <p class="hud-chip">Error 404 · Nivel no encontrado</p>
-    <h1 class="game-title -rotate-2 text-[clamp(3rem,12vw,6.5rem)]">Game over</h1>
-    <div class="relative">
-      <Mascot class="h-[168px] w-auto" label="Gabriel en pixel art, perdido" />
-      <span class="font-pixel absolute -right-10 top-2 text-2xl text-acid" aria-hidden="true">?</span>
-    </div>
-    <p class="max-w-sm text-ink/75">Este nivel no existe (todavía). <span lang="en">This level doesn't exist.</span></p>
-    <p class="font-pixel text-[12px] uppercase tracking-widest text-ink/70">¿Continuar?</p>
-    <div class="flex flex-wrap justify-center gap-3">
-      <a href="/" class="start-btn text-[15px] font-black uppercase">▶ Sí, volver al inicio</a>
-      <a href="/en" class="game-btn game-btn-ghost" lang="en">English</a>
-      <button type="button" data-arcade-open hidden class="game-btn game-btn-ghost">🎮 Jugar a BUG RUN</button>
+  <main id="main-content" class="relative isolate flex min-h-svh flex-col items-center justify-center overflow-hidden px-4 pt-20 text-center">
+    <div aria-hidden="true" class="grid-lines absolute inset-0 -z-10"></div>
+    <p class="badge">Error 404</p>
+    <h1 class="display text-metal mt-6 text-[clamp(6rem,30vw,16rem)]">404</h1>
+    <p class="mt-4 text-[clamp(1.25rem,4vw,1.75rem)] font-medium tracking-tight text-ink/90">
+      Esta página <span class="serif text-gold">no existe</span>.
+    </p>
+    <p class="lead mt-2"><span lang="en">This page doesn't exist.</span></p>
+    <div class="mt-9 flex flex-wrap justify-center gap-3">
+      <a href="/" class="btn btn-volt">
+        Volver al inicio
+        <span class="btn-icon"><Icon name="ArrowUpRight" class="h-4 w-4" strokeWidth={2.4} /></span>
+      </a>
+      <a href="/en" class="btn btn-ghost" lang="en">English</a>
+      <button type="button" data-arcade-open hidden class="btn btn-ghost has-icon">
+        Insert coin
+        <span class="btn-icon"><Icon name="Gamepad2" class="h-4 w-4" /></span>
+      </button>
     </div>
   </main>
 </BaseLayout>

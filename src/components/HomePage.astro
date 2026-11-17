@@ -1,12 +1,14 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Hero from './Hero.astro';
+import Stack from './Stack.astro';
 import About from './About.astro';
 import Services from './Services.astro';
 import Projects from './Projects.astro';
 import Experience from './Experience.astro';
-import Results from './Results.astro';
+import Process from './Process.astro';
 import Contact from './Contact.astro';
+import Footer from './Footer.astro';
 import { personData, organizationData, websiteData, breadcrumbsData } from '@/lib/structured-data';
 import type { Locale } from '@/i18n';
 
@@ -20,18 +22,16 @@ const jsonLd = {
 };
 ---
 
-<BaseLayout locale={locale} jsonLd={jsonLd} scrollTop boot>
-  <div class="w-full max-w-[100vw]">
-    <main id="main-content" class="w-full max-w-[100vw]">
-      <Hero locale={locale} />
-      <div class="relative isolate">
-        <About locale={locale} />
-        <Services locale={locale} />
-      </div>
-      <Projects locale={locale} />
-      <Experience locale={locale} />
-      <Results locale={locale} />
-      <Contact locale={locale} />
-    </main>
-  </div>
+<BaseLayout locale={locale} jsonLd={jsonLd} scrollTop>
+  <main id="main-content">
+    <Hero locale={locale} />
+    <Stack locale={locale} />
+    <About locale={locale} />
+    <Services locale={locale} />
+    <Projects locale={locale} />
+    <Experience locale={locale} />
+    <Process locale={locale} />
+    <Contact locale={locale} />
+  </main>
+  <Footer locale={locale} />
 </BaseLayout>

@@ -1,0 +1,21 @@
+---
+/** Cabecera de sección: cápsula + titular revelado por palabras + entradilla. */
+import Split from './Split.astro';
+
+interface Props {
+  badge: string;
+  title: string;
+  serif?: string[];
+  lead?: string;
+  align?: 'center' | 'left';
+}
+const { badge, title, serif, lead, align = 'center' } = Astro.props;
+const center = align === 'center';
+---
+
+<div class:list={['flex flex-col gap-5', center ? 'items-center text-center' : 'items-start text-left']}>
+  <p class="badge" data-reveal>{badge}</p>
+  <Split text={title} serif={serif} class="h2 max-w-[18ch]" wordClass="text-metal" />
+  {lead && <p class:list={['lead max-w-xl', center && 'mx-auto']} data-reveal style="--delay:.15s">{lead}</p>}
+  <slot />
+</div>

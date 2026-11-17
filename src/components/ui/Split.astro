@@ -1,0 +1,38 @@
+---
+/**
+ * Titular que se revela palabra a palabra. El texto se parte en el build (0 KB de JS);
+ * el script solo añade `.is-in` al entrar en pantalla. Lectores de pantalla y buscadores
+ * leen la frase completa (aria-label + spans ocultos a la accesibilidad).
+ * `serif` marca palabras que van en Instrument Serif cursiva (p. ej. ["producción"]).
+ */
+interface Props {
+  text: string;
+  as?: 'h1' | 'h2' | 'h3' | 'p' | 'span';
+  class?: string;
+  serif?: string[];
+  delay?: number;
+  /** Clase de cada palabra (los degradados de texto van aquí: no sobreviven al transform del padre). */
+  wordClass?: string;
+}
+const { text, as: Tag = 'h2', class: className = '', serif = [], delay = 0, wordClass = '' } = Astro.props;
+const clean = (w: string) => w.replace(/[.,;:!?¿¡]/g, '').toLowerCase();
+const serifSet = new Set(serif.map(clean));
+const words = text.split(/\s+/).filter(Boolean);
+---
+
+<Tag class:list={['split', className]} data-split style={delay ? `--delay:${delay}s` : undefined}>
+  <span class="sr-only">{text}</span>
+  <span aria-hidden="true">
+    {
+      words.map((w, i) => (
+        <>
+          <span class="w">
+            <span class:list={[serifSet.has(clean(w)) ? 'serif text-gold pr-[0.06em]' : wordClass]} style={`--i:${i}`}>
+              {w}
+            </span>
+          </span>{' '}
+        </>
+      ))
+    }
+  </span>
+</Tag>

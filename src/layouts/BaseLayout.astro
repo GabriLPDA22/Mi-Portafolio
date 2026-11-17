@@ -1,14 +1,14 @@
 ---
 /**
  * Layout raíz: metadatos SEO por idioma (con hreflang), fuentes autoalojadas, cabecera,
- * banner de cookies y un único script ligero (sin frameworks en el cliente).
+ * banner de cookies, textos del easter egg y un único script ligero (sin frameworks).
  */
 import { Font } from 'astro:assets';
 import '@/styles/globals.css';
 import Header from '@/components/Header.astro';
 import CookieBanner from '@/components/CookieBanner.astro';
 import ScrollToTop from '@/components/ScrollToTop.astro';
-import GameLayer from '@/components/GameLayer.astro';
+import ArcadeData from '@/components/ArcadeData.astro';
 import { localePath, type Locale } from '@/i18n';
 
 interface Props {
@@ -22,8 +22,6 @@ interface Props {
   jsonLd?: Record<string, unknown>;
   /** Mostrar el botón "volver arriba" (portada). */
   scrollTop?: boolean;
-  /** Pantalla de carga de videojuego (portada, primera visita de la sesión). */
-  boot?: boolean;
 }
 
 const siteUrl = 'https://gabrielcodes.dev';
@@ -48,7 +46,7 @@ const meta = {
   },
 };
 
-const { locale, path = '/', title, description, noindex = false, jsonLd, scrollTop = false, boot = false } = Astro.props;
+const { locale, path = '/', title, description, noindex = false, jsonLd, scrollTop = false } = Astro.props;
 const m = meta[locale];
 const fullTitle = title ? `${title} | Gabriel Saiz` : m.title;
 const desc = description ?? m.description;
@@ -87,16 +85,7 @@ const keywords = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Con JS, las entradas animadas empiezan ocultas; sin JS todo es visible. -->
     <script is:inline>
-      (function () {
-        var h = document.documentElement;
-        h.classList.add('js');
-        // La pantalla de carga solo se ve en la primera visita de la sesión y nunca con "reducir movimiento".
-        try {
-          if (sessionStorage.getItem('gs-boot') || matchMedia('(prefers-reduced-motion: reduce)').matches) h.classList.add('no-boot');
-        } catch (e) {
-          h.classList.add('no-boot');
-        }
-      })();
+      document.documentElement.classList.add('js');
     </script>
     <title>{fullTitle}</title>
     <meta name="description" content={desc} />
@@ -124,12 +113,12 @@ const keywords = [
       )
     }
     <meta name="google-site-verification" content="tl7fbd-SUdovbuPNFSkybxDcu_TQs9maMuc0x9ar04c" />
-    <meta name="theme-color" content="#120e0b" />
+    <meta name="theme-color" content="#08080a" />
     <meta name="color-scheme" content="dark" />
 
-    <Font cssVariable="--font-nunito" preload />
-    <Font cssVariable="--font-caveat" preload />
-    <Font cssVariable="--font-tiny" preload />
+    <Font cssVariable="--font-geist" preload />
+    <Font cssVariable="--font-instrument" preload />
+    <Font cssVariable="--font-tiny" />
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
@@ -158,7 +147,7 @@ const keywords = [
     <!-- Primer elemento con Tab: salta la navegación (solo visible al recibir el foco) -->
     <a
       href="#main-content"
-      class="font-pixel sr-only text-[12px] uppercase tracking-widest focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-xl focus:bg-acid focus:px-4 focus:py-2 focus:text-[#120e0b]"
+      class="sr-only text-[14px] font-medium focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-full focus:bg-acid focus:px-4 focus:py-2 focus:text-noir"
     >
       {locale === 'es' ? 'Saltar al contenido' : 'Skip to content'}
     </a>
@@ -166,7 +155,7 @@ const keywords = [
     <slot />
     {scrollTop && <ScrollToTop locale={locale} />}
     <CookieBanner locale={locale} />
-    <GameLayer locale={locale} boot={boot} />
+    <ArcadeData locale={locale} />
     <script>
       import '@/scripts/site';
     </script>

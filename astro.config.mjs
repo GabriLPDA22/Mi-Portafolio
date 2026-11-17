@@ -11,29 +11,28 @@ export default defineConfig({
     // CSS inline en el HTML: sin petición bloqueante antes del primer pintado.
     inlineStylesheets: 'always',
   },
-  // Nunito y Caveat autoalojadas (antes via next/font/google), mismas variables CSS.
+  // Fuentes autoalojadas: Geist (texto y titulares, variable) + Instrument Serif cursiva (acentos).
+  // Tiny5 solo la usa el minijuego oculto: se declara pero no se precarga.
   fonts: [
     {
       provider: fontProviders.local(),
-      name: 'Nunito',
-      cssVariable: '--font-nunito',
+      name: 'Geist',
+      cssVariable: '--font-geist',
       fallbacks: ['system-ui', 'sans-serif'],
       options: {
-        variants: [{ src: ['./src/assets/fonts/nunito-latin-wght-normal.woff2'], weight: '200 1000', style: 'normal' }],
+        variants: [{ src: ['./src/assets/fonts/geist-latin-wght-normal.woff2'], weight: '100 900', style: 'normal' }],
       },
     },
     {
       provider: fontProviders.local(),
-      name: 'Caveat',
-      cssVariable: '--font-caveat',
-      fallbacks: ['cursive'],
+      name: 'Instrument Serif',
+      cssVariable: '--font-instrument',
+      fallbacks: ['Georgia', 'serif'],
       options: {
-        // Instancia estática del peso 600 (el único que se usa), subset latino.
-        variants: [{ src: ['./src/assets/fonts/caveat-latin-600.woff2'], weight: '600', style: 'normal' }],
+        variants: [{ src: ['./src/assets/fonts/instrument-serif-latin-400-italic.woff2'], weight: '400', style: 'italic' }],
       },
     },
     {
-      // Fuente pixel para los textos tipo HUD (Tiny5, OFL-1.1, 9 KB): C y O bien distintas.
       provider: fontProviders.local(),
       name: 'Tiny5',
       cssVariable: '--font-tiny',

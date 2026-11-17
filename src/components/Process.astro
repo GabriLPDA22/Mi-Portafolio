@@ -1,0 +1,98 @@
+---
+/**
+ * Cómo trabajo: banda de texto gigante en movimiento y cuatro principios numerados.
+ */
+import Icon from './Icon.astro';
+import SectionHead from './ui/SectionHead.astro';
+import { getT, type Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = getT(locale);
+const es = locale === 'es';
+const items = Object.values(t.results.items);
+const icons = ['MessagesSquare', 'Repeat', 'Code2', 'Target'];
+---
+
+<section id="resultados" class="section cv-auto overflow-hidden">
+  <!-- Banda gigante -->
+  <div class="band marquee mb-16 sm:mb-24" aria-hidden="true">
+    {
+      [0, 1].map(() => (
+        <div class="marquee-track !gap-0 !pr-0 [animation-duration:60s]">
+          {items.map((it) => (
+            <span class="band-word">
+              {it.title}
+              <span class="band-star">✦</span>
+            </span>
+          ))}
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="container-main">
+    <SectionHead
+      badge={es ? 'Cómo trabajo' : 'How I work'}
+      title={t.results.headline}
+      serif={es ? ['producto.'] : ['product-first.']}
+      lead={t.results.subtitle}
+    />
+
+    <ol class="mt-14 grid gap-3 sm:mt-16 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
+      {
+        items.map((it, i) => (
+          <li class="card spotlight principle flex flex-col p-6 sm:p-7" data-spotlight data-reveal style={`--delay:${i * 0.08}s`}>
+            <div class="flex items-center justify-between">
+              <span class="serif text-[3.25rem] leading-none text-gold">{i + 1}</span>
+              <Icon name={icons[i]} class="h-5 w-5 text-ink/30" strokeWidth={1.7} />
+            </div>
+            <h3 class="mt-10 text-[1.2rem] font-semibold tracking-[-0.02em] text-ink">{it.title}</h3>
+            <p class="mt-2 text-[14.5px] leading-relaxed text-ink/55">{it.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .band {
+    border-block: 1px solid rgba(255, 255, 255, 0.06);
+    padding-block: 1.1rem;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .band-word {
+    display: inline-flex;
+    align-items: center;
+    gap: 2rem;
+    padding-right: 2rem;
+    white-space: nowrap;
+    font-size: clamp(2.5rem, 9vw, 6.5rem);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(242, 237, 228, 0.22);
+  }
+  .band-word:nth-child(even) {
+    color: rgba(242, 237, 228, 0.9);
+    -webkit-text-stroke: 0;
+  }
+  .band-star {
+    font-size: 0.4em;
+    color: #f0b429;
+    -webkit-text-stroke: 0;
+  }
+  .principle {
+    transition: transform 0.6s var(--ease-out-expo);
+  }
+  @media (hover: hover) {
+    .principle:hover {
+      transform: translateY(-4px);
+    }
+  }
+</style>
