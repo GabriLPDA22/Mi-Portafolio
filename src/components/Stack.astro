@@ -61,8 +61,9 @@ const groups = [
       {
         hub.map(({ area, item }) => (
           <div class:list={['hub-cell', (area === 'a' || area === 'f') && 'hub-far', area === 'a' && 'far-left', area === 'f' && 'far-right']} style={`grid-area:${area}`}>
-            <span class:list={['beam-seg', area === 'a' || area === 'f' ? 'beam-v' : 'beam-h', `b-${area}`]} aria-hidden="true" />
-            <div class="flex flex-col items-center gap-3">
+            <span class:list={['border-beam', `bb-${area}`]} aria-hidden="true" />
+            {(area === 'a' || area === 'f') && <span class:list={['beam-seg beam-v', `b-${area}`]} aria-hidden="true" />}
+            <div class="relative z-[1] flex flex-col items-center gap-3">
               <span class="hub-node" title={item.name}>
                 {item.path ? (
                   <svg viewBox="0 0 24 24" class="h-7 w-7" aria-hidden="true">
@@ -206,59 +207,107 @@ const groups = [
     }
   }
 
-  /* Haces de luz que recorren los bordes (solo transform: se animan en la GPU) */
-  .beam-seg {
+  /* Haz de luz que recorre el borde completo de las tarjetas principales: un degradado cónico
+     que gira (solo transform, en la GPU) por detrás de una capa opaca que deja ver 2 px de borde */
+  .border-beam {
     position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 160%;
+    aspect-ratio: 1;
+    z-index: 0;
     pointer-events: none;
-    box-shadow: 0 0 8px rgba(139, 92, 246, 0.8);
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      transparent 200deg,
+      rgba(139, 92, 246, 0.35) 260deg,
+      #8b5cf6 310deg,
+      #c4b5fd 340deg,
+      #fff 354deg,
+      transparent 360deg
+    );
+    transform: translate(-50%, -50%) rotate(0deg);
+    animation: border-spin 6s linear infinite;
     will-change: transform;
   }
-  .beam-h {
-    bottom: -1px;
-    left: 0;
-    width: 40%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #c4b5fd, transparent);
-    animation: beam-x 5s var(--ease-out-quart) infinite;
+  .bb-d {
+    animation-delay: -1.5s;
+  }
+  .bb-a {
+    animation-delay: -2.2s;
+  }
+  .bb-f {
+    animation-delay: -5.2s;
+  }
+  .bb-e {
+    animation-delay: -4.5s;
+  }
+  .bb-g {
+    animation-delay: -3s;
+  }
+  @keyframes border-spin {
+    to {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+  /* Relleno opaco: tapa el centro del degradado y deja solo el borde iluminado */
+  .hub-cell::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    z-index: 0;
+    border-radius: calc(1.25rem - 2px);
+    background:
+      radial-gradient(80% 70% at 50% 0%, rgba(139, 92, 246, 0.08), transparent 70%),
+      linear-gradient(180deg, #16161b, #101014);
+  }
+  .hub-cell {
+    border-color: rgba(255, 255, 255, 0.06);
+    box-shadow:
+      0 0 0 1px rgba(139, 92, 246, 0.08),
+      0 20px 50px -30px rgba(139, 92, 246, 0.45);
+    transition: box-shadow 0.5s ease;
+  }
+  .hub-cell:hover {
+    box-shadow:
+      0 0 0 1px rgba(139, 92, 246, 0.3),
+      0 20px 60px -20px rgba(139, 92, 246, 0.6);
+  }
+
+  /* Haces de luz en los extremos (solo transform: se animan en la GPU) */
+  .beam-seg {
+    display: none;
+    position: absolute;
+    pointer-events: none;
+    will-change: transform;
   }
   .beam-v {
     top: 0;
-    width: 1px;
-    height: 40%;
-    background: linear-gradient(180deg, transparent, #c4b5fd, transparent);
+    width: 10px;
+    height: 45%;
+    background: radial-gradient(closest-side, #fff 0 12%, rgba(167, 139, 250, 0.85) 30%, rgba(139, 92, 246, 0.3) 60%, transparent);
     animation: beam-y 5.5s var(--ease-out-quart) infinite;
   }
   .b-a {
-    right: -1px;
+    right: -5px;
   }
   .b-f {
-    left: -1px;
+    left: -5px;
     animation-delay: -2.4s;
   }
-  .b-b {
-    animation-delay: -1s;
-  }
-  .b-d {
-    animation-direction: reverse;
-    animation-delay: -3s;
-  }
-  .b-e {
-    top: -1px;
-    bottom: auto;
-    animation-delay: -2s;
-  }
-  .b-g {
-    top: -1px;
-    bottom: auto;
-    animation-direction: reverse;
-    animation-delay: -4s;
-  }
-  @keyframes beam-x {
-    from {
-      transform: translateX(-110%);
+  @media (min-width: 1024px) {
+    .beam-seg {
+      display: block;
     }
-    to {
-      transform: translateX(260%);
+    /* En escritorio los extremos son corchetes abiertos: sin relleno ni haz de borde */
+    .hub-far::after,
+    .hub-far .border-beam {
+      display: none;
+    }
+    .hub-far,
+    .hub-far:hover {
+      box-shadow: none;
     }
   }
   @keyframes beam-y {
@@ -369,6 +418,7 @@ const groups = [
 
   @media (prefers-reduced-motion: reduce) {
     .beam-seg,
+    .border-beam,
     .core-orb::before {
       animation: none;
     }

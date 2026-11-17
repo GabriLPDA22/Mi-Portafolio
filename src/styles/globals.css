@@ -80,10 +80,18 @@ html.lenis body {
   overflow: clip;
 }
 
+/* Fondo común de toda la web, pintado en el propio body: una rejilla muy sutil que se apaga hacia
+   los laterales y un halo violeta arriba. Se rasteriza con la página (sin capa fija que haya que
+   recomponer en cada frame de scroll) y es continuo de la portada al pie. */
 body {
   font-family: var(--font-sans);
   font-feature-settings: "ss01", "cv11";
-  background-color: var(--bg-primary);
+  background:
+    radial-gradient(70% 900px at 50% -200px, rgba(139, 92, 246, 0.16), transparent 70%) no-repeat,
+    linear-gradient(90deg, var(--bg-primary), transparent 22%, transparent 78%, var(--bg-primary)),
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px) center top / 64px 64px,
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px) center top / 64px 64px,
+    var(--bg-primary);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -402,15 +410,6 @@ video {
 }
 
 /* Rejilla de líneas que se desvanece (fondos de sección) */
-.grid-lines {
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
-  background-size: 64px 64px;
-  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 30%, transparent 75%);
-  mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 30%, transparent 75%);
-}
-
 /* Separador luminoso entre secciones */
 .hairline {
   height: 1px;
