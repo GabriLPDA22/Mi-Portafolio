@@ -7,7 +7,6 @@ import type { Locale } from '@/lib/i18n';
 const APP_STORE = 'https://apps.apple.com/us/app/the-arch/id6753820007';
 
 export const LINKS = {
-  email: 'gsaiz.bajo@gmail.com',
   cv: '/cv/Gabriel-Saiz-CV.pdf',
   linkedin: 'https://www.linkedin.com/in/gabriel-saiz-de-la-maza-bajo-140370184/',
   github: 'https://github.com/GabriLPDA22',

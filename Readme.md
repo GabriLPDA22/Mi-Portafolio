@@ -12,7 +12,7 @@ C# y .NET en el backend · Vue y Astro en la web · React Native en el móvil.
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-8b5cf6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-8b5cf6?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 
-[**Ver la web →**](https://gabrielcodes.dev) &nbsp;·&nbsp; [LinkedIn](https://www.linkedin.com/in/gabriel-saiz-de-la-maza-bajo-140370184/) &nbsp;·&nbsp; [Descargar CV](https://gabrielcodes.dev/cv/Gabriel-Saiz-CV.pdf) &nbsp;·&nbsp; [gsaiz.bajo@gmail.com](mailto:gsaiz.bajo@gmail.com)
+[**Ver la web →**](https://gabrielcodes.dev) &nbsp;·&nbsp; [LinkedIn](https://www.linkedin.com/in/gabriel-saiz-de-la-maza-bajo-140370184/) &nbsp;·&nbsp; [Descargar CV](https://gabrielcodes.dev/cv/Gabriel-Saiz-CV.pdf) &nbsp;·&nbsp; [Contacto](https://gabrielcodes.dev/#contacto)
 
 </div>
 
@@ -95,6 +95,18 @@ Lighthouse móvil da **100 / 100 / 100 / 100** en español y en inglés, con **C
   - Se carga después del `load`, para no competir con el primer pintado.
   - Solo cuenta eventos útiles: descargas del CV, clics a LinkedIn, GitHub y las apps, y envíos del formulario.
 
+## Formulario de contacto sin spam
+
+El formulario no envía a un servicio externo desde el navegador (ese endpoint público acaba en manos de los bots), sino a un endpoint propio en PHP que filtra por capas, de lo más barato a lo más caro:
+
+- **Honeypot:** un campo invisible que solo rellenan los bots. Se les responde "ok" y se descarta en silencio.
+- **Validación estricta** en el servidor y rechazo de los mensajes con muchos enlaces.
+- **Cloudflare Turnstile verificado en el servidor:** sin un token válido, de un solo uso y emitido para este dominio, no se envía nada. El script solo se carga cuando alguien toca el formulario, así que no cuesta nada en Lighthouse.
+- **Límites por IP y globales**, con la IP guardada solo como hash HMAC, que se borra a las 24 horas.
+- **Entrega por un endpoint privado**, que solo está en la configuración del servidor y nunca en el HTML.
+
+Además, el email no aparece en claro en ningún HTML: se codifica en el build y lo monta el navegador. El CV público no lleva teléfono.
+
 ## 🎮 BUG RUN
 
 Pulsa **↑ ↑ ↓ ↓ ← → ← → B A** en la web, o el botón "Insert coin" del pie. Es un runner en Canvas al estilo del dinosaurio de Chrome: cae la noche, sube la velocidad, aparecen más bugs y hay ranking global.
@@ -119,7 +131,7 @@ npm run preview  # sirve el build
 npm run check    # tipos (astro check)
 ```
 
-**Despliegue:** se sube el contenido de `dist/` a `public_html/` en Hostinger, incluidos los `.htaccess` (rutas limpias, caché y markdown para agentes) y `api/scores.php`, que es el ranking. El fichero `arcade-config.php`, con las credenciales de la base de datos, va un nivel por encima de `public_html` y nunca entra en git.
+**Despliegue:** se sube el contenido de `dist/` a `public_html/` en Hostinger, incluidos los `.htaccess` (rutas limpias, caché y markdown para agentes) y `api/scores.php`, que es el ranking. También `api/contact.php`, que es el formulario. El fichero `arcade-config.php`, con las credenciales de la base de datos y la clave secreta de Turnstile, va un nivel por encima de `public_html` y nunca entra en git.
 
 ## Contacto
 
@@ -127,7 +139,7 @@ Busco un equipo donde aportar desde el primer día. Estoy en Zaragoza y abierto 
 
 <div align="center">
 
-[**gabrielcodes.dev**](https://gabrielcodes.dev) · [LinkedIn](https://www.linkedin.com/in/gabriel-saiz-de-la-maza-bajo-140370184/) · [GitHub](https://github.com/GabriLPDA22) · [gsaiz.bajo@gmail.com](mailto:gsaiz.bajo@gmail.com)
+[**gabrielcodes.dev**](https://gabrielcodes.dev) · [LinkedIn](https://www.linkedin.com/in/gabriel-saiz-de-la-maza-bajo-140370184/) · [GitHub](https://github.com/GabriLPDA22) · [Formulario de contacto](https://gabrielcodes.dev/#contacto)
 
 <sub>© Gabriel Saiz. Código y contenido propios: todos los derechos reservados.</sub>
 

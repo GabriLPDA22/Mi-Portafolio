@@ -2,7 +2,7 @@
 interface Props {
   items: { label: string; value?: string; email?: boolean }[];
 }
-const EMAIL = 'gsaiz.bajo@gmail.com';
+import Email from './ui/Email.astro';
 ---
 
 <dl class="mt-4 divide-y divide-white/[0.06] border-y border-white/[0.06]">
@@ -12,9 +12,7 @@ const EMAIL = 'gsaiz.bajo@gmail.com';
         <dt class="text-[0.8125rem] font-medium text-ink/60">{label}</dt>
         <dd class="text-[0.9375rem] leading-relaxed text-ink/80">
           {email ? (
-            <a href={`mailto:${EMAIL}`} class="text-ink underline decoration-white/20 underline-offset-[3px] transition-colors hover:text-acid hover:decoration-acid/40">
-              {EMAIL}
-            </a>
+            <Email class="text-ink underline decoration-white/20 underline-offset-[3px] transition-colors hover:text-acid hover:decoration-acid/40" />
           ) : (
             value
           )}

@@ -149,8 +149,99 @@ export function initScrollToTop() {
 }
 
 /* ------------------------------------------------------------------ */
-/* Formulario de contacto (Formspree, mismo endpoint que antes)         */
+/* Formulario de contacto: endpoint propio + Cloudflare Turnstile       */
 /* ------------------------------------------------------------------ */
+
+interface TurnstileApi {
+  render: (el: HTMLElement, opts: Record<string, unknown>) => string;
+  reset: (id: string) => void;
+}
+type TurnstileWindow = Window & { turnstile?: TurnstileApi; __onTurnstile?: () => void };
+
+let turnstileScript: Promise<TurnstileApi> | null = null;
+
+/** Carga el script de Turnstile una sola vez, y solo cuando alguien usa el formulario (no afecta a la carga). */
+function loadTurnstile(): Promise<TurnstileApi> {
+  const w = window as TurnstileWindow;
+  if (w.turnstile) return Promise.resolve(w.turnstile);
+  turnstileScript ??= new Promise<TurnstileApi>((resolve, reject) => {
+    w.__onTurnstile = () => resolve(w.turnstile!);
+    const script = document.createElement('script');
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=__onTurnstile';
+    script.async = true;
+    script.onerror = () => {
+      turnstileScript = null; // se puede reintentar
+      script.remove();
+      reject(new Error('turnstile_load'));
+    };
+    document.head.append(script);
+  });
+  return turnstileScript;
+}
+
+/**
+ * Widget de Turnstile del formulario. Se renderiza invisible ("interaction-only": solo aparece si
+ * Cloudflare necesita que la persona haga clic) y genera el token en segundo plano mientras se
+ * rellena el formulario. Cada token vale para un único envío.
+ */
+function createTurnstile(container: HTMLElement, sitekey: string, language: string) {
+  let widgetId: string | null = null;
+  let api: TurnstileApi | null = null;
+  let token: string | null = null;
+  let waiters: ((t: string | null) => void)[] = [];
+  const settle = (t: string | null) => {
+    token = t;
+    waiters.splice(0).forEach((w) => w(t));
+  };
+
+  const start = async () => {
+    if (widgetId !== null) return;
+    try {
+      api = await loadTurnstile();
+      if (widgetId !== null) return; // dos llamadas a la vez
+      widgetId = api.render(container, {
+        sitekey,
+        action: 'contact',
+        theme: 'dark',
+        language,
+        appearance: 'interaction-only',
+        callback: (t: string) => settle(t),
+        'expired-callback': () => {
+          token = null;
+          if (widgetId !== null) api?.reset(widgetId);
+        },
+        'error-callback': () => settle(null),
+      });
+    } catch {
+      settle(null);
+    }
+  };
+
+  return {
+    start,
+    /** Token listo para enviar (espera a que Turnstile termine, como mucho `timeout` ms). */
+    async token(timeout = 20000): Promise<string | null> {
+      await start();
+      if (token) return token;
+      return new Promise((resolve) => {
+        const timer = window.setTimeout(() => {
+          waiters = waiters.filter((w) => w !== done);
+          resolve(null);
+        }, timeout);
+        const done = (t: string | null) => {
+          window.clearTimeout(timer);
+          resolve(t);
+        };
+        waiters.push(done);
+      });
+    },
+    /** Tras cada envío: el token ya se ha gastado, se pide otro. */
+    reset() {
+      token = null;
+      if (api && widgetId !== null) api.reset(widgetId);
+    },
+  };
+}
 
 export function initContactForm() {
   const root = document.querySelector<HTMLElement>('[data-contact]');
@@ -163,17 +254,29 @@ export function initContactForm() {
   const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
   const idle = button.querySelector<HTMLElement>('[data-idle]')!;
   const loading = button.querySelector<HTMLElement>('[data-loading]')!;
+  const msg = root.dataset;
+  const turnstile = createTurnstile(root.querySelector<HTMLElement>('[data-turnstile]')!, msg.sitekey!, msg.locale ?? 'es');
 
-  const sending = root.querySelector<HTMLElement>('[data-contact-sending]');
+  // Turnstile empieza a trabajar en cuanto la persona toca el formulario (no antes: no penaliza la carga)
+  const warm = () => void turnstile.start();
+  form.addEventListener('focusin', warm, { once: true });
+  form.addEventListener('pointerdown', warm, { once: true });
+
   const setLoading = (on: boolean) => {
     button.disabled = on;
     idle.hidden = on;
     loading.hidden = !on;
-    if (sending) sending.hidden = !on;
   };
   const showError = (message: string) => {
     errorText.textContent = message;
     error.hidden = false;
+  };
+  const errorFor = (code: string | undefined, status: number) => {
+    if (status === 429) return msg.msgRate!;
+    if (code === 'captcha') return msg.msgCaptcha!;
+    if (code === 'too_many_links') return msg.msgLinks!;
+    if (code === 'invalid') return msg.msgInvalid!;
+    return msg.msgFailed!;
   };
 
   form.addEventListener('submit', async (e) => {
@@ -183,30 +286,45 @@ export function initContactForm() {
     const email = String(data.get('email') ?? '').trim();
     const message = String(data.get('message') ?? '').trim();
     if (!name || !email || !message) {
-      showError(root.dataset.msgRequired!);
+      showError(msg.msgRequired!);
       return;
     }
 
     error.hidden = true;
     setLoading(true);
-    const select = form.querySelector<HTMLSelectElement>('select[name="project"]');
-    const project = select && select.value ? select.selectedOptions[0].textContent?.trim() ?? '' : '';
-
     try {
+      const token = await turnstile.token();
+      if (!token) {
+        showError(msg.msgCaptcha!);
+        return;
+      }
       const response = await fetch(form.action, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ name, email, project, message, _subject: 'Contacto desde portfolio' }),
+        body: JSON.stringify({
+          name,
+          email,
+          message,
+          project: String(data.get('project') ?? ''),
+          website: String(data.get('website') ?? ''), // honeypot
+          locale: msg.locale,
+          token,
+        }),
       });
-      if (!response.ok) throw new Error(String(response.status));
+      const body = (await response.json().catch(() => ({}))) as { error?: string };
+      if (!response.ok) {
+        showError(errorFor(body.error, response.status));
+        return;
+      }
       form.reset();
       form.hidden = true;
       success.hidden = false;
       // Analítica (Umami): solo se cuenta el envío, nunca el contenido
       (window as unknown as { umami?: { track: (e: string) => void } }).umami?.track('contacto-enviado');
     } catch {
-      showError(root.dataset.msgFailed!);
+      showError(msg.msgFailed!);
     } finally {
+      turnstile.reset();
       setLoading(false);
     }
   });

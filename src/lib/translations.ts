@@ -473,7 +473,7 @@ export const translations = {
             title: '2.1. Datos del formulario de contacto',
             description: 'Cuando utilizas el formulario de contacto, recopilamos:',
             items: ['Nombre', 'Dirección de correo electrónico', 'Mensaje', 'Tipo de proyecto (opcional)'],
-            note: 'Estos datos se envían a través de Formspree y se almacenan temporalmente para poder responder a tu consulta.',
+            note: 'Los datos se envían a mi propio servidor y me llegan por correo (a través de Formspree, como servicio de envío) solo para poder responderte; no se guardan en ninguna base de datos. Para frenar el spam, el formulario usa Cloudflare Turnstile, que comprueba que no eres un bot, y guarda un identificador anónimo de tu IP (hash irreversible) para limitar envíos, que se elimina a las 24 horas.',
           },
           cookies: {
             title: '2.2. Cookies y almacenamiento local',
@@ -536,7 +536,7 @@ export const translations = {
         },
         thirdParty: {
           title: '8. Cookies',
-          description: 'Este sitio web NO utiliza cookies, ni propias ni de terceros, para seguimiento, publicidad o análisis.',
+          description: 'Este sitio web NO utiliza cookies, ni propias ni de terceros, para seguimiento, publicidad o análisis. El formulario de contacto usa Cloudflare Turnstile, que solo se carga si interactúas con el formulario y sirve únicamente para comprobar que no eres un bot.',
         },
         changes: {
           title: '9. Cambios en esta política',
@@ -559,7 +559,6 @@ export const translations = {
           name: 'Nombre',
           nameValue: 'Gabriel Saiz de la Maza Bajo',
           email: 'Email de contacto',
-          emailValue: 'gsaiz.bajo@gmail.com',
           website: 'Sitio web',
           websiteValue: 'gabrielcodes.dev',
           activity: 'Actividad',
@@ -1086,7 +1085,7 @@ export const translations = {
             title: '2.1. Contact Form Data',
             description: 'When you use the contact form, we collect:',
             items: ['Name', 'Email address', 'Message', 'Project type (optional)'],
-            note: 'This data is sent through Formspree and stored temporarily to respond to your inquiry.',
+            note: 'The data is sent to my own server and reaches me by email (through Formspree, as a delivery service) only so I can reply; it is not stored in any database. To stop spam, the form uses Cloudflare Turnstile, which checks that you are not a bot, and stores an anonymous identifier derived from your IP (irreversible hash) to limit submissions, deleted after 24 hours.',
           },
           cookies: {
             title: '2.2. Cookies and local storage',
@@ -1149,7 +1148,7 @@ export const translations = {
         },
         thirdParty: {
           title: '8. Cookies',
-          description: 'This website does NOT use cookies, first-party or third-party, for tracking, advertising or analytics.',
+          description: 'This website does NOT use cookies, first-party or third-party, for tracking, advertising or analytics. The contact form uses Cloudflare Turnstile, which only loads if you interact with the form and is used solely to check that you are not a bot.',
         },
         changes: {
           title: '9. Changes to This Policy',
@@ -1172,7 +1171,6 @@ export const translations = {
           name: 'Name',
           nameValue: 'Gabriel Saiz de la Maza Bajo',
           email: 'Contact email',
-          emailValue: 'gsaiz.bajo@gmail.com',
           website: 'Website',
           websiteValue: 'gabrielcodes.dev',
           activity: 'Activity',

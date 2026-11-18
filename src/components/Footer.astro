@@ -4,7 +4,8 @@
  * el acceso al minijuego oculto (también se abre con el código Konami).
  */
 import Icon from './Icon.astro';
-import { EMAIL, SOCIALS } from '@/data/socials';
+import { SOCIALS } from '@/data/socials';
+import Email from './ui/Email.astro';
 import { getT, homePath, localePath, type Locale } from '@/i18n';
 
 interface Props {
@@ -47,7 +48,7 @@ const lnk = 'link-u text-[15px] text-ink/70 hover:text-ink';
       <p class={col}>{es ? 'Redes' : 'Social'}</p>
       <ul class="flex flex-col gap-3">
         {SOCIALS.map((s) => <li><a href={s.href} target="_blank" rel="noopener noreferrer" data-umami-event={s.label.toLowerCase()} class={lnk}>{s.label}</a></li>)}
-        <li><a href={`mailto:${EMAIL}`} data-umami-event="email" class={lnk}>Email</a></li>
+        <li><Email label="Email" event="email" class={lnk} /></li>
       </ul>
     </div>
     <div>

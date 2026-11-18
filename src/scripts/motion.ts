@@ -8,6 +8,7 @@
  * Las lecturas de layout se agrupan en un único frame por scroll (sin reflows forzados).
  */
 import type Lenis from 'lenis';
+import { decodeEmail } from './email';
 
 const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 // El margen de la cabecera lo pone el CSS (scroll-padding-top en <html>), que Lenis también respeta
@@ -250,16 +251,18 @@ export function initClock() {
 }
 
 export function initCopy() {
-  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) => {
+  document.querySelectorAll<HTMLButtonElement>('[data-copy], [data-copy-email]').forEach((btn) => {
     const label = btn.querySelector<HTMLElement>('[data-copy-label]');
     const original = label?.textContent ?? '';
+    // El email llega codificado (nunca en claro en el HTML): se monta al copiar
+    const value = () => (btn.dataset.copyEmail ? decodeEmail(btn.dataset.copyEmail) : btn.dataset.copy!);
     btn.addEventListener('click', async () => {
       try {
-        await navigator.clipboard.writeText(btn.dataset.copy!);
+        await navigator.clipboard.writeText(value());
         if (label) label.textContent = btn.dataset.copied!;
         window.setTimeout(() => label && (label.textContent = original), 1800);
       } catch {
-        window.location.href = `mailto:${btn.dataset.copy}`;
+        if (btn.dataset.copyEmail) window.location.href = `mailto:${value()}`;
       }
     });
   });

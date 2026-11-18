@@ -14,7 +14,6 @@ export const personData = {
     "https://github.com/GabriLPDA22",
     "https://instagram.com/saiz_gabriel",
   ],
-  email: "gsaiz.bajo@gmail.com",
   // CV público
   subjectOf: {
     "@type": "DigitalDocument",
@@ -84,7 +83,6 @@ export const organizationData = {
   description:
     "Portfolio de Gabriel Saiz, desarrollador full-stack. Experiencia en apps móviles, web y backend.",
   url: siteUrl,
-  email: "gsaiz.bajo@gmail.com",
   sameAs: [
     "https://www.linkedin.com/in/gabriel-saiz-de-la-maza-bajo-140370184/",
     "https://github.com/GabriLPDA22",

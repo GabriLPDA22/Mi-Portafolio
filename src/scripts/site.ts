@@ -1,4 +1,5 @@
 import { initEasterEgg } from './easter-egg';
+import { initEmails } from './email';
 import {
   initAnchors,
   initClock,
@@ -18,6 +19,7 @@ initReveal();
 initHeader();
 initAnchors();
 initCounters();
+initEmails(); // el email se monta en el navegador: nunca va en claro en el HTML
 
 // Ya no hay aviso de cookies (la web no usa ninguna): se borra la elección que guardaba antes
 try {

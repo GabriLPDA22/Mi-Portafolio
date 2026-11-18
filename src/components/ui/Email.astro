@@ -1,0 +1,24 @@
+---
+/**
+ * Enlace de email protegido (ver src/lib/email.ts). Sin JS enlaza al formulario de contacto.
+ *  - Sin `label`: el texto es la propia dirección (se monta en el navegador).
+ *  - Con `label`: texto fijo ("Email") y la dirección solo en el mailto.
+ *  - El slot va delante del texto (p. ej. un icono).
+ */
+import { EMAIL_ENCODED } from '@/lib/email';
+
+interface Props {
+  class?: string;
+  label?: string;
+  /** Texto mientras no se monta la dirección (sin JS se queda) */
+  fallback?: string;
+  href?: string;
+  event?: string;
+}
+const { class: className, label, fallback = 'Email', href = '/#contacto', event } = Astro.props;
+---
+
+<a href={href} data-email={EMAIL_ENCODED} data-umami-event={event} class={className}>
+  <slot />
+  <span data-email-value={label ? undefined : ''}>{label ?? fallback}</span>
+</a>

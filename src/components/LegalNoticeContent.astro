@@ -1,4 +1,5 @@
 ---
+import Email from './ui/Email.astro';
 import LegalShell from './LegalShell.astro';
 import LegalSection from './LegalSection.astro';
 import LegalList from './LegalList.astro';
@@ -53,7 +54,7 @@ const emailLink = 'text-ink underline decoration-white/20 underline-offset-[3px]
   <LegalSection id="contact" title={s.contact.title}>
     <div class="space-y-3">
       <p>{s.contact.description}</p>
-      <p><a href="mailto:gsaiz.bajo@gmail.com" class={emailLink}>gsaiz.bajo@gmail.com</a></p>
+      <p><Email class={emailLink} /></p>
     </div>
   </LegalSection>
 </LegalShell>

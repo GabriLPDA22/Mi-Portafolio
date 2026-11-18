@@ -53,7 +53,7 @@ export function homeMarkdown(locale: Locale): string {
 
 - ${es ? 'Estado' : 'Status'}: ${t.hero.availability}
 - ${es ? 'Ubicación' : 'Location'}: ${t.contact.badges.noCommitment}
-- Email: ${personData.email}
+- ${es ? 'Contacto' : 'Contact'}: ${home}#contacto
 - CV (PDF): ${CV}
 - LinkedIn: ${linkedin}
 - GitHub: ${github}
@@ -89,7 +89,6 @@ ${list(ways)}
 
 ${t.contact.subtitle}
 
-- Email: ${personData.email}
 - ${es ? 'Formulario' : 'Form'}: ${home}#contacto
 `;
 }
@@ -112,7 +111,7 @@ ${t.hero.proof}. ${t.hero.availability}.
 
 - [LinkedIn](${personData.sameAs[0]})
 - [GitHub](${personData.sameAs[1]})
-- Email: ${personData.email}
+- [Contacto (formulario)](${SITE}/#contacto)
 `;
 }
 
