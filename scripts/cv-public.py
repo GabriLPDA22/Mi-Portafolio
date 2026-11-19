@@ -1,7 +1,8 @@
 """
-Versión pública del CV: quita el teléfono de la fila de contacto y re-centra el resto
-(email, ubicación y web), conservando texto seleccionable y enlaces. El teléfono se elimina de
-verdad (redacción), no se tapa: no queda ni en el texto, ni en los enlaces ni en la estructura.
+Versión pública del CV: quita el email y el teléfono de la fila de contacto y re-centra el resto
+(ubicación y web), conservando texto seleccionable y enlaces. Ambos se eliminan de verdad
+(redacción), no se tapan: no quedan ni en el texto, ni en los enlaces ni en la estructura.
+El contacto público es el formulario de la web (anti-spam); el email solo va en el CV que se envía en privado.
 
 Uso: python3 scripts/cv-public.py <cv-original.pdf> public/cv/Gabriel-Saiz-CV.pdf   (requiere pymupdf)
 Coordenadas pensadas para el CV actual (A4, fila de contacto en y≈85-101 pt).
@@ -13,7 +14,7 @@ src_path, out_path = sys.argv[1], sys.argv[2]
 Y0, Y1 = 84.5, 101.0
 LINE_ART = pymupdf.PDF_REDACT_LINE_ART_REMOVE_IF_TOUCHED
 # (x0, x1, enlace) de cada elemento que se conserva, en el orden original
-ITEMS = [(65, 179.5, 'mailto:gsaiz.bajo@gmail.com'), (271.5, 392, None), (401, 530, 'https://gabrielcodes.dev/')]
+ITEMS = [(271.5, 392, None), (401, 530, 'https://gabrielcodes.dev/')]
 GAP = 11.5
 
 
@@ -51,7 +52,7 @@ for a, b, uri in ITEMS:
 # Anotaciones huérfanas (el árbol de estructura aún las referencia): se vacían
 for xref in range(1, doc.xref_length()):
     obj = doc.xref_object(xref)
-    if '(tel:' in obj:
+    if '(tel:' in obj or '(mailto:' in obj:
         doc.update_object(xref, '<< /Type /Annot /Subtype /Link /Rect [0 0 0 0] /F 2 >>')
 
 doc.save(out_path, garbage=4, deflate=True)
